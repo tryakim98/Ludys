@@ -4,6 +4,7 @@ import { mkdir, mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
+import { resolveBrowserExecutable } from "./browser-executable.mjs";
 
 const repo = fileURLToPath(new URL("..", import.meta.url));
 const debugPort = 9333;
@@ -81,8 +82,9 @@ function shell(markup, view = "CHILD") {
   </body></html>`;
 }
 
+const browserExecutable = resolveBrowserExecutable();
 const chromium = spawn(
-  "/usr/bin/chromium",
+  browserExecutable,
   [
     "--headless=new", "--no-sandbox", "--disable-gpu", "--disable-dev-shm-usage",
     "--no-proxy-server", `--remote-debugging-port=${debugPort}`, `--user-data-dir=${profile}`, "about:blank",

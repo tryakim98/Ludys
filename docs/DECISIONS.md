@@ -107,3 +107,23 @@ Før rekruttering skal planen bruke aktivt, frivillig, informert og uttrykkelig 
 ## D13-026 — Provider og pilotmiljø forblir uvalgt
 
 WP13.4 beskriver sikkerhets- og miljøkrav, men oppretter ikke provider, auth, database, deployment eller dataflyt. Disse krever egne senere beslutninger og separat grense fra Ludus.
+
+## D13-027 — Browserproof bruker lokalt installert Chromium på tvers av plattformer
+
+Browserproofene resolver først `LUDYS_BROWSER_PATH`, `CHROME_PATH` eller `CHROMIUM_PATH`, deretter kjente Edge/Chrome/Chromium-stier og PATH på Windows, Linux og macOS. Resolveren bruker bare Node-standardbiblioteket, laster ikke ned nettleser og gjør ikke manglende browser til bestått test.
+
+## D13-028 — WP13.7A lifecycle er en isolert state machine
+
+Det nye livsløpet ligger separat fra eksisterende læringsproof. Pure transitions, typed errors, optimistic version guard og tombstone beviser create/reconnect/recovery uten å blande produktcopy eller senere providerbeslutninger inn i domenet.
+
+## D13-029 — STOP og DELETE dominerer reconnect og recovery
+
+Autoritativ STOP kan ikke overskrives av ikke-terminal state, selv med et kunstig høyere versjonsnummer. DELETE fjerner state fra repositoryet og etterlater minimal syntetisk tombstone. Reconnect og recovery kan aldri omgå disse terminalene.
+
+## D13-030 — Rolleprojeksjoner er eksplisitte view models
+
+Application-controlleren returnerer egne child/adult view models i stedet for rå intern state. Barnets view mangler session reference, versjon og voksenfelt. Den voksnes view mangler child cue, og etter sletting fjernes session reference.
+
+## D13-031 — Lifecycle-copy og UI er draft proof
+
+All ny UI-copy ligger sentralt i korte BM/NN-varianter og er merket `DRAFT_TECHNICAL_COPY — subject to Product Excellence review`. Proof-siden er ikke endelig visuell identitet, alderstilpasning eller ferdig WP13.7-app.
