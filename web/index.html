@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="nb">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="color-scheme" content="light dark" />
+    <title>LUDYS — syntetisk ordbygging</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <a class="skip-link" href="#main-content">Hopp til aktiviteten</a>
+    <header class="site-header">
+      <div>
+        <p class="eyebrow">WP13.4 · B8-evidens og pilotberedskap</p>
+        <h1>Lyd for lyd, kunnskap og trygg pilotberedskap</h1>
+      </div>
+      <label class="locale-control">
+        <span>Målform</span>
+        <select id="locale-select">
+          <option value="nb-NO">Bokmål</option>
+          <option value="nn-NO">Nynorsk</option>
+        </select>
+      </label>
+    </header>
+
+    <nav class="role-nav" aria-label="Visning">
+      <button id="show-child" type="button" aria-pressed="true">Barneside</button>
+      <button id="show-adult" type="button" aria-pressed="false">Voksenside</button>
+      <button id="show-knowledge" type="button" aria-pressed="false">Kunnskapsbank</button>
+      <button id="show-readiness" type="button" aria-pressed="false">B8-beredskap</button>
+    </nav>
+
+    <main id="main-content" tabindex="-1">
+      <div id="app"></div>
+    </main>
+
+    <div id="polite-status" class="sr-only" role="status" aria-live="polite"></div>
+    <div id="urgent-status" class="sr-only" role="alert" aria-live="assertive"></div>
+
+    <dialog id="transparency-dialog" aria-labelledby="transparency-title">
+      <h2 id="transparency-title">Hva ser den voksne?</h2>
+      <p>Den voksne ser bokstavene du har valgt, om du ber om hjelp, og om aktiviteten er satt på pause eller stoppet.</p>
+      <p>Systemet beskriver ikke følelser, motivasjon eller hvem du er som person.</p>
+      <button id="close-transparency" type="button">Lukk</button>
+    </dialog>
+
+    <script type="module" src="../dist/src/ui/browser/app.js"></script>
+  </body>
+</html>
