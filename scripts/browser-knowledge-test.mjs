@@ -3,6 +3,7 @@ import { spawn } from "node:child_process";
 import { mkdir, readFile, rm, writeFile } from "node:fs/promises";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
+import { resolveBrowserExecutable } from "./browser-executable.mjs";
 
 const repo = fileURLToPath(new URL("..", import.meta.url));
 const debugPort = 9334;
@@ -66,7 +67,8 @@ function shell(markup, locale = "nb-NO") {
   <main id="main-content" tabindex="-1">${markup}</main><div class="sr-only" role="status" aria-live="polite"></div></body></html>`;
 }
 
-const chromium = spawn("/usr/bin/chromium", [
+const browserExecutable = resolveBrowserExecutable();
+const chromium = spawn(browserExecutable, [
   "--headless=new", "--no-sandbox", "--disable-gpu", "--disable-dev-shm-usage",
   "--no-proxy-server", `--remote-debugging-port=${debugPort}`, `--user-data-dir=${profile}`, "about:blank",
 ], { stdio: ["ignore", "ignore", "ignore"] });

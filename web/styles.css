@@ -279,3 +279,49 @@ summary { cursor: pointer; font-weight: 700; min-height: 2.75rem; display: flex;
 .readiness-page, .readiness-page * { min-width: 0; }
 .readiness-page { overflow-wrap: anywhere; }
 .readiness-page select { width: min(100%, 22rem); max-width: 100%; }
+
+.lifecycle-header,
+.lifecycle-header * { min-width: 0; }
+.lifecycle-header { align-items: start; overflow-wrap: anywhere; }
+.lifecycle-header .locale-control,
+.lifecycle-header select { width: 100%; max-width: 100%; }
+.lifecycle-proof,
+.lifecycle-proof * { min-width: 0; }
+.lifecycle-proof {
+  display: grid;
+  gap: 1rem;
+  overflow-wrap: anywhere;
+}
+.lifecycle-marker,
+.lifecycle-synthetic,
+.lifecycle-state,
+.lifecycle-error,
+.lifecycle-role-panel {
+  margin: 0;
+  border: 2px solid currentColor;
+  border-radius: 0.75rem;
+  padding: 1rem;
+}
+.lifecycle-marker { border-style: dashed; }
+.lifecycle-synthetic { font-weight: 700; }
+.lifecycle-state { font-size: 1.1rem; }
+.lifecycle-error { border-width: 4px; }
+.lifecycle-role-panel dl { display: grid; gap: 0.75rem; margin-bottom: 0; }
+.lifecycle-role-panel dl div {
+  display: grid;
+  grid-template-columns: minmax(9rem, 0.7fr) minmax(0, 1.3fr);
+  gap: 0.75rem;
+}
+.lifecycle-role-panel dt { font-weight: 700; }
+.lifecycle-role-panel dd { margin: 0; }
+.lifecycle-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+@media (max-width: 38rem) {
+  .lifecycle-actions { align-items: stretch; flex-direction: column; }
+  .lifecycle-actions button { width: 100%; }
+  .lifecycle-role-panel dl div { grid-template-columns: 1fr; gap: 0.1rem; }
+}
