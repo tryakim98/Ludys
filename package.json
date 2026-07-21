@@ -1,0 +1,31 @@
+{
+  "name": "ludys-app-reconstructed",
+  "version": "0.14.0-reconstructed.2",
+  "private": true,
+  "description": "Controlled LUDYS reconstruction baseline derived from the verified WP13.4 source proof.",
+  "type": "module",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "clean": "node scripts/clean.mjs",
+    "build": "npm run clean && tsc -p tsconfig.json",
+    "lint": "node scripts/static-check.mjs",
+    "architecture": "node scripts/architecture-check.mjs",
+    "secret:scan": "node scripts/secret-scan.mjs",
+    "test:compiled": "node scripts/run-tests.mjs",
+    "test": "npm run build && npm run test:compiled",
+    "check": "npm run reconstruction && npm run lint && npm run architecture && npm run secret:scan && npm run build && npm run test:compiled && npm run test:browser-resolver && npm run test:browser && npm run test:knowledge-browser && npm run test:readiness-browser && npm run test:lifecycle-browser",
+    "serve:proof": "node scripts/serve-proof.mjs",
+    "test:browser": "node scripts/browser-accessibility-test.mjs",
+    "test:browser-resolver": "node scripts/browser-executable-test.mjs",
+    "test:knowledge-browser": "node scripts/browser-knowledge-test.mjs",
+    "test:readiness-browser": "node scripts/browser-readiness-test.mjs",
+    "test:lifecycle-browser": "node scripts/browser-session-lifecycle-test.mjs",
+    "reconstruction": "node scripts/reconstruction-check.mjs"
+  },
+  "devDependencies": {
+    "@types/node": "22.15.30",
+    "typescript": "5.8.3"
+  }
+}

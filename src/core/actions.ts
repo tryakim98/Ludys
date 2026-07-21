@@ -1,0 +1,39 @@
+export const HUMAN_FIRST_ACTIONS = [
+  "TRY_SELF",
+  "TRY_TOGETHER",
+  "REQUEST_HELP",
+  "REQUEST_QUIET",
+  "WAIT",
+  "MODEL",
+  "GIVE_HINT",
+  "REPEAT_INSTRUCTION",
+  "PLAY_AUDIO",
+  "REPLAY_AUDIO",
+  "PAUSE",
+  "RESUME",
+  "STOP",
+  "ADULT_OVERRIDE",
+  "CONTEXT_CORRECTION",
+  "ACKNOWLEDGE",
+] as const;
+
+export type HumanFirstAction = (typeof HUMAN_FIRST_ACTIONS)[number];
+
+export const FORBIDDEN_BASELINE_ACTIONS = [
+  "AUTO_PRAISE",
+  "AUTO_LEVEL_UP",
+  "INFER_EMOTION",
+  "INFER_MOTIVATION",
+  "INFER_DIAGNOSIS",
+  "GENERATE_COACHING",
+  "PERSONALIZE_FROM_TIMING",
+  "CREATE_STREAK",
+  "RANK_CHILD",
+  "RANK_ADULT",
+  "SIMULATE_THINKING",
+] as const;
+
+export type ForbiddenBaselineAction =
+  (typeof FORBIDDEN_BASELINE_ACTIONS)[number];
+
+export type SupportAction = "MODEL" | "GIVE_HINT" | "REPEAT_INSTRUCTION";
