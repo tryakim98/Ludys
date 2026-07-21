@@ -12,10 +12,15 @@ import { wordProofContentNn } from "../content/fixtures/nn/word-proof-content.js
 import { wordProofNn } from "../content/fixtures/nn/word-proof.js";
 import type { Locale } from "../core/content-contracts.js";
 
-export function createSyntheticAppNavigation(locale: Locale) {
+export function createSyntheticAppNavigation(
+  locale: Locale,
+  ephemeralNamespace = "local-proof",
+) {
   const repository = new InMemoryLifecycleRepository();
   const clock = new FixedClock("2026-07-21T12:00:00.000Z");
-  const idGenerator = new DeterministicIdGenerator("synthetic-wp13-7b-session");
+  const idGenerator = new DeterministicIdGenerator(
+    `synthetic-wp13-7b-session-${ephemeralNamespace}`,
+  );
   const observability = new InMemoryLifecycleObservability();
   const transport = new DeterministicReconnectTransport(repository, 40);
   const controller = new SyntheticAppNavigationController({

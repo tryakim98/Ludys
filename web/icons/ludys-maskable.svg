@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512" role="img" aria-labelledby="title">
+  <title id="title">LUDYS maskable</title>
+  <rect width="512" height="512" fill="#174a5b"/>
+  <rect x="92" y="92" width="328" height="328" rx="92" fill="#fbfaf6"/>
+  <path d="M164 164h58v150h112v58H164z" fill="#174a5b"/>
+  <circle cx="334" cy="180" r="42" fill="#f1b24a"/>
+  <path d="M278 260h96v42h-96z" fill="#f1b24a"/>
+</svg>

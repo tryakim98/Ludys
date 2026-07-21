@@ -2,17 +2,22 @@ import { createSyntheticAppNavigation } from "../../composition/create-synthetic
 import type { LifecycleRole } from "../../application/session-lifecycle-controller.js";
 import type { Locale } from "../../core/content-contracts.js";
 import { renderSyntheticAppNavigation } from "./synthetic-app-navigation-templates.js";
+import { createLocalPwaCoordinator, type LocalPwaCoordinator } from "./pwa-status.js";
 
 const rootElement = document.querySelector<HTMLDivElement>("#app");
 if (rootElement === null) throw new Error("WP13.7B app shell is missing #app");
 const root: HTMLDivElement = rootElement;
 
-const { controller } = createSyntheticAppNavigation("nb-NO");
+const pageInstance = crypto.randomUUID();
+const { controller } = createSyntheticAppNavigation("nb-NO", pageInstance);
+let pwaCoordinator: LocalPwaCoordinator | undefined;
 
 function render(focus = false): void {
   root.innerHTML = renderSyntheticAppNavigation(controller.view);
   document.documentElement.lang = controller.view.locale === "nb-NO" ? "nb" : "nn";
   document.documentElement.dataset.wp13_7bReady = "true";
+  document.documentElement.dataset.wp13_7cReady = "true";
+  pwaCoordinator?.refresh();
   if (focus) {
     queueMicrotask(() => {
       root.querySelector<HTMLElement>("#screen-title")?.focus();
@@ -83,10 +88,19 @@ root.addEventListener("change", (event) => {
 });
 
 render();
+pwaCoordinator = createLocalPwaCoordinator({
+  getLifecycleState: () => controller.view.lifecycleState,
+  getLocale: () => controller.view.locale,
+});
+pwaCoordinator.refresh();
 
 Object.assign(window, {
   __WP13_7B__: {
     getViewModel: () => controller.view,
     getSessionId: () => controller.sessionId,
+  },
+  __WP13_7C__: {
+    ready: pwaCoordinator.ready,
+    getPwaStatus: () => pwaCoordinator?.snapshot(),
   },
 });
