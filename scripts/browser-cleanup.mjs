@@ -7,7 +7,10 @@ const FORCE_TIMEOUT_MS = 5_000;
 const FILE_RELEASE_DELAY_MS = 500;
 const PROFILE_DELETE_TIMEOUT_MS = 30_000;
 const PROFILE_RETRY_DELAY_MS = 300;
+const PROFILE_RETRY_MAX_DELAY_MS = 1_500;
+const ENDPOINT_START_TIMEOUT_MS = 30_000;
 const RETRYABLE_PROFILE_ERRORS = new Set(["EBUSY", "EPERM", "ENOTEMPTY"]);
+const ownedChildren = new WeakMap();
 
 function wait(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));
@@ -24,55 +27,122 @@ export function processExists(pid) {
   }
 }
 
-function isExited(child) {
-  if (child.exitCode !== null || child.signalCode !== null) return true;
-  return child.pid !== undefined && !processExists(child.pid);
+export function processGroupExists(processGroupId) {
+  try {
+    process.kill(-processGroupId, 0);
+    return true;
+  } catch (error) {
+    if (error?.code === "ESRCH") return false;
+    if (error?.code === "EPERM") return true;
+    throw error;
+  }
 }
 
-function waitForExitOrClose(child, timeoutMs) {
-  if (isExited(child)) return Promise.resolve(true);
+function defaultRuntime(overrides = {}) {
+  return {
+    platform: process.platform,
+    now: () => Date.now(),
+    wait,
+    processExists,
+    processGroupExists,
+    fetch: (url, init) => fetch(url, init),
+    signalChild: (child, signal) => child.kill(signal),
+    signalPid: (pid, signal) => process.kill(pid, signal),
+    signalProcessGroup: (processGroupId, signal) => process.kill(-processGroupId, signal),
+    removeProfile: (profile) => rm(profile, { recursive: true, force: true }),
+    readProfileEntries: (profile) => readdir(profile, { recursive: true }),
+    ...overrides,
+  };
+}
 
-  return new Promise((resolve, reject) => {
-    const deadline = Date.now() + timeoutMs;
-    let timer;
-    let settled = false;
-
-    const finish = (exited) => {
-      if (settled) return;
-      settled = true;
-      clearTimeout(timer);
-      child.off("exit", onExit);
-      child.off("close", onClose);
-      resolve(exited);
-    };
-    const fail = (error) => {
-      if (settled) return;
-      settled = true;
-      clearTimeout(timer);
-      child.off("exit", onExit);
-      child.off("close", onClose);
-      reject(error);
-    };
-    const onExit = () => finish(true);
-    const onClose = () => finish(true);
-    const check = () => {
-      try {
-        if (isExited(child)) {
-          finish(true);
-        } else if (Date.now() >= deadline) {
-          finish(false);
-        } else {
-          timer = setTimeout(check, 50);
-        }
-      } catch (error) {
-        fail(error);
-      }
-    };
-
-    child.once("exit", onExit);
-    child.once("close", onClose);
-    check();
+export function registerOwnedChildProcess(child, options = {}) {
+  const platform = options.platform ?? process.platform;
+  if (!Number.isInteger(child?.pid) || child.pid <= 0) {
+    throw new Error("Cannot register a child process without a positive PID.");
+  }
+  ownedChildren.set(child, {
+    rootPid: child.pid,
+    platform,
+    processGroupId: platform === "win32" ? undefined : child.pid,
   });
+  return child;
+}
+
+export function spawnOwnedProcess(executable, args, options = {}) {
+  const child = spawn(executable, args, {
+    ...options,
+    detached: process.platform !== "win32",
+  });
+  return registerOwnedChildProcess(child);
+}
+
+export function ownedProcessMetadata(child) {
+  const metadata = ownedChildren.get(child);
+  return metadata === undefined ? undefined : { ...metadata };
+}
+
+export async function waitForOwnedProcessEndpoint(url, options = {}) {
+  const child = options.child;
+  const label = options.label ?? "owned process";
+  const timeoutMs = options.timeoutMs ?? ENDPOINT_START_TIMEOUT_MS;
+  const pollIntervalMs = options.pollIntervalMs ?? 100;
+  const runtime = defaultRuntime(options.runtime);
+  const startedAt = runtime.now();
+  let lastError;
+
+  while (runtime.now() - startedAt < timeoutMs) {
+    if (child?.exitCode !== null || child?.signalCode !== null) {
+      throw new Error(
+        `${label} exited before ${url} became ready. platform=${runtime.platform}; `
+          + `pid=${child?.pid ?? "unknown"}; exitCode=${String(child?.exitCode)}; `
+          + `signalCode=${String(child?.signalCode)}`,
+      );
+    }
+    try {
+      const response = await runtime.fetch(url);
+      if (response.ok) return response;
+      lastError = new Error(`HTTP ${response.status}`);
+    } catch (error) {
+      lastError = error;
+    }
+    await runtime.wait(pollIntervalMs);
+  }
+
+  const lastErrorDetail = lastError instanceof Error
+    ? `${lastError.name}: ${lastError.message}`
+    : String(lastError ?? "none");
+  throw new Error(
+    `Timed out after ${timeoutMs} ms waiting for ${label} endpoint ${url}. `
+      + `platform=${runtime.platform}; pid=${child?.pid ?? "unknown"}; `
+      + `exitCode=${String(child?.exitCode)}; signalCode=${String(child?.signalCode)}; `
+      + `lastError=${lastErrorDetail}`,
+  );
+}
+
+function isRootExited(child, runtime) {
+  if (child.exitCode !== null || child.signalCode !== null) return true;
+  return child.pid !== undefined && !runtime.processExists(child.pid);
+}
+
+function isShutdownComplete(child, metadata, runtime) {
+  if (!isRootExited(child, runtime)) return false;
+  if (
+    runtime.platform !== "win32"
+    && metadata?.processGroupId !== undefined
+  ) {
+    return !runtime.processGroupExists(metadata.processGroupId);
+  }
+  return true;
+}
+
+async function waitForShutdown(child, metadata, timeoutMs, runtime) {
+  const deadline = runtime.now() + timeoutMs;
+  while (!isShutdownComplete(child, metadata, runtime)) {
+    const remainingMs = deadline - runtime.now();
+    if (remainingMs <= 0) return false;
+    await runtime.wait(Math.min(50, remainingMs));
+  }
+  return true;
 }
 
 function runWithOutput(executable, args, options = {}) {
@@ -109,7 +179,7 @@ function runWithOutput(executable, args, options = {}) {
   });
 }
 
-async function requestCloseWithinTimeout(requestGracefulClose) {
+async function requestCloseWithinTimeout(requestGracefulClose, runtime) {
   if (requestGracefulClose === undefined) return undefined;
 
   let closeError;
@@ -118,23 +188,24 @@ async function requestCloseWithinTimeout(requestGracefulClose) {
     .catch((error) => {
       closeError = error;
     });
-  await Promise.race([closeAttempt, wait(GRACEFUL_CLOSE_TIMEOUT_MS)]);
+  await Promise.race([closeAttempt, runtime.wait(GRACEFUL_CLOSE_TIMEOUT_MS)]);
   return closeError;
 }
 
-async function waitForPidToDisappear(pid, timeoutMs) {
-  const deadline = Date.now() + timeoutMs;
-  while (processExists(pid)) {
-    if (Date.now() >= deadline) return false;
-    await wait(50);
+async function waitForPidToDisappear(pid, timeoutMs, runtime) {
+  const deadline = runtime.now() + timeoutMs;
+  while (runtime.processExists(pid)) {
+    const remainingMs = deadline - runtime.now();
+    if (remainingMs <= 0) return false;
+    await runtime.wait(Math.min(50, remainingMs));
   }
   return true;
 }
 
-async function forceTerminatePid(pid, label) {
-  if (!processExists(pid)) return;
+async function forceTerminatePid(pid, label, runtime) {
+  if (!runtime.processExists(pid)) return;
 
-  if (process.platform === "win32") {
+  if (runtime.platform === "win32") {
     let result;
     try {
       result = await runWithOutput(
@@ -143,59 +214,96 @@ async function forceTerminatePid(pid, label) {
         { timeoutMs: FORCE_TIMEOUT_MS },
       );
     } catch (error) {
-      if (await waitForPidToDisappear(pid, FORCE_TIMEOUT_MS)) return;
+      if (await waitForPidToDisappear(pid, FORCE_TIMEOUT_MS, runtime)) return;
       throw error;
     }
 
-    if (await waitForPidToDisappear(pid, FORCE_TIMEOUT_MS)) return;
-    if (result.timedOut || result.code !== 0) {
-      throw new Error(
-        `Failed to force ${label} process tree ${pid}. `
-          + `taskkill exit=${String(result.code)} signal=${String(result.signal)} `
-          + `stdout=${JSON.stringify(result.stdout)} stderr=${JSON.stringify(result.stderr)}`,
-      );
-    }
-  } else {
-    process.kill(pid, "SIGKILL");
+    if (await waitForPidToDisappear(pid, FORCE_TIMEOUT_MS, runtime)) return;
+    throw new Error(
+      `Failed to force ${label} process tree ${pid}. `
+        + `taskkill exit=${String(result.code)} signal=${String(result.signal)} `
+        + `stdout=${JSON.stringify(result.stdout)} stderr=${JSON.stringify(result.stderr)}`,
+    );
   }
 
-  if (!await waitForPidToDisappear(pid, FORCE_TIMEOUT_MS)) {
+  try {
+    runtime.signalPid(pid, "SIGKILL");
+  } catch (error) {
+    if (error?.code !== "ESRCH") throw error;
+  }
+  if (!await waitForPidToDisappear(pid, FORCE_TIMEOUT_MS, runtime)) {
     throw new Error(`${label} PID ${pid} still exists after bounded forced termination.`);
   }
 }
 
+async function signalOwnedProcess(child, metadata, signal, runtime) {
+  if (
+    runtime.platform !== "win32"
+    && metadata?.processGroupId !== undefined
+  ) {
+    if (!runtime.processGroupExists(metadata.processGroupId)) return;
+    try {
+      runtime.signalProcessGroup(metadata.processGroupId, signal);
+    } catch (error) {
+      if (error?.code !== "ESRCH") throw error;
+    }
+    return;
+  }
+
+  if (child.pid !== undefined && !runtime.processExists(child.pid)) return;
+  runtime.signalChild(child, signal);
+}
+
+function processStateDetail(child, metadata, runtime) {
+  const rootPid = child.pid;
+  const rootExists = rootPid === undefined ? "unknown" : runtime.processExists(rootPid);
+  const processGroupId = metadata?.processGroupId;
+  const processGroupAlive = processGroupId === undefined
+    ? "not-owned"
+    : runtime.processGroupExists(processGroupId);
+  return `platform=${runtime.platform}; rootPid=${rootPid ?? "unknown"}; `
+    + `rootExists=${String(rootExists)}; processGroupId=${processGroupId ?? "none"}; `
+    + `processGroupExists=${String(processGroupAlive)}; exitCode=${String(child.exitCode)}; `
+    + `signalCode=${String(child.signalCode)}`;
+}
+
 export async function stopChildProcess(child, options = {}) {
   const label = options.label ?? "child";
-  if (isExited(child)) return;
+  const runtime = defaultRuntime(options.runtime);
+  const metadata = ownedChildren.get(child);
+  if (isShutdownComplete(child, metadata, runtime)) return;
 
-  const gracefulError = await requestCloseWithinTimeout(options.requestGracefulClose);
+  const gracefulError = await requestCloseWithinTimeout(options.requestGracefulClose, runtime);
   if (
     options.requestGracefulClose !== undefined
-    && await waitForExitOrClose(child, GRACEFUL_CLOSE_TIMEOUT_MS)
+    && await waitForShutdown(child, metadata, GRACEFUL_CLOSE_TIMEOUT_MS, runtime)
   ) {
     return;
   }
 
-  child.kill("SIGTERM");
-  if (await waitForExitOrClose(child, TERMINATE_TIMEOUT_MS)) return;
+  await signalOwnedProcess(child, metadata, "SIGTERM", runtime);
+  if (await waitForShutdown(child, metadata, TERMINATE_TIMEOUT_MS, runtime)) return;
 
   const pid = child.pid;
   if (
     pid !== undefined
-    && process.platform === "win32"
+    && runtime.platform === "win32"
     && options.windowsProcessTree === true
   ) {
-    await forceTerminatePid(pid, label);
+    const terminate = runtime.forceTerminatePid
+      ?? ((targetPid, targetLabel) => forceTerminatePid(targetPid, targetLabel, runtime));
+    await terminate(pid, label);
   } else {
-    child.kill("SIGKILL");
+    await signalOwnedProcess(child, metadata, "SIGKILL", runtime);
   }
-  if (isExited(child) || (pid !== undefined && !processExists(pid))) return;
+  if (await waitForShutdown(child, metadata, FORCE_TIMEOUT_MS, runtime)) return;
 
   const gracefulDetail = gracefulError instanceof Error
     ? ` Graceful close failed: ${gracefulError.name}: ${gracefulError.message}`
     : "";
   throw new Error(
-    `${label} process ${pid ?? "unknown"} still exists after bounded forced termination.`
+    `${label} did not stop after bounded forced termination. `
+      + processStateDetail(child, metadata, runtime)
       + gracefulDetail,
   );
 }
@@ -230,19 +338,26 @@ async function findWindowsProfileProcesses(profile) {
   return Array.isArray(parsed) ? parsed : [parsed];
 }
 
-async function remainingProfileEntries(profile) {
+async function remainingProfileEntries(profile, runtime) {
   try {
-    return (await readdir(profile, { recursive: true })).slice(0, 50);
+    return (await runtime.readProfileEntries(profile)).slice(0, 50);
   } catch (error) {
     if (error?.code === "ENOENT") return [];
     return [`<inspection failed: ${error instanceof Error ? error.message : String(error)}>`];
   }
 }
 
-async function profileRemovalError(profile, options, startedAt, lastError, inspectionError) {
+async function profileRemovalError(
+  profile,
+  options,
+  startedAt,
+  lastError,
+  inspectionError,
+  runtime,
+) {
   let profileProcesses = [];
   let terminalInspectionError = inspectionError;
-  if (process.platform === "win32") {
+  if (runtime.platform === "win32") {
     try {
       profileProcesses = await findWindowsProfileProcesses(profile);
     } catch (error) {
@@ -250,11 +365,15 @@ async function profileRemovalError(profile, options, startedAt, lastError, inspe
     }
   }
   const rootPid = options.rootPid;
-  const rootExists = rootPid === undefined ? "unknown" : processExists(rootPid);
-  const entries = await remainingProfileEntries(profile);
+  const rootExists = rootPid === undefined ? "unknown" : runtime.processExists(rootPid);
+  const processGroupId = options.processGroupId;
+  const processGroupAlive = processGroupId === undefined || runtime.platform === "win32"
+    ? "not-applicable"
+    : runtime.processGroupExists(processGroupId);
+  const entries = await remainingProfileEntries(profile, runtime);
   const code = lastError?.code ?? "UNKNOWN";
   const message = lastError instanceof Error ? lastError.message : String(lastError);
-  const elapsedMs = Date.now() - startedAt;
+  const elapsedMs = runtime.now() - startedAt;
   const processDetails = profileProcesses.length === 0
     ? "none"
     : JSON.stringify(profileProcesses);
@@ -263,8 +382,11 @@ async function profileRemovalError(profile, options, startedAt, lastError, inspe
     : "";
   return new Error(
     `Failed to remove temporary browser profile ${profile}. `
-      + `Last system error: ${code}: ${message}. `
+      + `Platform: ${runtime.platform}. Last system error: ${code}: ${message}. `
       + `Root PID: ${rootPid ?? "unknown"}; root PID exists: ${String(rootExists)}. `
+      + `Process group ID: ${processGroupId ?? "none"}; process group exists: ${String(processGroupAlive)}. `
+      + `Browser status: ${options.browserStatus ?? "unknown"}; `
+      + `proof server status: ${options.proofServerStatus ?? "unknown"}. `
       + `Profile-linked Edge processes: ${processDetails}. `
       + `Cleanup elapsed: ${elapsedMs} ms. Remaining entries: ${JSON.stringify(entries)}.`
       + inspectionDetails,
@@ -273,28 +395,36 @@ async function profileRemovalError(profile, options, startedAt, lastError, inspe
 }
 
 export async function removeBrowserProfile(profile, options = {}) {
-  const startedAt = Date.now();
+  const runtime = defaultRuntime(options.runtime);
+  const startedAt = runtime.now();
   const deadline = startedAt + PROFILE_DELETE_TIMEOUT_MS;
   let lastError;
   let inspectionError;
   let attempts = 0;
   let inspectedAndTerminated = false;
 
-  await wait(FILE_RELEASE_DELAY_MS);
-  while (Date.now() < deadline) {
+  await runtime.wait(FILE_RELEASE_DELAY_MS);
+  while (runtime.now() < deadline) {
     try {
-      await rm(profile, { recursive: true, force: true });
+      await runtime.removeProfile(profile);
       return;
     } catch (error) {
       lastError = error;
       if (!RETRYABLE_PROFILE_ERRORS.has(error?.code)) {
-        throw await profileRemovalError(profile, options, startedAt, error, inspectionError);
+        throw await profileRemovalError(
+          profile,
+          options,
+          startedAt,
+          error,
+          inspectionError,
+          runtime,
+        );
       }
       attempts += 1;
     }
 
     if (
-      process.platform === "win32"
+      runtime.platform === "win32"
       && attempts >= 3
       && !inspectedAndTerminated
     ) {
@@ -302,7 +432,9 @@ export async function removeBrowserProfile(profile, options = {}) {
       try {
         const profileProcesses = await findWindowsProfileProcesses(profile);
         for (const processInfo of profileProcesses) {
-          await forceTerminatePid(
+          const terminate = runtime.forceTerminatePid
+            ?? ((targetPid, targetLabel) => forceTerminatePid(targetPid, targetLabel, runtime));
+          await terminate(
             Number(processInfo.ProcessId),
             `Edge process using profile ${profile}`,
           );
@@ -312,11 +444,80 @@ export async function removeBrowserProfile(profile, options = {}) {
       }
     }
 
-    const remainingMs = deadline - Date.now();
+    const remainingMs = deadline - runtime.now();
     if (remainingMs > 0) {
-      await wait(Math.min(PROFILE_RETRY_DELAY_MS, remainingMs));
+      const retryDelay = Math.min(
+        PROFILE_RETRY_DELAY_MS * (2 ** Math.min(attempts - 1, 3)),
+        PROFILE_RETRY_MAX_DELAY_MS,
+      );
+      await runtime.wait(Math.min(retryDelay, remainingMs));
     }
   }
 
-  throw await profileRemovalError(profile, options, startedAt, lastError, inspectionError);
+  throw await profileRemovalError(
+    profile,
+    options,
+    startedAt,
+    lastError,
+    inspectionError,
+    runtime,
+  );
+}
+
+export async function cleanupBrowserProof(options) {
+  const {
+    browser,
+    browserLabel,
+    client,
+    profile,
+    requestBrowserClose,
+    server,
+    serverLabel,
+    runtime,
+  } = options;
+  const metadata = ownedChildren.get(browser);
+  let browserStatus = "running";
+  let proofServerStatus = server === undefined ? "not-used" : "running";
+  let cleanupError;
+
+  try {
+    await stopChildProcess(browser, {
+      label: browserLabel,
+      windowsProcessTree: true,
+      requestGracefulClose: requestBrowserClose,
+      runtime,
+    });
+    browserStatus = "stopped";
+  } catch (error) {
+    browserStatus = "shutdown-failed";
+    cleanupError = error;
+  } finally {
+    client?.close();
+  }
+
+  if (server !== undefined) {
+    try {
+      await stopChildProcess(server, { label: serverLabel, runtime });
+      proofServerStatus = "stopped";
+    } catch (error) {
+      proofServerStatus = "shutdown-failed";
+      cleanupError ??= error;
+    }
+  }
+
+  if (cleanupError === undefined) {
+    try {
+      await removeBrowserProfile(profile, {
+        rootPid: browser.pid,
+        processGroupId: metadata?.processGroupId,
+        browserStatus,
+        proofServerStatus,
+        runtime,
+      });
+    } catch (error) {
+      cleanupError = error;
+    }
+  }
+
+  if (cleanupError !== undefined) throw cleanupError;
 }

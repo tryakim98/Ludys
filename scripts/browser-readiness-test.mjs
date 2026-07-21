@@ -1,24 +1,19 @@
 import assert from "node:assert/strict";
-import { spawn } from "node:child_process";
 import { mkdir, mkdtemp, readFile, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
-import { removeBrowserProfile, stopChildProcess } from "./browser-cleanup.mjs";
+import {
+  cleanupBrowserProof,
+  spawnOwnedProcess,
+  waitForOwnedProcessEndpoint,
+} from "./browser-cleanup.mjs";
 import { resolveBrowserExecutable } from "./browser-executable.mjs";
 
 const repo = fileURLToPath(new URL("..", import.meta.url));
 const debugPort = 9335;
 const profile = await mkdtemp(join(tmpdir(), "wp13-4-chromium-"));
-
-function wait(ms) { return new Promise((resolve) => setTimeout(resolve, ms)); }
-async function waitFor(url) {
-  for (let attempt = 0; attempt < 80; attempt += 1) {
-    try { const response = await fetch(url); if (response.ok) return; } catch {}
-    await wait(50);
-  }
-  throw new Error(`Timed out waiting for ${url}`);
-}
+const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
 class CdpClient {
   #socket;
@@ -68,14 +63,17 @@ function shell(markup) {
 }
 
 const browserExecutable = resolveBrowserExecutable();
-const chromium = spawn(browserExecutable, [
+const chromium = spawnOwnedProcess(browserExecutable, [
   "--headless=new", "--no-sandbox", "--disable-gpu", "--disable-dev-shm-usage",
   "--no-proxy-server", `--remote-debugging-port=${debugPort}`, `--user-data-dir=${profile}`, "about:blank",
 ], { stdio: ["ignore", "ignore", "ignore"] });
 
 let client;
 try {
-  await waitFor(`http://127.0.0.1:${debugPort}/json/version`);
+  await waitForOwnedProcessEndpoint(`http://127.0.0.1:${debugPort}/json/version`, {
+    child: chromium,
+    label: "Chromium readiness proof",
+  });
   const create = await fetch(`http://127.0.0.1:${debugPort}/json/new`, { method: "PUT" });
   assert.equal(create.ok, true);
   const page = await create.json();
@@ -128,16 +126,13 @@ try {
   await writeFile(join(repo, "artifacts", "wp13-4-b8-readiness.png"), Buffer.from(screenshot.data, "base64"));
   console.log("Chromium B8 readiness, no-authorization, accessibility and reflow proof passed.");
 } finally {
-  try {
-    await stopChildProcess(chromium, {
-      label: "Chromium readiness proof",
-      windowsProcessTree: true,
-      requestGracefulClose: client === undefined
-        ? undefined
-        : () => client.send("Browser.close"),
-    });
-  } finally {
-    client?.close();
-  }
-  await removeBrowserProfile(profile, { rootPid: chromium.pid });
+  await cleanupBrowserProof({
+    browser: chromium,
+    browserLabel: "Chromium readiness proof",
+    client,
+    profile,
+    requestBrowserClose: client === undefined
+      ? undefined
+      : () => client.send("Browser.close"),
+  });
 }

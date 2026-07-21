@@ -1,10 +1,13 @@
 import assert from "node:assert/strict";
-import { spawn } from "node:child_process";
 import { mkdir, mkdtemp, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
-import { removeBrowserProfile, stopChildProcess } from "./browser-cleanup.mjs";
+import {
+  cleanupBrowserProof,
+  spawnOwnedProcess,
+  waitForOwnedProcessEndpoint,
+} from "./browser-cleanup.mjs";
 import { resolveBrowserExecutable } from "./browser-executable.mjs";
 
 const repo = fileURLToPath(new URL("..", import.meta.url));
@@ -13,17 +16,6 @@ const debugPort = 9336;
 const profile = await mkdtemp(join(tmpdir(), "wp13-7a-chromium-"));
 const browserExecutable = resolveBrowserExecutable();
 const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
-
-async function waitFor(url, attempts = 100) {
-  for (let index = 0; index < attempts; index += 1) {
-    try {
-      const response = await fetch(url);
-      if (response.ok) return response;
-    } catch {}
-    await wait(100);
-  }
-  throw new Error(`Timed out waiting for ${url}`);
-}
 
 class CdpClient {
   #socket;
@@ -55,12 +47,12 @@ class CdpClient {
   close() { this.#socket.close(); }
 }
 
-const server = spawn(process.execPath, ["scripts/serve-proof.mjs"], {
+const server = spawnOwnedProcess(process.execPath, ["scripts/serve-proof.mjs"], {
   cwd: repo,
   env: { ...process.env, PORT: String(serverPort) },
   stdio: ["ignore", "ignore", "ignore"],
 });
-const browser = spawn(browserExecutable, [
+const browser = spawnOwnedProcess(browserExecutable, [
   "--headless=new",
   "--no-sandbox",
   "--disable-gpu",
@@ -73,8 +65,14 @@ const browser = spawn(browserExecutable, [
 
 let client;
 try {
-  await waitFor(`http://127.0.0.1:${serverPort}/web/session-lifecycle.html`);
-  await waitFor(`http://127.0.0.1:${debugPort}/json/version`);
+  await waitForOwnedProcessEndpoint(`http://127.0.0.1:${serverPort}/web/session-lifecycle.html`, {
+    child: server,
+    label: "WP13.7A proof server",
+  });
+  await waitForOwnedProcessEndpoint(`http://127.0.0.1:${debugPort}/json/version`, {
+    child: browser,
+    label: "Chromium WP13.7A lifecycle proof",
+  });
   const create = await fetch(`http://127.0.0.1:${debugPort}/json/new`, { method: "PUT" });
   assert.equal(create.ok, true);
   const page = await create.json();
@@ -136,10 +134,10 @@ try {
 
   async function reloadProof() {
     await client.send("Page.reload", { ignoreCache: true });
-    await waitForExpression("document.documentElement.dataset.lifecycleReady === 'true'");
+    await waitForExpression("document.documentElement?.dataset.lifecycleReady === 'true'");
   }
 
-  await waitForExpression("document.documentElement.dataset.lifecycleReady === 'true'");
+  await waitForExpression("document.documentElement?.dataset.lifecycleReady === 'true'");
   assert.equal(await evaluate("window.__WP13_7A__.getViewModel().state"), "NOT_CREATED");
   assert.equal(await evaluate("document.querySelector('[data-synthetic-marker]')?.dataset.syntheticMarker"), "SYNTHETIC_TECHNICAL_DRAFT");
   assert.match(await evaluate("document.body.textContent"), /DRAFT_TECHNICAL_COPY/);
@@ -250,31 +248,15 @@ try {
   );
   console.log("Chromium WP13.7A lifecycle, keyboard, role, recovery, terminal and responsive proof passed.");
 } finally {
-  let cleanupError;
-  try {
-    await stopChildProcess(browser, {
-      label: "Chromium WP13.7A lifecycle proof",
-      windowsProcessTree: true,
-      requestGracefulClose: client === undefined
-        ? undefined
-        : () => client.send("Browser.close"),
-    });
-  } catch (error) {
-    cleanupError = error;
-  } finally {
-    client?.close();
-  }
-  try {
-    await stopChildProcess(server, { label: "WP13.7A proof server" });
-  } catch (error) {
-    cleanupError ??= error;
-  }
-  if (cleanupError === undefined) {
-    try {
-      await removeBrowserProfile(profile, { rootPid: browser.pid });
-    } catch (error) {
-      cleanupError = error;
-    }
-  }
-  if (cleanupError !== undefined) throw cleanupError;
+  await cleanupBrowserProof({
+    browser,
+    browserLabel: "Chromium WP13.7A lifecycle proof",
+    client,
+    profile,
+    requestBrowserClose: client === undefined
+      ? undefined
+      : () => client.send("Browser.close"),
+    server,
+    serverLabel: "WP13.7A proof server",
+  });
 }

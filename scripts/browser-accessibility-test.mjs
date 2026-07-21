@@ -1,27 +1,19 @@
 import assert from "node:assert/strict";
-import { spawn } from "node:child_process";
 import { mkdir, mkdtemp, readFile, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
-import { removeBrowserProfile, stopChildProcess } from "./browser-cleanup.mjs";
+import {
+  cleanupBrowserProof,
+  spawnOwnedProcess,
+  waitForOwnedProcessEndpoint,
+} from "./browser-cleanup.mjs";
 import { resolveBrowserExecutable } from "./browser-executable.mjs";
 
 const repo = fileURLToPath(new URL("..", import.meta.url));
 const debugPort = 9333;
 const profile = await mkdtemp(join(tmpdir(), "wp13-2-chromium-"));
 const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
-
-async function waitFor(url, attempts = 80) {
-  for (let index = 0; index < attempts; index += 1) {
-    try {
-      const response = await fetch(url);
-      if (response.ok) return response;
-    } catch {}
-    await wait(100);
-  }
-  throw new Error(`Timed out waiting for ${url}`);
-}
 
 class CdpClient {
   #socket;
@@ -84,7 +76,7 @@ function shell(markup, view = "CHILD") {
 }
 
 const browserExecutable = resolveBrowserExecutable();
-const chromium = spawn(
+const chromium = spawnOwnedProcess(
   browserExecutable,
   [
     "--headless=new", "--no-sandbox", "--disable-gpu", "--disable-dev-shm-usage",
@@ -95,7 +87,10 @@ const chromium = spawn(
 
 let client;
 try {
-  await waitFor(`http://127.0.0.1:${debugPort}/json/version`);
+  await waitForOwnedProcessEndpoint(`http://127.0.0.1:${debugPort}/json/version`, {
+    child: chromium,
+    label: "Chromium accessibility proof",
+  });
   const create = await fetch(`http://127.0.0.1:${debugPort}/json/new`, { method: "PUT" });
   assert.equal(create.ok, true);
   const page = await create.json();
@@ -112,6 +107,14 @@ try {
     const result = await client.send("Runtime.evaluate", { expression, returnByValue: true, awaitPromise: true });
     if (result.exceptionDetails) throw new Error(result.exceptionDetails.text ?? "browser evaluation failed");
     return result.result?.value;
+  }
+
+  async function waitForExpression(expression, attempts = 100) {
+    for (let index = 0; index < attempts; index += 1) {
+      if (await evaluate(expression)) return;
+      await wait(20);
+    }
+    throw new Error(`Timed out waiting for browser expression: ${expression}`);
   }
 
   async function setMarkup(markup, view = "CHILD") {
@@ -153,7 +156,7 @@ try {
   assert.equal(await evaluate("document.activeElement?.id"), "close-transparency");
   await client.send("Input.dispatchKeyEvent", { type: "keyDown", key: "Escape", code: "Escape", windowsVirtualKeyCode: 27 });
   await client.send("Input.dispatchKeyEvent", { type: "keyUp", key: "Escape", code: "Escape", windowsVirtualKeyCode: 27 });
-  await wait(20);
+  await waitForExpression("document.activeElement?.dataset.action === 'transparency'");
   assert.equal(await evaluate("document.querySelector('#transparency-dialog').open"), false);
   assert.equal(await evaluate("document.activeElement?.dataset.action"), "transparency");
 
@@ -197,16 +200,13 @@ try {
   await writeFile(join(repo, "artifacts", "wp13-3-vertical-proof.png"), Buffer.from(screenshot.data, "base64"));
   console.log("Chromium accessibility, responsive markup and shared-session projection proof passed.");
 } finally {
-  try {
-    await stopChildProcess(chromium, {
-      label: "Chromium accessibility proof",
-      windowsProcessTree: true,
-      requestGracefulClose: client === undefined
-        ? undefined
-        : () => client.send("Browser.close"),
-    });
-  } finally {
-    client?.close();
-  }
-  await removeBrowserProfile(profile, { rootPid: chromium.pid });
+  await cleanupBrowserProof({
+    browser: chromium,
+    browserLabel: "Chromium accessibility proof",
+    client,
+    profile,
+    requestBrowserClose: client === undefined
+      ? undefined
+      : () => client.send("Browser.close"),
+  });
 }
