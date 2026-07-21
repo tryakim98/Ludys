@@ -8,6 +8,7 @@ const FILE_RELEASE_DELAY_MS = 500;
 const PROFILE_DELETE_TIMEOUT_MS = 30_000;
 const PROFILE_RETRY_DELAY_MS = 300;
 const PROFILE_RETRY_MAX_DELAY_MS = 1_500;
+const ENDPOINT_START_TIMEOUT_MS = 30_000;
 const RETRYABLE_PROFILE_ERRORS = new Set(["EBUSY", "EPERM", "ENOTEMPTY"]);
 const ownedChildren = new WeakMap();
 
@@ -44,6 +45,7 @@ function defaultRuntime(overrides = {}) {
     wait,
     processExists,
     processGroupExists,
+    fetch: (url, init) => fetch(url, init),
     signalChild: (child, signal) => child.kill(signal),
     signalPid: (pid, signal) => process.kill(pid, signal),
     signalProcessGroup: (processGroupId, signal) => process.kill(-processGroupId, signal),
@@ -77,6 +79,44 @@ export function spawnOwnedProcess(executable, args, options = {}) {
 export function ownedProcessMetadata(child) {
   const metadata = ownedChildren.get(child);
   return metadata === undefined ? undefined : { ...metadata };
+}
+
+export async function waitForOwnedProcessEndpoint(url, options = {}) {
+  const child = options.child;
+  const label = options.label ?? "owned process";
+  const timeoutMs = options.timeoutMs ?? ENDPOINT_START_TIMEOUT_MS;
+  const pollIntervalMs = options.pollIntervalMs ?? 100;
+  const runtime = defaultRuntime(options.runtime);
+  const startedAt = runtime.now();
+  let lastError;
+
+  while (runtime.now() - startedAt < timeoutMs) {
+    if (child?.exitCode !== null || child?.signalCode !== null) {
+      throw new Error(
+        `${label} exited before ${url} became ready. platform=${runtime.platform}; `
+          + `pid=${child?.pid ?? "unknown"}; exitCode=${String(child?.exitCode)}; `
+          + `signalCode=${String(child?.signalCode)}`,
+      );
+    }
+    try {
+      const response = await runtime.fetch(url);
+      if (response.ok) return response;
+      lastError = new Error(`HTTP ${response.status}`);
+    } catch (error) {
+      lastError = error;
+    }
+    await runtime.wait(pollIntervalMs);
+  }
+
+  const lastErrorDetail = lastError instanceof Error
+    ? `${lastError.name}: ${lastError.message}`
+    : String(lastError ?? "none");
+  throw new Error(
+    `Timed out after ${timeoutMs} ms waiting for ${label} endpoint ${url}. `
+      + `platform=${runtime.platform}; pid=${child?.pid ?? "unknown"}; `
+      + `exitCode=${String(child?.exitCode)}; signalCode=${String(child?.signalCode)}; `
+      + `lastError=${lastErrorDetail}`,
+  );
 }
 
 function isRootExited(child, runtime) {

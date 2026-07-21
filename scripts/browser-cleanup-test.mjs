@@ -6,6 +6,7 @@ import {
   registerOwnedChildProcess,
   removeBrowserProfile,
   stopChildProcess,
+  waitForOwnedProcessEndpoint,
 } from "./browser-cleanup.mjs";
 
 function fakeChild(pid) {
@@ -60,6 +61,43 @@ test("a disappeared PID is already stopped", async () => {
   const control = fakeRuntime();
   await stopChildProcess(child, { runtime: control.runtime });
   assert.deepEqual(control.signals, []);
+});
+
+test("owned endpoint readiness tolerates bounded startup delay", async () => {
+  const child = fakeChild(151);
+  let attempts = 0;
+  const control = fakeRuntime();
+  const response = await waitForOwnedProcessEndpoint("http://127.0.0.1:9999/ready", {
+    child,
+    label: "test browser",
+    pollIntervalMs: 50,
+    runtime: {
+      ...control.runtime,
+      fetch: async () => {
+        attempts += 1;
+        if (attempts < 3) throw new Error("not listening yet");
+        return { ok: true };
+      },
+    },
+    timeoutMs: 1_000,
+  });
+  assert.equal(response.ok, true);
+  assert.equal(attempts, 3);
+  assert.equal(control.now(), 100);
+});
+
+test("owned endpoint readiness reports early process exit", async () => {
+  const child = fakeChild(152);
+  child.exitCode = 1;
+  const control = fakeRuntime();
+  await assert.rejects(
+    () => waitForOwnedProcessEndpoint("http://127.0.0.1:9999/ready", {
+      child,
+      label: "test browser",
+      runtime: { ...control.runtime, fetch: async () => ({ ok: false }) },
+    }),
+    /test browser exited.*platform=linux.*pid=152.*exitCode=1/,
+  );
 });
 
 test("an owned POSIX process group receives SIGTERM before SIGKILL", async () => {

@@ -3,21 +3,17 @@ import { mkdir, mkdtemp, readFile, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
-import { cleanupBrowserProof, spawnOwnedProcess } from "./browser-cleanup.mjs";
+import {
+  cleanupBrowserProof,
+  spawnOwnedProcess,
+  waitForOwnedProcessEndpoint,
+} from "./browser-cleanup.mjs";
 import { resolveBrowserExecutable } from "./browser-executable.mjs";
 
 const repo = fileURLToPath(new URL("..", import.meta.url));
 const debugPort = 9335;
 const profile = await mkdtemp(join(tmpdir(), "wp13-4-chromium-"));
-
-function wait(ms) { return new Promise((resolve) => setTimeout(resolve, ms)); }
-async function waitFor(url) {
-  for (let attempt = 0; attempt < 80; attempt += 1) {
-    try { const response = await fetch(url); if (response.ok) return; } catch {}
-    await wait(50);
-  }
-  throw new Error(`Timed out waiting for ${url}`);
-}
+const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
 class CdpClient {
   #socket;
@@ -74,7 +70,10 @@ const chromium = spawnOwnedProcess(browserExecutable, [
 
 let client;
 try {
-  await waitFor(`http://127.0.0.1:${debugPort}/json/version`);
+  await waitForOwnedProcessEndpoint(`http://127.0.0.1:${debugPort}/json/version`, {
+    child: chromium,
+    label: "Chromium readiness proof",
+  });
   const create = await fetch(`http://127.0.0.1:${debugPort}/json/new`, { method: "PUT" });
   assert.equal(create.ok, true);
   const page = await create.json();
