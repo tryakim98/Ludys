@@ -1,10 +1,10 @@
-# Gjeldende teknisk status — R1 + WP13.7A
+# Gjeldende teknisk status — R1 + WP13.7B
 
 ```text
 Product: LUDYS
 Repository: ludys-app-reconstructed
-Version: 0.14.0-reconstructed.2
-Baseline: WP13.4 functional proof + WP13.7A deterministic lifecycle chassis
+Version: 0.14.0-reconstructed.3
+Baseline: WP13.4 functional proof + WP13.7A lifecycle chassis + WP13.7B full synthetic app journey
 Data: synthetic and session-bound
 Runtime AI: none
 Provider/backend/auth: none
@@ -12,13 +12,13 @@ B8: NOT DECISION READY
 Pilot: NOT AUTHORIZED
 Student beta: NOT AUTHORIZED
 Lifecycle persistence/transport: deterministic in-memory proof only
-WP13.7 overall: NOT COMPLETE
+WP13.7 production scope: NOT COMPLETE
 ```
 
 ## R1-dom
 
 R1 bevarer og beviser WP13.4-funksjonsgrunnlaget under ny, sporbar Git-identitet. Senere dokumenterte funksjoner er ikke automatisk rekonstruert.
 
-WP13.7A legger til en isolert, sammenhengende syntetisk lifecycle-flyt med rollevalg, create, active, WAIT, pause/resume, stop, delete, reconnect, stale/invalid, recovery og completion. STOP/DELETE no-resurrection, rolleprivacy og tilgjengelig browserproof er maskinelt verifisert.
+WP13.7A la til en isolert lifecycle-flyt. WP13.7B kobler den samme autoritative, lokale lifecycle-kontrakten til appens normale startside og beviser en sammenhengende syntetisk reise med eksplisitt opprettelse, rollevalg, orientering, aktivitet, separate barn-/voksenprojeksjoner, WAIT, hjelp, arbeidsro, pause/resume, recovery, stop, completion, oppsummering, sletting, no-resurrection og en ny separat økt.
 
-Dette reduserer, men lukker ikke, GAP-001, GAP-003, GAP-004, GAP-005, GAP-006 og GAP-008. Neste arbeid skal fortsatt tas fra gapregisteret i små pakker. Provider, auth, backend, ekte data, endelig copy og endelig visuell identitet er ikke åpnet.
+Beviset er lokalt, syntetisk og maskinelt. Provider, auth, produksjonspersistens, ekte data, PWA, produksjonsdeployment, manuell hjelpemiddeltest og ekstern fag-/språk-/co-design-review er ikke åpnet eller påstått fullført.

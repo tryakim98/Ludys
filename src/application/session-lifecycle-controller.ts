@@ -129,6 +129,10 @@ export class SessionLifecycleController {
     };
   }
 
+  public get sessionId(): string {
+    return this.#current.sessionId;
+  }
+
   public selectRole(role: LifecycleRole): LifecycleViewModel {
     this.#role = role;
     return this.view;
