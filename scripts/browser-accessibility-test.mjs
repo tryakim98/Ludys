@@ -1,9 +1,10 @@
 import assert from "node:assert/strict";
 import { spawn } from "node:child_process";
-import { mkdir, mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
+import { mkdir, mkdtemp, readFile, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
+import { removeBrowserProfile, stopChildProcess } from "./browser-cleanup.mjs";
 import { resolveBrowserExecutable } from "./browser-executable.mjs";
 
 const repo = fileURLToPath(new URL("..", import.meta.url));
@@ -196,11 +197,16 @@ try {
   await writeFile(join(repo, "artifacts", "wp13-3-vertical-proof.png"), Buffer.from(screenshot.data, "base64"));
   console.log("Chromium accessibility, responsive markup and shared-session projection proof passed.");
 } finally {
-  client?.close();
-  chromium.kill("SIGTERM");
-  await Promise.race([new Promise((resolve) => chromium.once("exit", resolve)), wait(1000)]);
-  for (let attempt = 0; attempt < 5; attempt += 1) {
-    try { await rm(profile, { recursive: true, force: true, maxRetries: 3, retryDelay: 100 }); break; }
-    catch (error) { if (attempt === 4) console.warn(`Temporary Chromium profile remained: ${error}`); await wait(150); }
+  try {
+    await stopChildProcess(chromium, {
+      label: "Chromium accessibility proof",
+      windowsProcessTree: true,
+      requestGracefulClose: client === undefined
+        ? undefined
+        : () => client.send("Browser.close"),
+    });
+  } finally {
+    client?.close();
   }
+  await removeBrowserProfile(profile, { rootPid: chromium.pid });
 }

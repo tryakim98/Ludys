@@ -1,9 +1,10 @@
 import assert from "node:assert/strict";
 import { spawn } from "node:child_process";
-import { mkdir, mkdtemp, rm, writeFile } from "node:fs/promises";
+import { mkdir, mkdtemp, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
+import { removeBrowserProfile, stopChildProcess } from "./browser-cleanup.mjs";
 import { resolveBrowserExecutable } from "./browser-executable.mjs";
 
 const repo = fileURLToPath(new URL("..", import.meta.url));
@@ -249,18 +250,31 @@ try {
   );
   console.log("Chromium WP13.7A lifecycle, keyboard, role, recovery, terminal and responsive proof passed.");
 } finally {
-  client?.close();
-  browser.kill("SIGTERM");
-  server.kill("SIGTERM");
-  await Promise.race([new Promise((resolve) => browser.once("exit", resolve)), wait(1000)]);
-  await Promise.race([new Promise((resolve) => server.once("exit", resolve)), wait(1000)]);
-  for (let attempt = 0; attempt < 5; attempt += 1) {
+  let cleanupError;
+  try {
+    await stopChildProcess(browser, {
+      label: "Chromium WP13.7A lifecycle proof",
+      windowsProcessTree: true,
+      requestGracefulClose: client === undefined
+        ? undefined
+        : () => client.send("Browser.close"),
+    });
+  } catch (error) {
+    cleanupError = error;
+  } finally {
+    client?.close();
+  }
+  try {
+    await stopChildProcess(server, { label: "WP13.7A proof server" });
+  } catch (error) {
+    cleanupError ??= error;
+  }
+  if (cleanupError === undefined) {
     try {
-      await rm(profile, { recursive: true, force: true, maxRetries: 3, retryDelay: 100 });
-      break;
+      await removeBrowserProfile(profile, { rootPid: browser.pid });
     } catch (error) {
-      if (attempt === 4) console.warn(`Temporary Chromium profile remained: ${error}`);
-      await wait(200);
+      cleanupError = error;
     }
   }
+  if (cleanupError !== undefined) throw cleanupError;
 }

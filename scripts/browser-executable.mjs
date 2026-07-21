@@ -34,10 +34,13 @@ function platformCandidates(platform, environment) {
       readEnvironment(environment, "ProgramFiles(x86)", platform),
       readEnvironment(environment, "LOCALAPPDATA", platform),
     ].filter(Boolean);
-    return roots.flatMap((root) => [
-      join(root, "Microsoft", "Edge", "Application", "msedge.exe"),
-      join(root, "Google", "Chrome", "Application", "chrome.exe"),
-    ]);
+    const edgeCandidates = roots.map((root) =>
+      join(root, "Microsoft", "Edge", "Application", "msedge.exe")
+    );
+    const chromeCandidates = roots.map((root) =>
+      join(root, "Google", "Chrome", "Application", "chrome.exe")
+    );
+    return [...edgeCandidates, ...chromeCandidates];
   }
 
   if (platform === "darwin") {

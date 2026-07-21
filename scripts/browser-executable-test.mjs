@@ -36,6 +36,28 @@ try {
   assert.notEqual(fallback, missingExplicit, "a missing explicit path must never be accepted");
   assert.equal(fallback, fallbackBrowser);
 
+  const programFiles = "C:\\Program Files";
+  const programFilesX86 = "C:\\Program Files (x86)";
+  const localAppData = "C:\\Users\\Synthetic\\AppData\\Local";
+  const x86Edge = join(programFilesX86, "Microsoft", "Edge", "Application", "msedge.exe");
+  const programFilesChrome = join(programFiles, "Google", "Chrome", "Application", "chrome.exe");
+  const preferredWindowsBrowser = resolveBrowserExecutable({
+    platform: "win32",
+    environment: {
+      ProgramFiles: programFiles,
+      "ProgramFiles(x86)": programFilesX86,
+      LOCALAPPDATA: localAppData,
+      PATH: "",
+    },
+    executableCheck: (candidate) =>
+      candidate === x86Edge || candidate === programFilesChrome,
+  });
+  assert.equal(
+    preferredWindowsBrowser,
+    x86Edge,
+    "all known Edge locations must be checked before known Chrome locations",
+  );
+
   assert.throws(
     () => resolveBrowserExecutable({
       platform: "test-os",
