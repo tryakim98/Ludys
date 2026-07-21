@@ -1,10 +1,9 @@
 import assert from "node:assert/strict";
-import { spawn } from "node:child_process";
 import { mkdir, mkdtemp, readFile, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
-import { removeBrowserProfile, stopChildProcess } from "./browser-cleanup.mjs";
+import { cleanupBrowserProof, spawnOwnedProcess } from "./browser-cleanup.mjs";
 import { resolveBrowserExecutable } from "./browser-executable.mjs";
 
 const repo = fileURLToPath(new URL("..", import.meta.url));
@@ -70,7 +69,7 @@ function shell(markup, locale = "nb-NO") {
 }
 
 const browserExecutable = resolveBrowserExecutable();
-const chromium = spawn(browserExecutable, [
+const chromium = spawnOwnedProcess(browserExecutable, [
   "--headless=new", "--no-sandbox", "--disable-gpu", "--disable-dev-shm-usage",
   "--no-proxy-server", `--remote-debugging-port=${debugPort}`, `--user-data-dir=${profile}`, "about:blank",
 ], { stdio: ["ignore", "ignore", "ignore"] });
@@ -137,16 +136,13 @@ try {
   await writeFile(join(repo, "artifacts", "wp13-3-knowledge-audio.png"), Buffer.from(screenshot.data, "base64"));
   console.log("Chromium knowledge, audio-control, filtering and reflow proof passed.");
 } finally {
-  try {
-    await stopChildProcess(chromium, {
-      label: "Chromium knowledge proof",
-      windowsProcessTree: true,
-      requestGracefulClose: client === undefined
-        ? undefined
-        : () => client.send("Browser.close"),
-    });
-  } finally {
-    client?.close();
-  }
-  await removeBrowserProfile(profile, { rootPid: chromium.pid });
+  await cleanupBrowserProof({
+    browser: chromium,
+    browserLabel: "Chromium knowledge proof",
+    client,
+    profile,
+    requestBrowserClose: client === undefined
+      ? undefined
+      : () => client.send("Browser.close"),
+  });
 }

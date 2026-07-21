@@ -1,10 +1,9 @@
 import assert from "node:assert/strict";
-import { spawn } from "node:child_process";
 import { mkdir, mkdtemp, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
-import { removeBrowserProfile, stopChildProcess } from "./browser-cleanup.mjs";
+import { cleanupBrowserProof, spawnOwnedProcess } from "./browser-cleanup.mjs";
 import { resolveBrowserExecutable } from "./browser-executable.mjs";
 
 const repo = fileURLToPath(new URL("..", import.meta.url));
@@ -55,12 +54,12 @@ class CdpClient {
   close() { this.#socket.close(); }
 }
 
-const server = spawn(process.execPath, ["scripts/serve-proof.mjs"], {
+const server = spawnOwnedProcess(process.execPath, ["scripts/serve-proof.mjs"], {
   cwd: repo,
   env: { ...process.env, PORT: String(serverPort) },
   stdio: ["ignore", "ignore", "ignore"],
 });
-const browser = spawn(browserExecutable, [
+const browser = spawnOwnedProcess(browserExecutable, [
   "--headless=new",
   "--no-sandbox",
   "--disable-gpu",
@@ -241,29 +240,15 @@ try {
   await writeFile(join(repo, "artifacts", "wp13-7b-full-app-navigation.png"), Buffer.from(screenshot.data, "base64"));
   console.log("Chromium WP13.7B full app journey, roles, Human-First, recovery, terminal and accessibility proof passed.");
 } finally {
-  let cleanupError;
-  try {
-    await stopChildProcess(browser, {
-      label: "Chromium WP13.7B full app proof",
-      windowsProcessTree: true,
-      requestGracefulClose: client === undefined ? undefined : () => client.send("Browser.close"),
-    });
-  } catch (error) {
-    cleanupError = error;
-  } finally {
-    client?.close();
-  }
-  try {
-    await stopChildProcess(server, { label: "WP13.7B proof server" });
-  } catch (error) {
-    cleanupError ??= error;
-  }
-  if (cleanupError === undefined) {
-    try {
-      await removeBrowserProfile(profile, { rootPid: browser.pid });
-    } catch (error) {
-      cleanupError = error;
-    }
-  }
-  if (cleanupError !== undefined) throw cleanupError;
+  await cleanupBrowserProof({
+    browser,
+    browserLabel: "Chromium WP13.7B full app proof",
+    client,
+    profile,
+    requestBrowserClose: client === undefined
+      ? undefined
+      : () => client.send("Browser.close"),
+    server,
+    serverLabel: "WP13.7B proof server",
+  });
 }
