@@ -3,17 +3,17 @@
 | ID | Område | Status | Kilde | Notat |
 |---|---|---|---|---|
 | GAP-001 | Full syntetisk ende-til-ende-appflyt | VERIFIED_PRESENT_IN_R1 | WP13.7 | WP13.7B beviser den komplette lokale syntetiske reisen fra normal startside til terminaltilstand og ny separat økt. Dette er ikke produksjonsflyt. |
-| GAP-002 | Installérbar PWA og offlinevennlig shell | DOCUMENTED_HISTORICALLY_NOT_YET_RECONSTRUCTED | WP13.7 | Fortsatt ikke rekonstruert; installérbar PWA og offline-shell gjenstår. |
+| GAP-002 | Installérbar PWA og offlinevennlig shell | PARTIALLY_REDUCED_BY_TECHNICAL_PROOF | WP13.7 | WP13.7C beviser lokalt manifest, avgrenset service worker, kontrollert shell-cache, offline reload og lokal navigasjon etter første onlineinnlasting. Produksjonsdeployment, bred browser-/enhetsreview og release-hardening gjenstår. |
 | GAP-003 | Barn/voksen rolleflyt gjennom hel applikasjon | VERIFIED_PRESENT_IN_R1 | WP13.7 | WP13.7B beviser rollebytte mellom avgrensede projeksjoner av én autoritativ lokal økt. Ekstern co-design og endelig produktreview gjenstår. |
-| GAP-004 | Create/resume/pause/stop/delete/reconnect | PARTIALLY_REDUCED_BY_TECHNICAL_PROOF | WP13.7 | WP13.7B beviser kontrakten gjennom full lokal UI; produksjonspersistens og transport er ikke åpnet. |
-| GAP-005 | No-resurrection etter stopp og sletting ved reconnect | PARTIALLY_REDUCED_BY_TECHNICAL_PROOF | WP13.7 | State machine, repository, tombstone og full-reise-browserproof beviser terminaldominans lokalt; reell transport og produksjonsmiljø gjenstår. |
+| GAP-004 | Create/resume/pause/stop/delete/reconnect | PARTIALLY_REDUCED_BY_TECHNICAL_PROOF | WP13.7 | WP13.7B beviser kontrakten gjennom full lokal UI; WP13.7C bevarer den gjennom offline/online. Produksjonspersistens og transport er ikke åpnet. |
+| GAP-005 | No-resurrection etter stopp og sletting ved reconnect | PARTIALLY_REDUCED_BY_TECHNICAL_PROOF | WP13.7 | State machine, repository, tombstone og browserproof beviser terminaldominans lokalt, og WP13.7C beviser at cache/reload/update ikke gjenoppliver gammel økt. Reell transport og produksjonsmiljø gjenstår. |
 | GAP-006 | Loading/empty/stale/invalid/recovery states | PARTIALLY_REDUCED_BY_TECHNICAL_PROOF | WP13.7 | Loading, empty, stale og recovery er synlige i full lokal flyt; produksjonsfeilhåndtering og endelig ekstern UX-review gjenstår. |
 | GAP-007 | Responsivt app-shell for mobil/nettbrett/desktop | PARTIALLY_REDUCED_BY_TECHNICAL_PROOF | WP13.7 | Full syntetisk app er maskinelt bevist ved 320 og 1280 piksler samt 2× zoom; bred enhets-/manuell review gjenstår. |
 | GAP-008 | Tastatur, fokus, 320 px reflow og reduced motion i full flyt | PARTIALLY_REDUCED_BY_TECHNICAL_PROOF | WP13.7 | WP13.7B browserproof dekker hovedreisen, tastatur, fokus, 320 px, 2× zoom, AX-tre og reduced motion; manuell skjermleser-/AT-review gjenstår. |
 | GAP-009 | Tilgjengelig lydstart/stopp/replay/tekstalternativ i full flyt | NEWER_PRODUCT_REQUIREMENT_NOT_YET_IMPLEMENTED | WP13.7 | Dagens prototypelyd er intern og syntetisk; full app-lydflyt er ikke åpnet. |
 | GAP-010 | Draft læringscorpus og progresjonsprototype | NEWER_PRODUCT_REQUIREMENT_NOT_YET_IMPLEMENTED | WP13.8 | Corpusutvidelse er styrt og lukket til eksplisitte innholdsleveranser. |
 | GAP-011 | Authoring-, content- og lydproduksjonspipeline | NEWER_PRODUCT_REQUIREMENT_NOT_YET_IMPLEMENTED | WP13.9 | Må støtte review, withdrawal og versjonering. |
-| GAP-012 | Reliability/security/release hardening | NEWER_PRODUCT_REQUIREMENT_NOT_YET_IMPLEMENTED | WP13.10 | Lokal browserstabilitet er økt, men chaos, rollback og uavhengig app/content/audio-release gjenstår. |
+| GAP-012 | Reliability/security/release hardening | NEWER_PRODUCT_REQUIREMENT_NOT_YET_IMPLEMENTED | WP13.10 | Cross-platform browsercleanup og lokal cacheversjonering er herdet, men chaos, rollback, produksjons-SW-observability og uavhengig app/content/audio-release gjenstår. |
 | GAP-013 | Komplett betaoperasjons- og målepakke | NEWER_PRODUCT_REQUIREMENT_NOT_YET_IMPLEMENTED | WP13.11 | Ingen ekte pilot eller måledata. |
 | GAP-014 | Provider-/emulator-/staginggrenser | NOT_AUTHORIZED | WP13.12 | Ingen cloud, auth, database, personlig kontinuitet eller ekte data i R1. WP13.7B åpner ingen av disse grensene. |
 | GAP-015 | Ekstern aktivering og autentiske receipts | EXTERNAL_EVIDENCE_REQUIRED | External | Kan ikke fabrikeres i kode. |

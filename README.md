@@ -1,6 +1,6 @@
 # LUDYS — rekonstruert R1-baseline
 
-**Versjon:** `0.14.0-reconstructed.3`
+**Versjon:** `0.14.0-reconstructed.4`
 **Status:** intern, lokal og syntetisk rekonstruksjonsbaseline  
 **Pilot/B8:** ikke autorisert
 

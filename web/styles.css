@@ -399,6 +399,17 @@ summary { cursor: pointer; font-weight: 700; min-height: 2.75rem; display: flex;
 .observable-state div { display: grid; gap: 0.2rem; grid-template-columns: minmax(11rem, 0.75fr) minmax(0, 1.25fr); }
 .observable-state dt { font-weight: 700; }
 .observable-state dd { margin: 0; overflow-wrap: anywhere; }
+.pwa-status-panel {
+  border: 2px solid currentColor;
+  border-radius: 0.85rem;
+  margin: 0 auto 2rem;
+  max-width: 62rem;
+  overflow-wrap: anywhere;
+  padding: 1rem;
+  width: calc(100% - 2rem);
+}
+.pwa-status-panel h2 { font-size: 1.25rem; }
+.pwa-status-panel[data-network="OFFLINE"] { border-style: dashed; }
 
 @media (max-width: 38rem) {
   .app-role-nav,
