@@ -113,6 +113,14 @@ try {
     return result.result?.value;
   }
 
+  async function waitForExpression(expression, attempts = 100) {
+    for (let index = 0; index < attempts; index += 1) {
+      if (await evaluate(expression)) return;
+      await wait(20);
+    }
+    throw new Error(`Timed out waiting for browser expression: ${expression}`);
+  }
+
   async function setMarkup(markup, view = "CHILD") {
     await client.send("Page.setDocumentContent", { frameId, html: shell(markup, view) });
     await wait(20);
@@ -152,7 +160,7 @@ try {
   assert.equal(await evaluate("document.activeElement?.id"), "close-transparency");
   await client.send("Input.dispatchKeyEvent", { type: "keyDown", key: "Escape", code: "Escape", windowsVirtualKeyCode: 27 });
   await client.send("Input.dispatchKeyEvent", { type: "keyUp", key: "Escape", code: "Escape", windowsVirtualKeyCode: 27 });
-  await wait(20);
+  await waitForExpression("document.activeElement?.dataset.action === 'transparency'");
   assert.equal(await evaluate("document.querySelector('#transparency-dialog').open"), false);
   assert.equal(await evaluate("document.activeElement?.dataset.action"), "transparency");
 
