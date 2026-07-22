@@ -243,9 +243,12 @@ try {
   })`);
   await waitForExpression("document.querySelector('#pwa-status')?.dataset.update === 'READY'");
   assert.equal(await evaluate("document.querySelector('#pwa-apply-update').disabled"), false);
+  const preUpdateTimeOrigin = await evaluate("performance.timeOrigin");
   await press("#pwa-apply-update");
+  await waitForExpression(`performance.timeOrigin !== ${JSON.stringify(preUpdateTimeOrigin)}`);
   await waitForExpression("document.documentElement?.dataset.wp13_7cReady === 'true'");
   await waitForExpression("document.documentElement?.dataset.wp13_8Ready === 'true'");
+  await waitForExpression("typeof window.__WP13_7B__?.getViewModel === 'function'");
   assert.equal(await evaluate("window.__WP13_7B__.getViewModel().screen"), "WELCOME");
   assert.notEqual(await evaluate("window.__WP13_7B__.getSessionId()"), offlineTerminalId);
 
