@@ -1,8 +1,12 @@
 import { createSyntheticAppNavigation } from "../../composition/create-synthetic-app-navigation.js";
+import { createAuthoringPipeline } from "../../composition/create-authoring-pipeline.js";
+import type { AuthoringLocaleTextField } from "../../application/authoring-pipeline-controller.js";
 import type { LifecycleRole } from "../../application/session-lifecycle-controller.js";
+import type { AuthoringLifecyclePolicy, LocalAuthoringReviewNote } from "../../core/authoring-pipeline.js";
 import type { Locale } from "../../core/content-contracts.js";
 import type { CorpusLifecyclePolicy, DraftCorpusMode } from "../../core/draft-learning-corpus.js";
 import { renderSyntheticAppNavigation } from "./synthetic-app-navigation-templates.js";
+import { renderAuthoringWorkspace } from "./authoring-workspace-templates.js";
 import { createLocalPwaCoordinator, type LocalPwaCoordinator } from "./pwa-status.js";
 
 const rootElement = document.querySelector<HTMLDivElement>("#app");
@@ -11,30 +15,108 @@ const root: HTMLDivElement = rootElement;
 
 const pageInstance = crypto.randomUUID();
 const { controller } = createSyntheticAppNavigation("nb-NO", pageInstance);
+const authoringController = createAuthoringPipeline();
+let authoringOpen = false;
 let pwaCoordinator: LocalPwaCoordinator | undefined;
 
 function render(focus = false): void {
-  root.innerHTML = renderSyntheticAppNavigation(controller.view);
-  document.documentElement.lang = controller.view.locale === "nb-NO" ? "nb" : "nn";
+  root.innerHTML = authoringOpen
+    ? renderAuthoringWorkspace(authoringController.view)
+    : renderSyntheticAppNavigation(controller.view);
+  const locale = authoringOpen ? authoringController.view.locale : controller.view.locale;
+  document.documentElement.lang = locale === "nb-NO" ? "nb" : "nn";
   document.documentElement.dataset.wp13_7bReady = "true";
   document.documentElement.dataset.wp13_7cReady = "true";
   pwaCoordinator?.refresh();
   if (focus) {
     queueMicrotask(() => {
-      root.querySelector<HTMLElement>("#screen-title")?.focus();
+      root.querySelector<HTMLElement>(authoringOpen ? "#authoring-title" : "#screen-title")?.focus();
     });
   }
 }
 
 function announce(message: string, urgent = false): void {
-  const target = root.querySelector<HTMLElement>(urgent ? "#app-alert" : "#app-status");
+  const target = root.querySelector<HTMLElement>(authoringOpen
+    ? urgent ? "#authoring-alert" : "#authoring-status"
+    : urgent ? "#app-alert" : "#app-status");
   if (target === null) return;
   target.textContent = "";
   queueMicrotask(() => { target.textContent = message; });
 }
 
-root.addEventListener("click", (event) => {
+function controlValue(selector: string): string {
+  return root.querySelector<HTMLInputElement | HTMLTextAreaElement>(selector)?.value ?? "";
+}
+
+root.addEventListener("click", async (event) => {
   const element = event.target as Element;
+  const authoringLocale = element.closest<HTMLButtonElement>("button[data-authoring-locale]");
+  if (authoringLocale !== null) {
+    authoringController.setLocale(authoringLocale.dataset.authoringLocale as Locale);
+    render(true);
+    return;
+  }
+  const authoringButton = element.closest<HTMLButtonElement>("button[data-authoring-action]");
+  if (authoringButton !== null && !authoringButton.disabled) {
+    const action = authoringButton.dataset.authoringAction;
+    try {
+      switch (action) {
+        case "open":
+          authoringController.setLocale(controller.view.locale);
+          authoringOpen = true;
+          break;
+        case "close": authoringOpen = false; break;
+        case "clone": authoringController.cloneCompleteDraft(controlValue("#authoring-clone-id")); break;
+        case "add-review": {
+          const note: LocalAuthoringReviewNote = {
+            reviewId: controlValue("#local-review-id"),
+            name: controlValue("#local-review-name"),
+            role: controlValue("#local-review-role"),
+            scope: "COMPLETE_LOCAL_DRAFT",
+            decision: "READY_FOR_EXTERNAL_HANDOFF",
+            comment: controlValue("#local-review-comment"),
+            timestamp: new Date().toISOString(),
+            signatureText: `${controlValue("#local-review-name")} · intern kommentar · ikke ekstern receipt`,
+            externalReceipt: false,
+            receiptIntegrityVerified: false,
+          };
+          authoringController.addLocalReviewNote(note);
+          break;
+        }
+        case "handoff": authoringController.prepareExternalReviewHandoff(); break;
+        case "validate": authoringController.validateSelected(); break;
+        case "export": authoringController.exportSelectedJson(); break;
+        case "import": authoringController.importJson(controlValue("#authoring-json")); break;
+        case "attach-take-a": authoringController.replaceWithTechnicalTake(authoringButton.dataset.audioId ?? "", "wp13-9-technical-take-a"); break;
+        case "attach-take-b": authoringController.replaceWithTechnicalTake(authoringButton.dataset.audioId ?? "", "wp13-9-technical-take-b"); break;
+        case "preview-audio": authoringController.requestAudioPreview(authoringButton.dataset.audioId ?? ""); break;
+        case "stop-audio": authoringController.stopAudio(); break;
+        case "withdraw": {
+          const selected = authoringController.view.selectedPackage;
+          const persisted = await persistRestrictiveAuthoringPolicy({
+            policyRevision: authoringController.policy.policyRevision + 1,
+            restrictions: [
+              { scope: "AUTHORING_PACKAGE", scopeId: selected.packageId, lifecycleStatus: "WITHDRAWN" },
+              ...selected.audioSpecifications.map((audio) => ({ scope: "AUDIO_SPEC" as const, scopeId: audio.semanticAudioId, lifecycleStatus: "WITHDRAWN" as const })),
+            ],
+            containsPersonData: false,
+            resurrectionAllowed: false,
+            publishingAuthority: false,
+          });
+          authoringController.applyRestrictivePolicy(persisted);
+          authoringController.withdrawSelected(new Date().toISOString());
+          break;
+        }
+        default: return;
+      }
+      render(true);
+      if (authoringOpen) announce(authoringController.view.lastAction);
+    } catch (error) {
+      render();
+      announce(error instanceof Error ? error.message : String(error), true);
+    }
+    return;
+  }
   const modeButton = element.closest<HTMLButtonElement>("button[data-corpus-mode]");
   if (modeButton !== null) {
     controller.setCorpusMode(modeButton.dataset.corpusMode as DraftCorpusMode);
@@ -102,6 +184,36 @@ root.addEventListener("click", (event) => {
 });
 
 root.addEventListener("change", (event) => {
+  const packageSelect = (event.target as Element).closest<HTMLSelectElement>("#authoring-package-select");
+  if (packageSelect !== null) {
+    authoringController.selectPackage(packageSelect.value);
+    render(true);
+    return;
+  }
+  const authoringField = (event.target as Element).closest<HTMLInputElement | HTMLTextAreaElement>("[data-authoring-field]");
+  if (authoringField !== null) {
+    try {
+      authoringController.editLocaleText(
+        authoringController.view.locale,
+        authoringField.dataset.authoringField as AuthoringLocaleTextField,
+        authoringField.value,
+      );
+      render();
+    } catch (error) {
+      announce(error instanceof Error ? error.message : String(error), true);
+    }
+    return;
+  }
+  const audioScript = (event.target as Element).closest<HTMLTextAreaElement>("[data-audio-script-id]");
+  if (audioScript !== null) {
+    try {
+      authoringController.editAudioScript(audioScript.dataset.audioScriptId ?? "", audioScript.value);
+      render();
+    } catch (error) {
+      announce(error instanceof Error ? error.message : String(error), true);
+    }
+    return;
+  }
   const select = (event.target as Element).closest<HTMLSelectElement>("#app-locale");
   if (select === null) return;
   controller.setLocale(select.value as Locale);
@@ -159,6 +271,53 @@ async function persistRestrictiveCorpusPolicy(policy: CorpusLifecyclePolicy): Pr
 
 const corpusPolicyReady = loadCorpusPolicy();
 
+async function loadAuthoringPolicy(): Promise<void> {
+  try {
+    await pwaCoordinator?.ready;
+    const response = await fetch("/web/authoring-lifecycle-policy.json", {
+      cache: "no-store",
+      credentials: "same-origin",
+    });
+    if (!response.ok) throw new Error(`authoring policy HTTP ${response.status}`);
+    authoringController.applyRestrictivePolicy(await response.json() as AuthoringLifecyclePolicy);
+    document.documentElement.dataset.authoringPolicy = "READY";
+  } catch {
+    authoringController.applyRestrictivePolicy({
+      policyRevision: 1,
+      restrictions: authoringController.view.packages.map((item) => ({
+        scope: "AUTHORING_PACKAGE" as const,
+        scopeId: item.packageId,
+        lifecycleStatus: "STALE" as const,
+      })),
+      containsPersonData: false,
+      resurrectionAllowed: false,
+      publishingAuthority: false,
+    });
+    document.documentElement.dataset.authoringPolicy = "FAILED_CLOSED";
+  }
+  document.documentElement.dataset.wp13_9Ready = "true";
+  render();
+}
+
+async function persistRestrictiveAuthoringPolicy(
+  policy: AuthoringLifecyclePolicy,
+): Promise<AuthoringLifecyclePolicy> {
+  const registration = await navigator.serviceWorker.ready;
+  const worker = navigator.serviceWorker.controller ?? registration.active;
+  if (worker === null) throw new Error("active service worker unavailable for authoring policy");
+  return new Promise((resolve, reject) => {
+    const channel = new MessageChannel();
+    channel.port1.onmessage = (event: MessageEvent<{ ok: boolean; policy?: AuthoringLifecyclePolicy; error?: string }>) => {
+      channel.port1.close();
+      if (event.data.ok && event.data.policy !== undefined) resolve(event.data.policy);
+      else reject(new Error(event.data.error ?? "authoring policy persistence failed"));
+    };
+    worker.postMessage({ type: "LUDYS_APPLY_RESTRICTIVE_AUTHORING_POLICY", policy }, [channel.port2]);
+  });
+}
+
+const authoringPolicyReady = loadAuthoringPolicy();
+
 Object.assign(window, {
   __WP13_7B__: {
     getViewModel: () => controller.view,
@@ -176,6 +335,20 @@ Object.assign(window, {
       controller.applyRestrictiveCorpusPolicy(persisted);
       render(true);
       return controller.view.corpus;
+    },
+  },
+  __WP13_9__: {
+    ready: Promise.all([corpusPolicyReady, authoringPolicyReady]),
+    getAuthoringView: () => authoringController.view,
+    openWorkspace: () => { authoringOpen = true; render(true); return authoringController.view; },
+    closeWorkspace: () => { authoringOpen = false; render(true); },
+    exportSelected: () => authoringController.exportSelectedJson(),
+    importPackage: (json: string) => { const view = authoringController.importJson(json); render(); return view; },
+    applyRestrictivePolicy: async (policy: AuthoringLifecyclePolicy) => {
+      const persisted = await persistRestrictiveAuthoringPolicy(policy);
+      const view = authoringController.applyRestrictivePolicy(persisted);
+      render(true);
+      return view;
     },
   },
 });
