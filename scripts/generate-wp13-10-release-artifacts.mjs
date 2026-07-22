@@ -1,6 +1,6 @@
 import { createHash } from "node:crypto";
 import { mkdir, readFile, writeFile } from "node:fs/promises";
-import { dirname, join, relative } from "node:path";
+import { dirname, extname, join, relative } from "node:path";
 import { fileURLToPath } from "node:url";
 
 const root = fileURLToPath(new URL("..", import.meta.url));
@@ -11,12 +11,21 @@ const packageJson = JSON.parse(await readFile(join(root, "package.json"), "utf8"
 const lock = JSON.parse(await readFile(join(root, "package-lock.json"), "utf8"));
 const stableDate = "2026-07-22";
 const stableTimestamp = "2026-07-22T00:00:00.000Z";
+const textChecksumExtensions = new Set([".json", ".ts"]);
 
 await mkdir(releaseDirectory, { recursive: true });
 await mkdir(artifactsDirectory, { recursive: true });
 
 async function readJsonOr(path, fallback) {
   return JSON.parse(await readFile(path, "utf8").catch(() => JSON.stringify(fallback)));
+}
+
+async function artifactChecksum(path) {
+  const bytes = await readFile(path);
+  const canonicalBytes = textChecksumExtensions.has(extname(path))
+    ? Buffer.from(bytes.toString("utf8").replace(/\r\n?/g, "\n"), "utf8")
+    : bytes;
+  return createHash("sha256").update(canonicalBytes).digest("hex");
 }
 
 const reproducibleEvidencePath = join(artifactsDirectory, "wp13-10-reproducible-build-result.json");
@@ -145,6 +154,7 @@ const provenance = {
   localNpmVersion: reproducibleEvidence.npmVersion,
   operatingSystem: reproducibleEvidence.operatingSystem,
   timestampPolicy: "Tracked metadata uses a fixed scope date; dist digest hashes paths and bytes only.",
+  artifactChecksumPolicy: "SHA256_CANONICAL_LF_UTF8_TEXT_RAW_BINARY",
   candidateCommitBinding: "Recorded by Git commit and draft PR after all tracked release files are finalized; a tracked file cannot self-contain its own final tree hash.",
   productionDeployment: false,
 };
@@ -219,7 +229,7 @@ const checksumTargets = [
 ].sort();
 const checksumLines = [];
 for (const path of checksumTargets) {
-  const digest = createHash("sha256").update(await readFile(join(root, path))).digest("hex");
+  const digest = await artifactChecksum(join(root, path));
   checksumLines.push(`${digest}  ${path}`);
 }
 await ensure(join(releaseDirectory, "artifact-checksums.sha256"), `${checksumLines.join("\n")}\n`);

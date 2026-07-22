@@ -14,6 +14,7 @@
   "localNpmVersion": "11.16.0",
   "operatingSystem": "win32-x64",
   "timestampPolicy": "Tracked metadata uses a fixed scope date; dist digest hashes paths and bytes only.",
+  "artifactChecksumPolicy": "SHA256_CANONICAL_LF_UTF8_TEXT_RAW_BINARY",
   "candidateCommitBinding": "Recorded by Git commit and draft PR after all tracked release files are finalized; a tracked file cannot self-contain its own final tree hash.",
   "productionDeployment": false
 }

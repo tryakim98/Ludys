@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import { createHash } from "node:crypto";
 import { readFile, readdir } from "node:fs/promises";
-import { join, relative } from "node:path";
+import { extname, join, relative } from "node:path";
 import { fileURLToPath } from "node:url";
 
 const root = fileURLToPath(new URL("..", import.meta.url));
@@ -11,6 +11,14 @@ const errors = [];
 
 function requireCondition(condition, message) {
   if (!condition) errors.push(message);
+}
+
+async function artifactChecksum(path) {
+  const bytes = await readFile(path);
+  const canonicalBytes = new Set([".json", ".ts"]).has(extname(path))
+    ? Buffer.from(bytes.toString("utf8").replace(/\r\n?/g, "\n"), "utf8")
+    : bytes;
+  return createHash("sha256").update(canonicalBytes).digest("hex");
 }
 
 requireCondition(Object.keys(packageJson.dependencies ?? {}).length === 0, "runtime dependencies must remain empty");
@@ -74,6 +82,7 @@ const componentManifest = JSON.parse(await readFile(join(releaseDirectory, "comp
 const sbom = JSON.parse(await readFile(join(releaseDirectory, "sbom.cdx.json"), "utf8"));
 const licenses = JSON.parse(await readFile(join(releaseDirectory, "license-inventory.json"), "utf8"));
 const reproducible = JSON.parse(await readFile(join(releaseDirectory, "reproducible-build.json"), "utf8"));
+const provenance = JSON.parse(await readFile(join(releaseDirectory, "release-provenance.json"), "utf8"));
 requireCondition(componentManifest.appVersion === packageJson.version, "component manifest appVersion mismatch");
 requireCondition(componentManifest.externalReceipts === 0, "external receipts must remain zero");
 requireCondition(componentManifest.b8 === "NOT_DECISION_READY", "B8 must remain not decision-ready");
@@ -84,6 +93,7 @@ requireCondition(sbom.components.length === Object.keys(lock.packages).filter((p
 requireCondition(licenses.runtimeDependencies.length === 0 && licenses.unresolvedLicenses.length === 0, "license inventory has runtime or unresolved entries");
 requireCondition(reproducible.status === "VERIFIED_IDENTICAL", "reproducible build evidence is not verified");
 requireCondition(/^[a-f0-9]{64}$/.test(reproducible.distSha256), "reproducible dist digest is invalid");
+requireCondition(provenance.artifactChecksumPolicy === "SHA256_CANONICAL_LF_UTF8_TEXT_RAW_BINARY", "cross-platform artifact checksum policy is missing");
 
 const checksumText = await readFile(join(releaseDirectory, "artifact-checksums.sha256"), "utf8");
 for (const line of checksumText.trim().split("\n")) {
@@ -92,7 +102,7 @@ for (const line of checksumText.trim().split("\n")) {
     errors.push(`invalid checksum line: ${line}`);
     continue;
   }
-  const actual = createHash("sha256").update(await readFile(join(root, match[2]))).digest("hex");
+  const actual = await artifactChecksum(join(root, match[2]));
   if (actual !== match[1]) errors.push(`checksum mismatch: ${match[2]}`);
 }
 

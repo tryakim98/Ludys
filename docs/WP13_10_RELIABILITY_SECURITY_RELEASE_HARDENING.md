@@ -51,7 +51,7 @@ Den ekstra releasebrowsertesten beviser 320 px reflow, 200 % zoom, touch, tastat
 
 Releasegaten kontrollerer pinned lockfile, null runtime dependencies, secrets, trackers/analytics, browsersecrets, `eval`, `new Function`, dynamisk import og uautoriserte runtime-URL-er. Corpus-, authoring- og audiomanifester inngår i checksums. Service worker er same-origin-only. Proofserveren tillater bare GET/HEAD, avviser usikre stier og setter CSP, `Permissions-Policy` med mikrofon/kamera/geolokasjon blokkert, `Referrer-Policy`, `X-Content-Type-Options` og frameblokkering.
 
-CycloneDX 1.5-SBOM og lisensinventar genereres deterministisk fra lockfilen. Runtime dependency count er 0. Dev-avhengighetene er `@types/node`/MIT, `typescript`/Apache-2.0 og transitiv `undici-types`/MIT; ingen lisens er uavklart. `npm audit --omit=dev` er obligatorisk siste ledd i `npm run check:release`; faktisk dato, exit code og sårbarhetstall føres i sluttrapport og CI.
+CycloneDX 1.5-SBOM og lisensinventar genereres deterministisk fra lockfilen. Runtime dependency count er 0. Dev-avhengighetene er `@types/node`/MIT, `typescript`/Apache-2.0 og transitiv `undici-types`/MIT; ingen lisens er uavklart. Artefaktsjekksummer bruker SHA-256 over LF-kanonisert UTF-8 for `.json`/`.ts` og rå bytes for binær WAV, slik at Git-autocrlf ikke endrer verifikasjonen mellom Windows og Linux. `npm audit --omit=dev` er obligatorisk siste ledd i `npm run check:release`; faktisk dato, exit code og sårbarhetstall føres i sluttrapport og CI.
 
 ## Reproducerbar build, provenance og ytelse
 
