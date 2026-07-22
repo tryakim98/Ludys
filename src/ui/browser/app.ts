@@ -1,6 +1,7 @@
 import { createSyntheticAppNavigation } from "../../composition/create-synthetic-app-navigation.js";
 import type { LifecycleRole } from "../../application/session-lifecycle-controller.js";
 import type { Locale } from "../../core/content-contracts.js";
+import type { CorpusLifecyclePolicy, DraftCorpusMode } from "../../core/draft-learning-corpus.js";
 import { renderSyntheticAppNavigation } from "./synthetic-app-navigation-templates.js";
 import { createLocalPwaCoordinator, type LocalPwaCoordinator } from "./pwa-status.js";
 
@@ -34,6 +35,24 @@ function announce(message: string, urgent = false): void {
 
 root.addEventListener("click", (event) => {
   const element = event.target as Element;
+  const modeButton = element.closest<HTMLButtonElement>("button[data-corpus-mode]");
+  if (modeButton !== null) {
+    controller.setCorpusMode(modeButton.dataset.corpusMode as DraftCorpusMode);
+    render(true);
+    return;
+  }
+  const classButton = element.closest<HTMLButtonElement>("button[data-pattern-class-id]");
+  if (classButton !== null) {
+    controller.selectPatternClass(classButton.dataset.patternClassId ?? "");
+    render(true);
+    return;
+  }
+  const activityButton = element.closest<HTMLButtonElement>("button[data-corpus-activity-id]");
+  if (activityButton !== null && !activityButton.disabled) {
+    controller.selectCorpusActivity(activityButton.dataset.corpusActivityId ?? "");
+    render(true);
+    return;
+  }
   const roleButton = element.closest<HTMLButtonElement>("button[data-app-role]");
   if (roleButton !== null) {
     controller.selectRole(roleButton.dataset.appRole as LifecycleRole);
@@ -61,7 +80,9 @@ root.addEventListener("click", (event) => {
     case "wait": controller.enterWait(); focus = true; break;
     case "help": controller.requestHelp(); focus = true; break;
     case "quiet": controller.requestQuiet(); break;
+    case "audio-spec": controller.requestCorpusAudioSpecification(); break;
     case "adult-wait": controller.adultWait(); break;
+    case "adult-prompt": controller.adultPrompt(); break;
     case "adult-model": controller.adultModel(); break;
     case "adult-dismiss": controller.adultDismiss(); break;
     case "confirm-reading": controller.confirmReading(); focus = true; break;
@@ -94,6 +115,50 @@ pwaCoordinator = createLocalPwaCoordinator({
 });
 pwaCoordinator.refresh();
 
+async function loadCorpusPolicy(): Promise<void> {
+  try {
+    await pwaCoordinator?.ready;
+    const response = await fetch("/web/corpus-lifecycle-policy.json", {
+      cache: "no-store",
+      credentials: "same-origin",
+    });
+    if (!response.ok) throw new Error(`corpus policy HTTP ${response.status}`);
+    controller.applyRestrictiveCorpusPolicy(await response.json() as CorpusLifecyclePolicy);
+    document.documentElement.dataset.corpusPolicy = "READY";
+  } catch {
+    controller.applyRestrictiveCorpusPolicy({
+      policyRevision: 1,
+      restrictions: controller.view.corpus.patternClasses.map((patternClass) => ({
+        scope: "PATTERN_CLASS" as const,
+        scopeId: patternClass.patternClassId,
+        lifecycleStatus: "STALE" as const,
+      })),
+      containsPersonData: false,
+      resurrectionAllowed: false,
+    });
+    document.documentElement.dataset.corpusPolicy = "FAILED_CLOSED";
+  }
+  document.documentElement.dataset.wp13_8Ready = "true";
+  render();
+}
+
+async function persistRestrictiveCorpusPolicy(policy: CorpusLifecyclePolicy): Promise<CorpusLifecyclePolicy> {
+  const registration = await navigator.serviceWorker.ready;
+  const worker = navigator.serviceWorker.controller ?? registration.active;
+  if (worker === null) throw new Error("active service worker unavailable for corpus policy");
+  return new Promise((resolve, reject) => {
+    const channel = new MessageChannel();
+    channel.port1.onmessage = (event: MessageEvent<{ ok: boolean; policy?: CorpusLifecyclePolicy; error?: string }>) => {
+      channel.port1.close();
+      if (event.data.ok && event.data.policy !== undefined) resolve(event.data.policy);
+      else reject(new Error(event.data.error ?? "corpus policy persistence failed"));
+    };
+    worker.postMessage({ type: "LUDYS_APPLY_RESTRICTIVE_CORPUS_POLICY", policy }, [channel.port2]);
+  });
+}
+
+const corpusPolicyReady = loadCorpusPolicy();
+
 Object.assign(window, {
   __WP13_7B__: {
     getViewModel: () => controller.view,
@@ -102,5 +167,15 @@ Object.assign(window, {
   __WP13_7C__: {
     ready: pwaCoordinator.ready,
     getPwaStatus: () => pwaCoordinator?.snapshot(),
+  },
+  __WP13_8__: {
+    ready: corpusPolicyReady,
+    getCorpusView: () => controller.view.corpus,
+    applyRestrictivePolicy: async (policy: CorpusLifecyclePolicy) => {
+      const persisted = await persistRestrictiveCorpusPolicy(policy);
+      controller.applyRestrictiveCorpusPolicy(persisted);
+      render(true);
+      return controller.view.corpus;
+    },
   },
 });

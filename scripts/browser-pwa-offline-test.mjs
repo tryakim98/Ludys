@@ -125,6 +125,7 @@ try {
   const pressAction = (action) => press(`[data-app-action=${action}]`);
 
   await waitForExpression("document.documentElement?.dataset.wp13_7cReady === 'true'");
+  await waitForExpression("document.documentElement?.dataset.wp13_8Ready === 'true'");
   await waitForExpression("document.querySelector('#pwa-status')?.dataset.worker === 'READY'");
   await waitForExpression("navigator.serviceWorker.controller !== null");
   assert.equal(await evaluate("navigator.serviceWorker.controller.scriptURL.endsWith('/web/service-worker.js')"), true);
@@ -137,12 +138,12 @@ try {
 
   const cacheProof = await evaluate(`(async () => {
     const names = await caches.keys();
-    const name = names.find((candidate) => candidate === 'ludys-shell-0.14.0-reconstructed.4');
+    const name = names.find((candidate) => candidate === 'ludys-shell-0.14.0-reconstructed.5');
     if (!name) return { names, urls: [] };
     const cache = await caches.open(name);
     return { names, urls: (await cache.keys()).map((request) => new URL(request.url).pathname) };
   })()`);
-  assert.ok(cacheProof.names.includes("ludys-shell-0.14.0-reconstructed.4"));
+  assert.ok(cacheProof.names.includes("ludys-shell-0.14.0-reconstructed.5"));
   assert.ok(cacheProof.urls.length >= 20);
   assert.ok(cacheProof.urls.includes("/web/index.html"));
   assert.ok(cacheProof.urls.includes("/dist/src/ui/browser/app.js"));
@@ -170,6 +171,7 @@ try {
   await waitForExpression("document.querySelector('#pwa-status')?.dataset.network === 'OFFLINE'");
   await client.send("Page.reload", { ignoreCache: true });
   await waitForExpression("document.documentElement?.dataset.wp13_7cReady === 'true'");
+  await waitForExpression("document.documentElement?.dataset.wp13_8Ready === 'true'");
   await evaluate("window.dispatchEvent(new Event('offline'))");
   await waitForExpression("document.querySelector('#pwa-status')?.dataset.network === 'OFFLINE'");
   assert.equal(await evaluate("window.__WP13_7B__.getViewModel().screen"), "WELCOME");
@@ -222,6 +224,7 @@ try {
   assert.equal(await evaluate("document.querySelector('#pwa-apply-update').disabled"), false);
   await press("#pwa-apply-update");
   await waitForExpression("document.documentElement?.dataset.wp13_7cReady === 'true'");
+  await waitForExpression("document.documentElement?.dataset.wp13_8Ready === 'true'");
   assert.equal(await evaluate("window.__WP13_7B__.getViewModel().screen"), "WELCOME");
   assert.notEqual(await evaluate("window.__WP13_7B__.getSessionId()"), offlineTerminalId);
 

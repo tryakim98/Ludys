@@ -119,8 +119,14 @@ try {
 
   const pressAction = (action) => press(`[data-app-action=${action}]`);
   const pressRole = (role) => press(`[data-app-role=${role}]`);
+  async function buildVisibleWord() {
+    const tileIds = await evaluate("[...document.querySelectorAll('[data-tile-id]')].map((node) => node.dataset.tileId)");
+    for (const tileId of tileIds) await press(`[data-tile-id=${JSON.stringify(tileId)}]`);
+    await pressAction("submit");
+  }
 
   await waitForExpression("document.documentElement.dataset.wp13_7bReady === 'true'");
+  await waitForExpression("document.documentElement.dataset.wp13_8Ready === 'true'");
   assert.match(await evaluate("location.pathname"), /\/web\/index\.html$/);
   assert.equal(await evaluate("window.__WP13_7B__.getViewModel().screen"), "WELCOME");
   assert.equal(await evaluate("document.querySelector('[data-synthetic-marker]')?.dataset.syntheticMarker"), "SYNTHETIC_TECHNICAL_DRAFT");
@@ -148,13 +154,13 @@ try {
   const firstId = await evaluate("window.__WP13_7B__.getSessionId()");
   assert.equal(await evaluate("window.__WP13_7B__.getViewModel().lifecycleState"), "ACTIVE");
 
-  await press("[data-tile-id=sol-s]");
+  await press("[data-app-action=select-tile]");
   await pressRole("ADULT");
   assert.equal(await evaluate("document.querySelector('[data-session-reference]').textContent"), firstId);
-  assert.match(await evaluate("document.body.textContent"), /Barnets konkrete valg.*s/is);
+  assert.match(await evaluate("document.body.textContent"), /Barnets konkrete valg.*r/is);
   assert.equal(await evaluate("document.querySelector('.adult-card') === null"), true);
   await pressRole("CHILD");
-  assert.deepEqual(await evaluate("window.__WP13_7B__.getViewModel().selectedGraphemes"), ["s"]);
+  assert.deepEqual(await evaluate("window.__WP13_7B__.getViewModel().selectedGraphemes"), ["r"]);
 
   await pressAction("quiet");
   assert.match(await evaluate("document.body.textContent"), /Systemet kan være stille/);
@@ -173,7 +179,7 @@ try {
   assert.match(await evaluate("document.body.textContent"), /ADULT: MODEL/);
   await pressAction("resume");
   await pressRole("CHILD");
-  assert.match(await evaluate("document.querySelector('.model-panel').textContent"), /sol/);
+  assert.match(await evaluate("document.querySelector('.model-panel').textContent"), /ris/);
 
   await pressAction("detect-stale");
   assert.equal(await evaluate("window.__WP13_7B__.getViewModel().lifecycleState"), "STALE");
@@ -200,13 +206,11 @@ try {
 
   for (const action of ["create", "role-child", "finish-loading", "start"]) await pressAction(action);
   assert.deepEqual(await evaluate("window.__WP13_7B__.getViewModel().selectedGraphemes"), []);
-  for (const tile of ["sol-s", "sol-o", "sol-l"]) await press(`[data-tile-id=${tile}]`);
-  await pressAction("submit");
+  await buildVisibleWord();
   await pressRole("ADULT");
   await pressAction("confirm-reading");
   await pressRole("CHILD");
-  for (const tile of ["mus-m", "mus-u", "mus-s"]) await press(`[data-tile-id=${tile}]`);
-  await pressAction("submit");
+  await buildVisibleWord();
   await pressRole("ADULT");
   await pressAction("confirm-reading");
   assert.equal(await evaluate("window.__WP13_7B__.getViewModel().lifecycleState"), "COMPLETED");

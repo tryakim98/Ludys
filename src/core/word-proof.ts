@@ -24,7 +24,7 @@ export interface WordProofDefinition {
   readonly revision: number;
   readonly locale: Locale;
   readonly ageBand: "6-9";
-  readonly patternClassId: typeof NORWEGIAN_PATTERN_CLASS_ID;
+  readonly patternClassId: string;
   readonly patternDescription: string;
   readonly target: WordProofTask;
   readonly transfer: WordProofTask;

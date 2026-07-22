@@ -1,6 +1,7 @@
 # LUDYS — rekonstruert R1-baseline
 
-**Versjon:** `0.14.0-reconstructed.4`
+**Versjon:** `0.14.0-reconstructed.5`
+
 **Status:** intern, lokal og syntetisk rekonstruksjonsbaseline  
 **Pilot/B8:** ikke autorisert
 
@@ -15,15 +16,18 @@ Den er **ikke** den tapte historiske versjonen `0.13.1`, og den påstår ikke å
 - Human-Presence-First: `WAIT`, hjelp, arbeidsro, pause, stopp og voksenoverstyring
 - støtteproveniens og skille mellom støttet og uavhengig respons
 - BM- og NN-bundles med stabile semantiske ID-er
+- review-gated WP13.8-corpus med fire norske draftklasser, åtte aktiviteter og eksplisitte BM-/NN-varianter
+- støtteproveniens, voksenkort, knowledge/context og 48 ikke-innspilte lydspesifikasjoner
+- restriktiv content-lifecycle for `CURRENT / STALE / SUPERSEDED / WITHDRAWN` uten session- eller persondata i PWA-cache
 - lite Audio Content System og Knowledge Content System
 - tilgjengelig browserproof og 320 px reflow
 - B8-evidensmotor som ikke kan autorisere pilot
-- 55 kompilerte tester og tre Chromium-bevis
+- 97 kompilerte tester, service-worker-kontrakt og åtte Chromium-bevis
 - maskinell rekonstruksjonsvakt
 
 ## Det som ikke er rekonstruert ennå
 
-Den fulle syntetiske ende-til-ende-applikasjonen, PWA/offline-shell, komplett sesjonslivsløp, reconnect/recovery, provider-/emulatorarbeid, senere Product Excellence-innhold og ekstern evidens står i `docs/RECONSTRUCTION_GAP_REGISTER.md`.
+Ekstern språk-/målform-/uttale-/co-design-review, validert progresjon, faktisk lydproduksjon, authoringpipeline, produksjonsdeployment, provider-/emulatorarbeid, betaautorisasjon og ekstern evidens står fortsatt i `docs/RECONSTRUCTION_GAP_REGISTER.md`.
 
 ## Kjøring
 
