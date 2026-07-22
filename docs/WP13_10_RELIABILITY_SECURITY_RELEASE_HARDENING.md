@@ -55,7 +55,7 @@ CycloneDX 1.5-SBOM og lisensinventar genereres deterministisk fra lockfilen. Run
 
 ## Reproducerbar build, provenance og ytelse
 
-To uavhengige tempkopier kjører `npm ci --offline --ignore-scripts --audit=false --fund=false` og `npm run build` fra samme kilde og lockfil. Begge ga dist-SHA-256 `6c036ddb22490a7a66758e1270cb1aece840fb100635f98fcbf4b223cf33bf6a`. Digesten hasher relative paths og bytes; byggmetadata inneholder ingen runtime timestamp. Lokal verifikasjon brukte Node `v24.18.0`, npm `11.16.0` og `win32-x64`. Dette er lokal reproducerbarhet, ikke signert produksjonsattestasjon.
+To uavhengige tempkopier kjører `npm ci --offline --ignore-scripts --audit=false --fund=false` og `npm run build` fra samme kilde og lockfil. Begge ga dist-SHA-256 `afddb44dd597180f9f8dea50d05546ba85dad43642cb3ef01492ca05861b2213`, identisk med Ubuntu-CI etter at TypeScript-kilder ble låst til LF checkout og compileroutput til LF. Digesten hasher relative paths og bytes; byggmetadata inneholder ingen runtime timestamp. Lokal verifikasjon brukte Node `v24.18.0`, npm `11.16.0` og `win32-x64`. Dette er lokal reproducerbarhet, ikke signert produksjonsattestasjon.
 
 Målte verdier mot eksplisitte budsjetter:
 

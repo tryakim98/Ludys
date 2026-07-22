@@ -16,6 +16,7 @@
     "skipLibCheck": true,
     "declaration": true,
     "sourceMap": true,
+    "newLine": "lf",
     "lib": [
       "ES2022",
       "DOM",
