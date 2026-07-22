@@ -16,15 +16,7 @@ function beginActive(role: "CHILD" | "ADULT" = "CHILD") {
 
 function buildCurrentWord(controller: ReturnType<typeof createSyntheticAppNavigation>["controller"]): void {
   const view = controller.view as ChildAppJourneyView;
-  const orderedIds = view.tiles
-    .slice()
-    .sort((left, right) => {
-      const order = view.taskPrompt?.includes("lite") || view.taskPrompt?.includes("lite dyr")
-        ? ["mus-m", "mus-u", "mus-s"]
-        : ["sol-s", "sol-o", "sol-l"];
-      return order.indexOf(left.tileId) - order.indexOf(right.tileId);
-    })
-    .map((tile) => tile.tileId);
+  const orderedIds = view.tiles.map((tile) => tile.tileId);
   for (const tileId of orderedIds) controller.selectTile(tileId);
   controller.submitBuild();
 }
@@ -46,21 +38,23 @@ test("normal journey exposes welcome, explicit creation, role loading and orient
 test("child and adult are restricted projections of one authoritative session", () => {
   const { controller } = beginActive();
   const sessionId = controller.sessionId;
-  controller.selectTile("sol-s");
+  const firstTileId = (controller.view as ChildAppJourneyView).tiles[0]?.tileId;
+  assert.notEqual(firstTileId, undefined);
+  controller.selectTile(firstTileId ?? "");
   const child = controller.view as unknown as Record<string, unknown>;
   assert.equal(child.selectedRole, "CHILD");
   assert.equal("sessionReference" in child, false);
   assert.equal("adultCard" in child, false);
-  assert.deepEqual(child.selectedGraphemes, ["s"]);
+  assert.deepEqual(child.selectedGraphemes, ["r"]);
 
   controller.selectRole("ADULT");
   const adult = controller.view as AdultAppJourneyView;
   assert.equal(adult.sessionReference, sessionId);
-  assert.deepEqual(adult.observedChildChoices, ["s"]);
+  assert.deepEqual(adult.observedChildChoices, ["r"]);
   assert.equal("taskPrompt" in (adult as unknown as Record<string, unknown>), false);
 
   controller.selectRole("CHILD");
-  assert.deepEqual((controller.view as ChildAppJourneyView).selectedGraphemes, ["s"]);
+  assert.deepEqual((controller.view as ChildAppJourneyView).selectedGraphemes, ["r"]);
 });
 
 test("WAIT, help, dismissible adult card, visible provenance, quiet, pause and resume work", () => {
@@ -99,7 +93,7 @@ test("full word journey completes with a neutral summary", () => {
 
 test("STOP and delete dominate reconnect while a new session has no leaked state", () => {
   const { controller, repository } = beginActive();
-  controller.selectTile("sol-s");
+  controller.selectTile((controller.view as ChildAppJourneyView).tiles[0]?.tileId ?? "");
   const firstId = controller.sessionId;
   controller.stop();
   controller.reconnect();

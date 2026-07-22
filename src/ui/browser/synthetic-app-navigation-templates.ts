@@ -78,12 +78,33 @@ interface AppCopy {
   readonly recoveryTitle: string;
   readonly recoveryStatus: string;
   readonly noProvenance: string;
+  readonly corpusTitle: string;
+  readonly corpusBoundary: string;
+  readonly normalMode: string;
+  readonly reviewMode: string;
+  readonly classHeading: string;
+  readonly activityHeading: string;
+  readonly targetLabel: string;
+  readonly transferLabel: string;
+  readonly reviewDecision: string;
+  readonly lifecycle: string;
+  readonly reviewOnly: string;
+  readonly blocked: string;
+  readonly understandLabel: string;
+  readonly deepenLabel: string;
+  readonly expiresLabel: string;
+  readonly showPrompt: string;
+  readonly context: string;
+  readonly evidence: string;
+  readonly audioSpec: string;
+  readonly noAutomaticPlacement: string;
+  readonly cannotProveLabel: string;
 }
 
 export const appCopy: Readonly<Record<Locale, AppCopy>> = {
   "nb-NO": {
     skip: "Hopp til hovedinnholdet",
-    eyebrow: "WP13.7B · lokal syntetisk demonstrasjon",
+    eyebrow: "WP13.8 · lokalt review-gated corpusutkast",
     product: "LUDYS – sammenhengende appreise",
     language: "Målform",
     welcomeTitle: "Velkommen til en lokal demonstrasjon",
@@ -153,10 +174,31 @@ export const appCopy: Readonly<Record<Locale, AppCopy>> = {
     recoveryTitle: "Lokal gjenoppretting",
     recoveryStatus: "Den autoritative lokale økten beholdes mens gjenoppretting kontrolleres.",
     noProvenance: "Ingen menneskelig støtte er valgt i denne økten.",
+    corpusTitle: "Urevidert norsk draftcorpus",
+    corpusBoundary: "Alt innhold er DRAFT, EXTERNAL_REVIEW_REQUIRED, SYNTHETIC_ONLY og NOT_STUDENT_BETA.",
+    normalMode: "Vanlig syntetisk modus",
+    reviewMode: "Reviewmodus",
+    classHeading: "Fire foreløpige mønsterklasser",
+    activityHeading: "Aktiviteter i valgt klasse",
+    targetLabel: "Måloppgave",
+    transferLabel: "Separat transfer",
+    reviewDecision: "Intern PEX-A01-status",
+    lifecycle: "Content-lifecycle",
+    reviewOnly: "Bare reviewmodus",
+    blocked: "Aktiviteten kan ikke startes i denne modusen eller lifecycle-statusen.",
+    understandLabel: "Forstå",
+    deepenLabel: "Fordyp deg",
+    expiresLabel: "Utløper",
+    showPrompt: "Gi ett konkret hint",
+    context: "Kontekstreferanse",
+    evidence: "Separate forsøk og støttebevis",
+    audioSpec: "Vis lydspesifikasjon",
+    noAutomaticPlacement: "En voksen velger. Systemet bruker ingen samlet score og gjør ingen automatisk nivåplassering.",
+    cannotProveLabel: "Kan ikke bevise",
   },
   "nn-NO": {
     skip: "Hopp til hovudinnhaldet",
-    eyebrow: "WP13.7B · lokal syntetisk demonstrasjon",
+    eyebrow: "WP13.8 · lokalt review-gated korpusutkast",
     product: "LUDYS – samanhengande appreise",
     language: "Målform",
     welcomeTitle: "Velkomen til ein lokal demonstrasjon",
@@ -226,6 +268,27 @@ export const appCopy: Readonly<Record<Locale, AppCopy>> = {
     recoveryTitle: "Lokal gjenoppretting",
     recoveryStatus: "Den autoritative lokale økta blir halden ved lag medan gjenopprettinga blir kontrollert.",
     noProvenance: "Ingen menneskeleg støtte er vald i denne økta.",
+    corpusTitle: "Urevidert norsk utkastkorpus",
+    corpusBoundary: "Alt innhald er DRAFT, EXTERNAL_REVIEW_REQUIRED, SYNTHETIC_ONLY og NOT_STUDENT_BETA.",
+    normalMode: "Vanleg syntetisk modus",
+    reviewMode: "Reviewmodus",
+    classHeading: "Fire førebelse mønsterklassar",
+    activityHeading: "Aktivitetar i vald klasse",
+    targetLabel: "Måloppgåve",
+    transferLabel: "Separat transfer",
+    reviewDecision: "Intern PEX-A01-status",
+    lifecycle: "Content-lifecycle",
+    reviewOnly: "Berre reviewmodus",
+    blocked: "Aktiviteten kan ikkje startast i denne modusen eller lifecycle-statusen.",
+    understandLabel: "Forstå",
+    deepenLabel: "Fordjup deg",
+    expiresLabel: "Går ut",
+    showPrompt: "Gi eitt konkret hint",
+    context: "Kontekstreferanse",
+    evidence: "Separate forsøk og støttebevis",
+    audioSpec: "Vis lydspesifikasjon",
+    noAutomaticPlacement: "Ein vaksen vel. Systemet bruker ingen samla skår og gjer inga automatisk nivåplassering.",
+    cannotProveLabel: "Kan ikkje bevise",
   },
 };
 
@@ -262,8 +325,38 @@ function escapeHtml(value: string): string {
     .replaceAll('"', "&quot;");
 }
 
-function action(action: string, label: string, className = ""): string {
-  return `<button type="button" data-app-action="${action}" class="${className}">${escapeHtml(label)}</button>`;
+function action(action: string, label: string, className = "", disabled = false): string {
+  return `<button type="button" data-app-action="${action}" class="${className}" ${disabled ? "disabled" : ""}>${escapeHtml(label)}</button>`;
+}
+
+function renderCorpusOverview(view: SyntheticAppJourneyView, copy: AppCopy): string {
+  const selectedClass = view.corpus.patternClasses.find((item) => item.selected);
+  const activities = view.corpus.activities.filter(
+    (item) => item.patternClassId === view.corpus.selectedPatternClassId && item.visible,
+  );
+  return `<section class="corpus-overview" aria-labelledby="corpus-title" data-corpus-mode="${view.corpus.mode}">
+    <h3 id="corpus-title">${escapeHtml(copy.corpusTitle)}</h3>
+    <p class="corpus-boundary">${escapeHtml(copy.corpusBoundary)}</p>
+    <div class="corpus-badges" aria-label="Draftstatus"><span>${view.corpus.status}</span><span>${view.corpus.reviewStatus}</span><span>${view.corpus.evidenceStatus}</span><span>${view.corpus.betaStatus}</span></div>
+    <div class="button-row corpus-mode-switch" aria-label="${escapeHtml(copy.reviewMode)}">
+      <button type="button" data-corpus-mode="NORMAL_SYNTHETIC" aria-pressed="${String(view.corpus.mode === "NORMAL_SYNTHETIC")}">${escapeHtml(copy.normalMode)}</button>
+      <button type="button" data-corpus-mode="REVIEW" aria-pressed="${String(view.corpus.mode === "REVIEW")}">${escapeHtml(copy.reviewMode)}</button>
+    </div>
+    <h4>${escapeHtml(copy.classHeading)}</h4>
+    <div class="corpus-class-grid">${view.corpus.patternClasses.map((item) => `<button type="button" data-pattern-class-id="${escapeHtml(item.patternClassId)}" aria-pressed="${String(item.selected)}"><strong>${escapeHtml(item.title)}</strong><span>${escapeHtml(item.patternClassId)}</span><span>${escapeHtml(item.lifecycleStatus)}</span></button>`).join("")}</div>
+    ${selectedClass === undefined ? "" : `<aside class="corpus-safety"><p>${escapeHtml(selectedClass.safetySummary)}</p><p><strong>${escapeHtml(copy.cannotProveLabel)}:</strong> ${escapeHtml(selectedClass.cannotProve)}</p></aside>`}
+    <h4>${escapeHtml(copy.activityHeading)}</h4>
+    <div class="corpus-activity-grid">${activities.map((item) => `<article data-corpus-activity-card="${escapeHtml(item.activityId)}" data-review-decision="${item.internalReviewDecision}">
+      <h5>${escapeHtml(item.title)}</h5>
+      <p><strong>${escapeHtml(copy.targetLabel)}:</strong> ${escapeHtml(item.target)} · <strong>${escapeHtml(copy.transferLabel)}:</strong> ${escapeHtml(item.transfer)}</p>
+      <p><strong>${escapeHtml(copy.reviewDecision)}:</strong> ${escapeHtml(item.internalReviewDecision)}</p>
+      <p><strong>${escapeHtml(copy.lifecycle)}:</strong> ${escapeHtml(item.lifecycleStatus)}</p>
+      ${item.internalReviewDecision === "CHANGES_REQUIRED" ? `<p class="review-only">${escapeHtml(copy.reviewOnly)}</p>` : ""}
+      <button type="button" data-corpus-activity-id="${escapeHtml(item.activityId)}" aria-pressed="${String(item.selected)}" ${item.selectable ? "" : "disabled"}>${escapeHtml(item.selected ? item.title : `${copy.activityHeading}: ${item.title}`)}</button>
+    </article>`).join("")}</div>
+    ${view.corpus.lastBlockReason === undefined ? "" : `<p class="corpus-block" role="alert">${escapeHtml(copy.blocked)} ${escapeHtml(view.corpus.lastBlockReason)}</p>`}
+    <p class="no-placement">${escapeHtml(copy.noAutomaticPlacement)}</p>
+  </section>`;
 }
 
 function roleNavigation(view: SyntheticAppJourneyView, copy: AppCopy): string {
@@ -289,7 +382,9 @@ function renderChildActivity(view: ChildAppJourneyView, copy: AppCopy): string {
     : view.selectedGraphemes.map((value) => `<span class="selected-tile">${escapeHtml(value)}</span>`).join("");
   return `<section class="journey-card child-view" aria-labelledby="screen-title">
     <p class="eyebrow">${escapeHtml(copy.childTitle)}</p>
-    <h2 id="screen-title" tabindex="-1">${escapeHtml(view.taskPrompt ?? copy.summaryTitle)}</h2>
+    <h2 id="screen-title" tabindex="-1">${escapeHtml(view.activityTitle)}</h2>
+    <p class="draft-status">DRAFT · EXTERNAL_REVIEW_REQUIRED · SYNTHETIC_ONLY · NOT_STUDENT_BETA</p>
+    <p>${escapeHtml(view.taskPrompt ?? copy.summaryTitle)}</p>
     <p>${escapeHtml(copy.chooseLetters)}</p>
     ${view.modelWord === undefined ? "" : `<p class="model-panel">${escapeHtml(copy.modelLabel)}: <strong>${escapeHtml(view.modelWord)}</strong></p>`}
     <div class="selected-word" aria-label="${escapeHtml(copy.selected)}">${choices}</div>
@@ -298,8 +393,10 @@ function renderChildActivity(view: ChildAppJourneyView, copy: AppCopy): string {
       : `<div class="tile-grid">${view.tiles.map((tile) => `<button type="button" data-app-action="select-tile" data-tile-id="${escapeHtml(tile.tileId)}" aria-label="${escapeHtml(copy.selectLetter)} ${escapeHtml(tile.grapheme)}">${escapeHtml(tile.grapheme)}</button>`).join("")}</div>
          <div class="button-row">${action("undo", copy.undo)}${action("submit", copy.submit)}</div>`}
     <p class="status-line" role="status">${escapeHtml(feedbackText[view.locale][view.feedbackCode])}</p>
+    <p class="draft-feedback" data-draft-feedback>${escapeHtml(view.draftFeedback)}</p>
     ${view.quietMode ? `<p class="quiet-panel">${escapeHtml(copy.quietStatus)}</p>` : ""}
-    <div class="button-row">${action("wait", copy.wait)}${action("help", copy.help)}${action("quiet", copy.quiet)}</div>
+    <div class="button-row">${action("wait", copy.wait)}${action("help", copy.help)}${action("quiet", copy.quiet)}${action("audio-spec", copy.audioSpec)}</div>
+    <p data-audio-state>${escapeHtml(view.audioState)}</p>
     ${sessionActions(copy)}
     <div class="button-row">${action("reconnect", copy.reconnect)}${action("detect-stale", copy.simulateLoss)}</div>
     <aside class="transparency-panel"><h3>${escapeHtml(copy.transparencyTitle)}</h3><p>${escapeHtml(copy.systemLimits)}</p></aside>
@@ -321,14 +418,18 @@ function renderAdultActivity(view: AdultAppJourneyView, copy: AppCopy): string {
     ${view.humanDecisionRequired ? `<p class="human-decision" role="status">${escapeHtml(copy.humanDecision)}</p>` : ""}
     ${card === undefined ? "" : `<article class="adult-card" aria-labelledby="adult-card-title">
       <h3 id="adult-card-title">${escapeHtml(copy.adultCardTitle)}</h3>
-      <p>${escapeHtml(card.observedState)}</p><p>${escapeHtml(card.uncertainty)}</p>
-      <p><strong>${escapeHtml(copy.sayLabel)}:</strong> ${escapeHtml(card.sayExample)}</p>
-      <p><strong>${escapeHtml(copy.avoidLabel)}:</strong> ${escapeHtml(card.avoidExample)}</p>
-      <div class="button-row">${action("adult-wait", copy.wait)}${action("adult-model", copy.showModel)}${action("adult-dismiss", copy.dismiss)}</div>
+      <p><strong>${escapeHtml(copy.understandLabel)}:</strong> ${escapeHtml(card.understand)}</p>
+      <p><strong>${escapeHtml(copy.sayLabel)}:</strong> ${escapeHtml(card.doOrSay)}</p>
+      <p><strong>${escapeHtml(copy.avoidLabel)}:</strong> ${escapeHtml(card.avoid)}</p>
+      <p><strong>${escapeHtml(copy.deepenLabel)}:</strong> ${escapeHtml(card.deepen)}</p>
+      <p><strong>${escapeHtml(copy.expiresLabel)}:</strong> ${escapeHtml(card.expiresWhen)}</p>
+      <div class="button-row">${action("adult-wait", copy.wait)}${action("adult-prompt", copy.showPrompt)}${action("adult-model", copy.showModel)}${action("adult-dismiss", copy.dismiss)}</div>
     </article>`}
     ${view.activityStage.endsWith("READ_CONFIRMATION") && view.lifecycleState === "ACTIVE" ? action("confirm-reading", copy.confirmReading) : ""}
-    <p><strong>${escapeHtml(copy.knowledge)}:</strong> ${escapeHtml(view.knowledgeReference)}</p>
+    <p><strong>${escapeHtml(copy.knowledge)}:</strong> ${escapeHtml(view.knowledgeReference)} · ${escapeHtml(view.knowledgeSummary)}</p>
+    <p><strong>${escapeHtml(copy.context)}:</strong> ${escapeHtml(view.contextReference)}</p>
     <section><h3>${escapeHtml(copy.provenance)}</h3>${view.supportProvenance.length === 0 ? `<p>${escapeHtml(copy.noProvenance)}</p>` : `<ul>${view.supportProvenance.map((item) => `<li>${escapeHtml(item.source)}: ${escapeHtml(item.action)} · ${escapeHtml(item.cardId)}</li>`).join("")}</ul>`}</section>
+    <section><h3>${escapeHtml(copy.evidence)}</h3><ul data-attempt-evidence>${view.attemptEvidence.map((item) => `<li>${item.sequence}: ${item.kind} · ${item.evidence} · ${item.supportLevel}</li>`).join("")}</ul></section>
     ${view.lifecycleState === "WAITING" ? sessionActions(copy, true) : sessionActions(copy)}
     <div class="button-row">${action("reconnect", copy.reconnect)}${action("detect-stale", copy.simulateLoss)}</div>
     <aside class="transparency-panel"><h3>${escapeHtml(copy.boundaryTitle)}</h3><p>${escapeHtml(copy.systemLimits)}</p></aside>
@@ -344,7 +445,7 @@ function renderCurrentScreen(view: SyntheticAppJourneyView, copy: AppCopy): stri
     case "LOADING":
       return `<section class="journey-card" aria-labelledby="screen-title" aria-busy="true"><h2 id="screen-title" tabindex="-1">${escapeHtml(copy.loadingTitle)}</h2><p role="status">${escapeHtml(copy.loadingBody)}</p>${action("finish-loading", copy.finishLoading, "primary-action")}</section>`;
     case "ORIENTATION":
-      return `<section class="journey-card" aria-labelledby="screen-title"><h2 id="screen-title" tabindex="-1">${escapeHtml(copy.orientationTitle)}</h2><p>${escapeHtml(copy.orientationBody)}</p><p>${escapeHtml(copy.systemLimits)}</p>${action("start", copy.begin, "primary-action")}</section>`;
+      return `<section class="journey-card" aria-labelledby="screen-title"><h2 id="screen-title" tabindex="-1">${escapeHtml(copy.orientationTitle)}</h2><p>${escapeHtml(copy.orientationBody)}</p><p>${escapeHtml(copy.systemLimits)}</p>${renderCorpusOverview(view, copy)}${action("start", copy.begin, "primary-action", !view.corpus.canStartSelected)}</section>`;
     case "ACTIVITY":
       return view.selectedRole === "CHILD" ? renderChildActivity(view, copy) : view.selectedRole === "ADULT" ? renderAdultActivity(view, copy) : "";
     case "WAITING":

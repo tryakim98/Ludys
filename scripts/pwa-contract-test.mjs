@@ -71,6 +71,14 @@ function createWorkerRuntime(options = {}) {
     const url = new URL(absoluteUrl(request));
     if (offline) throw new Error("synthetic offline");
     if (failurePaths.has(url.pathname)) return new Response("missing", { status: 404 });
+    if (url.pathname === "/web/corpus-lifecycle-policy.json") {
+      return new Response(JSON.stringify({
+        policyRevision: 1,
+        restrictions: [],
+        containsPersonData: false,
+        resurrectionAllowed: false,
+      }), { status: 200, headers: { "content-type": "application/json" } });
+    }
     return new Response(`shell:${url.pathname}`, {
       status: 200,
       headers: { "content-type": "text/plain" },
@@ -101,8 +109,14 @@ function createWorkerRuntime(options = {}) {
     return responsePromise === undefined ? undefined : responsePromise;
   }
 
-  function dispatchMessage(data) {
-    listeners.get("message")?.({ data });
+  async function dispatchMessage(data, ports = []) {
+    let completion;
+    listeners.get("message")?.({
+      data,
+      ports,
+      waitUntil: (promise) => { completion = Promise.resolve(promise); },
+    });
+    await completion;
   }
 
   return {
@@ -140,8 +154,11 @@ test("service worker install caches the deterministic shell and fails on a missi
   const runtime = createWorkerRuntime();
   await runtime.dispatchLifecycle("install");
   const cacheNames = await runtime.caches.keys();
-  assert.deepEqual(cacheNames, ["ludys-shell-0.14.0-reconstructed.4"]);
-  const shellCache = runtime.cacheStore.get(cacheNames[0]);
+  assert.deepEqual(cacheNames.sort(), [
+    "ludys-content-policy-1",
+    "ludys-shell-0.14.0-reconstructed.5",
+  ]);
+  const shellCache = runtime.cacheStore.get("ludys-shell-0.14.0-reconstructed.5");
   assert.ok(shellCache.entries.size >= 20);
   assert.ok(shellCache.entries.has(`${origin}/web/index.html`));
   assert.ok(shellCache.entries.has(`${origin}/dist/src/ui/browser/app.js`));
@@ -162,7 +179,7 @@ test("activate removes only obsolete LUDYS shell caches", async () => {
   await runtime.dispatchLifecycle("activate");
   assert.deepEqual(
     (await runtime.caches.keys()).sort(),
-    ["ludys-shell-0.14.0-reconstructed.4", "unrelated-application-cache"],
+    ["ludys-content-policy-1", "ludys-shell-0.14.0-reconstructed.5", "unrelated-application-cache"],
   );
   assert.equal(runtime.claimed(), 1);
 });
@@ -212,16 +229,58 @@ test("mutating and external requests are never intercepted or cached", async () 
   assert.equal(after, before);
 });
 
-test("update activation is message-controlled and never automatic", () => {
+test("update activation is message-controlled and never automatic", async () => {
   const runtime = createWorkerRuntime();
   assert.equal(runtime.skipped(), 0);
-  runtime.dispatchMessage({ type: "UNRELATED" });
+  await runtime.dispatchMessage({ type: "UNRELATED" });
   assert.equal(runtime.skipped(), 0);
-  runtime.dispatchMessage({ type: "LUDYS_ACTIVATE_UPDATE" });
+  await runtime.dispatchMessage({ type: "LUDYS_ACTIVATE_UPDATE" });
   assert.equal(runtime.skipped(), 1);
   assert.equal((workerSource.match(/self\.skipWaiting\(\)/g) ?? []).length, 1);
   assert.doesNotMatch(workerSource, /caches\.match\(/);
   assert.match(workerSource, /caches\.open\(LUDYS_SHELL_CACHE\)/);
+});
+
+test("restrictive corpus policy survives offline reload and cannot be relaxed by cache", async () => {
+  const runtime = createWorkerRuntime();
+  await runtime.dispatchLifecycle("install");
+  let reply;
+  await runtime.dispatchMessage({
+    type: "LUDYS_APPLY_RESTRICTIVE_CORPUS_POLICY",
+    policy: {
+      policyRevision: 2,
+      restrictions: [{
+        scope: "ACTIVITY",
+        scopeId: "activity-nor-single-final-ris-sil-001",
+        lifecycleStatus: "WITHDRAWN",
+      }],
+      containsPersonData: false,
+      resurrectionAllowed: false,
+    },
+  }, [{ postMessage: (value) => { reply = value; } }]);
+  assert.equal(reply?.ok, true);
+  await runtime.dispatchMessage({
+    type: "LUDYS_APPLY_RESTRICTIVE_CORPUS_POLICY",
+    policy: {
+      policyRevision: 3,
+      restrictions: [],
+      containsPersonData: false,
+      resurrectionAllowed: false,
+    },
+  });
+  runtime.setOffline(true);
+  const response = await runtime.dispatchFetch({
+    method: "GET",
+    mode: "same-origin",
+    url: `${origin}/web/corpus-lifecycle-policy.json`,
+  });
+  const persisted = await response.json();
+  assert.equal(persisted.resurrectionAllowed, false);
+  assert.deepEqual(persisted.restrictions, [{
+    scope: "ACTIVITY",
+    scopeId: "activity-nor-single-final-ris-sil-001",
+    lifecycleStatus: "WITHDRAWN",
+  }]);
 });
 
 test("terminal offline fallback copy is explicitly human-reviewed in contract", () => {
@@ -236,7 +295,7 @@ test("cache inventory contains no session, user, profile, API or external origin
   const urls = [...runtime.cacheStore.values()]
     .flatMap((cache) => [...cache.entries.keys()]);
   assert.ok(urls.every((url) => new URL(url).origin === origin));
-  assert.ok(urls.every((url) => /\.(?:html|css|js|svg|webmanifest)$/i.test(new URL(url).pathname)));
+  assert.ok(urls.every((url) => /\.(?:html|css|js|json|svg|webmanifest)$/i.test(new URL(url).pathname)));
   assert.ok(urls.every((url) => !/\/(?:api|users?|students?|profiles?|sessions?)\//i.test(new URL(url).pathname)));
   assert.doesNotMatch(workerSource, /localStorage|indexedDB|\bsync\b|\bpush\b|Notification/);
 });

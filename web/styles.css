@@ -410,6 +410,52 @@ summary { cursor: pointer; font-weight: 700; min-height: 2.75rem; display: flex;
 }
 .pwa-status-panel h2 { font-size: 1.25rem; }
 .pwa-status-panel[data-network="OFFLINE"] { border-style: dashed; }
+.corpus-overview {
+  border: 3px solid currentColor;
+  border-radius: 0.75rem;
+  display: grid;
+  gap: 1rem;
+  padding: 1rem;
+}
+.corpus-boundary,
+.corpus-safety,
+.corpus-block,
+.no-placement,
+.draft-status,
+.draft-feedback,
+.review-only {
+  border: 2px dashed currentColor;
+  border-radius: 0.5rem;
+  padding: 0.75rem;
+}
+.corpus-badges { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+.corpus-badges span {
+  border: 2px solid currentColor;
+  border-radius: 999px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  padding: 0.3rem 0.65rem;
+}
+.corpus-class-grid,
+.corpus-activity-grid {
+  display: grid;
+  gap: 0.75rem;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+.corpus-class-grid button { display: grid; gap: 0.35rem; text-align: left; }
+.corpus-class-grid button[aria-pressed="true"],
+.corpus-mode-switch button[aria-pressed="true"],
+.corpus-activity-grid button[aria-pressed="true"] { border-width: 4px; }
+.corpus-activity-grid article {
+  border: 2px solid currentColor;
+  border-radius: 0.5rem;
+  display: grid;
+  gap: 0.65rem;
+  padding: 0.85rem;
+}
+.corpus-activity-grid article[data-review-decision="CHANGES_REQUIRED"] { border-style: dashed; }
+.corpus-activity-grid h5 { font-size: 1rem; margin: 0; }
+.draft-status { font-weight: 700; overflow-wrap: anywhere; }
 
 @media (max-width: 38rem) {
   .app-role-nav,
@@ -421,4 +467,6 @@ summary { cursor: pointer; font-weight: 700; min-height: 2.75rem; display: flex;
   .role-choice button,
   .tile-grid button { width: 100%; }
   .observable-state div { grid-template-columns: 1fr; }
+  .corpus-class-grid,
+  .corpus-activity-grid { grid-template-columns: 1fr; }
 }

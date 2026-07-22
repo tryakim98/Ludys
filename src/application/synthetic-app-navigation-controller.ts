@@ -6,7 +6,13 @@ import type {
   LifecycleSessionRepositoryPort,
   ReconnectTransportPort,
 } from "../ports/session-lifecycle.js";
-import type { HumanFirstContentBundle, Locale } from "../core/content-contracts.js";
+import type { Locale } from "../core/content-contracts.js";
+import type {
+  CorpusLifecyclePolicy,
+  DraftAdultCard,
+  DraftCorpusMode,
+  DraftLearningCorpusRelease,
+} from "../core/draft-learning-corpus.js";
 import type { LifecycleState } from "../core/session-lifecycle.js";
 import {
   createWordProofState,
@@ -18,6 +24,7 @@ import {
   type WordProofStage,
   type WordProofState,
 } from "../core/word-proof.js";
+import { DraftCorpusController, type DraftCorpusView } from "./draft-corpus-controller.js";
 
 export type AppJourneyScreen =
   | "WELCOME"
@@ -31,14 +38,9 @@ export type AppJourneyScreen =
   | "SUMMARY"
   | "DELETED";
 
-export interface SyntheticAppContentSet {
-  readonly definition: WordProofDefinition;
-  readonly content: HumanFirstContentBundle;
-}
-
 export interface HumanSupportRecord {
   readonly source: "ADULT";
-  readonly action: "MODEL";
+  readonly action: "PROMPT" | "MODEL";
   readonly cardId: string;
 }
 
@@ -52,6 +54,7 @@ interface AppJourneyViewBase {
   readonly lastErrorCode: string | undefined;
   readonly terminalReconnectProved: boolean;
   readonly activityStage: WordProofStage;
+  readonly corpus: DraftCorpusView;
 }
 
 export interface AppJourneyUnselectedView extends AppJourneyViewBase {
@@ -67,6 +70,9 @@ export interface ChildAppJourneyView extends AppJourneyViewBase {
   readonly modelWord: string | undefined;
   readonly feedbackCode: WordProofFeedbackCode;
   readonly quietMode: boolean;
+  readonly activityTitle: string;
+  readonly draftFeedback: string;
+  readonly audioState: DraftCorpusView["audioState"];
 }
 
 export interface AdultAppJourneyView extends AppJourneyViewBase {
@@ -74,10 +80,13 @@ export interface AdultAppJourneyView extends AppJourneyViewBase {
   readonly sessionReference: string | undefined;
   readonly observedVersion: number;
   readonly observedChildChoices: readonly string[];
-  readonly adultCard: HumanFirstContentBundle["adultCard"] | undefined;
+  readonly adultCard: DraftAdultCard | undefined;
   readonly knowledgeReference: string;
+  readonly contextReference: string;
+  readonly knowledgeSummary: string;
   readonly humanDecisionRequired: boolean;
   readonly supportProvenance: readonly HumanSupportRecord[];
+  readonly attemptEvidence: DraftCorpusView["attempts"];
 }
 
 export type SyntheticAppJourneyView =
@@ -112,10 +121,9 @@ export class SyntheticAppNavigationController {
   readonly #idGenerator: IdGenerationPort;
   readonly #transport: ReconnectTransportPort;
   readonly #observability: LifecycleObservabilityPort;
-  readonly #contentByLocale: Readonly<Record<Locale, SyntheticAppContentSet>>;
+  readonly #corpus: DraftCorpusController;
   #lifecycle: SessionLifecycleController;
   #definition: WordProofDefinition;
-  #content: HumanFirstContentBundle;
   #proof: WordProofState;
   #selectedRole: LifecycleRole | undefined;
   #quietMode = false;
@@ -130,17 +138,15 @@ export class SyntheticAppNavigationController {
     readonly idGenerator: IdGenerationPort;
     readonly transport: ReconnectTransportPort;
     readonly observability: LifecycleObservabilityPort;
-    readonly contentByLocale: Readonly<Record<Locale, SyntheticAppContentSet>>;
+    readonly corpus: DraftLearningCorpusRelease;
   }) {
     this.#repository = input.repository;
     this.#clock = input.clock;
     this.#idGenerator = input.idGenerator;
     this.#transport = input.transport;
     this.#observability = input.observability;
-    this.#contentByLocale = input.contentByLocale;
-    const contentSet = this.#contentByLocale[input.locale];
-    this.#definition = contentSet.definition;
-    this.#content = contentSet.content;
+    this.#corpus = new DraftCorpusController(input.corpus, input.locale);
+    this.#definition = this.#corpus.createWordProofDefinition();
     this.#proof = createWordProofState(this.#definition, 0);
     this.#lifecycle = this.#createLifecycle(input.locale);
   }
@@ -172,11 +178,23 @@ export class SyntheticAppNavigationController {
       lastErrorCode: lifecycleView.error?.code,
       terminalReconnectProved: this.#terminalReconnectProved,
       activityStage: this.#proof.stage,
+      corpus: this.#corpus.view,
     };
     if (this.#selectedRole === undefined) return { ...common, selectedRole: undefined };
 
     const task = currentTask(this.#proof, this.#definition);
+    const variant = this.#corpus.selectedVariant;
+    if (variant === undefined) throw new Error("selected draft corpus variant unavailable");
     if (this.#selectedRole === "CHILD") {
+      const draftFeedback = this.#corpus.view.runStage === "TRANSFER"
+        ? variant.feedbackByState.transferReady
+        : this.#corpus.view.runStage === "COMPLETED"
+          ? variant.feedbackByState.transferCompleted
+          : this.#corpus.view.runStage === "STOPPED" || this.#corpus.view.runStage === "BLOCKED"
+            ? variant.feedbackByState.stopped
+            : this.#corpus.view.attempts.some((attempt) => attempt.kind === "SUPPORTED_RETRY")
+              ? variant.feedbackByState.supportedAttempt
+              : variant.feedbackByState.targetReady;
       return {
         ...common,
         selectedRole: "CHILD",
@@ -187,6 +205,9 @@ export class SyntheticAppNavigationController {
         modelWord: this.#proof.modelVisible ? task?.word : undefined,
         feedbackCode: this.#proof.feedbackCode,
         quietMode: this.#quietMode,
+        activityTitle: variant.title,
+        draftFeedback,
+        audioState: this.#corpus.view.audioState,
       };
     }
 
@@ -203,11 +224,14 @@ export class SyntheticAppNavigationController {
       adultCard: adultLifecycle.state === "WAITING"
         && adultLifecycle.adultDetail === "SYNTHETIC_HELP_REQUESTED"
         && !this.#cardDismissed
-        ? this.#content.adultCard
+        ? variant.adultCard
         : undefined,
-      knowledgeReference: this.#content.adultCard.knowledgeId,
+      knowledgeReference: variant.knowledgeId,
+      contextReference: variant.contextCardId,
+      knowledgeSummary: this.#corpus.selectedKnowledge?.explanation ?? "",
       humanDecisionRequired: adultLifecycle.state === "WAITING",
       supportProvenance: this.#supportProvenance,
+      attemptEvidence: this.#corpus.view.attempts,
     };
   }
 
@@ -215,9 +239,8 @@ export class SyntheticAppNavigationController {
     if (this.#lifecycle.view.state !== "NOT_CREATED" || this.#selectedRole !== undefined) {
       throw new Error("language can only change before a synthetic session is created");
     }
-    const contentSet = this.#contentByLocale[locale];
-    this.#definition = contentSet.definition;
-    this.#content = contentSet.content;
+    this.#corpus.setLocale(locale);
+    this.#definition = this.#corpus.createWordProofDefinition();
     this.#proof = createWordProofState(this.#definition, 0);
     this.#lifecycle = this.#createLifecycle(locale);
     return this.view;
@@ -240,7 +263,57 @@ export class SyntheticAppNavigationController {
   }
 
   public startActivity(): SyntheticAppJourneyView {
+    if (this.#lifecycle.view.state !== "READY") return this.view;
+    this.#corpus.startSelectedActivity();
+    if (!this.#corpus.view.canStartSelected || this.#corpus.view.runStage === "BLOCKED") return this.view;
+    this.#definition = this.#corpus.createWordProofDefinition();
+    this.#proof = createWordProofState(this.#definition, this.#supportProvenance.length);
     this.#lifecycle.perform("ACTIVATE");
+    return this.view;
+  }
+
+  #canConfigureCorpus(): boolean {
+    return ["NOT_CREATED", "READY"].includes(this.#lifecycle.view.state);
+  }
+
+  #refreshDefinitionFromCorpus(): void {
+    if (this.#corpus.selectedVariant === undefined) return;
+    this.#definition = this.#corpus.createWordProofDefinition();
+    this.#proof = createWordProofState(this.#definition, this.#supportProvenance.length);
+  }
+
+  public setCorpusMode(mode: DraftCorpusMode): SyntheticAppJourneyView {
+    if (!this.#canConfigureCorpus()) return this.view;
+    this.#corpus.setMode(mode);
+    this.#refreshDefinitionFromCorpus();
+    return this.view;
+  }
+
+  public selectPatternClass(patternClassId: string): SyntheticAppJourneyView {
+    if (!this.#canConfigureCorpus()) return this.view;
+    this.#corpus.selectPatternClass(patternClassId);
+    this.#refreshDefinitionFromCorpus();
+    return this.view;
+  }
+
+  public selectCorpusActivity(activityId: string): SyntheticAppJourneyView {
+    if (!this.#canConfigureCorpus()) return this.view;
+    this.#corpus.selectActivity(activityId);
+    this.#refreshDefinitionFromCorpus();
+    return this.view;
+  }
+
+  public applyRestrictiveCorpusPolicy(policy: CorpusLifecyclePolicy): SyntheticAppJourneyView {
+    this.#corpus.applyRestrictivePolicy(policy);
+    if (this.#corpus.view.runStage === "BLOCKED" && this.#lifecycle.view.state === "ACTIVE") {
+      this.#lifecycle.perform("STOP");
+      this.#proof = transitionWordProof(this.#proof, this.#definition, { kind: "STOP" }).state;
+    }
+    return this.view;
+  }
+
+  public requestCorpusAudioSpecification(): SyntheticAppJourneyView {
+    this.#corpus.requestAudioSpecification();
     return this.view;
   }
 
@@ -289,14 +362,32 @@ export class SyntheticAppNavigationController {
 
   public adultModel(): SyntheticAppJourneyView {
     if (this.#selectedRole === "ADULT" && this.#lifecycle.view.state === "WAITING") {
+      const card = this.#corpus.selectedVariant?.adultCard;
+      if (card === undefined) return this.view;
       this.#supportProvenance.push({
         source: "ADULT",
         action: "MODEL",
-        cardId: this.#content.adultCard.cardId,
+        cardId: card.cardId,
       });
+      this.#corpus.recordSupport("MODEL_REQUIRES_ADULT");
       this.#dismissAdultCard();
       const result = transitionWordProof(this.#proof, this.#definition, { kind: "REVEAL_MODEL" });
       this.#proof = result.state;
+    }
+    return this.view;
+  }
+
+  public adultPrompt(): SyntheticAppJourneyView {
+    if (this.#selectedRole === "ADULT" && this.#lifecycle.view.state === "WAITING") {
+      const card = this.#corpus.selectedVariant?.adultCard;
+      if (card === undefined) return this.view;
+      this.#supportProvenance.push({
+        source: "ADULT",
+        action: "PROMPT",
+        cardId: card.cardId,
+      });
+      this.#corpus.recordSupport("PROMPT");
+      this.#dismissAdultCard();
     }
     return this.view;
   }
@@ -315,7 +406,11 @@ export class SyntheticAppNavigationController {
       currentSupportCount: this.#supportProvenance.length,
     });
     this.#proof = result.state;
-    if (result.accepted && this.#proof.stage === "COMPLETED") this.#lifecycle.perform("COMPLETE");
+    if (result.accepted && this.#proof.stage === "TRANSFER_BUILD") this.#corpus.completeTarget();
+    if (result.accepted && this.#proof.stage === "COMPLETED") {
+      this.#corpus.completeTransfer();
+      this.#lifecycle.perform("COMPLETE");
+    }
     return this.view;
   }
 
@@ -329,6 +424,7 @@ export class SyntheticAppNavigationController {
 
   public pause(): SyntheticAppJourneyView {
     this.#lifecycle.perform("PAUSE");
+    this.#corpus.interruptForPause();
     this.#proof = transitionWordProof(this.#proof, this.#definition, { kind: "SET_PAUSED" }).state;
     return this.view;
   }
@@ -342,6 +438,7 @@ export class SyntheticAppNavigationController {
     const before = this.#lifecycle.view.state;
     this.#lifecycle.perform("STOP");
     if (before !== this.#lifecycle.view.state) {
+      this.#corpus.stop();
       this.#proof = transitionWordProof(this.#proof, this.#definition, { kind: "STOP" }).state;
     }
     return this.view;
@@ -382,6 +479,7 @@ export class SyntheticAppNavigationController {
     const locale = this.#lifecycle.view.locale;
     this.#lifecycle = this.#createLifecycle(locale);
     this.#proof = createWordProofState(this.#definition, 0);
+    this.#corpus.resetForNewSession();
     this.#selectedRole = undefined;
     this.#quietMode = false;
     this.#cardDismissed = false;
