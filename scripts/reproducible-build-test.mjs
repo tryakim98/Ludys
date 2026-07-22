@@ -7,7 +7,9 @@ import { spawnSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
 
 const root = fileURLToPath(new URL("..", import.meta.url));
-const npmCli = join(dirname(process.execPath), "node_modules", "npm", "bin", "npm-cli.js");
+const npmCli = process.env.npm_execpath ?? (process.platform === "win32"
+  ? join(dirname(process.execPath), "node_modules", "npm", "bin", "npm-cli.js")
+  : undefined);
 const writeEvidence = process.argv.includes("--write-evidence");
 const inputs = ["src", "tests", "scripts", "web", "package.json", "package-lock.json", "tsconfig.json"];
 
@@ -34,7 +36,8 @@ async function distDigest(directory) {
 }
 
 function runNpm(directory, args) {
-  const result = spawnSync(process.execPath, [npmCli, ...args], {
+  const useNpmCli = typeof npmCli === "string" && npmCli.length > 0;
+  const result = spawnSync(useNpmCli ? process.execPath : "npm", useNpmCli ? [npmCli, ...args] : args, {
     cwd: directory,
     encoding: "utf8",
     env: { ...process.env, npm_config_update_notifier: "false", npm_config_fund: "false" },
