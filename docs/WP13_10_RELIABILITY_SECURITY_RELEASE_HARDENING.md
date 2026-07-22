@@ -61,7 +61,7 @@ Målte verdier mot eksplisitte budsjetter:
 
 | Måling | Resultat | Budsjett | Evidens |
 |---|---:|---:|---|
-| Compiled runtime JavaScript | 413987 B | 600000 B | `AUTOMATED_PROOF` |
+| Compiled runtime JavaScript | 413722 B | 600000 B | `AUTOMATED_PROOF` |
 | Browser entry JavaScript | 18657 B | 30000 B | `AUTOMATED_PROOF` |
 | CSS | 15139 B | 30000 B | `AUTOMATED_PROOF` |
 | HTML | 1312 B | 3000 B | `AUTOMATED_PROOF` |
