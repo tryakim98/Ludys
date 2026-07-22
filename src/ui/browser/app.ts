@@ -8,6 +8,9 @@ import type { CorpusLifecyclePolicy, DraftCorpusMode } from "../../core/draft-le
 import { renderSyntheticAppNavigation } from "./synthetic-app-navigation-templates.js";
 import { renderAuthoringWorkspace } from "./authoring-workspace-templates.js";
 import { createLocalPwaCoordinator, type LocalPwaCoordinator } from "./pwa-status.js";
+import { installRuntimeSafetyBoundary } from "./runtime-safety.js";
+import { rollbackComponent, type LocalReleaseState, type ReleaseComponent } from "../../core/release-hardening.js";
+import { wp13_10LocalReleaseState } from "../../content/prototype/wp13-10-release-state.js";
 
 const rootElement = document.querySelector<HTMLDivElement>("#app");
 if (rootElement === null) throw new Error("WP13.7B app shell is missing #app");
@@ -18,6 +21,7 @@ const { controller } = createSyntheticAppNavigation("nb-NO", pageInstance);
 const authoringController = createAuthoringPipeline();
 let authoringOpen = false;
 let pwaCoordinator: LocalPwaCoordinator | undefined;
+let localReleaseState: LocalReleaseState = wp13_10LocalReleaseState;
 
 function render(focus = false): void {
   root.innerHTML = authoringOpen
@@ -227,6 +231,22 @@ pwaCoordinator = createLocalPwaCoordinator({
 });
 pwaCoordinator.refresh();
 
+const runtimeSafetyBoundary = installRuntimeSafetyBoundary({
+  getLocale: () => controller.view.locale,
+  onStop: () => {
+    authoringController.stopAudio();
+    controller.stop();
+    render(true);
+  },
+  onSafeStart: () => {
+    authoringController.stopAudio();
+    if (!["STOPPED", "DELETED", "COMPLETED"].includes(controller.view.lifecycleState)) controller.stop();
+    controller.startNewSession();
+    authoringOpen = false;
+    render(true);
+  },
+});
+
 async function loadCorpusPolicy(): Promise<void> {
   try {
     await pwaCoordinator?.ready;
@@ -349,6 +369,16 @@ Object.assign(window, {
       const view = authoringController.applyRestrictivePolicy(persisted);
       render(true);
       return view;
+    },
+  },
+  __WP13_10__: {
+    getRuntimeSafety: () => runtimeSafetyBoundary.snapshot(),
+    triggerRuntimeFailure: (failure: Parameters<typeof runtimeSafetyBoundary.trigger>[0]) => runtimeSafetyBoundary.trigger(failure),
+    getReleaseState: () => localReleaseState,
+    rollbackComponent: (component: ReleaseComponent, revisionId: string) => {
+      const result = rollbackComponent(localReleaseState, component, revisionId, new Date().toISOString());
+      if (result.accepted) localReleaseState = result.state;
+      return result;
     },
   },
 });

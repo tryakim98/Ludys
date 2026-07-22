@@ -16,6 +16,12 @@ import {
   type LifecycleTransitionError,
 } from "../core/session-lifecycle.js";
 import type { Locale } from "../core/content-contracts.js";
+import {
+  preflightCommand,
+  validateLifecycleSession,
+  type CommandOutcome,
+  type LifecycleCommandEnvelope,
+} from "../core/reliability-hardening.js";
 
 export type LifecycleRole = "CHILD" | "ADULT";
 
@@ -33,6 +39,13 @@ interface LifecycleViewModelBase {
   readonly empty: boolean;
   readonly loading: boolean;
   readonly tombstone: boolean;
+  readonly lastCommandOutcome: CommandOutcome | "INITIAL";
+}
+
+export interface LifecycleEnvelopeResult {
+  readonly view: LifecycleViewModel;
+  readonly outcome: CommandOutcome;
+  readonly reason: string | undefined;
 }
 
 export interface ChildLifecycleViewModel extends LifecycleViewModelBase {
@@ -77,6 +90,9 @@ export class SessionLifecycleController {
   #role: LifecycleRole = "CHILD";
   #lastEvent: LifecycleAction | "INITIAL" = "INITIAL";
   #lastError: LifecycleTransitionError | undefined;
+  #lastCommandOutcome: CommandOutcome | "INITIAL" = "INITIAL";
+  #commandSequence = 0;
+  readonly #processedCommandIds = new Set<string>();
 
   public constructor(
     locale: Locale,
@@ -104,6 +120,7 @@ export class SessionLifecycleController {
       empty: this.#current.state === "NOT_CREATED",
       loading: this.#current.state === "CREATING",
       tombstone: this.#current.state === "DELETED",
+      lastCommandOutcome: this.#lastCommandOutcome,
     } as const;
 
     if (this.#role === "CHILD") {
@@ -250,15 +267,24 @@ export class SessionLifecycleController {
     return this.view;
   }
 
-  public perform(kind: LifecycleAction): LifecycleViewModel {
+  #performAccepted(kind: LifecycleAction): LifecycleEnvelopeResult {
     this.#lastEvent = kind;
     this.#lastError = undefined;
-    if (kind === "RECONNECT") return this.#handleReconnect();
+    if (kind === "RECONNECT") {
+      const beforeVersion = this.#current.version;
+      const view = this.#handleReconnect();
+      const outcome: CommandOutcome = this.#lastError === undefined || this.#current.version > beforeVersion
+        ? "APPLIED"
+        : "DOMAIN_REJECTED";
+      this.#lastCommandOutcome = outcome;
+      return { view, outcome, reason: outcome === "APPLIED" ? undefined : "reconnect rejected" };
+    }
 
     const result = transitionLifecycle(this.#current, { kind, at: this.clock.now() });
     if (!result.accepted) {
       this.#recordError(result.error?.code ?? "INVALID_TRANSITION", kind);
-      return this.view;
+      this.#lastCommandOutcome = "DOMAIN_REJECTED";
+      return { view: this.view, outcome: "DOMAIN_REJECTED", reason: result.error?.code };
     }
 
     if (kind === "DELETE") {
@@ -269,7 +295,8 @@ export class SessionLifecycleController {
       if (!saved.accepted) {
         this.#recordError(saved.code, kind);
         this.#adoptAuthoritativeState();
-        return this.view;
+        this.#lastCommandOutcome = saved.code === "STALE_WRITE_REJECTED" ? "STALE_VERSION" : "DOMAIN_REJECTED";
+        return { view: this.view, outcome: this.#lastCommandOutcome, reason: saved.code };
       }
       this.#current = result.state;
     }
@@ -283,6 +310,51 @@ export class SessionLifecycleController {
     if (kind === "RECOVERY_FAILED") {
       this.#recordError("RECOVERY_FAILED", kind);
     }
-    return this.view;
+    this.#lastCommandOutcome = "APPLIED";
+    return { view: this.view, outcome: "APPLIED", reason: undefined };
+  }
+
+  public performEnvelope(envelope: LifecycleCommandEnvelope): LifecycleEnvelopeResult {
+    this.#lastEvent = envelope.command.kind;
+    this.#lastError = undefined;
+    const invariantErrors = validateLifecycleSession(this.#current);
+    if (invariantErrors.length > 0) {
+      this.#lastCommandOutcome = "DOMAIN_REJECTED";
+      this.#recordError("INVALID_PAYLOAD", envelope.command.kind);
+      return { view: this.view, outcome: "DOMAIN_REJECTED", reason: invariantErrors.join("; ") };
+    }
+    const preflight = preflightCommand({
+      version: this.#current.version,
+      authorityGeneration: this.#current.authorityGeneration,
+      processedCommandIds: this.#processedCommandIds,
+    }, envelope, this.clock.now());
+    if (preflight.outcome !== undefined) {
+      this.#lastCommandOutcome = preflight.outcome;
+      const code: LifecycleErrorCode = preflight.outcome === "DUPLICATE_COMMAND"
+        ? "DUPLICATE_COMMAND"
+        : preflight.outcome === "STALE_VERSION"
+          ? "STALE_WRITE_REJECTED"
+          : preflight.outcome === "STALE_AUTHORITY"
+            ? "STALE_AUTHORITY"
+            : preflight.outcome === "DELAYED_COMMAND"
+              ? "DELAYED_COMMAND"
+              : "INVALID_TRANSITION";
+      this.#recordError(code, envelope.command.kind);
+      return { view: this.view, outcome: preflight.outcome, reason: preflight.reason };
+    }
+    this.#processedCommandIds.add(envelope.commandId);
+    return this.#performAccepted(envelope.command.kind);
+  }
+
+  public perform(kind: LifecycleAction): LifecycleViewModel {
+    this.#commandSequence += 1;
+    const at = this.clock.now();
+    return this.performEnvelope({
+      commandId: `${this.#current.sessionId}:command:${this.#commandSequence}`,
+      expectedVersion: this.#current.version,
+      authorityGeneration: this.#current.authorityGeneration,
+      issuedAt: at,
+      command: { kind, at },
+    }).view;
   }
 }

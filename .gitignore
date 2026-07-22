@@ -7,4 +7,5 @@ coverage/
 .DS_Store
 *.log
 
-artifacts/
+artifacts/*
+!artifacts/wp13-10-*.json

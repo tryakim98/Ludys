@@ -94,13 +94,16 @@ function createWorkerRuntime(options = {}) {
     });
   };
   vm.runInNewContext(workerSource, {
+    AbortController,
     Request: FakeRequest,
     Response,
     Set,
     URL,
     caches,
+    clearTimeout,
     fetch,
     self: workerSelf,
+    setTimeout,
   }, { filename: workerPath });
 
   async function dispatchLifecycle(type) {
@@ -166,9 +169,9 @@ test("service worker install caches the deterministic shell and fails on a missi
   assert.deepEqual(cacheNames.sort(), [
     "ludys-authoring-policy-1",
     "ludys-content-policy-1",
-    "ludys-shell-0.14.0-reconstructed.6",
+    "ludys-shell-0.14.0-reconstructed.7",
   ]);
-  const shellCache = runtime.cacheStore.get("ludys-shell-0.14.0-reconstructed.6");
+  const shellCache = runtime.cacheStore.get("ludys-shell-0.14.0-reconstructed.7");
   assert.ok(shellCache.entries.size >= 30);
   assert.ok(shellCache.entries.has(`${origin}/web/index.html`));
   assert.ok(shellCache.entries.has(`${origin}/dist/src/ui/browser/app.js`));
@@ -189,7 +192,7 @@ test("activate removes only obsolete LUDYS shell caches", async () => {
   await runtime.dispatchLifecycle("activate");
   assert.deepEqual(
     (await runtime.caches.keys()).sort(),
-    ["ludys-authoring-policy-1", "ludys-content-policy-1", "ludys-shell-0.14.0-reconstructed.6", "unrelated-application-cache"],
+    ["ludys-authoring-policy-1", "ludys-content-policy-1", "ludys-shell-0.14.0-reconstructed.7", "unrelated-application-cache"],
   );
   assert.equal(runtime.claimed(), 1);
 });

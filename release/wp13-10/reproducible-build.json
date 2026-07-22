@@ -1,0 +1,19 @@
+{
+  "schemaVersion": "wp13.10-reproducible-build-v1",
+  "status": "VERIFIED_IDENTICAL",
+  "copies": 2,
+  "command": "npm ci --offline --ignore-scripts --audit=false && npm run build",
+  "distSha256": "6c036ddb22490a7a66758e1270cb1aece840fb100635f98fcbf4b223cf33bf6a",
+  "digests": [
+    "6c036ddb22490a7a66758e1270cb1aece840fb100635f98fcbf4b223cf33bf6a",
+    "6c036ddb22490a7a66758e1270cb1aece840fb100635f98fcbf4b223cf33bf6a"
+  ],
+  "sourceBaselineCommit": "758f9c8f585ba5003c40e9af805863cee86f9407",
+  "sourceBaselineTree": "a6b21e7953efc2489eee64d2d1d7d10dd50ba233",
+  "lockfileSha256": "9f8cef553e2aaedff607594a58d198556df96849fa75246ad0c71e9a80ade7fc",
+  "nodeVersion": "v24.18.0",
+  "npmVersion": "11.16.0",
+  "operatingSystem": "win32-x64",
+  "timestampPolicy": "SOURCE_CONTENT_ONLY_NO_BUILD_TIMESTAMP",
+  "limitation": "Reproduced in two independent local clean copies; CI repeats the digest check but is not a production build attestation."
+}

@@ -1,5 +1,5 @@
 const LUDYS_CACHE_PREFIX = "ludys-shell-";
-const LUDYS_CACHE_VERSION = "0.14.0-reconstructed.6";
+const LUDYS_CACHE_VERSION = "0.14.0-reconstructed.7";
 const LUDYS_SHELL_CACHE = `${LUDYS_CACHE_PREFIX}${LUDYS_CACHE_VERSION}`;
 const LUDYS_CONTENT_POLICY_CACHE = "ludys-content-policy-1";
 const LUDYS_CONTENT_POLICY_PATH = "/web/corpus-lifecycle-policy.json";
@@ -7,6 +7,7 @@ const LUDYS_AUTHORING_POLICY_CACHE = "ludys-authoring-policy-1";
 const LUDYS_AUTHORING_POLICY_PATH = "/web/authoring-lifecycle-policy.json";
 const LUDYS_SCOPE_PATH = "/web/";
 const LUDYS_NAVIGATION_FALLBACK = "/web/index.html";
+const LUDYS_NAVIGATION_TIMEOUT_MS = 1500;
 const LUDYS_OFFLINE_FAILURE_COPY = Object.freeze({
   text: "Det lokale LUDYS-appskallet er ikke tilgjengelig ennå.",
   humanReviewed: true,
@@ -22,6 +23,7 @@ const LUDYS_APP_SHELL = Object.freeze([
   "/dist/src/ui/browser/pwa-status.js",
   "/dist/src/ui/browser/synthetic-app-navigation-templates.js",
   "/dist/src/ui/browser/authoring-workspace-templates.js",
+  "/dist/src/ui/browser/runtime-safety.js",
   "/dist/src/composition/create-synthetic-app-navigation.js",
   "/dist/src/composition/create-authoring-pipeline.js",
   "/dist/src/adapters/in-memory/fixed-clock.js",
@@ -39,10 +41,16 @@ const LUDYS_APP_SHELL = Object.freeze([
   "/dist/src/content/corpus/wp13-8-draft-corpus.js",
   "/dist/src/content/authoring/wp13-9-authoring-packages.js",
   "/dist/src/content/authoring/wp13-9-technical-audio-fixtures.js",
+  "/dist/src/content/prototype/wp13-10-release-state.js",
   "/dist/src/core/content-contracts.js",
   "/dist/src/core/draft-learning-corpus.js",
   "/dist/src/core/authoring-pipeline.js",
+  "/dist/src/core/evidence.js",
+  "/dist/src/core/reliability-hardening.js",
+  "/dist/src/core/release-hardening.js",
+  "/dist/src/core/runtime-safety.js",
   "/dist/src/core/session-lifecycle.js",
+  "/dist/src/core/state.js",
   "/dist/src/core/word-proof.js",
   "/web/audio/technical/wp13-9-technical-tone-a-48k-24bit-mono.wav",
   "/web/audio/technical/wp13-9-technical-tone-b-48k-16bit-mono.wav"
@@ -228,14 +236,20 @@ async function matchCurrentLudysShell(request) {
 }
 
 async function navigationResponse(request) {
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), LUDYS_NAVIGATION_TIMEOUT_MS);
   try {
-    return await fetch(request);
+    const response = await fetch(new Request(request, { signal: controller.signal }));
+    if (!response.ok) throw new Error(`Navigation HTTP ${response.status}`);
+    return response;
   } catch {
     const cached = await matchCurrentLudysShell(LUDYS_NAVIGATION_FALLBACK);
     return cached ?? new Response(
       LUDYS_OFFLINE_FAILURE_COPY.text,
       { status: 503, headers: { "content-type": "text/plain; charset=utf-8" } },
     );
+  } finally {
+    clearTimeout(timeout);
   }
 }
 
@@ -311,6 +325,12 @@ self.addEventListener("fetch", (event) => {
 self.addEventListener("message", (event) => {
   if (event.data?.type === "LUDYS_ACTIVATE_UPDATE") {
     self.skipWaiting();
+    return;
+  }
+  if (event.data?.type === "LUDYS_CLEAR_SHELL_CACHE") {
+    event.waitUntil(caches.delete(LUDYS_SHELL_CACHE)
+      .then((cleared) => event.ports?.[0]?.postMessage({ ok: true, cleared }))
+      .catch((error) => event.ports?.[0]?.postMessage({ ok: false, error: String(error) })));
     return;
   }
   if (event.data?.type === "LUDYS_APPLY_RESTRICTIVE_AUTHORING_POLICY") {
