@@ -1,6 +1,6 @@
 # LUDYS — rekonstruert R1-baseline
 
-**Versjon:** `0.14.0-reconstructed.6`
+**Versjon:** `0.14.0-reconstructed.7`
 
 **Status:** intern, lokal og syntetisk rekonstruksjonsbaseline  
 **Pilot/B8:** ikke autorisert
@@ -21,10 +21,14 @@ Den er **ikke** den tapte historiske versjonen `0.13.1`, og den påstår ikke å
 - restriktiv content-lifecycle for `CURRENT / STALE / SUPERSEDED / WITHDRAWN` uten session- eller persondata i PWA-cache
 - providerfri WP13.9-authoringpipeline med åtte komplette BM-/NN-pakker, deterministisk import/eksport, lokal non-receipt-review og permanent publiseringsblokk
 - teknisk audio production pipeline med seks specs per aktivitet, stale/replacement/withdrawal og to deterministiske, ikke-menneskelige WAV-fixtures
+- fail-closed kommandokonvolutt, sentrale sessioninvarianter, seedet kaostest og eksplisitt recovery uten gjenoppliving
+- lokal crash boundary som stopper lyd, kansellerer pending handlinger og bevarer STOP ved tekniske feil
+- uavhengig og sporbar lokal rollback for app, innhold, kunnskap og lyd
+- releasegate med CSP/headere, supply-chain-kontroll, SBOM, lisensinventar, checksums, ytelsesbudsjetter og reproducerbart clean-copy-build
 - lite Audio Content System og Knowledge Content System
 - tilgjengelig browserproof og 320 px reflow
 - B8-evidensmotor som ikke kan autorisere pilot
-- 117+ kompilerte tester, service-worker-kontrakt og ni Chromium-bevis
+- 130+ kompilerte tester, service-worker-kontrakt og ti Chromium/Edge-bevis
 - maskinell rekonstruksjonsvakt
 
 ## Det som ikke er rekonstruert ennå
@@ -35,7 +39,7 @@ Ekstern språk-/målform-/uttale-/co-design-review, validert progresjon, faktisk
 
 ```bash
 npm ci
-npm run check
+npm run check:release
 ```
 
 Lokal visning:

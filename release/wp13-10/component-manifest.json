@@ -1,0 +1,16 @@
+{
+  "schemaVersion": "wp13.10-release-v1",
+  "appVersion": "0.14.0-reconstructed.7",
+  "contentReleaseId": "wp13-8-authentic-draft-corpus-r1",
+  "knowledgeReleaseId": "release-knowledge-audio-prototype-001",
+  "audioReleaseId": "wp13-9-audio-specifications-r1",
+  "baselineCommit": "758f9c8f585ba5003c40e9af805863cee86f9407",
+  "baselineTree": "a6b21e7953efc2489eee64d2d1d7d10dd50ba233",
+  "sourceClassification": "SYNTHETIC_ONLY",
+  "externalReceipts": 0,
+  "b8": "NOT_DECISION_READY",
+  "studentBeta": "NOT_AUTHORIZED",
+  "productionDeployment": "NOT_AUTHORIZED",
+  "runtimeAi": false,
+  "providerActivation": false
+}

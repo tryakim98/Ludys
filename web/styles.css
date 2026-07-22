@@ -236,6 +236,24 @@ dialog::backdrop { background: rgb(0 0 0 / 0.55); }
   }
 }
 
+.runtime-recovery {
+  position: fixed;
+  inset: 1rem;
+  z-index: 1000;
+  max-width: 42rem;
+  margin: auto;
+  padding: 1.5rem;
+  border: 0.2rem solid CanvasText;
+  border-radius: 0.75rem;
+  background: Canvas;
+  color: CanvasText;
+  box-shadow: 0 0 0 100vmax color-mix(in srgb, CanvasText 35%, transparent);
+}
+
+@media (forced-colors: active) {
+  .runtime-recovery { border-color: Highlight; }
+}
+
 .knowledge-filters {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr));

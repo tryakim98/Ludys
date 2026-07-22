@@ -75,6 +75,9 @@ const actionsNb: Record<LifecycleAction, string> = {
 
 const errorsNb: Record<LifecycleErrorCode, string> = {
   INVALID_TRANSITION: "Ugyldig overgang. Tilstanden er ikke endret.",
+  DUPLICATE_COMMAND: "Duplikatkommandoen ble avvist uten å endre økten.",
+  STALE_AUTHORITY: "En kommando fra en eldre autoritetsgenerasjon ble avvist.",
+  DELAYED_COMMAND: "En forsinket kommando ble avvist uten å endre økten.",
   NO_RESURRECTION: "Stoppet eller slettet økt kan ikke gjenopplives.",
   TOMBSTONE: "Økten er slettet. Bare tombstone finnes.",
   NOT_FOUND: "Ingen syntetisk økt ble funnet.",
@@ -120,6 +123,9 @@ const actionsNn: Record<LifecycleAction, string> = {
 
 const errorsNn: Record<LifecycleErrorCode, string> = {
   INVALID_TRANSITION: "Ugyldig overgang. Tilstanden er ikkje endra.",
+  DUPLICATE_COMMAND: "Duplikatkommandoen vart avvist utan å endre økta.",
+  STALE_AUTHORITY: "Ein kommando frå ein eldre autoritetsgenerasjon vart avvist.",
+  DELAYED_COMMAND: "Ein forseinka kommando vart avvist utan å endre økta.",
   NO_RESURRECTION: "Stoppa eller sletta økt kan ikkje bli vekt til live.",
   TOMBSTONE: "Økta er sletta. Berre tombstone finst.",
   NOT_FOUND: "Inga syntetisk økt vart funnen.",

@@ -1,0 +1,55 @@
+{
+  "schemaVersion": "wp13.10-platform-matrix-v1",
+  "date": "2026-07-22",
+  "rows": [
+    {
+      "platform": "Microsoft Edge desktop",
+      "testType": "HEADLESS_BROWSER_PROOF",
+      "actualEnvironment": "Locally installed Edge through repository resolver",
+      "result": "PASS",
+      "limitation": "Headless Windows proof; not a manual AT review"
+    },
+    {
+      "platform": "Chromium responsive 320px / 200% / touch",
+      "testType": "DEVICE_EMULATION",
+      "actualEnvironment": "Edge CDP emulation",
+      "result": "PASS",
+      "limitation": "Emulation, not a physical phone"
+    },
+    {
+      "platform": "Forced colors and reduced motion",
+      "testType": "HEADLESS_BROWSER_PROOF",
+      "actualEnvironment": "Edge CDP media emulation",
+      "result": "PASS",
+      "limitation": "Automated rendering contract only"
+    },
+    {
+      "platform": "Firefox desktop",
+      "testType": "NOT_TESTED",
+      "actualEnvironment": "Firefox unavailable locally",
+      "result": "NOT_TESTED",
+      "limitation": "Requires a real Firefox installation"
+    },
+    {
+      "platform": "Safari / iOS",
+      "testType": "NOT_TESTED",
+      "actualEnvironment": "Unavailable on Windows",
+      "result": "NOT_TESTED",
+      "limitation": "Requires physical or remote Apple environment"
+    },
+    {
+      "platform": "Android Chrome",
+      "testType": "DEVICE_EMULATION",
+      "actualEnvironment": "Touch and viewport emulation only",
+      "result": "EMULATED_PASS",
+      "limitation": "Not a physical Android test"
+    },
+    {
+      "platform": "Manual screen reader / AT",
+      "testType": "MANUAL_REVIEW_REQUIRED",
+      "actualEnvironment": "Not performed",
+      "result": "OPEN",
+      "limitation": "Automation cannot replace human review"
+    }
+  ]
+}

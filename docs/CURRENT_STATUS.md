@@ -1,10 +1,10 @@
-# Gjeldende teknisk status – R1 + WP13.9
+# Gjeldende teknisk status – R1 + WP13.10
 
 ```text
 Product: LUDYS
 Repository: ludys-app-reconstructed
-Version: 0.14.0-reconstructed.6
-Baseline: WP13.4 functional proof + WP13.7A lifecycle chassis + WP13.7B app journey + WP13.7C local PWA shell + WP13.8 authentic draft corpus + WP13.9 authoring/audio pipeline
+Version: 0.14.0-reconstructed.7
+Baseline: WP13.4 functional proof + WP13.7A lifecycle chassis + WP13.7B app journey + WP13.7C local PWA shell + WP13.8 authentic draft corpus + WP13.9 authoring/audio pipeline + WP13.10 reliability/security/release hardening
 Data: synthetic and session-bound
 Runtime AI: none
 Provider/backend/auth: none
@@ -31,4 +31,10 @@ WP13.9 legger til en providerfri authoring-, innholds- og lydproduksjonslinje fo
 
 En separat personfri authoring-/audio-policy i service workeren bevarer withdrawal offline uten å lagre drafts, sessionstate eller persondata. Authoringflaten kan ikke mutere den autoritative appøkten.
 
-Beviset er lokalt, syntetisk og maskinelt. Provider, auth, produksjonspersistens, ekte data, produksjonsdeployment, bakgrunnssynkronisering, pushvarsler, manuell hjelpemiddeltest, faktisk lydopptak, validert progresjon og ekstern fag-/språk-/co-design-review er ikke åpnet eller påstått fullført.
+WP13.10 legger en fail-closed reliabilitygrense rundt den samme autoritative lifecycle-kjernen. Kommandokonvolutten avviser duplikater, stale stateversjon, stale voksengenerasjon og forsinkede kommandoer uten stateendring. Sentrale invarianter kontrolleres ved hver aksepterte overgang, og deterministisk seedet kaostest dekker 4096 representative kommandoer. STOP, sletting, withdrawal og ugyldig recovery kan ikke gjenopplive session, forsøk, innhold, authoringimport, lyd eller offlinecache.
+
+Recovery skiller tom, korrupt, inkompatibel og utilgjengelig state fra trygg tekst-/stillhetsfallback. En lokal browser-boundary stopper lyd og pending handlinger ved `window.error`, `unhandledrejection`, render-, storage- og audiofeil, og viser bare menneskereviewet teknisk recoverytekst med tilgjengelig STOP og sikker ny start. Ingen feil sendes eksternt eller tolkes pedagogisk.
+
+Releaseproofet versjonerer app, innhold, kunnskap, lyd og schema separat. Lokal rollback er uavhengig, avviser withdrawn/ukjent/inkompatibel revisjon og fører append-only historikk. `npm run check:release` samler regresjon, chaos/recovery/rollback, headless Edge, PWA, sikkerhet, ytelse, release metadata, SBOM/lisenser, checksums, to clean-copy-builds og production dependency audit. Dette er syntetisk lokal releaseproof, ikke deployment eller produksjonsattestasjon.
+
+Beviset er lokalt, syntetisk og maskinelt. Edge er kjørt headless på faktisk lokal browserorigin; 320 px, touch og Android-liknende miljø er emulering, ikke fysisk enhetstest. Firefox, Safari/iOS, fysisk Android, produksjons-service-worker, produksjonsrollback og manuell hjelpemiddeltest er ikke testet. Provider, auth, produksjonspersistens, ekte data, produksjonsdeployment, bakgrunnssynkronisering, pushvarsler, faktisk lydopptak, validert progresjon og ekstern fag-/språk-/co-design-review er ikke åpnet eller påstått fullført.
