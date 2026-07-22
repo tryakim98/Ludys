@@ -1,10 +1,10 @@
-# Gjeldende teknisk status — R1 + WP13.8
+# Gjeldende teknisk status – R1 + WP13.9
 
 ```text
 Product: LUDYS
 Repository: ludys-app-reconstructed
-Version: 0.14.0-reconstructed.5
-Baseline: WP13.4 functional proof + WP13.7A lifecycle chassis + WP13.7B app journey + WP13.7C local PWA shell + WP13.8 authentic draft corpus integration
+Version: 0.14.0-reconstructed.6
+Baseline: WP13.4 functional proof + WP13.7A lifecycle chassis + WP13.7B app journey + WP13.7C local PWA shell + WP13.8 authentic draft corpus + WP13.9 authoring/audio pipeline
 Data: synthetic and session-bound
 Runtime AI: none
 Provider/backend/auth: none
@@ -26,5 +26,9 @@ WP13.7C legger til et lokalt installérbart manifest, et smalt og versjonert ser
 WP13.8 integrerer fire foreløpige norske mønsterklasser og nøyaktig åtte semantiske aktiviteter i den samme appreisen. Hver aktivitet har separate BM-/NN-varianter, støtteproveniens, voksenkort, knowledge/context og tre lydspesifikasjoner per målform. Alt er `DRAFT`, `EXTERNAL_REVIEW_REQUIRED`, `SYNTHETIC_ONLY` og `NOT_STUDENT_BETA`. To `CHANGES_REQUIRED`-aktiviteter er blokkert i vanlig syntetisk modus og bare synlige i reviewmodus. Progresjonskantene er voksenstyrte utkast uten samlet score eller automatisk plassering.
 
 Content-lifecycle kan skjerpes separat fra apprelease. En personfri, restriktiv policy kan bare legge til `STALE`, `SUPERSEDED` eller `WITHDRAWN`; den kan aldri gjenopprette `CURRENT`. Den ligger separat fra shellcache og inneholder ingen sessionstate eller profil. Klassebegrensning dominerer aktivitet, og offline reload bevarer blokkeringen uten å gjenopplive økten eller innholdet.
+
+WP13.9 legger til en providerfri authoring-, innholds- og lydproduksjonslinje for alle åtte WP13.8-aktivitetene. BM/NN er separate og obligatoriske, pakken er deterministisk importerbar/eksporterbar, lokale reviews er aldri receipts, og `REVIEW_PENDING` er bare handoff. Seks lydspesifikasjoner per aktivitet støtter stale, teknisk replacement og withdrawal. To deterministiske tonefixtures er eksplisitt ikke mennesketale og ikke produksjonslyd. Publisering, masseinnspilling, ekstern godkjenning og studentbeta er permanent blokkert.
+
+En separat personfri authoring-/audio-policy i service workeren bevarer withdrawal offline uten å lagre drafts, sessionstate eller persondata. Authoringflaten kan ikke mutere den autoritative appøkten.
 
 Beviset er lokalt, syntetisk og maskinelt. Provider, auth, produksjonspersistens, ekte data, produksjonsdeployment, bakgrunnssynkronisering, pushvarsler, manuell hjelpemiddeltest, faktisk lydopptak, validert progresjon og ekstern fag-/språk-/co-design-review er ikke åpnet eller påstått fullført.
