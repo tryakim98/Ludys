@@ -168,7 +168,7 @@ const reproducibleBuild = {
   digests: reproducibleEvidence.digests,
   sourceBaselineCommit: componentManifest.baselineCommit,
   sourceBaselineTree: componentManifest.baselineTree,
-  lockfileSha256: createHash("sha256").update(await readFile(join(root, "package-lock.json"))).digest("hex"),
+  lockfileSha256: await artifactChecksum(join(root, "package-lock.json")),
   nodeVersion: reproducibleEvidence.nodeVersion,
   npmVersion: reproducibleEvidence.npmVersion,
   operatingSystem: reproducibleEvidence.operatingSystem,

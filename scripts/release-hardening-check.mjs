@@ -94,6 +94,10 @@ requireCondition(licenses.runtimeDependencies.length === 0 && licenses.unresolve
 requireCondition(reproducible.status === "VERIFIED_IDENTICAL", "reproducible build evidence is not verified");
 requireCondition(/^[a-f0-9]{64}$/.test(reproducible.distSha256), "reproducible dist digest is invalid");
 requireCondition(provenance.artifactChecksumPolicy === "SHA256_CANONICAL_LF_UTF8_TEXT_RAW_BINARY", "cross-platform artifact checksum policy is missing");
+requireCondition(
+  reproducible.lockfileSha256 === await artifactChecksum(join(root, "package-lock.json")),
+  "reproducible build lockfile digest must use canonical LF text bytes",
+);
 
 const checksumText = await readFile(join(releaseDirectory, "artifact-checksums.sha256"), "utf8");
 for (const line of checksumText.trim().split("\n")) {
