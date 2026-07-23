@@ -10,6 +10,8 @@ const packageDirectory = join(releaseDirectory, "decision-package");
 const artifactsDirectory = join(root, "artifacts");
 const generatedSource = join(root, "src", "content", "provider-decision", "wp13-12a-decision-package.ts");
 const checkOnly = process.argv.includes("--check");
+const generatedReproducibleEvidence = join(artifactsDirectory, "wp13-12a-reproducible-build-result.json");
+const committedReproducibleEvidence = join(releaseDirectory, "reproducible-build.json");
 const packageJson = JSON.parse(await readFile(join(root, "package.json"), "utf8"));
 const lock = JSON.parse(await readFile(join(root, "package-lock.json"), "utf8"));
 const decision = buildProviderDecisionPackage(packageJson.version);
@@ -261,7 +263,7 @@ const lockComponents = Object.entries(lock.packages)
   }))
   .sort((left, right) => left.name.localeCompare(right.name));
 const reproducibleEvidence = JSON.parse(await readFile(
-  join(artifactsDirectory, "wp13-12a-reproducible-build-result.json"),
+  checkOnly ? committedReproducibleEvidence : generatedReproducibleEvidence,
   "utf8",
 ).catch(() => JSON.stringify({
   status: "PENDING_LOCAL_VERIFICATION", copies: 2, distSha256: "PENDING", digests: [],
