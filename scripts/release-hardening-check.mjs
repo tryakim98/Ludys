@@ -15,7 +15,7 @@ function requireCondition(condition, message) {
 
 async function artifactChecksum(path) {
   const bytes = await readFile(path);
-  const canonicalBytes = new Set([".json", ".ts"]).has(extname(path))
+  const canonicalBytes = new Set([".json", ".ts", ".mjs", ".html", ".css", ".js"]).has(extname(path))
     ? Buffer.from(bytes.toString("utf8").replace(/\r\n?/g, "\n"), "utf8")
     : bytes;
   return createHash("sha256").update(canonicalBytes).digest("hex");
@@ -77,16 +77,18 @@ requireCondition(serviceWorker.includes("url.origin !== self.location.origin"), 
 requireCondition(serviceWorker.includes("LUDYS_CLEAR_SHELL_CACHE"), "service worker must support explicit shell-cache clear");
 requireCondition(!serviceWorker.includes("sync" + "manager"), "background sync must remain absent");
 
-const releaseDirectory = join(root, "release", "wp13-10");
+const releaseDirectory = join(root, "release", "wp13-11");
 const componentManifest = JSON.parse(await readFile(join(releaseDirectory, "component-manifest.json"), "utf8"));
 const sbom = JSON.parse(await readFile(join(releaseDirectory, "sbom.cdx.json"), "utf8"));
 const licenses = JSON.parse(await readFile(join(releaseDirectory, "license-inventory.json"), "utf8"));
 const reproducible = JSON.parse(await readFile(join(releaseDirectory, "reproducible-build.json"), "utf8"));
-const provenance = JSON.parse(await readFile(join(releaseDirectory, "release-provenance.json"), "utf8"));
+const provenance = JSON.parse(await readFile(join(releaseDirectory, "operations-provenance.json"), "utf8"));
 requireCondition(componentManifest.appVersion === packageJson.version, "component manifest appVersion mismatch");
 requireCondition(componentManifest.externalReceipts === 0, "external receipts must remain zero");
 requireCondition(componentManifest.b8 === "NOT_DECISION_READY", "B8 must remain not decision-ready");
 requireCondition(componentManifest.studentBeta === "NOT_AUTHORIZED", "student beta must remain unauthorized");
+requireCondition(componentManifest.recruitment === "NOT_AUTHORIZED", "recruitment must remain unauthorized");
+requireCondition(componentManifest.operationsReleaseId === "wp13-11-operations-kit-r1", "operations component revision mismatch");
 requireCondition(componentManifest.runtimeAi === false && componentManifest.providerActivation === false, "AI/provider boundary opened");
 requireCondition(sbom.bomFormat === "CycloneDX" && sbom.specVersion === "1.5", "SBOM must be CycloneDX 1.5");
 requireCondition(sbom.components.length === Object.keys(lock.packages).filter((path) => path.startsWith("node_modules/")).length, "SBOM component count mismatch");
@@ -115,4 +117,4 @@ if (errors.length > 0) {
   process.exit(1);
 }
 assert.equal(errors.length, 0);
-console.log(`WP13.10 security, CSP, no-tracker, SBOM, license and checksum gate passed (${checksumText.trim().split("\n").length} artifacts).`);
+console.log(`WP13.11 security, CSP, no-tracker, SBOM, license and checksum gate passed (${checksumText.trim().split("\n").length} artifacts).`);

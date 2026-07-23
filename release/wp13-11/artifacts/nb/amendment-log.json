@@ -1,0 +1,59 @@
+{
+  "artifactId": "wp13-11.amendment-log.nb.v1",
+  "artifactType": "AMENDMENT_LOG",
+  "version": "1.0.0-draft",
+  "locale": "nb",
+  "title": "Endringslogg",
+  "audience": [
+    "ADULT_OPERATOR",
+    "ADULT_REVIEWER"
+  ],
+  "status": "DRAFT_FOR_ADULT_REVIEW",
+  "reviewStatus": "REVIEW_REQUIRED",
+  "authorizationStatus": "ADULT_ONLY_SYNTHETIC_DRY_RUN_ONLY",
+  "purpose": "Bevare append-only sporbarhet for operations-artefaktene.",
+  "allowedUse": [
+    "ADULT_ONLY_SYNTHETIC_DRY_RUN",
+    "LOCAL_INTERNAL_REVIEW",
+    "NO_REAL_PARTICIPANTS"
+  ],
+  "prohibitedUse": [
+    "STUDENT_USE",
+    "RECRUITMENT",
+    "REAL_PERSONAL_DATA",
+    "PROVIDER_ACTIVATION",
+    "PRODUCTION",
+    "B8_DECISION"
+  ],
+  "contentSections": [
+    {
+      "sectionId": "nb-section-01",
+      "heading": "Registrer",
+      "paragraphs": [
+        "Oppgi revisjon, fast dato, årsak og at ingen ekstern receipt foreligger."
+      ]
+    },
+    {
+      "sectionId": "nb-section-02",
+      "heading": "Ikke omskriv",
+      "paragraphs": [
+        "Supersession og withdrawal skal vises eksplisitt; eldre spor skal ikke skjules."
+      ]
+    }
+  ],
+  "sourceReferences": [
+    "INTERNAL-WP13-11-SCOPE",
+    "INTERNAL-WP13-10-BASELINE"
+  ],
+  "amendmentHistory": [
+    {
+      "revision": 1,
+      "at": "2026-07-22T00:00:00.000Z",
+      "reason": "Initial WP13.11 adult-only review draft",
+      "externalReceipt": false
+    }
+  ],
+  "withdrawalStatus": "CURRENT",
+  "createdAt": "2026-07-22T00:00:00.000Z",
+  "updatedAt": "2026-07-22T00:00:00.000Z"
+}

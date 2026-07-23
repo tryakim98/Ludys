@@ -1,0 +1,10 @@
+{
+  "valid": true,
+  "errors": [],
+  "warnings": [],
+  "readiness": "READY_FOR_ADULT_ONLY_DRY_RUN",
+  "studentBetaAuthorized": false,
+  "externalReceipts": 0,
+  "semanticArtifactCount": 27,
+  "languageArtifactCount": 54
+}

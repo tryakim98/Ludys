@@ -127,3 +127,19 @@ Application-controlleren returnerer egne child/adult view models i stedet for r�
 ## D13-031 — Lifecycle-copy og UI er draft proof
 
 All ny UI-copy ligger sentralt i korte BM/NN-varianter og er merket `DRAFT_TECHNICAL_COPY — subject to Product Excellence review`. Proof-siden er ikke endelig visuell identitet, alderstilpasning eller ferdig WP13.7-app.
+
+## D13-032 — Operations-kit er adult-only og har eksakt 27 × 2 språkprodukter
+
+WP13.11 har nøyaktig 27 semantiske artefakttyper og separate BM-/NN-filer (`nb`/`nn`) for hver. Det finnes ingen fallback eller runtimeoversettelse. Begge målformer må ha samme status, autorisasjon, tillatt/forbudt bruk og withdrawalgrense, men egne redaksjonelle tekster. Alt står i menneskelig review; 0 receipts betyr at ingen språkvariant kan merkes godkjent.
+
+## D13-033 — Før-B8-måling gjelder operasjon, ikke mennesker eller læring
+
+Bare voksen onboarding, instruksjonsforståelse, operatørbelastning, tekniske koder, accessibility/content review og drillresultater er tillatt i adult-only syntetisk dry-run. Elevytelse, hastighet, profil, progresjon, engagement, inferens, readiness og samlet score er teknisk blokkert og `NOT_COLLECTED`. Treg onboarding er ikke vokseninkompetanse, og teknisk feil er ikke pedagogisk evidens.
+
+## D13-034 — Lokale funn er minne-only og identifierguardet
+
+Dry-run-funn bruker lukkede kategorier, kontrollert kode og maksimalt 160 tegn. Sannsynlig e-post, telefon, lange tallsekvenser, URL, navn og skoleidentifikator avvises før lagring. Guard er en avgrenset sikkerhetskontroll, ikke en påstand om perfekt PII-deteksjon. Eksport krever eksplisitt lokal handling og kan slettes uten gjenoppliving.
+
+## D13-035 — OPERATIONS er en separat rollbackkomponent
+
+Releasekontrakten versjonerer app, content, knowledge, audio og operations uavhengig. Operationsrollback er append-only og fail-closed for unknown, withdrawn, inkompatibel og no-op revisjon. Rollback eller withdrawal kan ikke reaktivere slettet dry-run-state eller skjule en målformgrense.

@@ -1,6 +1,6 @@
 # LUDYS — rekonstruert R1-baseline
 
-**Versjon:** `0.14.0-reconstructed.7`
+**Versjon:** `0.14.0-reconstructed.8`
 
 **Status:** intern, lokal og syntetisk rekonstruksjonsbaseline  
 **Pilot/B8:** ikke autorisert
@@ -25,6 +25,9 @@ Den er **ikke** den tapte historiske versjonen `0.13.1`, og den påstår ikke å
 - lokal crash boundary som stopper lyd, kansellerer pending handlinger og bevarer STOP ved tekniske feil
 - uavhengig og sporbar lokal rollback for app, innhold, kunnskap og lyd
 - releasegate med CSP/headere, supply-chain-kontroll, SBOM, lisensinventar, checksums, ytelsesbudsjetter og reproducerbart clean-copy-build
+- komplett WP13.11 operations-kit med nøyaktig 27 semantiske artefakter og 54 separate BM-/NN-filer (`nb`/`nn`)
+- integrert `Betaoperasjon` for adult-only syntetisk dry-run, identifierguard, SEV0, STOP, deletion/no-resurrection, rollback, withdrawal og lokal deterministisk eksport
+- maskinlesbar måleordbok og datainventar som teknisk blokkerer elevmål, profilering, inferens og score
 - lite Audio Content System og Knowledge Content System
 - tilgjengelig browserproof og 320 px reflow
 - B8-evidensmotor som ikke kan autorisere pilot
@@ -33,7 +36,7 @@ Den er **ikke** den tapte historiske versjonen `0.13.1`, og den påstår ikke å
 
 ## Det som ikke er rekonstruert ennå
 
-Ekstern språk-/målform-/uttale-/co-design-review, validert progresjon, faktisk menneskelig lydproduksjon, produksjonsdeployment, provider-/emulatorarbeid, betaautorisasjon og ekstern evidens står fortsatt i `docs/RECONSTRUCTION_GAP_REGISTER.md`.
+Ekstern språk-/målform-/uttale-/co-design-review, juridisk/etisk/skoleeier-review, manuell tilgjengelighetsreview, validert progresjon, faktisk menneskelig lydproduksjon, produksjonsdeployment, providerarbeid, betaautorisasjon og ekstern evidens står fortsatt i `docs/RECONSTRUCTION_GAP_REGISTER.md`.
 
 ## Kjøring
 

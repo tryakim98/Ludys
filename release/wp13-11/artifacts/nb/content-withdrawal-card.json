@@ -1,0 +1,59 @@
+{
+  "artifactId": "wp13-11.content-withdrawal-card.nb.v1",
+  "artifactType": "CONTENT_WITHDRAWAL_CARD",
+  "version": "1.0.0-draft",
+  "locale": "nb",
+  "title": "Kort for content withdrawal",
+  "audience": [
+    "ADULT_OPERATOR",
+    "ADULT_REVIEWER"
+  ],
+  "status": "DRAFT_FOR_ADULT_REVIEW",
+  "reviewStatus": "REVIEW_REQUIRED",
+  "authorizationStatus": "ADULT_ONLY_SYNTHETIC_DRY_RUN_ONLY",
+  "purpose": "Kontrollere at tilbaketrukket materiale ikke kan åpnes eller gjenopplives.",
+  "allowedUse": [
+    "ADULT_ONLY_SYNTHETIC_DRY_RUN",
+    "LOCAL_INTERNAL_REVIEW",
+    "NO_REAL_PARTICIPANTS"
+  ],
+  "prohibitedUse": [
+    "STUDENT_USE",
+    "RECRUITMENT",
+    "REAL_PERSONAL_DATA",
+    "PROVIDER_ACTIVATION",
+    "PRODUCTION",
+    "B8_DECISION"
+  ],
+  "contentSections": [
+    {
+      "sectionId": "nb-section-01",
+      "heading": "Trekk tilbake",
+      "paragraphs": [
+        "Blokker aktiviteten, knowledge og audio og vis erstatnings- eller stoppstatus."
+      ]
+    },
+    {
+      "sectionId": "nb-section-02",
+      "heading": "Kontroller cache",
+      "paragraphs": [
+        "Offline cache, refresh og rollback skal ikke aktivere withdrawn materiale."
+      ]
+    }
+  ],
+  "sourceReferences": [
+    "INTERNAL-WP13-11-SCOPE",
+    "INTERNAL-WP13-10-BASELINE"
+  ],
+  "amendmentHistory": [
+    {
+      "revision": 1,
+      "at": "2026-07-22T00:00:00.000Z",
+      "reason": "Initial WP13.11 adult-only review draft",
+      "externalReceipt": false
+    }
+  ],
+  "withdrawalStatus": "CURRENT",
+  "createdAt": "2026-07-22T00:00:00.000Z",
+  "updatedAt": "2026-07-22T00:00:00.000Z"
+}

@@ -5,7 +5,7 @@ const GRACEFUL_CLOSE_TIMEOUT_MS = 2_000;
 const TERMINATE_TIMEOUT_MS = 2_000;
 const FORCE_TIMEOUT_MS = 5_000;
 const FILE_RELEASE_DELAY_MS = 500;
-const PROFILE_DELETE_TIMEOUT_MS = 30_000;
+const PROFILE_DELETE_TIMEOUT_MS = 60_000;
 const PROFILE_RETRY_DELAY_MS = 300;
 const PROFILE_RETRY_MAX_DELAY_MS = 1_500;
 const ENDPOINT_START_TIMEOUT_MS = 30_000;
@@ -51,6 +51,7 @@ function defaultRuntime(overrides = {}) {
     signalProcessGroup: (processGroupId, signal) => process.kill(-processGroupId, signal),
     removeProfile: (profile) => rm(profile, { recursive: true, force: true }),
     readProfileEntries: (profile) => readdir(profile, { recursive: true }),
+    findProfileProcesses: findWindowsProfileProcesses,
     ...overrides,
   };
 }
@@ -202,8 +203,8 @@ async function waitForPidToDisappear(pid, timeoutMs, runtime) {
   return true;
 }
 
-async function forceTerminatePid(pid, label, runtime) {
-  if (!runtime.processExists(pid)) return;
+async function forceTerminatePid(pid, label, runtime, options = {}) {
+  if (options.verifiedExisting !== true && !runtime.processExists(pid)) return;
 
   if (runtime.platform === "win32") {
     let result;
@@ -359,7 +360,7 @@ async function profileRemovalError(
   let terminalInspectionError = inspectionError;
   if (runtime.platform === "win32") {
     try {
-      profileProcesses = await findWindowsProfileProcesses(profile);
+      profileProcesses = await runtime.findProfileProcesses(profile);
     } catch (error) {
       terminalInspectionError ??= error;
     }
@@ -401,7 +402,7 @@ export async function removeBrowserProfile(profile, options = {}) {
   let lastError;
   let inspectionError;
   let attempts = 0;
-  let inspectedAndTerminated = false;
+  let lastProfileSweepAttempt = 0;
 
   await runtime.wait(FILE_RELEASE_DELAY_MS);
   while (runtime.now() < deadline) {
@@ -426,19 +427,25 @@ export async function removeBrowserProfile(profile, options = {}) {
     if (
       runtime.platform === "win32"
       && attempts >= 3
-      && !inspectedAndTerminated
+      && (lastProfileSweepAttempt === 0 || attempts - lastProfileSweepAttempt >= 3)
     ) {
-      inspectedAndTerminated = true;
+      lastProfileSweepAttempt = attempts;
       try {
-        const profileProcesses = await findWindowsProfileProcesses(profile);
+        const profileProcesses = await runtime.findProfileProcesses(profile);
         for (const processInfo of profileProcesses) {
           const terminate = runtime.forceTerminatePid
-            ?? ((targetPid, targetLabel) => forceTerminatePid(targetPid, targetLabel, runtime));
+            ?? ((targetPid, targetLabel) => forceTerminatePid(
+              targetPid,
+              targetLabel,
+              runtime,
+              { verifiedExisting: true },
+            ));
           await terminate(
             Number(processInfo.ProcessId),
             `Edge process using profile ${profile}`,
           );
         }
+        inspectionError = undefined;
       } catch (error) {
         inspectionError = error;
       }

@@ -1,0 +1,19 @@
+{
+  "schemaVersion": "wp13.11-reproducible-build-v1",
+  "status": "VERIFIED_IDENTICAL",
+  "copies": 2,
+  "distSha256": "5960971a6b29e67539b029a0386618ce314f15507a4379b61d07472ed8795730",
+  "digests": [
+    "5960971a6b29e67539b029a0386618ce314f15507a4379b61d07472ed8795730",
+    "5960971a6b29e67539b029a0386618ce314f15507a4379b61d07472ed8795730"
+  ],
+  "command": "npm ci --offline --ignore-scripts --audit=false && npm run build",
+  "nodeVersion": "v24.18.0",
+  "npmVersion": "11.16.0",
+  "operatingSystem": "win32-x64",
+  "timestampPolicy": "SOURCE_CONTENT_ONLY_NO_BUILD_TIMESTAMP",
+  "sourceBaselineCommit": "c5e47fd1e25f67a38376d58321a6a409f2fed44d",
+  "sourceBaselineTree": "ca6d2825b5482930085d490205510fd8b9c09fab",
+  "lockfileSha256": "3470f548f2e24272956135380643a1e7d01f370afdcabd34e0cf8f6b28dc7a64",
+  "limitation": "Two independent local clean copies; not a production build attestation."
+}

@@ -83,7 +83,7 @@ try {
   }
   const pressAction = (action) => press(`[data-app-action=${action}]`);
 
-  await waitFor("document.documentElement.dataset.wp13_9Ready === 'true'");
+  await waitFor("document.documentElement?.dataset.wp13_9Ready === 'true'");
   assert.equal(await evaluate("document.body.innerText.trim().length > 100"), true);
   assert.equal(await evaluate("window.__WP13_10__.getRuntimeSafety().mode"), "NORMAL");
   assert.equal(await evaluate("window.__WP13_10__.getReleaseState().externalReceipts"), 0);

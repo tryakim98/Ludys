@@ -43,6 +43,7 @@ function fakeRuntime(options = {}) {
     },
     removeProfile: options.removeProfile ?? (async () => {}),
     readProfileEntries: options.readProfileEntries ?? (async () => []),
+    findProfileProcesses: options.findProfileProcesses ?? (async () => []),
   };
   if (options.forceTerminatePid !== undefined) {
     runtime.forceTerminatePid = (pid, label) => options.forceTerminatePid({
@@ -187,6 +188,7 @@ test("Windows keeps PID-scoped tree termination and never uses an image-wide kil
   assert.deepEqual(control.events, ["taskkill:501"]);
   const source = await readFile(new URL("./browser-cleanup.mjs", import.meta.url), "utf8");
   assert.match(source, /\["\/PID", String\(pid\), "\/T", "\/F"\]/);
+  assert.match(source, /\{ verifiedExisting: true \}/);
   assert.doesNotMatch(source, /\/IM\s+|msedge\.exe.*\/F/i);
 });
 
@@ -201,6 +203,32 @@ test("profile removal retries bounded file-release races with backoff", async ()
   await removeBrowserProfile("/tmp/owned-profile", { runtime: control.runtime });
   assert.equal(attempts, 3);
   assert.ok(control.now() >= 1_400);
+});
+
+test("Windows profile cleanup retries a transient child-process inspection", async () => {
+  let removalAttempts = 0;
+  let inspectionAttempts = 0;
+  let locked = true;
+  const control = fakeRuntime({
+    platform: "win32",
+    removeProfile: async () => {
+      removalAttempts += 1;
+      if (locked) throw Object.assign(new Error("profile busy"), { code: "EBUSY" });
+    },
+    findProfileProcesses: async () => {
+      inspectionAttempts += 1;
+      if (inspectionAttempts === 1) throw new Error("transient CIM failure");
+      return [{ ProcessId: 888 }];
+    },
+    forceTerminatePid: async ({ pid, events }) => {
+      events.push(`taskkill:${pid}`);
+      locked = false;
+    },
+  });
+  await removeBrowserProfile("C:\\Temp\\owned-profile", { runtime: control.runtime });
+  assert.equal(inspectionAttempts, 2);
+  assert.deepEqual(control.events, ["taskkill:888"]);
+  assert.equal(removalAttempts, 7);
 });
 
 test("terminal profile cleanup failures remain fatal and diagnostic", async () => {
@@ -225,7 +253,7 @@ test("terminal profile cleanup failures remain fatal and diagnostic", async () =
       assert.match(error.message, /Process group ID: 601/);
       assert.match(error.message, /proof server status: stopped/);
       assert.match(error.message, /ENOTEMPTY: profile locked/);
-      assert.match(error.message, /Cleanup elapsed: 30000 ms/);
+      assert.match(error.message, /Cleanup elapsed: 60000 ms/);
       assert.match(error.message, /Cache\/locked-file/);
       return true;
     },
