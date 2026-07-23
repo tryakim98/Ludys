@@ -1,0 +1,15 @@
+{
+  "schemaVersion": "wp13.11-operations-evidence-v1",
+  "evidenceDate": "2026-07-22",
+  "classification": "ADULT_ONLY_SYNTHETIC_DRY_RUN",
+  "domainModel": "IMPLEMENTED",
+  "validator": "AUTOMATED_PROOF",
+  "browser": "HEADLESS_BROWSER_PROOF",
+  "serviceWorker": "ACTUAL_BROWSER_ORIGIN_PROOF_AND_CONTRACT_TEST",
+  "physicalDevices": "NOT_TESTED",
+  "manualAccessibility": "MANUAL_REVIEW_REQUIRED",
+  "externalReceipts": 0,
+  "b8": "NOT_DECISION_READY",
+  "studentBeta": "NOT_AUTHORIZED",
+  "production": "NOT_AUTHORIZED"
+}

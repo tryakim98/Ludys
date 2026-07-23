@@ -12,6 +12,7 @@ export const wp13_10LocalReleaseState: LocalReleaseState = {
     contentReleaseId: "wp13-8-authentic-draft-corpus-r1",
     knowledgeReleaseId: "release-knowledge-audio-prototype-001",
     audioReleaseId: "wp13-9-audio-specifications-r1",
+    operationsReleaseId: "wp13-10-operations-not-present",
     schemaVersion: RELEASE_SCHEMA_VERSION,
   },
   catalog: [
@@ -25,6 +26,7 @@ export const wp13_10LocalReleaseState: LocalReleaseState = {
     { component: "AUDIO", revisionId: "TEXT_AND_SILENCE", schemaVersion: RELEASE_SCHEMA_VERSION, lifecycle: "AVAILABLE", sha256: SHA_A },
     { component: "AUDIO", revisionId: "wp13-9-audio-specifications-r1", schemaVersion: RELEASE_SCHEMA_VERSION, lifecycle: "AVAILABLE", sha256: SHA_B },
     { component: "AUDIO", revisionId: "wp13-9-withdrawn-audio-proof", schemaVersion: RELEASE_SCHEMA_VERSION, lifecycle: "WITHDRAWN", sha256: SHA_A },
+    { component: "OPERATIONS", revisionId: "wp13-10-operations-not-present", schemaVersion: RELEASE_SCHEMA_VERSION, lifecycle: "AVAILABLE", sha256: SHA_A },
   ],
   history: [],
   productionDeploymentAuthorized: false,

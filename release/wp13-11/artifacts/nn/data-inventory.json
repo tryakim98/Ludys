@@ -1,0 +1,62 @@
+{
+  "artifactId": "wp13-11.data-inventory.nn.v1",
+  "artifactType": "DATA_INVENTORY",
+  "version": "1.0.0-draft",
+  "locale": "nn",
+  "title": "Datainventar",
+  "audience": [
+    "ADULT_OPERATOR",
+    "ADULT_REVIEWER"
+  ],
+  "status": "DRAFT_FOR_ADULT_REVIEW",
+  "reviewStatus": "REVIEW_REQUIRED",
+  "authorizationStatus": "ADULT_ONLY_SYNTHETIC_DRY_RUN_ONLY",
+  "purpose": "Vise nøyaktig kva lokale syntetiske dataklassar som er tillatne og forbodne.",
+  "allowedUse": [
+    "ADULT_ONLY_SYNTHETIC_DRY_RUN",
+    "LOCAL_INTERNAL_REVIEW",
+    "NO_REAL_PARTICIPANTS"
+  ],
+  "prohibitedUse": [
+    "STUDENT_USE",
+    "RECRUITMENT",
+    "REAL_PERSONAL_DATA",
+    "PROVIDER_ACTIVATION",
+    "PRODUCTION",
+    "B8_DECISION"
+  ],
+  "contentSections": [
+    {
+      "sectionId": "nn-section-01",
+      "heading": "Tillate",
+      "paragraphs": [
+        "Berre syntetisk sessionstate, versjonar, lukka tekniske kodar, korte guarda vaksenfunn, drillresultat og lokal eksport."
+      ]
+    },
+    {
+      "sectionId": "nn-section-02",
+      "heading": "Forbode",
+      "paragraphs": [
+        "Ingen ekte person- eller skuledata, medium, stabil identitet, kopling mellom økter, analytics, replay, heatmaps eller fingerprinting."
+      ]
+    }
+  ],
+  "sourceReferences": [
+    "INTERNAL-WP13-11-SCOPE",
+    "INTERNAL-WP13-10-BASELINE",
+    "OFFICIAL-DATATILSYNET-DPIA",
+    "OFFICIAL-UDIR-SCHOOL-PRIVACY",
+    "OFFICIAL-UDIR-STUDENT-RIGHTS"
+  ],
+  "amendmentHistory": [
+    {
+      "revision": 1,
+      "at": "2026-07-22T00:00:00.000Z",
+      "reason": "Initial WP13.11 adult-only review draft",
+      "externalReceipt": false
+    }
+  ],
+  "withdrawalStatus": "CURRENT",
+  "createdAt": "2026-07-22T00:00:00.000Z",
+  "updatedAt": "2026-07-22T00:00:00.000Z"
+}

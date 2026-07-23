@@ -1,0 +1,60 @@
+{
+  "artifactId": "wp13-11.incident-card.nb.v1",
+  "artifactType": "INCIDENT_CARD",
+  "version": "1.0.0-draft",
+  "locale": "nb",
+  "title": "Incidentkort",
+  "audience": [
+    "ADULT_OPERATOR",
+    "ADULT_REVIEWER"
+  ],
+  "status": "DRAFT_FOR_ADULT_REVIEW",
+  "reviewStatus": "REVIEW_REQUIRED",
+  "authorizationStatus": "ADULT_ONLY_SYNTHETIC_DRY_RUN_ONLY",
+  "purpose": "Gi en kort fail-closed prosedyre ved syntetisk incident.",
+  "allowedUse": [
+    "ADULT_ONLY_SYNTHETIC_DRY_RUN",
+    "LOCAL_INTERNAL_REVIEW",
+    "NO_REAL_PARTICIPANTS"
+  ],
+  "prohibitedUse": [
+    "STUDENT_USE",
+    "RECRUITMENT",
+    "REAL_PERSONAL_DATA",
+    "PROVIDER_ACTIVATION",
+    "PRODUCTION",
+    "B8_DECISION"
+  ],
+  "contentSections": [
+    {
+      "sectionId": "nb-section-01",
+      "heading": "Containment",
+      "paragraphs": [
+        "Blokker ny start, stopp aktiv dry-run og lyd, kanseller ventende UI-handlinger og isoler komponenten."
+      ]
+    },
+    {
+      "sectionId": "nb-section-02",
+      "heading": "Videre",
+      "paragraphs": [
+        "Bevar bare minimal teknisk evidens, velg rollback eller withdrawal og krev eksplisitt ny start."
+      ]
+    }
+  ],
+  "sourceReferences": [
+    "INTERNAL-WP13-11-SCOPE",
+    "INTERNAL-WP13-10-BASELINE",
+    "OFFICIAL-NIST-SP800-61R3"
+  ],
+  "amendmentHistory": [
+    {
+      "revision": 1,
+      "at": "2026-07-22T00:00:00.000Z",
+      "reason": "Initial WP13.11 adult-only review draft",
+      "externalReceipt": false
+    }
+  ],
+  "withdrawalStatus": "CURRENT",
+  "createdAt": "2026-07-22T00:00:00.000Z",
+  "updatedAt": "2026-07-22T00:00:00.000Z"
+}

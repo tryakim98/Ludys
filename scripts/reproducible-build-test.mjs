@@ -48,7 +48,7 @@ function runNpm(directory, args) {
 const copies = [];
 try {
   for (const label of ["a", "b"]) {
-    const directory = await mkdtemp(join(tmpdir(), `wp13-10-clean-build-${label}-`));
+    const directory = await mkdtemp(join(tmpdir(), `wp13-11-clean-build-${label}-`));
     copies.push(directory);
     for (const input of inputs) await cp(join(root, input), join(directory, input), { recursive: true });
     runNpm(directory, ["ci", "--offline", "--ignore-scripts", "--audit=false", "--fund=false"]);
@@ -67,14 +67,14 @@ try {
     operatingSystem: `${process.platform}-${process.arch}`,
     timestampPolicy: "SOURCE_CONTENT_ONLY_NO_BUILD_TIMESTAMP",
   };
-  const recorded = JSON.parse(await readFile(join(root, "artifacts", "wp13-10-reproducible-build-result.json"), "utf8").catch(() => "{}"));
+  const recorded = JSON.parse(await readFile(join(root, "artifacts", "wp13-11-reproducible-build-result.json"), "utf8").catch(() => "{}"));
   if (writeEvidence) {
-    await writeFile(join(root, "artifacts", "wp13-10-reproducible-build-result.json"), `${JSON.stringify(evidence, null, 2)}\n`, "utf8");
+    await writeFile(join(root, "artifacts", "wp13-11-reproducible-build-result.json"), `${JSON.stringify(evidence, null, 2)}\n`, "utf8");
   } else {
     assert.equal(recorded.status, "VERIFIED_IDENTICAL", "recorded reproducible-build evidence is missing");
     assert.equal(recorded.distSha256, evidence.distSha256, "current clean-copy digest differs from recorded evidence");
   }
-  console.log(`WP13.10 reproducible build passed: ${digests[0]} (${copies.length} independent clean copies).`);
+  console.log(`WP13.11 reproducible build passed: ${digests[0]} (${copies.length} independent clean copies).`);
 } finally {
   for (const directory of copies) await rm(directory, { recursive: true, force: true, maxRetries: 5, retryDelay: 200 });
 }

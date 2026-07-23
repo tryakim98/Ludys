@@ -1,0 +1,59 @@
+{
+  "artifactId": "wp13-11.decision-log.nb.v1",
+  "artifactType": "DECISION_LOG",
+  "version": "1.0.0-draft",
+  "locale": "nb",
+  "title": "Beslutningslogg",
+  "audience": [
+    "ADULT_OPERATOR",
+    "ADULT_REVIEWER"
+  ],
+  "status": "DRAFT_FOR_ADULT_REVIEW",
+  "reviewStatus": "REVIEW_REQUIRED",
+  "authorizationStatus": "ADULT_ONLY_SYNTHETIC_DRY_RUN_ONLY",
+  "purpose": "Skille tekniske implementeringsvalg fra eier-, juridiske og etiske beslutninger.",
+  "allowedUse": [
+    "ADULT_ONLY_SYNTHETIC_DRY_RUN",
+    "LOCAL_INTERNAL_REVIEW",
+    "NO_REAL_PARTICIPANTS"
+  ],
+  "prohibitedUse": [
+    "STUDENT_USE",
+    "RECRUITMENT",
+    "REAL_PERSONAL_DATA",
+    "PROVIDER_ACTIVATION",
+    "PRODUCTION",
+    "B8_DECISION"
+  ],
+  "contentSections": [
+    {
+      "sectionId": "nb-section-01",
+      "heading": "Kan logges",
+      "paragraphs": [
+        "Lokale tekniske valg, åpne reviewbehov og eksplisitte stoppunkter."
+      ]
+    },
+    {
+      "sectionId": "nb-section-02",
+      "heading": "Kan ikke tas her",
+      "paragraphs": [
+        "B8, rekruttering, elevbeta, behandlingsgrunnlag, skoleeieransvar og produksjonsautorisasjon."
+      ]
+    }
+  ],
+  "sourceReferences": [
+    "INTERNAL-WP13-11-SCOPE",
+    "INTERNAL-WP13-10-BASELINE"
+  ],
+  "amendmentHistory": [
+    {
+      "revision": 1,
+      "at": "2026-07-22T00:00:00.000Z",
+      "reason": "Initial WP13.11 adult-only review draft",
+      "externalReceipt": false
+    }
+  ],
+  "withdrawalStatus": "CURRENT",
+  "createdAt": "2026-07-22T00:00:00.000Z",
+  "updatedAt": "2026-07-22T00:00:00.000Z"
+}

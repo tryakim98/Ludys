@@ -1,0 +1,79 @@
+{
+  "schemaVersion": "wp13.11-official-source-register-v1",
+  "sources": [
+    {
+      "sourceId": "OFFICIAL-DATATILSYNET-DPIA",
+      "title": "Veiledning om vurdering av personvernkonsekvenser (DPIA)",
+      "publisher": "Datatilsynet",
+      "url": "https://www.datatilsynet.no/rettigheter-og-plikter/virksomhetenes-plikter/vurdering-av-personvernkonsekvenser/",
+      "checkedAt": "2026-07-22",
+      "claimScope": "Structure later DPIA work and risk questions",
+      "cannotDecide": [
+        "Whether a DPIA is complete",
+        "Legal basis",
+        "Student use",
+        "B8"
+      ],
+      "reverificationRequiredBefore": "ANY_EXTERNAL_REVIEW_OR_B8_DECISION"
+    },
+    {
+      "sourceId": "OFFICIAL-UDIR-SCHOOL-PRIVACY",
+      "title": "Personvern i barnehage og skole",
+      "publisher": "Utdanningsdirektoratet",
+      "url": "https://www.udir.no/regelverk-og-tilsyn/personvern-for-barnehage-og-skole/",
+      "checkedAt": "2026-07-22",
+      "claimScope": "Structure school-owner privacy questions and data minimisation",
+      "cannotDecide": [
+        "School-owner approval",
+        "Processing basis",
+        "Recruitment",
+        "Student use"
+      ],
+      "reverificationRequiredBefore": "ANY_SCHOOL_OWNER_OR_PRIVACY_REVIEW"
+    },
+    {
+      "sourceId": "OFFICIAL-UDIR-STUDENT-RIGHTS",
+      "title": "Barn og elevers personvernrettigheter",
+      "publisher": "Utdanningsdirektoratet",
+      "url": "https://www.udir.no/regelverk-og-tilsyn/personvern-for-barnehage-og-skole/elevenes-rettigheter/",
+      "checkedAt": "2026-07-22",
+      "claimScope": "Structure later transparency and information review",
+      "cannotDecide": [
+        "Final participant information",
+        "Consent",
+        "Assent",
+        "Contact authority"
+      ],
+      "reverificationRequiredBefore": "ANY_PARTICIPANT_INFORMATION_REVIEW"
+    },
+    {
+      "sourceId": "OFFICIAL-W3C-WCAG22",
+      "title": "Web Content Accessibility Guidelines (WCAG) 2.2",
+      "publisher": "World Wide Web Consortium",
+      "url": "https://www.w3.org/TR/WCAG22/",
+      "checkedAt": "2026-07-22",
+      "claimScope": "Structure accessibility checks and manual review planning",
+      "cannotDecide": [
+        "WCAG conformance",
+        "Manual AT acceptance",
+        "Student readiness"
+      ],
+      "reverificationRequiredBefore": "ANY_CONFORMANCE_CLAIM_OR_EXTERNAL_ACCESSIBILITY_REVIEW"
+    },
+    {
+      "sourceId": "OFFICIAL-NIST-SP800-61R3",
+      "title": "NIST SP 800-61 Rev. 3 Incident Response Recommendations",
+      "publisher": "National Institute of Standards and Technology",
+      "url": "https://csrc.nist.gov/pubs/sp/800/61/r3/final",
+      "checkedAt": "2026-07-22",
+      "claimScope": "Structure synthetic incident preparation, containment and recovery drills",
+      "cannotDecide": [
+        "Production incident readiness",
+        "Organisational approval",
+        "B8",
+        "Student use"
+      ],
+      "reverificationRequiredBefore": "ANY_PRODUCTION_SECURITY_OR_INCIDENT_REVIEW"
+    }
+  ]
+}

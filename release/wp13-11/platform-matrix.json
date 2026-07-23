@@ -1,0 +1,42 @@
+{
+  "schemaVersion": "wp13.11-platform-matrix-v1",
+  "date": "2026-07-22",
+  "rows": [
+    {
+      "platform": "Microsoft Edge desktop",
+      "testType": "ACTUAL_BROWSER_ORIGIN_PROOF",
+      "result": "PASS",
+      "limitation": "Local headless Windows proof; not manual AT review"
+    },
+    {
+      "platform": "Chromium 320px / 200% / touch",
+      "testType": "DEVICE_EMULATION",
+      "result": "PASS",
+      "limitation": "Emulation, not a physical phone"
+    },
+    {
+      "platform": "Keyboard, focus, reduced motion, forced colors and AX tree",
+      "testType": "HEADLESS_BROWSER_PROOF",
+      "result": "PASS",
+      "limitation": "Automation cannot establish WCAG conformance"
+    },
+    {
+      "platform": "Firefox",
+      "testType": "NOT_TESTED",
+      "result": "NOT_TESTED",
+      "limitation": "Requires a local Firefox environment"
+    },
+    {
+      "platform": "Safari / iOS",
+      "testType": "NOT_TESTED",
+      "result": "NOT_TESTED",
+      "limitation": "Requires Apple hardware or an authorized remote environment"
+    },
+    {
+      "platform": "Manual screen reader / AT",
+      "testType": "MANUAL_REVIEW_REQUIRED",
+      "result": "OPEN",
+      "limitation": "Human review remains required"
+    }
+  ]
+}

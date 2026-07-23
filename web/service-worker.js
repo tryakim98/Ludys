@@ -1,5 +1,5 @@
 const LUDYS_CACHE_PREFIX = "ludys-shell-";
-const LUDYS_CACHE_VERSION = "0.14.0-reconstructed.7";
+const LUDYS_CACHE_VERSION = "0.14.0-reconstructed.8";
 const LUDYS_SHELL_CACHE = `${LUDYS_CACHE_PREFIX}${LUDYS_CACHE_VERSION}`;
 const LUDYS_CONTENT_POLICY_CACHE = "ludys-content-policy-1";
 const LUDYS_CONTENT_POLICY_PATH = "/web/corpus-lifecycle-policy.json";
@@ -23,14 +23,17 @@ const LUDYS_APP_SHELL = Object.freeze([
   "/dist/src/ui/browser/pwa-status.js",
   "/dist/src/ui/browser/synthetic-app-navigation-templates.js",
   "/dist/src/ui/browser/authoring-workspace-templates.js",
+  "/dist/src/ui/browser/beta-operations-templates.js",
   "/dist/src/ui/browser/runtime-safety.js",
   "/dist/src/composition/create-synthetic-app-navigation.js",
   "/dist/src/composition/create-authoring-pipeline.js",
+  "/dist/src/composition/create-beta-operations.js",
   "/dist/src/adapters/in-memory/fixed-clock.js",
   "/dist/src/adapters/in-memory/in-memory-session-lifecycle.js",
   "/dist/src/application/synthetic-app-navigation-controller.js",
   "/dist/src/application/draft-corpus-controller.js",
   "/dist/src/application/authoring-pipeline-controller.js",
+  "/dist/src/application/beta-operations-controller.js",
   "/dist/src/application/session-lifecycle-controller.js",
   "/dist/src/content/fixtures/bm/word-proof-content.js",
   "/dist/src/content/fixtures/bm/word-proof.js",
@@ -42,9 +45,12 @@ const LUDYS_APP_SHELL = Object.freeze([
   "/dist/src/content/authoring/wp13-9-authoring-packages.js",
   "/dist/src/content/authoring/wp13-9-technical-audio-fixtures.js",
   "/dist/src/content/prototype/wp13-10-release-state.js",
+  "/dist/src/content/prototype/wp13-11-release-state.js",
+  "/dist/src/content/operations/wp13-11-operations-kit.js",
   "/dist/src/core/content-contracts.js",
   "/dist/src/core/draft-learning-corpus.js",
   "/dist/src/core/authoring-pipeline.js",
+  "/dist/src/core/beta-operations.js",
   "/dist/src/core/evidence.js",
   "/dist/src/core/reliability-hardening.js",
   "/dist/src/core/release-hardening.js",

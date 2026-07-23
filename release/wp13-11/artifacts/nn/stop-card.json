@@ -1,0 +1,59 @@
+{
+  "artifactId": "wp13-11.stop-card.nn.v1",
+  "artifactType": "STOP_CARD",
+  "version": "1.0.0-draft",
+  "locale": "nn",
+  "title": "STOPP-kort",
+  "audience": [
+    "ADULT_OPERATOR",
+    "ADULT_REVIEWER"
+  ],
+  "status": "DRAFT_FOR_ADULT_REVIEW",
+  "reviewStatus": "REVIEW_REQUIRED",
+  "authorizationStatus": "ADULT_ONLY_SYNTHETIC_DRY_RUN_ONLY",
+  "purpose": "Gjere STOPP-dominans eksplisitt i alle dry-run-tilstandar.",
+  "allowedUse": [
+    "ADULT_ONLY_SYNTHETIC_DRY_RUN",
+    "LOCAL_INTERNAL_REVIEW",
+    "NO_REAL_PARTICIPANTS"
+  ],
+  "prohibitedUse": [
+    "STUDENT_USE",
+    "RECRUITMENT",
+    "REAL_PERSONAL_DATA",
+    "PROVIDER_ACTIVATION",
+    "PRODUCTION",
+    "B8_DECISION"
+  ],
+  "contentSections": [
+    {
+      "sectionId": "nn-section-01",
+      "heading": "STOPP gjer",
+      "paragraphs": [
+        "Stoppar aktiv aktivitet, ventande handlingar, lyd, vaksenkort og dry-run-progresjon."
+      ]
+    },
+    {
+      "sectionId": "nn-section-02",
+      "heading": "Omstart",
+      "paragraphs": [
+        "Ei stoppa økt kan ikkje halde fram. Ny eksplisitt lokal session er kravd."
+      ]
+    }
+  ],
+  "sourceReferences": [
+    "INTERNAL-WP13-11-SCOPE",
+    "INTERNAL-WP13-10-BASELINE"
+  ],
+  "amendmentHistory": [
+    {
+      "revision": 1,
+      "at": "2026-07-22T00:00:00.000Z",
+      "reason": "Initial WP13.11 adult-only review draft",
+      "externalReceipt": false
+    }
+  ],
+  "withdrawalStatus": "CURRENT",
+  "createdAt": "2026-07-22T00:00:00.000Z",
+  "updatedAt": "2026-07-22T00:00:00.000Z"
+}

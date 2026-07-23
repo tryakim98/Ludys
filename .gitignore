@@ -9,3 +9,5 @@ coverage/
 
 artifacts/*
 !artifacts/wp13-10-*.json
+!artifacts/wp13-11-*.json
+!artifacts/wp13-11-*.png

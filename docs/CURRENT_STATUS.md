@@ -1,10 +1,10 @@
-# Gjeldende teknisk status – R1 + WP13.10
+# Gjeldende teknisk status – R1 + WP13.11
 
 ```text
 Product: LUDYS
 Repository: ludys-app-reconstructed
-Version: 0.14.0-reconstructed.7
-Baseline: WP13.4 functional proof + WP13.7A lifecycle chassis + WP13.7B app journey + WP13.7C local PWA shell + WP13.8 authentic draft corpus + WP13.9 authoring/audio pipeline + WP13.10 reliability/security/release hardening
+Version: 0.14.0-reconstructed.8
+Baseline: WP13.4 functional proof + WP13.7A lifecycle chassis + WP13.7B app journey + WP13.7C local PWA shell + WP13.8 authentic draft corpus + WP13.9 authoring/audio pipeline + WP13.10 reliability/security/release hardening + WP13.11 adult-only operations kit
 Data: synthetic and session-bound
 Runtime AI: none
 Provider/backend/auth: none
@@ -37,4 +37,8 @@ Recovery skiller tom, korrupt, inkompatibel og utilgjengelig state fra trygg tek
 
 Releaseproofet versjonerer app, innhold, kunnskap, lyd og schema separat. Lokal rollback er uavhengig, avviser withdrawn/ukjent/inkompatibel revisjon og fører append-only historikk. `npm run check:release` samler regresjon, chaos/recovery/rollback, headless Edge, PWA, sikkerhet, ytelse, release metadata, SBOM/lisenser, checksums, to clean-copy-builds og production dependency audit. Dette er syntetisk lokal releaseproof, ikke deployment eller produksjonsattestasjon.
 
-Beviset er lokalt, syntetisk og maskinelt. Edge er kjørt headless på faktisk lokal browserorigin; 320 px, touch og Android-liknende miljø er emulering, ikke fysisk enhetstest. Firefox, Safari/iOS, fysisk Android, produksjons-service-worker, produksjonsrollback og manuell hjelpemiddeltest er ikke testet. Provider, auth, produksjonspersistens, ekte data, produksjonsdeployment, bakgrunnssynkronisering, pushvarsler, faktisk lydopptak, validert progresjon og ekstern fag-/språk-/co-design-review er ikke åpnet eller påstått fullført.
+WP13.11 legger til en femte, separat `OPERATIONS`-releasekomponent og en integrert `Betaoperasjon`-flate. Nøyaktig 27 semantiske artefakttyper finnes som 54 separate BM-/NN-filer (`nb`/`nn`) uten fallback. Flaten leder en 23-stegs adult-only syntetisk dry-run og dekker WAIT, hjelp, pause, STOP, SEV0, deletion/no-resurrection, operationsrollback, content withdrawal, guardede lokale voksenfunn og deterministisk lokal eksport.
+
+Måleordboken tillater bare avgrensede voksen-, tekniske-, tilgjengelighets-, innholdsreview- og drillmål. Elevresultat, hastighet, nivå, profil, kryssøktprogresjon, engagement, inferens, readiness og samlet score er `NOT_COLLECTED` og teknisk blokkert. Datainventaret autoriserer ingen ekte person- eller skoledata. Fire deltakerrettede utkast er tydelig `DRAFT_NOT_AUTHORIZED_FOR_STUDENT_USE`; de er ikke rekrutteringsmateriell, consent, assent, behandlingsgrunnlag, DPIA eller autorisasjon.
+
+Beviset er lokalt, syntetisk og maskinelt. Edge er kjørt headless på faktisk lokal browserorigin; 320 px, touch og Android-liknende miljø er emulering, ikke fysisk enhetstest. Firefox, Safari/iOS, fysisk Android, produksjons-service-worker, produksjonsrollback og manuell hjelpemiddeltest er ikke testet. Provider, auth, produksjonspersistens, ekte data, produksjonsdeployment, bakgrunnssynkronisering, pushvarsler, faktisk lydopptak, validert progresjon og ekstern fag-/språk-/juridisk-/etisk-/skoleeier-/co-design-review er ikke åpnet eller påstått fullført. `OPERATIONS_KIT` er maksimalt `READY_FOR_ADULT_ONLY_DRY_RUN`; receipts er 0, B8 er ikke beslutningsklar, og studentbeta og produksjon er ikke autorisert.

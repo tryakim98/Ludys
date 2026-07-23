@@ -1,0 +1,59 @@
+{
+  "artifactId": "wp13-11.pre-session-checklist.nn.v1",
+  "artifactType": "PRE_SESSION_CHECKLIST",
+  "version": "1.0.0-draft",
+  "locale": "nn",
+  "title": "Sjekkliste før dry-run",
+  "audience": [
+    "ADULT_OPERATOR",
+    "ADULT_REVIEWER"
+  ],
+  "status": "DRAFT_FOR_ADULT_REVIEW",
+  "reviewStatus": "REVIEW_REQUIRED",
+  "authorizationStatus": "ADULT_ONLY_SYNTHETIC_DRY_RUN_ONLY",
+  "purpose": "Kontrollere at den lokale syntetiske ramma er trygg før start.",
+  "allowedUse": [
+    "ADULT_ONLY_SYNTHETIC_DRY_RUN",
+    "LOCAL_INTERNAL_REVIEW",
+    "NO_REAL_PARTICIPANTS"
+  ],
+  "prohibitedUse": [
+    "STUDENT_USE",
+    "RECRUITMENT",
+    "REAL_PERSONAL_DATA",
+    "PROVIDER_ACTIVATION",
+    "PRODUCTION",
+    "B8_DECISION"
+  ],
+  "contentSections": [
+    {
+      "sectionId": "nn-section-01",
+      "heading": "Må vere sant",
+      "paragraphs": [
+        "Ingen barn er til stades, ingen ekte data er lagde inn, nettverkstenester er ikkje aktiverte, og STOPP er synleg."
+      ]
+    },
+    {
+      "sectionId": "nn-section-02",
+      "heading": "Versjonar",
+      "paragraphs": [
+        "Kontroller app-, content-, knowledge-, audio- og operations-revisjon før start."
+      ]
+    }
+  ],
+  "sourceReferences": [
+    "INTERNAL-WP13-11-SCOPE",
+    "INTERNAL-WP13-10-BASELINE"
+  ],
+  "amendmentHistory": [
+    {
+      "revision": 1,
+      "at": "2026-07-22T00:00:00.000Z",
+      "reason": "Initial WP13.11 adult-only review draft",
+      "externalReceipt": false
+    }
+  ],
+  "withdrawalStatus": "CURRENT",
+  "createdAt": "2026-07-22T00:00:00.000Z",
+  "updatedAt": "2026-07-22T00:00:00.000Z"
+}

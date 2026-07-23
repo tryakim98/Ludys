@@ -1,0 +1,499 @@
+{
+  "schemaVersion": "wp13.11-measurement-dictionary-v1",
+  "metrics": [
+    {
+      "metricId": "adult_onboarding_minutes",
+      "definition": "Elapsed adult onboarding time",
+      "purpose": "Check whether the adult-only instructions can be followed",
+      "unitOrValueType": "whole_minutes",
+      "allowedContext": "ADULT_ONLY_SYNTHETIC_DRY_RUN",
+      "prohibitedInterpretation": [
+        "ADULT_COMPETENCE",
+        "TEACHER_PERFORMANCE",
+        "STUDENT_PERFORMANCE",
+        "STUDENT_PROFILE",
+        "TREATMENT_EFFECT",
+        "READING_DEVELOPMENT",
+        "MOTIVATION",
+        "ABILITY",
+        "DIAGNOSIS",
+        "PILOT_READINESS"
+      ],
+      "retention": "MEMORY_UNTIL_EXPLICIT_DELETE_OR_LOCAL_EXPORT",
+      "containsPersonalData": false,
+      "crossSessionLinkage": false,
+      "studentData": false,
+      "authorization": "AUTHORIZED_FOR_ADULT_ONLY_SYNTHETIC_DRY_RUN"
+    },
+    {
+      "metricId": "adult_instruction_understanding",
+      "definition": "Adult self-report of instruction clarity",
+      "purpose": "Improve the operations guide",
+      "unitOrValueType": "CLEAR|PARTLY_CLEAR|UNCLEAR",
+      "allowedContext": "ADULT_ONLY_SYNTHETIC_DRY_RUN",
+      "prohibitedInterpretation": [
+        "ADULT_COMPETENCE",
+        "TEACHER_PERFORMANCE",
+        "STUDENT_PERFORMANCE",
+        "STUDENT_PROFILE",
+        "TREATMENT_EFFECT",
+        "READING_DEVELOPMENT",
+        "MOTIVATION",
+        "ABILITY",
+        "DIAGNOSIS",
+        "PILOT_READINESS"
+      ],
+      "retention": "MEMORY_UNTIL_EXPLICIT_DELETE_OR_LOCAL_EXPORT",
+      "containsPersonalData": false,
+      "crossSessionLinkage": false,
+      "studentData": false,
+      "authorization": "AUTHORIZED_FOR_ADULT_ONLY_SYNTHETIC_DRY_RUN"
+    },
+    {
+      "metricId": "adult_operator_load",
+      "definition": "Adult self-report of operational load",
+      "purpose": "Find avoidable operational burden",
+      "unitOrValueType": "LOW|MODERATE|HIGH",
+      "allowedContext": "ADULT_ONLY_SYNTHETIC_DRY_RUN",
+      "prohibitedInterpretation": [
+        "ADULT_COMPETENCE",
+        "TEACHER_PERFORMANCE",
+        "STUDENT_PERFORMANCE",
+        "STUDENT_PROFILE",
+        "TREATMENT_EFFECT",
+        "READING_DEVELOPMENT",
+        "MOTIVATION",
+        "ABILITY",
+        "DIAGNOSIS",
+        "PILOT_READINESS"
+      ],
+      "retention": "MEMORY_UNTIL_EXPLICIT_DELETE_OR_LOCAL_EXPORT",
+      "containsPersonalData": false,
+      "crossSessionLinkage": false,
+      "studentData": false,
+      "authorization": "AUTHORIZED_FOR_ADULT_ONLY_SYNTHETIC_DRY_RUN"
+    },
+    {
+      "metricId": "accessibility_finding",
+      "definition": "Structured non-diagnostic accessibility finding",
+      "purpose": "Identify a review item",
+      "unitOrValueType": "finding_classification",
+      "allowedContext": "ADULT_ONLY_SYNTHETIC_DRY_RUN",
+      "prohibitedInterpretation": [
+        "ADULT_COMPETENCE",
+        "TEACHER_PERFORMANCE",
+        "STUDENT_PERFORMANCE",
+        "STUDENT_PROFILE",
+        "TREATMENT_EFFECT",
+        "READING_DEVELOPMENT",
+        "MOTIVATION",
+        "ABILITY",
+        "DIAGNOSIS",
+        "PILOT_READINESS"
+      ],
+      "retention": "MEMORY_UNTIL_EXPLICIT_DELETE_OR_LOCAL_EXPORT",
+      "containsPersonalData": false,
+      "crossSessionLinkage": false,
+      "studentData": false,
+      "authorization": "AUTHORIZED_FOR_ADULT_ONLY_SYNTHETIC_DRY_RUN"
+    },
+    {
+      "metricId": "content_review_finding",
+      "definition": "Structured adult content-review finding",
+      "purpose": "Identify a draft content review item",
+      "unitOrValueType": "finding_classification",
+      "allowedContext": "ADULT_ONLY_SYNTHETIC_DRY_RUN",
+      "prohibitedInterpretation": [
+        "ADULT_COMPETENCE",
+        "TEACHER_PERFORMANCE",
+        "STUDENT_PERFORMANCE",
+        "STUDENT_PROFILE",
+        "TREATMENT_EFFECT",
+        "READING_DEVELOPMENT",
+        "MOTIVATION",
+        "ABILITY",
+        "DIAGNOSIS",
+        "PILOT_READINESS"
+      ],
+      "retention": "MEMORY_UNTIL_EXPLICIT_DELETE_OR_LOCAL_EXPORT",
+      "containsPersonalData": false,
+      "crossSessionLinkage": false,
+      "studentData": false,
+      "authorization": "AUTHORIZED_FOR_ADULT_ONLY_SYNTHETIC_DRY_RUN"
+    },
+    {
+      "metricId": "technical_error_code",
+      "definition": "Closed technical error code",
+      "purpose": "Reproduce a technical failure",
+      "unitOrValueType": "controlled_code",
+      "allowedContext": "ADULT_ONLY_SYNTHETIC_DRY_RUN",
+      "prohibitedInterpretation": [
+        "ADULT_COMPETENCE",
+        "TEACHER_PERFORMANCE",
+        "STUDENT_PERFORMANCE",
+        "STUDENT_PROFILE",
+        "TREATMENT_EFFECT",
+        "READING_DEVELOPMENT",
+        "MOTIVATION",
+        "ABILITY",
+        "DIAGNOSIS",
+        "PILOT_READINESS"
+      ],
+      "retention": "MEMORY_UNTIL_EXPLICIT_DELETE_OR_LOCAL_EXPORT",
+      "containsPersonalData": false,
+      "crossSessionLinkage": false,
+      "studentData": false,
+      "authorization": "AUTHORIZED_FOR_ADULT_ONLY_SYNTHETIC_DRY_RUN"
+    },
+    {
+      "metricId": "incident_class",
+      "definition": "Closed synthetic incident class",
+      "purpose": "Exercise containment",
+      "unitOrValueType": "SEV0|SEV1|SEV2",
+      "allowedContext": "ADULT_ONLY_SYNTHETIC_DRY_RUN",
+      "prohibitedInterpretation": [
+        "ADULT_COMPETENCE",
+        "TEACHER_PERFORMANCE",
+        "STUDENT_PERFORMANCE",
+        "STUDENT_PROFILE",
+        "TREATMENT_EFFECT",
+        "READING_DEVELOPMENT",
+        "MOTIVATION",
+        "ABILITY",
+        "DIAGNOSIS",
+        "PILOT_READINESS"
+      ],
+      "retention": "MEMORY_UNTIL_EXPLICIT_DELETE_OR_LOCAL_EXPORT",
+      "containsPersonalData": false,
+      "crossSessionLinkage": false,
+      "studentData": false,
+      "authorization": "AUTHORIZED_FOR_ADULT_ONLY_SYNTHETIC_DRY_RUN"
+    },
+    {
+      "metricId": "rollback_drill_result",
+      "definition": "Outcome of local rollback drill",
+      "purpose": "Verify independent rollback",
+      "unitOrValueType": "PASS|FAIL|NOT_RUN",
+      "allowedContext": "ADULT_ONLY_SYNTHETIC_DRY_RUN",
+      "prohibitedInterpretation": [
+        "ADULT_COMPETENCE",
+        "TEACHER_PERFORMANCE",
+        "STUDENT_PERFORMANCE",
+        "STUDENT_PROFILE",
+        "TREATMENT_EFFECT",
+        "READING_DEVELOPMENT",
+        "MOTIVATION",
+        "ABILITY",
+        "DIAGNOSIS",
+        "PILOT_READINESS"
+      ],
+      "retention": "MEMORY_UNTIL_EXPLICIT_DELETE_OR_LOCAL_EXPORT",
+      "containsPersonalData": false,
+      "crossSessionLinkage": false,
+      "studentData": false,
+      "authorization": "AUTHORIZED_FOR_ADULT_ONLY_SYNTHETIC_DRY_RUN"
+    },
+    {
+      "metricId": "stop_drill_result",
+      "definition": "Outcome of STOP dominance drill",
+      "purpose": "Verify STOP dominance",
+      "unitOrValueType": "PASS|FAIL|NOT_RUN",
+      "allowedContext": "ADULT_ONLY_SYNTHETIC_DRY_RUN",
+      "prohibitedInterpretation": [
+        "ADULT_COMPETENCE",
+        "TEACHER_PERFORMANCE",
+        "STUDENT_PERFORMANCE",
+        "STUDENT_PROFILE",
+        "TREATMENT_EFFECT",
+        "READING_DEVELOPMENT",
+        "MOTIVATION",
+        "ABILITY",
+        "DIAGNOSIS",
+        "PILOT_READINESS"
+      ],
+      "retention": "MEMORY_UNTIL_EXPLICIT_DELETE_OR_LOCAL_EXPORT",
+      "containsPersonalData": false,
+      "crossSessionLinkage": false,
+      "studentData": false,
+      "authorization": "AUTHORIZED_FOR_ADULT_ONLY_SYNTHETIC_DRY_RUN"
+    },
+    {
+      "metricId": "deletion_drill_result",
+      "definition": "Outcome of deletion/no-resurrection drill",
+      "purpose": "Verify deletion boundary",
+      "unitOrValueType": "PASS|FAIL|NOT_RUN",
+      "allowedContext": "ADULT_ONLY_SYNTHETIC_DRY_RUN",
+      "prohibitedInterpretation": [
+        "ADULT_COMPETENCE",
+        "TEACHER_PERFORMANCE",
+        "STUDENT_PERFORMANCE",
+        "STUDENT_PROFILE",
+        "TREATMENT_EFFECT",
+        "READING_DEVELOPMENT",
+        "MOTIVATION",
+        "ABILITY",
+        "DIAGNOSIS",
+        "PILOT_READINESS"
+      ],
+      "retention": "MEMORY_UNTIL_EXPLICIT_DELETE_OR_LOCAL_EXPORT",
+      "containsPersonalData": false,
+      "crossSessionLinkage": false,
+      "studentData": false,
+      "authorization": "AUTHORIZED_FOR_ADULT_ONLY_SYNTHETIC_DRY_RUN"
+    },
+    {
+      "metricId": "withdrawal_drill_result",
+      "definition": "Outcome of content-withdrawal drill",
+      "purpose": "Verify withdrawn material stays unavailable",
+      "unitOrValueType": "PASS|FAIL|NOT_RUN",
+      "allowedContext": "ADULT_ONLY_SYNTHETIC_DRY_RUN",
+      "prohibitedInterpretation": [
+        "ADULT_COMPETENCE",
+        "TEACHER_PERFORMANCE",
+        "STUDENT_PERFORMANCE",
+        "STUDENT_PROFILE",
+        "TREATMENT_EFFECT",
+        "READING_DEVELOPMENT",
+        "MOTIVATION",
+        "ABILITY",
+        "DIAGNOSIS",
+        "PILOT_READINESS"
+      ],
+      "retention": "MEMORY_UNTIL_EXPLICIT_DELETE_OR_LOCAL_EXPORT",
+      "containsPersonalData": false,
+      "crossSessionLinkage": false,
+      "studentData": false,
+      "authorization": "AUTHORIZED_FOR_ADULT_ONLY_SYNTHETIC_DRY_RUN"
+    }
+  ],
+  "forbiddenMetrics": [
+    {
+      "metricId": "student_accuracy",
+      "status": "NOT_COLLECTED",
+      "technicallyBlocked": true,
+      "blockedAcross": [
+        "DOMAIN",
+        "CONTROLLER",
+        "SCHEMA",
+        "UI",
+        "EXPORT",
+        "STORAGE",
+        "LOGS",
+        "FIXTURES",
+        "TEST_DATA",
+        "DOCUMENTATION",
+        "RELEASE"
+      ],
+      "reason": "Student measurement, profiling, inference and combined scoring are outside WP13.11 authorization."
+    },
+    {
+      "metricId": "student_speed",
+      "status": "NOT_COLLECTED",
+      "technicallyBlocked": true,
+      "blockedAcross": [
+        "DOMAIN",
+        "CONTROLLER",
+        "SCHEMA",
+        "UI",
+        "EXPORT",
+        "STORAGE",
+        "LOGS",
+        "FIXTURES",
+        "TEST_DATA",
+        "DOCUMENTATION",
+        "RELEASE"
+      ],
+      "reason": "Student measurement, profiling, inference and combined scoring are outside WP13.11 authorization."
+    },
+    {
+      "metricId": "student_reading_level",
+      "status": "NOT_COLLECTED",
+      "technicallyBlocked": true,
+      "blockedAcross": [
+        "DOMAIN",
+        "CONTROLLER",
+        "SCHEMA",
+        "UI",
+        "EXPORT",
+        "STORAGE",
+        "LOGS",
+        "FIXTURES",
+        "TEST_DATA",
+        "DOCUMENTATION",
+        "RELEASE"
+      ],
+      "reason": "Student measurement, profiling, inference and combined scoring are outside WP13.11 authorization."
+    },
+    {
+      "metricId": "student_error_profile",
+      "status": "NOT_COLLECTED",
+      "technicallyBlocked": true,
+      "blockedAcross": [
+        "DOMAIN",
+        "CONTROLLER",
+        "SCHEMA",
+        "UI",
+        "EXPORT",
+        "STORAGE",
+        "LOGS",
+        "FIXTURES",
+        "TEST_DATA",
+        "DOCUMENTATION",
+        "RELEASE"
+      ],
+      "reason": "Student measurement, profiling, inference and combined scoring are outside WP13.11 authorization."
+    },
+    {
+      "metricId": "engagement_score",
+      "status": "NOT_COLLECTED",
+      "technicallyBlocked": true,
+      "blockedAcross": [
+        "DOMAIN",
+        "CONTROLLER",
+        "SCHEMA",
+        "UI",
+        "EXPORT",
+        "STORAGE",
+        "LOGS",
+        "FIXTURES",
+        "TEST_DATA",
+        "DOCUMENTATION",
+        "RELEASE"
+      ],
+      "reason": "Student measurement, profiling, inference and combined scoring are outside WP13.11 authorization."
+    },
+    {
+      "metricId": "cross_session_progress",
+      "status": "NOT_COLLECTED",
+      "technicallyBlocked": true,
+      "blockedAcross": [
+        "DOMAIN",
+        "CONTROLLER",
+        "SCHEMA",
+        "UI",
+        "EXPORT",
+        "STORAGE",
+        "LOGS",
+        "FIXTURES",
+        "TEST_DATA",
+        "DOCUMENTATION",
+        "RELEASE"
+      ],
+      "reason": "Student measurement, profiling, inference and combined scoring are outside WP13.11 authorization."
+    },
+    {
+      "metricId": "affect_inference",
+      "status": "NOT_COLLECTED",
+      "technicallyBlocked": true,
+      "blockedAcross": [
+        "DOMAIN",
+        "CONTROLLER",
+        "SCHEMA",
+        "UI",
+        "EXPORT",
+        "STORAGE",
+        "LOGS",
+        "FIXTURES",
+        "TEST_DATA",
+        "DOCUMENTATION",
+        "RELEASE"
+      ],
+      "reason": "Student measurement, profiling, inference and combined scoring are outside WP13.11 authorization."
+    },
+    {
+      "metricId": "motivation_inference",
+      "status": "NOT_COLLECTED",
+      "technicallyBlocked": true,
+      "blockedAcross": [
+        "DOMAIN",
+        "CONTROLLER",
+        "SCHEMA",
+        "UI",
+        "EXPORT",
+        "STORAGE",
+        "LOGS",
+        "FIXTURES",
+        "TEST_DATA",
+        "DOCUMENTATION",
+        "RELEASE"
+      ],
+      "reason": "Student measurement, profiling, inference and combined scoring are outside WP13.11 authorization."
+    },
+    {
+      "metricId": "ability_inference",
+      "status": "NOT_COLLECTED",
+      "technicallyBlocked": true,
+      "blockedAcross": [
+        "DOMAIN",
+        "CONTROLLER",
+        "SCHEMA",
+        "UI",
+        "EXPORT",
+        "STORAGE",
+        "LOGS",
+        "FIXTURES",
+        "TEST_DATA",
+        "DOCUMENTATION",
+        "RELEASE"
+      ],
+      "reason": "Student measurement, profiling, inference and combined scoring are outside WP13.11 authorization."
+    },
+    {
+      "metricId": "diagnostic_inference",
+      "status": "NOT_COLLECTED",
+      "technicallyBlocked": true,
+      "blockedAcross": [
+        "DOMAIN",
+        "CONTROLLER",
+        "SCHEMA",
+        "UI",
+        "EXPORT",
+        "STORAGE",
+        "LOGS",
+        "FIXTURES",
+        "TEST_DATA",
+        "DOCUMENTATION",
+        "RELEASE"
+      ],
+      "reason": "Student measurement, profiling, inference and combined scoring are outside WP13.11 authorization."
+    },
+    {
+      "metricId": "readiness_score",
+      "status": "NOT_COLLECTED",
+      "technicallyBlocked": true,
+      "blockedAcross": [
+        "DOMAIN",
+        "CONTROLLER",
+        "SCHEMA",
+        "UI",
+        "EXPORT",
+        "STORAGE",
+        "LOGS",
+        "FIXTURES",
+        "TEST_DATA",
+        "DOCUMENTATION",
+        "RELEASE"
+      ],
+      "reason": "Student measurement, profiling, inference and combined scoring are outside WP13.11 authorization."
+    },
+    {
+      "metricId": "combined_student_score",
+      "status": "NOT_COLLECTED",
+      "technicallyBlocked": true,
+      "blockedAcross": [
+        "DOMAIN",
+        "CONTROLLER",
+        "SCHEMA",
+        "UI",
+        "EXPORT",
+        "STORAGE",
+        "LOGS",
+        "FIXTURES",
+        "TEST_DATA",
+        "DOCUMENTATION",
+        "RELEASE"
+      ],
+      "reason": "Student measurement, profiling, inference and combined scoring are outside WP13.11 authorization."
+    }
+  ]
+}

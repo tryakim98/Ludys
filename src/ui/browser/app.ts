@@ -1,16 +1,19 @@
 import { createSyntheticAppNavigation } from "../../composition/create-synthetic-app-navigation.js";
 import { createAuthoringPipeline } from "../../composition/create-authoring-pipeline.js";
+import { createBetaOperations } from "../../composition/create-beta-operations.js";
 import type { AuthoringLocaleTextField } from "../../application/authoring-pipeline-controller.js";
+import type { FindingClassification, OperationsArtifactType, OperationsLocale } from "../../core/beta-operations.js";
 import type { LifecycleRole } from "../../application/session-lifecycle-controller.js";
 import type { AuthoringLifecyclePolicy, LocalAuthoringReviewNote } from "../../core/authoring-pipeline.js";
 import type { Locale } from "../../core/content-contracts.js";
 import type { CorpusLifecyclePolicy, DraftCorpusMode } from "../../core/draft-learning-corpus.js";
 import { renderSyntheticAppNavigation } from "./synthetic-app-navigation-templates.js";
 import { renderAuthoringWorkspace } from "./authoring-workspace-templates.js";
+import { renderBetaOperations } from "./beta-operations-templates.js";
 import { createLocalPwaCoordinator, type LocalPwaCoordinator } from "./pwa-status.js";
 import { installRuntimeSafetyBoundary } from "./runtime-safety.js";
 import { rollbackComponent, type LocalReleaseState, type ReleaseComponent } from "../../core/release-hardening.js";
-import { wp13_10LocalReleaseState } from "../../content/prototype/wp13-10-release-state.js";
+import { wp13_11LocalReleaseState } from "../../content/prototype/wp13-11-release-state.js";
 
 const rootElement = document.querySelector<HTMLDivElement>("#app");
 if (rootElement === null) throw new Error("WP13.7B app shell is missing #app");
@@ -19,28 +22,42 @@ const root: HTMLDivElement = rootElement;
 const pageInstance = crypto.randomUUID();
 const { controller } = createSyntheticAppNavigation("nb-NO", pageInstance);
 const authoringController = createAuthoringPipeline();
+const operationsController = createBetaOperations();
 let authoringOpen = false;
+let operationsOpen = false;
 let pwaCoordinator: LocalPwaCoordinator | undefined;
-let localReleaseState: LocalReleaseState = wp13_10LocalReleaseState;
+let localReleaseState: LocalReleaseState = wp13_11LocalReleaseState;
+let exportObjectUrl: string | undefined;
 
 function render(focus = false): void {
-  root.innerHTML = authoringOpen
-    ? renderAuthoringWorkspace(authoringController.view)
-    : renderSyntheticAppNavigation(controller.view);
-  const locale = authoringOpen ? authoringController.view.locale : controller.view.locale;
-  document.documentElement.lang = locale === "nb-NO" ? "nb" : "nn";
+  if (exportObjectUrl !== undefined) URL.revokeObjectURL(exportObjectUrl);
+  exportObjectUrl = undefined;
+  root.innerHTML = operationsOpen
+    ? renderBetaOperations(operationsController.view)
+    : authoringOpen
+      ? renderAuthoringWorkspace(authoringController.view)
+      : renderSyntheticAppNavigation(controller.view);
+  const locale = operationsOpen ? operationsController.view.locale : authoringOpen ? authoringController.view.locale : controller.view.locale;
+  document.documentElement.lang = locale === "nb-NO" || locale === "nb" ? "nb" : "nn";
   document.documentElement.dataset.wp13_7bReady = "true";
   document.documentElement.dataset.wp13_7cReady = "true";
   pwaCoordinator?.refresh();
+  const download = root.querySelector<HTMLAnchorElement>("#operations-export-download");
+  if (download !== null && operationsController.view.exportPreview !== "") {
+    exportObjectUrl = URL.createObjectURL(new Blob([operationsController.view.exportPreview], { type: "application/json" }));
+    download.href = exportObjectUrl;
+  }
   if (focus) {
     queueMicrotask(() => {
-      root.querySelector<HTMLElement>(authoringOpen ? "#authoring-title" : "#screen-title")?.focus();
+      root.querySelector<HTMLElement>(operationsOpen ? "#operations-integrity-title" : authoringOpen ? "#authoring-title" : "#screen-title")?.focus();
     });
   }
 }
 
 function announce(message: string, urgent = false): void {
-  const target = root.querySelector<HTMLElement>(authoringOpen
+  const target = root.querySelector<HTMLElement>(operationsOpen
+    ? urgent ? "#operations-alert" : "#operations-status"
+    : authoringOpen
     ? urgent ? "#authoring-alert" : "#authoring-status"
     : urgent ? "#app-alert" : "#app-status");
   if (target === null) return;
@@ -54,6 +71,53 @@ function controlValue(selector: string): string {
 
 root.addEventListener("click", async (event) => {
   const element = event.target as Element;
+  const operationsButton = element.closest<HTMLButtonElement>("button[data-operations-action]");
+  if (operationsButton !== null && !operationsButton.disabled) {
+    const action = operationsButton.dataset.operationsAction;
+    try {
+      switch (action) {
+        case "open":
+          operationsController.setLocale(controller.view.locale === "nb-NO" ? "nb" : "nn");
+          authoringOpen = false;
+          operationsOpen = true;
+          break;
+        case "close": operationsOpen = false; break;
+        case "start": operationsController.startNewDryRun(); break;
+        case "wait": operationsController.wait(); break;
+        case "help": operationsController.requestHelp(); break;
+        case "pause": operationsController.pause(); break;
+        case "resume": operationsController.resume(); break;
+        case "stop": operationsController.stop(); break;
+        case "stop-drill": operationsController.stop(); break;
+        case "sev0": operationsController.runSev0Drill(); break;
+        case "record-finding":
+          operationsController.addFinding(
+            controlValue("#operations-finding-classification") as FindingClassification,
+            controlValue("#operations-finding-code"),
+            controlValue("#operations-finding-note"),
+          );
+          break;
+        case "delete-records": operationsController.deleteDryRunRecords(); break;
+        case "delete": operationsController.deleteSessionState(); break;
+        case "reconnect": operationsController.reconnect(); break;
+        case "rollback": {
+          const result = rollbackComponent(localReleaseState, "OPERATIONS", "wp13-11-operations-kit-r0", new Date().toISOString());
+          if (result.accepted) localReleaseState = result.state;
+          operationsController.recordRollbackDrill(result.accepted, localReleaseState.active.operationsReleaseId);
+          break;
+        }
+        case "withdrawal": operationsController.runWithdrawalDrill(); break;
+        case "export": operationsController.exportLocalReviewPackage(); break;
+        default: return;
+      }
+      render(true);
+      if (operationsOpen) announce(operationsController.view.lastAction);
+    } catch (error) {
+      render();
+      announce(error instanceof Error ? error.message : String(error), true);
+    }
+    return;
+  }
   const authoringLocale = element.closest<HTMLButtonElement>("button[data-authoring-locale]");
   if (authoringLocale !== null) {
     authoringController.setLocale(authoringLocale.dataset.authoringLocale as Locale);
@@ -188,6 +252,18 @@ root.addEventListener("click", async (event) => {
 });
 
 root.addEventListener("change", (event) => {
+  const operationsLocale = (event.target as Element).closest<HTMLSelectElement>("#operations-locale");
+  if (operationsLocale !== null) {
+    operationsController.setLocale(operationsLocale.value as OperationsLocale);
+    render(true);
+    return;
+  }
+  const operationsArtifact = (event.target as Element).closest<HTMLSelectElement>("#operations-artifact-select");
+  if (operationsArtifact !== null) {
+    operationsController.selectArtifact(operationsArtifact.value as OperationsArtifactType);
+    render(true);
+    return;
+  }
   const packageSelect = (event.target as Element).closest<HTMLSelectElement>("#authoring-package-select");
   if (packageSelect !== null) {
     authoringController.selectPackage(packageSelect.value);
@@ -235,6 +311,7 @@ const runtimeSafetyBoundary = installRuntimeSafetyBoundary({
   getLocale: () => controller.view.locale,
   onStop: () => {
     authoringController.stopAudio();
+    operationsController.stop();
     controller.stop();
     render(true);
   },
@@ -243,6 +320,7 @@ const runtimeSafetyBoundary = installRuntimeSafetyBoundary({
     if (!["STOPPED", "DELETED", "COMPLETED"].includes(controller.view.lifecycleState)) controller.stop();
     controller.startNewSession();
     authoringOpen = false;
+    operationsOpen = false;
     render(true);
   },
 });
@@ -380,5 +458,22 @@ Object.assign(window, {
       if (result.accepted) localReleaseState = result.state;
       return result;
     },
+  },
+  __WP13_11__: {
+    ready: Promise.resolve(true),
+    getOperationsView: () => operationsController.view,
+    openOperations: () => { authoringOpen = false; operationsOpen = true; render(true); return operationsController.view; },
+    closeOperations: () => { operationsOpen = false; render(true); },
+    setLocale: (locale: OperationsLocale) => { operationsController.setLocale(locale); render(true); return operationsController.view; },
+    selectArtifact: (artifactType: OperationsArtifactType) => { operationsController.selectArtifact(artifactType); render(true); return operationsController.view; },
+    startDryRun: () => { operationsController.startNewDryRun(); render(true); return operationsController.view; },
+    addFinding: (classification: FindingClassification, code: string, note: string) => { const result = operationsController.addFinding(classification, code, note); render(); return result; },
+    runSev0: () => { operationsController.runSev0Drill(); render(true); return operationsController.view; },
+    stop: () => { operationsController.stop(); render(true); return operationsController.view; },
+    deleteState: () => { operationsController.deleteSessionState(); render(true); return operationsController.view; },
+    reconnect: () => { const result = operationsController.reconnect(); render(); return result; },
+    exportLocalReview: () => { const result = operationsController.exportLocalReviewPackage(); render(); return result; },
+    deleteRecords: () => { operationsController.deleteDryRunRecords(); render(); return operationsController.view; },
+    runWithdrawal: (artifactType?: OperationsArtifactType) => { operationsController.runWithdrawalDrill(artifactType); render(true); return operationsController.view; },
   },
 });

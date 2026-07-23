@@ -1,0 +1,59 @@
+{
+  "artifactId": "wp13-11.role-allocation.nn.v1",
+  "artifactType": "ROLE_ALLOCATION",
+  "version": "1.0.0-draft",
+  "locale": "nn",
+  "title": "Syntetisk rollefordeling",
+  "audience": [
+    "ADULT_OPERATOR",
+    "ADULT_REVIEWER"
+  ],
+  "status": "DRAFT_FOR_ADULT_REVIEW",
+  "reviewStatus": "REVIEW_REQUIRED",
+  "authorizationStatus": "ADULT_ONLY_SYNTHETIC_DRY_RUN_ONLY",
+  "purpose": "Fordele tydelege vaksenstyrte roller utan å opprette personidentitet.",
+  "allowedUse": [
+    "ADULT_ONLY_SYNTHETIC_DRY_RUN",
+    "LOCAL_INTERNAL_REVIEW",
+    "NO_REAL_PARTICIPANTS"
+  ],
+  "prohibitedUse": [
+    "STUDENT_USE",
+    "RECRUITMENT",
+    "REAL_PERSONAL_DATA",
+    "PROVIDER_ACTIVATION",
+    "PRODUCTION",
+    "B8_DECISION"
+  ],
+  "contentSections": [
+    {
+      "sectionId": "nn-section-01",
+      "heading": "Roller",
+      "paragraphs": [
+        "Bruk Operatør, Observatør og Tryggleiksansvarleg som mellombelse funksjonar. Éin vaksen kan fylle alle."
+      ]
+    },
+    {
+      "sectionId": "nn-section-02",
+      "heading": "Ingen profil",
+      "paragraphs": [
+        "Ikkje registrer namn, skule, kontaktinformasjon eller stabil rolle-ID."
+      ]
+    }
+  ],
+  "sourceReferences": [
+    "INTERNAL-WP13-11-SCOPE",
+    "INTERNAL-WP13-10-BASELINE"
+  ],
+  "amendmentHistory": [
+    {
+      "revision": 1,
+      "at": "2026-07-22T00:00:00.000Z",
+      "reason": "Initial WP13.11 adult-only review draft",
+      "externalReceipt": false
+    }
+  ],
+  "withdrawalStatus": "CURRENT",
+  "createdAt": "2026-07-22T00:00:00.000Z",
+  "updatedAt": "2026-07-22T00:00:00.000Z"
+}

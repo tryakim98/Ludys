@@ -1,0 +1,23 @@
+{
+  "schemaVersion": "wp13.11-license-inventory-v1",
+  "generatedFrom": "package-lock.json",
+  "runtimeDependencies": [],
+  "developmentDependencies": [
+    {
+      "name": "@types/node",
+      "version": "22.15.30",
+      "license": "MIT"
+    },
+    {
+      "name": "typescript",
+      "version": "5.8.3",
+      "license": "Apache-2.0"
+    },
+    {
+      "name": "undici-types",
+      "version": "6.21.0",
+      "license": "MIT"
+    }
+  ],
+  "unresolvedLicenses": []
+}

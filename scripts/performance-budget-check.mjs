@@ -5,7 +5,7 @@ import { join } from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
 
 const root = fileURLToPath(new URL("..", import.meta.url));
-const policy = JSON.parse(await readFile(join(root, "release", "wp13-10", "performance-budgets.json"), "utf8"));
+const policy = JSON.parse(await readFile(join(root, "release", "wp13-11", "performance-budgets.json"), "utf8"));
 const budgets = policy.budgets;
 
 async function collect(directory, extension) {
@@ -38,12 +38,12 @@ for (const [name, value] of Object.entries(measurements)) {
 }
 
 const releaseModule = await import(pathToFileURL(join(root, "dist", "src", "core", "release-hardening.js")));
-const stateModule = await import(pathToFileURL(join(root, "dist", "src", "content", "prototype", "wp13-10-release-state.js")));
+const stateModule = await import(pathToFileURL(join(root, "dist", "src", "content", "prototype", "wp13-11-release-state.js")));
 const started = performance.now();
 for (let index = 0; index < 1000; index += 1) {
-  const result = releaseModule.rollbackComponent(stateModule.wp13_10LocalReleaseState, "AUDIO", "TEXT_AND_SILENCE", "2026-07-22T12:00:00.000Z");
+  const result = releaseModule.rollbackComponent(stateModule.wp13_11LocalReleaseState, "AUDIO", "TEXT_AND_SILENCE", "2026-07-22T12:00:00.000Z");
   assert.equal(result.accepted, true);
 }
 const rollbackResponseMs = (performance.now() - started) / 1000;
 assert.ok(rollbackResponseMs <= budgets.rollbackResponseMs, `rollback response ${rollbackResponseMs}ms exceeds budget`);
-console.log(`WP13.10 performance budgets passed: ${JSON.stringify({ ...measurements, rollbackResponseMs })}`);
+console.log(`WP13.11 performance budgets passed without weakening WP13.10 limits: ${JSON.stringify({ ...measurements, rollbackResponseMs })}`);
