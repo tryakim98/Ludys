@@ -1,0 +1,30 @@
+{
+  "schemaVersion": "wp13.12a-known-limitations-v1",
+  "manualReviewRequired": [
+    "Human BM review",
+    "Human NN review",
+    "Manual screen-reader and assistive-technology review",
+    "Product-owner decision",
+    "Legal and DPA review",
+    "School-owner review",
+    "DPIA decision",
+    "Ethical review"
+  ],
+  "notTested": [
+    "Physical two-device flow",
+    "Actual provider project",
+    "Actual regional latency",
+    "Actual IAM",
+    "Actual deletion from provider backups",
+    "Safari/iOS",
+    "Firefox"
+  ],
+  "cannotBeProvedByThisPackage": [
+    "Provider contract acceptance",
+    "Norwegian-school legality",
+    "Hard billing guarantee",
+    "Production readiness"
+  ],
+  "p0OpenInAutomatedScope": 0,
+  "p1OpenInAutomatedScope": 0
+}

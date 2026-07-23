@@ -143,3 +143,23 @@ Dry-run-funn bruker lukkede kategorier, kontrollert kode og maksimalt 160 tegn. 
 ## D13-035 — OPERATIONS er en separat rollbackkomponent
 
 Releasekontrakten versjonerer app, content, knowledge, audio og operations uavhengig. Operationsrollback er append-only og fail-closed for unknown, withdrawn, inkompatibel og no-op revisjon. Rollback eller withdrawal kan ikke reaktivere slettet dry-run-state eller skjule en målformgrense.
+
+## D13-036 — WP13.12A anbefaler capability, men foretar ingen eierbeslutning
+
+Det tekniske minimumet er en funksjonsutstedt, opak og kortlivet capability bundet til én syntetisk økt, én rolle, eksakt authority generation og forventet revisjon. Den oppretter ingen stabil eller kryssøkt provideridentitet. `recommended` betyr ikke `selected`, `approved` eller `activated`; alle eierfelt forblir `PENDING_OWNER_ACTION`.
+
+## D13-037 — Regional kandidat er europe-north1 uten regionlås
+
+`europe-north1` er anbefalt fordi dagens offisielle tabeller viser regional Firestore og Cloud Functions 2nd gen i samme region. Firestore-lokasjon er immutable etter opprettelse, derfor er `REGION_LOCK_NOT_EXECUTED = true` en hard grense. Lagring i Finland avgjør ikke DPA, supportdata, tredjelandstilgang, DPIA eller skoleeieraksept.
+
+## D13-038 — Direkte klientskriv og providerkontoidentitet er ikke minimum
+
+Klienten kan bare sende lukket kommando og motta minimum rolleprojeksjon. En autoritativ handler validerer capability, replay, revisjon og authority generation, kaller providerfri pure core og utfører lagring. Firebase Anonymous Auth er ikke anbefalt fordi det innfører UID-/kontolivsløp og separat Auth-behandling som ikke er nødvendig for én syntetisk økt.
+
+## D13-039 — TTL er backstop; eksplisitt sletting og STOP dominerer
+
+TTL regnes aldri som umiddelbar sletting. Autoritativ eksplisitt sletting fjerner state, tilbakekaller capabilities og skriver minimal tombstone. Backup/PITR er av i anbefalt baseline. STOP, DELETE, authority generation og tombstone hindrer gjenoppliving.
+
+## D13-040 — Providerbeslutning er en egen rollbackkomponent
+
+`PROVIDER_DECISION` versjoneres og rulles tilbake separat fra app, content, knowledge, audio og operations. Beslutningsflate og eksport har ingen aktiveringskontroller. Ingen kode i WP13.12A oppretter konto, prosjekt, database, function, billing, secret eller deployment.

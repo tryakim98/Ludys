@@ -1,0 +1,163 @@
+{
+  "schemaVersion": "wp13.12a-deployment-runbook-v1",
+  "scope": "FUTURE_WP13_12B_ONLY_IF_OWNER_APPROVES",
+  "executedSteps": 0,
+  "steps": [
+    {
+      "sequence": 1,
+      "action": "Verify signed owner decision",
+      "status": "NOT_EXECUTED",
+      "requiredGate": "SIGNED_OWNER_DECISION_BOUND_TO_PACKAGE_CHECKSUM"
+    },
+    {
+      "sequence": 2,
+      "action": "Re-verify provider facts and prices",
+      "status": "NOT_EXECUTED",
+      "requiredGate": "PREVIOUS_STEP_VERIFIED"
+    },
+    {
+      "sequence": 3,
+      "action": "Check authorized cost ceiling",
+      "status": "NOT_EXECUTED",
+      "requiredGate": "PREVIOUS_STEP_VERIFIED"
+    },
+    {
+      "sequence": 4,
+      "action": "Create isolated project ID",
+      "status": "NOT_EXECUTED",
+      "requiredGate": "PREVIOUS_STEP_VERIFIED"
+    },
+    {
+      "sequence": 5,
+      "action": "Lock approved region before database creation",
+      "status": "NOT_EXECUTED",
+      "requiredGate": "PREVIOUS_STEP_VERIFIED"
+    },
+    {
+      "sequence": 6,
+      "action": "Configure separate billing",
+      "status": "NOT_EXECUTED",
+      "requiredGate": "PREVIOUS_STEP_VERIFIED"
+    },
+    {
+      "sequence": 7,
+      "action": "Create least-privilege service accounts",
+      "status": "NOT_EXECUTED",
+      "requiredGate": "PREVIOUS_STEP_VERIFIED"
+    },
+    {
+      "sequence": 8,
+      "action": "Configure secrets",
+      "status": "NOT_EXECUTED",
+      "requiredGate": "PREVIOUS_STEP_VERIFIED"
+    },
+    {
+      "sequence": 9,
+      "action": "Configure Functions region",
+      "status": "NOT_EXECUTED",
+      "requiredGate": "PREVIOUS_STEP_VERIFIED"
+    },
+    {
+      "sequence": 10,
+      "action": "Deploy deny-by-default rules",
+      "status": "NOT_EXECUTED",
+      "requiredGate": "PREVIOUS_STEP_VERIFIED"
+    },
+    {
+      "sequence": 11,
+      "action": "Keep unselected services disabled",
+      "status": "NOT_EXECUTED",
+      "requiredGate": "PREVIOUS_STEP_VERIFIED"
+    },
+    {
+      "sequence": 12,
+      "action": "Configure quotas",
+      "status": "NOT_EXECUTED",
+      "requiredGate": "PREVIOUS_STEP_VERIFIED"
+    },
+    {
+      "sequence": 13,
+      "action": "Configure billing alerts",
+      "status": "NOT_EXECUTED",
+      "requiredGate": "PREVIOUS_STEP_VERIFIED"
+    },
+    {
+      "sequence": 14,
+      "action": "Configure logging and retention",
+      "status": "NOT_EXECUTED",
+      "requiredGate": "PREVIOUS_STEP_VERIFIED"
+    },
+    {
+      "sequence": 15,
+      "action": "Configure kill switch",
+      "status": "NOT_EXECUTED",
+      "requiredGate": "PREVIOUS_STEP_VERIFIED"
+    },
+    {
+      "sequence": 16,
+      "action": "Seed synthetic fixtures only",
+      "status": "NOT_EXECUTED",
+      "requiredGate": "PREVIOUS_STEP_VERIFIED"
+    },
+    {
+      "sequence": 17,
+      "action": "Connect protected preview",
+      "status": "NOT_EXECUTED",
+      "requiredGate": "PREVIOUS_STEP_VERIFIED"
+    },
+    {
+      "sequence": 18,
+      "action": "Run Functions, rules and transport tests",
+      "status": "NOT_EXECUTED",
+      "requiredGate": "PREVIOUS_STEP_VERIFIED"
+    },
+    {
+      "sequence": 19,
+      "action": "Run two-physical-device proof if available",
+      "status": "NOT_EXECUTED",
+      "requiredGate": "PREVIOUS_STEP_VERIFIED"
+    },
+    {
+      "sequence": 20,
+      "action": "Run STOP proof",
+      "status": "NOT_EXECUTED",
+      "requiredGate": "PREVIOUS_STEP_VERIFIED"
+    },
+    {
+      "sequence": 21,
+      "action": "Run deletion proof",
+      "status": "NOT_EXECUTED",
+      "requiredGate": "PREVIOUS_STEP_VERIFIED"
+    },
+    {
+      "sequence": 22,
+      "action": "Run no-resurrection proof",
+      "status": "NOT_EXECUTED",
+      "requiredGate": "PREVIOUS_STEP_VERIFIED"
+    },
+    {
+      "sequence": 23,
+      "action": "Run rollback proof",
+      "status": "NOT_EXECUTED",
+      "requiredGate": "PREVIOUS_STEP_VERIFIED"
+    },
+    {
+      "sequence": 24,
+      "action": "Document provider receipts",
+      "status": "NOT_EXECUTED",
+      "requiredGate": "PREVIOUS_STEP_VERIFIED"
+    },
+    {
+      "sequence": 25,
+      "action": "Delete staging at expiry",
+      "status": "NOT_EXECUTED",
+      "requiredGate": "PREVIOUS_STEP_VERIFIED"
+    },
+    {
+      "sequence": 26,
+      "action": "Stop before real data or participants",
+      "status": "NOT_EXECUTED",
+      "requiredGate": "PREVIOUS_STEP_VERIFIED"
+    }
+  ]
+}

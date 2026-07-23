@@ -1,6 +1,6 @@
-export const RELEASE_SCHEMA_VERSION = "wp13.11-release-v2" as const;
+export const RELEASE_SCHEMA_VERSION = "wp13.12a-release-v3" as const;
 
-export type ReleaseComponent = "APP" | "CONTENT" | "KNOWLEDGE" | "AUDIO" | "OPERATIONS";
+export type ReleaseComponent = "APP" | "CONTENT" | "KNOWLEDGE" | "AUDIO" | "OPERATIONS" | "PROVIDER_DECISION";
 
 export interface ComponentRevision {
   readonly component: ReleaseComponent;
@@ -16,6 +16,7 @@ export interface ComponentVersions {
   readonly knowledgeReleaseId: string;
   readonly audioReleaseId: string;
   readonly operationsReleaseId: string;
+  readonly providerDecisionReleaseId: string;
   readonly schemaVersion: typeof RELEASE_SCHEMA_VERSION;
 }
 
@@ -47,6 +48,7 @@ function activeRevision(state: LocalReleaseState, component: ReleaseComponent): 
     KNOWLEDGE: state.active.knowledgeReleaseId,
     AUDIO: state.active.audioReleaseId,
     OPERATIONS: state.active.operationsReleaseId,
+    PROVIDER_DECISION: state.active.providerDecisionReleaseId,
   }[component];
 }
 
@@ -57,6 +59,7 @@ function withRevision(active: ComponentVersions, component: ReleaseComponent, re
     case "KNOWLEDGE": return { ...active, knowledgeReleaseId: revisionId };
     case "AUDIO": return { ...active, audioReleaseId: revisionId };
     case "OPERATIONS": return { ...active, operationsReleaseId: revisionId };
+    case "PROVIDER_DECISION": return { ...active, providerDecisionReleaseId: revisionId };
   }
 }
 
@@ -103,6 +106,7 @@ export function validateLocalReleaseState(state: LocalReleaseState): string[] {
     ["KNOWLEDGE", state.active.knowledgeReleaseId],
     ["AUDIO", state.active.audioReleaseId],
     ["OPERATIONS", state.active.operationsReleaseId],
+    ["PROVIDER_DECISION", state.active.providerDecisionReleaseId],
   ] as const;
   for (const [component, revisionId] of active) {
     const revision = state.catalog.find((item) => item.component === component && item.revisionId === revisionId);

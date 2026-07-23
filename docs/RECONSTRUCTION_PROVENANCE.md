@@ -27,3 +27,15 @@
 ## Bevisgrense
 
 Dette repositoryet er ikke original historisk `0.13.1`. Alle commits og trees i denne linjen er nye.
+
+## WP13.12A-proveniens
+
+- Autentisk WP13.11-baselinecommit: `166e901bcd8f799bec21c5fcafbdbc2deae5e284`
+- Autentisk WP13.11-baselinetree: `805f9eec758f9e52bb308b8e3977b7a261443a51`
+- Kandidatbranch: `feature/wp13-12a-provider-region-capability-decision-package`
+- Parentbranch: `feature/wp13-11-complete-beta-operations-measurement-kit`
+- Historisk WP13.12A-kode eller tester importert: nei
+- Eksterne cloud writes: 0
+- Providerkontoer åpnet eller aksessert: nei
+- Full maskinlesbar proveniens: `release/wp13-12a/decision-package/decision-package-provenance.json`
+- Reproduserbar dist-SHA-256: `78d9dfb53bb244570a9533f04778f1526816a0d2c35c153edbe8253979b212d5`

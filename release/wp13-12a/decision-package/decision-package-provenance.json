@@ -1,0 +1,23 @@
+{
+  "schemaVersion": "wp13.12a-provenance-v1",
+  "baselineCommit": "166e901bcd8f799bec21c5fcafbdbc2deae5e284",
+  "baselineTree": "805f9eec758f9e52bb308b8e3977b7a261443a51",
+  "candidateBranch": "feature/wp13-12a-provider-region-capability-decision-package",
+  "parentBranch": "feature/wp13-11-complete-beta-operations-measurement-kit",
+  "sourceClassification": "CURRENT_IMPLEMENTATION_FROM_AUTHENTIC_WP13_11_BASELINE",
+  "historicalReferenceClassification": "HISTORICAL_REQUIREMENTS_AND_IMPLEMENTATION_REFERENCE",
+  "historicalFileFound": false,
+  "historicalCodeImported": false,
+  "historicalTestsImported": false,
+  "externalCloudWrites": 0,
+  "providerAccountsAccessed": false,
+  "timestampPolicy": "FIXED_CHECK_DATE_AND_CONTENT_ONLY_DIGESTS",
+  "checksumPolicy": "SHA256_CANONICAL_LF_UTF8_TEXT_RAW_BINARY",
+  "buildCommands": [
+    "npm run build",
+    "npm run provider:decision:generate",
+    "npm run provider:decision:validate",
+    "npm run check:release"
+  ],
+  "candidateCommitBinding": "Final Git commit and draft PR bind the tracked package after all checks pass."
+}

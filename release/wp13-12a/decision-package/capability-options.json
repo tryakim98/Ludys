@@ -1,0 +1,95 @@
+{
+  "schemaVersion": "wp13.12a-capability-options-v1",
+  "recommendation": "FUNCTION_ISSUED_SHORT_LIVED_SESSION_CAPABILITY",
+  "options": [
+    {
+      "capabilityOptionId": "NO_AUTH_LOCAL_ONLY",
+      "status": "ACCEPTABLE_FALLBACK",
+      "persistentIdentity": false,
+      "crossSessionIdentity": false,
+      "supportsPhysicalMultiDevice": false,
+      "revocation": "STOP or local deletion",
+      "storage": "memory only",
+      "risks": [
+        "No physical multi-device proof"
+      ]
+    },
+    {
+      "capabilityOptionId": "FUNCTION_ISSUED_SHORT_LIVED_SESSION_CAPABILITY",
+      "status": "RECOMMENDED",
+      "persistentIdentity": false,
+      "crossSessionIdentity": false,
+      "supportsPhysicalMultiDevice": true,
+      "revocation": "STOP, delete, expiry, authority change, kill switch",
+      "storage": "client memory; server hash or opaque lookup",
+      "risks": [
+        "Bearer theft",
+        "replay",
+        "log leakage"
+      ]
+    },
+    {
+      "capabilityOptionId": "FIREBASE_ANONYMOUS_AUTH",
+      "status": "NOT_RECOMMENDED",
+      "persistentIdentity": true,
+      "crossSessionIdentity": true,
+      "supportsPhysicalMultiDevice": true,
+      "revocation": "account disable/delete and token expiry",
+      "storage": "provider SDK persistence",
+      "risks": [
+        "UID becomes persistent identity",
+        "US-only Auth processing"
+      ]
+    },
+    {
+      "capabilityOptionId": "STABLE_ACCOUNT_AUTH",
+      "status": "NO_GO",
+      "persistentIdentity": true,
+      "crossSessionIdentity": true,
+      "supportsPhysicalMultiDevice": true,
+      "revocation": "account administration",
+      "storage": "persistent credentials",
+      "risks": [
+        "Unnecessary account and support surface"
+      ]
+    },
+    {
+      "capabilityOptionId": "EXTERNAL_IDENTITY_PROVIDER",
+      "status": "NO_GO",
+      "persistentIdentity": true,
+      "crossSessionIdentity": true,
+      "supportsPhysicalMultiDevice": true,
+      "revocation": "external provider",
+      "storage": "external account tokens",
+      "risks": [
+        "Cross-provider correlation and support burden"
+      ]
+    }
+  ],
+  "specification": {
+    "capabilityType": "OPAQUE_RANDOM_SHORT_LIVED_SESSION_CAPABILITY",
+    "maximumLifetime": "15_MINUTES_HARD_MAXIMUM; owner may approve a shorter value",
+    "roleBinding": "ONE_SYNTHETIC_ROLE",
+    "sessionBinding": "ONE_SYNTHETIC_SESSION",
+    "authorityGenerationBinding": "EXACT_SERVER_ISSUED_AUTHORITY_GENERATION",
+    "expectedRevisionBinding": "EVERY_COMMAND_CARRIES_EXPECTED_STATE_REVISION",
+    "clientStorage": "MEMORY_ONLY; NOT LOCAL_STORAGE, INDEXED_DB, URL OR LOG",
+    "serverStorage": "HASH_OR_OPAQUE_LOOKUP_WITH_EXPIRY; NEVER RAW_CAPABILITY_IN_LOG",
+    "revocationTriggers": [
+      "STOP",
+      "DELETE",
+      "EXPIRY",
+      "AUTHORITY_GENERATION_CHANGE",
+      "KILL_SWITCH",
+      "ABUSE_DENIAL"
+    ],
+    "loggingProhibition": [
+      "NO_RAW_CAPABILITY",
+      "NO_CAPABILITY_HASH_IN_APPLICATION_LOG"
+    ],
+    "rotation": "NEW RANDOM CAPABILITY FOR EACH EXPLICIT SYNTHETIC SESSION OR ROLE GRANT",
+    "rateLimiting": "SESSION, SOURCE AND PROJECT-SCOPED LIMITS WITH COARSE DENIAL ONLY",
+    "replayProtection": "EXPECTED_REVISION, COMMAND NONCE, AUTHORITY GENERATION AND SERVER-SIDE USED-NONCE WINDOW"
+  },
+  "activated": false
+}

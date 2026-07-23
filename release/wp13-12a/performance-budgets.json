@@ -1,0 +1,17 @@
+{
+  "schemaVersion": "wp13.12a-performance-budgets-v1",
+  "evidenceLevel": "HEADLESS_BROWSER_PROOF",
+  "budgets": {
+    "compiledRuntimeJavaScriptBytes": 1100000,
+    "browserEntryJavaScriptBytes": 38000,
+    "cssBytes": 40000,
+    "htmlBytes": 3000,
+    "staticIllustrationBytes": 50000,
+    "technicalAudioBytes": 100000,
+    "initialShellRenderMs": 2000,
+    "centralInteractionResponseMs": 150,
+    "rollbackResponseMs": 50,
+    "cumulativeLayoutShift": 0.05
+  },
+  "limitation": "Local headless desktop measurements are not physical-device benchmarks."
+}

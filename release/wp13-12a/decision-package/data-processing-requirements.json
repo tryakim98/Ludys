@@ -1,0 +1,132 @@
+{
+  "schemaVersion": "wp13.12a-data-processing-requirements-v1",
+  "syntheticScopeDoesNotResolveLegalQuestions": true,
+  "requirements": [
+    {
+      "requirementId": "DPR-01",
+      "topic": "controller",
+      "classification": "SCHOOL_OWNER_DECISION_REQUIRED",
+      "status": "OPEN",
+      "question": "Responsible human must resolve controller before any real data, participant or pilot."
+    },
+    {
+      "requirementId": "DPR-02",
+      "topic": "schoolOwner",
+      "classification": "SCHOOL_OWNER_DECISION_REQUIRED",
+      "status": "OPEN",
+      "question": "Responsible human must resolve schoolOwner before any real data, participant or pilot."
+    },
+    {
+      "requirementId": "DPR-03",
+      "topic": "dataProcessingAgreement",
+      "classification": "LEGAL_REVIEW_REQUIRED",
+      "status": "OPEN",
+      "question": "Responsible human must resolve dataProcessingAgreement before any real data, participant or pilot."
+    },
+    {
+      "requirementId": "DPR-04",
+      "topic": "subprocessors",
+      "classification": "LEGAL_REVIEW_REQUIRED",
+      "status": "OPEN",
+      "question": "Responsible human must resolve subprocessors before any real data, participant or pilot."
+    },
+    {
+      "requirementId": "DPR-05",
+      "topic": "serviceData",
+      "classification": "LEGAL_REVIEW_REQUIRED",
+      "status": "OPEN",
+      "question": "Responsible human must resolve serviceData before any real data, participant or pilot."
+    },
+    {
+      "requirementId": "DPR-06",
+      "topic": "internationalTransfers",
+      "classification": "LEGAL_REVIEW_REQUIRED",
+      "status": "OPEN",
+      "question": "Responsible human must resolve internationalTransfers before any real data, participant or pilot."
+    },
+    {
+      "requirementId": "DPR-07",
+      "topic": "supportAccess",
+      "classification": "LEGAL_REVIEW_REQUIRED",
+      "status": "OPEN",
+      "question": "Responsible human must resolve supportAccess before any real data, participant or pilot."
+    },
+    {
+      "requirementId": "DPR-08",
+      "topic": "logging",
+      "classification": "TECHNICAL_INPUT_READY",
+      "status": "TECHNICAL_INPUT_READY",
+      "question": "Responsible human must resolve logging before any real data, participant or pilot."
+    },
+    {
+      "requirementId": "DPR-09",
+      "topic": "processingBasis",
+      "classification": "LEGAL_REVIEW_REQUIRED",
+      "status": "OPEN",
+      "question": "Responsible human must resolve processingBasis before any real data, participant or pilot."
+    },
+    {
+      "requirementId": "DPR-10",
+      "topic": "dpiaNeed",
+      "classification": "DPIA_DECISION_REQUIRED",
+      "status": "OPEN",
+      "question": "Responsible human must resolve dpiaNeed before any real data, participant or pilot."
+    },
+    {
+      "requirementId": "DPR-11",
+      "topic": "dpia",
+      "classification": "DPIA_DECISION_REQUIRED",
+      "status": "OPEN",
+      "question": "Responsible human must resolve dpia before any real data, participant or pilot."
+    },
+    {
+      "requirementId": "DPR-12",
+      "topic": "information",
+      "classification": "ETHICAL_REVIEW_REQUIRED",
+      "status": "OPEN",
+      "question": "Responsible human must resolve information before any real data, participant or pilot."
+    },
+    {
+      "requirementId": "DPR-13",
+      "topic": "consent",
+      "classification": "LEGAL_REVIEW_REQUIRED",
+      "status": "OPEN",
+      "question": "Responsible human must resolve consent before any real data, participant or pilot."
+    },
+    {
+      "requirementId": "DPR-14",
+      "topic": "assent",
+      "classification": "ETHICAL_REVIEW_REQUIRED",
+      "status": "OPEN",
+      "question": "Responsible human must resolve assent before any real data, participant or pilot."
+    },
+    {
+      "requirementId": "DPR-15",
+      "topic": "childrensRights",
+      "classification": "ETHICAL_REVIEW_REQUIRED",
+      "status": "OPEN",
+      "question": "Responsible human must resolve childrensRights before any real data, participant or pilot."
+    },
+    {
+      "requirementId": "DPR-16",
+      "topic": "deletion",
+      "classification": "TECHNICAL_INPUT_READY",
+      "status": "TECHNICAL_INPUT_READY",
+      "question": "Responsible human must resolve deletion before any real data, participant or pilot."
+    },
+    {
+      "requirementId": "DPR-17",
+      "topic": "accessRights",
+      "classification": "LEGAL_REVIEW_REQUIRED",
+      "status": "OPEN",
+      "question": "Responsible human must resolve accessRights before any real data, participant or pilot."
+    },
+    {
+      "requirementId": "DPR-18",
+      "topic": "incidentResponse",
+      "classification": "SCHOOL_OWNER_DECISION_REQUIRED",
+      "status": "OPEN",
+      "question": "Responsible human must resolve incidentResponse before any real data, participant or pilot."
+    }
+  ]
+}

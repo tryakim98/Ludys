@@ -1,0 +1,272 @@
+{
+  "schemaVersion": "wp13.12a-provider-options-v1",
+  "recommendedOptionId": "FIREBASE_CAPABILITY",
+  "recommendationIsOwnerDecision": false,
+  "options": [
+    {
+      "optionId": "LOCAL_ONLY",
+      "provider": "NONE",
+      "services": [],
+      "regionOptions": [
+        "LOCAL_DEVICE"
+      ],
+      "identityModel": "NO_STABLE_IDENTITY",
+      "authorityModel": "LOCAL_AUTHORITATIVE_CONTROLLER",
+      "clientAccessModel": "IN_PROCESS_ONLY",
+      "dataClasses": [
+        "syntheticSessionId",
+        "syntheticRole",
+        "stateVersion",
+        "authorityGeneration",
+        "closedCommandType",
+        "syntheticSessionState",
+        "minimumRoleProjection",
+        "expiryTimestamp",
+        "tombstone",
+        "releaseId",
+        "coarseTechnicalEventCode"
+      ],
+      "retentionModel": "MEMORY_AND_EXPLICIT_LOCAL_DELETE",
+      "deletionModel": "SYNCHRONOUS_EXPLICIT_DELETE",
+      "noResurrectionModel": "LOCAL_TOMBSTONE_AND_TERMINAL_DOMINANCE",
+      "loggingModel": "NONE_BY_DEFAULT",
+      "IAMModel": "NOT_APPLICABLE",
+      "secretsModel": "NO_SECRETS",
+      "costBand": "NO_PROVIDER_COST",
+      "operationalLoad": "LOW",
+      "lockInRisk": "LOW",
+      "exitComplexity": "LOW",
+      "supportsSyntheticMultiDevice": false,
+      "preservesProviderFreeCore": true,
+      "requiresStableIdentity": false,
+      "allowsDirectClientWrite": false,
+      "status": "ACCEPTABLE_FALLBACK",
+      "rationale": [
+        "Smallest privacy and identity surface",
+        "Already technically proven",
+        "Cannot prove physical multi-device transport"
+      ],
+      "openQuestions": [
+        "Whether owner needs physical multi-device staging now"
+      ],
+      "sourceIds": []
+    },
+    {
+      "optionId": "FIREBASE_CAPABILITY",
+      "provider": "Google Firebase / Google Cloud with Vercel protected preview",
+      "services": [
+        "Cloud Firestore Standard regional",
+        "Cloud Functions 2nd gen",
+        "Vercel protected preview"
+      ],
+      "regionOptions": [
+        "europe-north1",
+        "europe-north2",
+        "eur3"
+      ],
+      "identityModel": "NO_ACCOUNT; SHORT_LIVED_SESSION_BOUND_CAPABILITY",
+      "authorityModel": "FUNCTION_AUTHORITATIVE_HANDLER_CALLS_PROVIDER_FREE_PURE_CORE",
+      "clientAccessModel": "COMMAND_INGRESS_AND_MINIMUM_ROLE_PROJECTION; NO_DIRECT_STORE_WRITE",
+      "dataClasses": [
+        "syntheticSessionId",
+        "syntheticRole",
+        "stateVersion",
+        "authorityGeneration",
+        "closedCommandType",
+        "syntheticSessionState",
+        "minimumRoleProjection",
+        "expiryTimestamp",
+        "tombstone",
+        "releaseId",
+        "coarseTechnicalEventCode"
+      ],
+      "retentionModel": "EXPLICIT_DELETE_PLUS_TTL_BACKSTOP; BACKUP_AND_PITR_DISABLED",
+      "deletionModel": "AUTHORITATIVE_HANDLER_DELETES_STATE_AND_WRITES_MINIMUM_TOMBSTONE",
+      "noResurrectionModel": "TOMBSTONE, AUTHORITY_GENERATION, REVISION, STOP_AND_DELETE_DOMINANCE",
+      "loggingModel": "COARSE_TECHNICAL_ALLOWLIST; NO_PAYLOAD",
+      "IAMModel": "SEPARATE_RUNTIME_AND_DEPLOY_IDENTITIES; LEAST_PRIVILEGE",
+      "secretsModel": "SERVER_ONLY; NO_JSON_KEYS; NO_BROWSER_SECRET",
+      "costBand": "VERY_LOW_SYNTHETIC_USAGE_ESTIMATE; PAY_AS_YOU_GO_RISK",
+      "operationalLoad": "MEDIUM",
+      "lockInRisk": "MEDIUM",
+      "exitComplexity": "MEDIUM",
+      "supportsSyntheticMultiDevice": true,
+      "preservesProviderFreeCore": true,
+      "requiresStableIdentity": false,
+      "allowsDirectClientWrite": false,
+      "status": "RECOMMENDED",
+      "rationale": [
+        "Supports physical multi-device proof without an account identity",
+        "europe-north1 supports both regional Firestore and 2nd gen Functions",
+        "authoritative server handler prevents direct client mutation",
+        "provider adapter stays outside pure core and local fallback remains available"
+      ],
+      "openQuestions": [
+        "Owner cost bounds",
+        "DPA and subprocessor acceptance",
+        "DPIA and school-owner path before any real data"
+      ],
+      "sourceIds": [
+        "FIREBASE-FIRESTORE-LOCATIONS",
+        "FIREBASE-FUNCTIONS-LOCATIONS",
+        "FIRESTORE-TTL",
+        "FIRESTORE-RULES",
+        "FIRESTORE-QUOTAS",
+        "FIRESTORE-PRICING",
+        "GOOGLE-BUDGETS",
+        "GOOGLE-IAM-SERVICE-ACCOUNTS",
+        "VERCEL-PROTECTION",
+        "VERCEL-PRICING",
+        "VERCEL-SPEND"
+      ]
+    },
+    {
+      "optionId": "FIREBASE_ANONYMOUS",
+      "provider": "Google Firebase",
+      "services": [
+        "Firebase Authentication",
+        "Cloud Firestore",
+        "Cloud Functions"
+      ],
+      "regionOptions": [
+        "Firestore regional; Authentication US-only processing"
+      ],
+      "identityModel": "PROVIDER_ANONYMOUS_ACCOUNT_WITH_UID",
+      "authorityModel": "AUTH_UID_PLUS_HANDLER_OR_RULES",
+      "clientAccessModel": "SDK_ACCESS_POSSIBLE_BUT_DIRECT_AUTHORITATIVE_WRITES_PROHIBITED_BY_LUDYS",
+      "dataClasses": [
+        "syntheticSessionId",
+        "syntheticRole",
+        "stateVersion",
+        "authorityGeneration",
+        "closedCommandType",
+        "syntheticSessionState",
+        "minimumRoleProjection",
+        "expiryTimestamp",
+        "tombstone",
+        "releaseId",
+        "coarseTechnicalEventCode"
+      ],
+      "retentionModel": "ACCOUNT_CLEANUP_IS_SEPARATE_FROM_SESSION_DELETION",
+      "deletionModel": "SYNCHRONOUS_EXPLICIT_DELETE",
+      "noResurrectionModel": "LOCAL_TOMBSTONE_AND_TERMINAL_DOMINANCE",
+      "loggingModel": "AUTH_ABUSE_PREVENTION_AND_PROVIDER_LOGS_ADD_METADATA",
+      "IAMModel": "FIREBASE_AUTH_PLUS_IAM",
+      "secretsModel": "PUBLIC_FIREBASE_CONFIG_PLUS_SERVER_IDENTITY",
+      "costBand": "LOW_AT_SYNTHETIC_SCALE; IDENTITY_AND_CONTRACT_COST NOT MONETARY ONLY",
+      "operationalLoad": "MEDIUM",
+      "lockInRisk": "MEDIUM_HIGH",
+      "exitComplexity": "MEDIUM_HIGH",
+      "supportsSyntheticMultiDevice": true,
+      "preservesProviderFreeCore": true,
+      "requiresStableIdentity": true,
+      "allowsDirectClientWrite": false,
+      "status": "NOT_RECOMMENDED",
+      "rationale": [
+        "Creates a provider UID and account lifecycle not required for one synthetic session",
+        "Authentication processing is US-only"
+      ],
+      "openQuestions": [
+        "No demonstrated need for provider account identity"
+      ],
+      "sourceIds": [
+        "FIREBASE-ANONYMOUS-AUTH",
+        "FIREBASE-PRIVACY",
+        "FIRESTORE-QUOTAS",
+        "FIRESTORE-PRICING"
+      ]
+    },
+    {
+      "optionId": "SELF_HOSTED",
+      "provider": "OWNER_SELECTED SELF-HOSTED PLATFORM",
+      "services": [
+        "Protected web origin",
+        "Authoritative handler",
+        "Regional store"
+      ],
+      "regionOptions": [
+        "EEA region subject to selected provider facts"
+      ],
+      "identityModel": "SHORT_LIVED_SESSION_CAPABILITY",
+      "authorityModel": "SERVER_HANDLER_CALLS_PROVIDER_FREE_PURE_CORE",
+      "clientAccessModel": "NO_DIRECT_STORE_WRITE",
+      "dataClasses": [
+        "syntheticSessionId",
+        "syntheticRole",
+        "stateVersion",
+        "authorityGeneration",
+        "closedCommandType",
+        "syntheticSessionState",
+        "minimumRoleProjection",
+        "expiryTimestamp",
+        "tombstone",
+        "releaseId",
+        "coarseTechnicalEventCode"
+      ],
+      "retentionModel": "OWNER_IMPLEMENTED EXPLICIT DELETE AND TTL",
+      "deletionModel": "OWNER IMPLEMENTED",
+      "noResurrectionModel": "OWNER IMPLEMENTED AND TESTED",
+      "loggingModel": "OWNER CONFIGURED",
+      "IAMModel": "OWNER CONFIGURED",
+      "secretsModel": "OWNER CONFIGURED",
+      "costBand": "UNKNOWN UNTIL PLATFORM SELECTED",
+      "operationalLoad": "HIGH",
+      "lockInRisk": "LOW_MEDIUM",
+      "exitComplexity": "MEDIUM",
+      "supportsSyntheticMultiDevice": true,
+      "preservesProviderFreeCore": true,
+      "requiresStableIdentity": false,
+      "allowsDirectClientWrite": false,
+      "status": "REQUIRES_FURTHER_EVIDENCE",
+      "rationale": [
+        "Maximum infrastructure control but larger security and operations burden"
+      ],
+      "openQuestions": [
+        "Provider, version, region, patching, DPA, incident response and cost are unselected"
+      ],
+      "sourceIds": []
+    },
+    {
+      "optionId": "LUDUS_REUSE",
+      "provider": "SEPARATE PRODUCT/RECOVERY LINE",
+      "services": [],
+      "regionOptions": [],
+      "identityModel": "UNKNOWN_AND_OUT_OF_SCOPE",
+      "authorityModel": "PROHIBITED_CROSS_PRODUCT_REUSE",
+      "clientAccessModel": "NONE",
+      "dataClasses": [
+        "syntheticSessionId",
+        "syntheticRole",
+        "stateVersion",
+        "authorityGeneration",
+        "closedCommandType",
+        "syntheticSessionState",
+        "minimumRoleProjection",
+        "expiryTimestamp",
+        "tombstone",
+        "releaseId",
+        "coarseTechnicalEventCode"
+      ],
+      "retentionModel": "NOT_APPLICABLE",
+      "deletionModel": "NOT_APPLICABLE",
+      "noResurrectionModel": "NOT_VERIFIED_FOR_LUDYS",
+      "loggingModel": "NOT_APPLICABLE",
+      "IAMModel": "NO_CREDENTIAL_REUSE",
+      "secretsModel": "NO_SHARED_SECRETS",
+      "costBand": "NO_GO",
+      "operationalLoad": "UNACCEPTABLE_BOUNDARY_VIOLATION",
+      "lockInRisk": "UNACCEPTABLE",
+      "exitComplexity": "UNACCEPTABLE",
+      "supportsSyntheticMultiDevice": false,
+      "preservesProviderFreeCore": false,
+      "requiresStableIdentity": true,
+      "allowsDirectClientWrite": false,
+      "status": "NO_GO",
+      "rationale": [
+        "Cross-product provider and credential reuse is explicitly prohibited"
+      ],
+      "openQuestions": [],
+      "sourceIds": []
+    }
+  ]
+}
