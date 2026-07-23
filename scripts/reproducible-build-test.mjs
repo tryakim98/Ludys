@@ -12,6 +12,8 @@ const npmCli = process.env.npm_execpath ?? (process.platform === "win32"
   : undefined);
 const writeEvidence = process.argv.includes("--write-evidence");
 const inputs = ["src", "tests", "scripts", "web", "package.json", "package-lock.json", "tsconfig.json"];
+const generatedEvidencePath = join(root, "artifacts", "wp13-12a-reproducible-build-result.json");
+const committedEvidencePath = join(root, "release", "wp13-12a", "reproducible-build.json");
 
 async function collect(directory) {
   const entries = await readdir(directory, { withFileTypes: true });
@@ -67,9 +69,12 @@ try {
     operatingSystem: `${process.platform}-${process.arch}`,
     timestampPolicy: "SOURCE_CONTENT_ONLY_NO_BUILD_TIMESTAMP",
   };
-  const recorded = JSON.parse(await readFile(join(root, "artifacts", "wp13-12a-reproducible-build-result.json"), "utf8").catch(() => "{}"));
+  const recorded = JSON.parse(await readFile(
+    writeEvidence ? generatedEvidencePath : committedEvidencePath,
+    "utf8",
+  ).catch(() => "{}"));
   if (writeEvidence) {
-    await writeFile(join(root, "artifacts", "wp13-12a-reproducible-build-result.json"), `${JSON.stringify(evidence, null, 2)}\n`, "utf8");
+    await writeFile(generatedEvidencePath, `${JSON.stringify(evidence, null, 2)}\n`, "utf8");
   } else {
     assert.equal(recorded.status, "VERIFIED_IDENTICAL", "recorded reproducible-build evidence is missing");
     assert.equal(recorded.distSha256, evidence.distSha256, "current clean-copy digest differs from recorded evidence");
