@@ -319,13 +319,15 @@ const releaseFiles = {
 };
 for (const [name, value] of Object.entries(releaseFiles)) expected.set(join(releaseDirectory, name), stableJson(value));
 
-expected.set(join(artifactsDirectory, "wp13-12a-decision-evidence.json"), stableJson({
-  schemaVersion: "wp13.12a-decision-evidence-v1", evidenceDate: "2026-07-23",
-  packageStatus: "READY_FOR_OWNER_DECISION", ownerDecision: "PENDING_OWNER_ACTION",
-  browser: "HEADLESS_BROWSER_PROOF", accessibility: "HEADLESS_BROWSER_PROOF_AND_MANUAL_REVIEW_REQUIRED",
-  cloudResources: 0, providerReceipts: 0, externalReceipts: 0,
-  b8: "NOT_DECISION_READY", studentBeta: "NOT_AUTHORIZED", production: "NOT_AUTHORIZED",
-}));
+if (!checkOnly) {
+  expected.set(join(artifactsDirectory, "wp13-12a-decision-evidence.json"), stableJson({
+    schemaVersion: "wp13.12a-decision-evidence-v1", evidenceDate: "2026-07-23",
+    packageStatus: "READY_FOR_OWNER_DECISION", ownerDecision: "PENDING_OWNER_ACTION",
+    browser: "HEADLESS_BROWSER_PROOF", accessibility: "HEADLESS_BROWSER_PROOF_AND_MANUAL_REVIEW_REQUIRED",
+    cloudResources: 0, providerReceipts: 0, externalReceipts: 0,
+    b8: "NOT_DECISION_READY", studentBeta: "NOT_AUTHORIZED", production: "NOT_AUTHORIZED",
+  }));
+}
 
 for (const [path, content] of expected) await ensure(path, content);
 
