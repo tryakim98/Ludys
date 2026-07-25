@@ -1,0 +1,23 @@
+{
+  "schemaVersion": "wp13.12b-browser-proof-v1",
+  "status": "HEADLESS_BROWSER_PROOF_PASSED",
+  "actualLocalBrowserOriginProof": true,
+  "deviceEmulation": true,
+  "actualFirebaseEmulatorProof": false,
+  "physicalDeviceProof": false,
+  "width": 320,
+  "zoomPercent": 200,
+  "touchEmulation": true,
+  "keyboard": true,
+  "visibleFocus": true,
+  "logicalFocusOrder": true,
+  "reducedMotion": true,
+  "forcedColors": true,
+  "accessibilityTree": true,
+  "bm": true,
+  "nn": true,
+  "localeFallback": false,
+  "externalProviderCalls": 0,
+  "secrets": 0,
+  "cloudResources": 0
+}

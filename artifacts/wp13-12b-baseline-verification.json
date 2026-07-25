@@ -1,0 +1,27 @@
+{
+  "schemaVersion": "wp13.12b-baseline-proof-v1",
+  "checkedAt": "2026-07-25",
+  "branchAtCheck": "feature/wp13-12a-provider-region-capability-decision-package",
+  "head": "e5846735a3744a07febd93d5f75e776700c1013d",
+  "tree": "85a618cf567131be9f36fecfc038ab5f45c6732d",
+  "originMain": "19f6ad7da12ef5c721ed4f3a7e7ec5fd3ece4b5f",
+  "ownerDecisionImplementationCommit": "929674d8a159ebd9ac6026c066f5dd044ebcea62",
+  "ownerDecisionRegistrationCommit": "e5846735a3744a07febd93d5f75e776700c1013d",
+  "ownerDecisionRecordChecksum": "a5085b3dd4351bb1e6f35718b46f882667bd2e2995bc0e501065e0de6eac8754",
+  "sourcePackageChecksum": "f3830a640fd901f193279ed99338d923848acaef662e79e8a831e870a7813de7",
+  "cleanWorktree": true,
+  "worktreeCount": 1,
+  "branchRemoteDivergence": [
+    0,
+    0
+  ],
+  "preChangeCheckRelease": {
+    "passed": true,
+    "tests": 207,
+    "wp13_12aTests": 59,
+    "productionAuditVulnerabilities": 0,
+    "reproducibleBuildDigest": "f489e119d859dd09870d747eb00c3c071d19f08461f0684eae39a7a42d3d7997",
+    "cleanCopies": 2
+  },
+  "baselineDeviations": 0
+}

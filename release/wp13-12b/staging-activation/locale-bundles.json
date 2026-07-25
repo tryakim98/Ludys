@@ -1,0 +1,16 @@
+{
+  "schemaVersion": "wp13.12b-preview-locales-v1",
+  "fallbackAllowed": false,
+  "bundles": [
+    {
+      "locale": "nb",
+      "source": "src/ui/browser/staging-preview.ts",
+      "humanReviewStatus": "REVIEW_REQUIRED_BEFORE_EXTERNAL_PREVIEW"
+    },
+    {
+      "locale": "nn",
+      "source": "src/ui/browser/staging-preview.ts",
+      "humanReviewStatus": "REVIEW_REQUIRED_BEFORE_EXTERNAL_PREVIEW"
+    }
+  ]
+}

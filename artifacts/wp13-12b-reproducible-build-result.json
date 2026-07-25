@@ -1,0 +1,14 @@
+{
+  "status": "VERIFIED_IDENTICAL",
+  "copies": 2,
+  "distSha256": "194e47f11bd5f2ee22def4e6fccb931694f6e3935a5b957b27a465d37d58d482",
+  "digests": [
+    "194e47f11bd5f2ee22def4e6fccb931694f6e3935a5b957b27a465d37d58d482",
+    "194e47f11bd5f2ee22def4e6fccb931694f6e3935a5b957b27a465d37d58d482"
+  ],
+  "command": "npm ci --offline --ignore-scripts --audit=false && npm run build",
+  "nodeVersion": "v24.18.0",
+  "npmVersion": "11.16.0",
+  "operatingSystem": "win32-x64",
+  "timestampPolicy": "SOURCE_CONTENT_ONLY_NO_BUILD_TIMESTAMP"
+}

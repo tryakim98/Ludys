@@ -1,0 +1,21 @@
+{
+  "schemaVersion": "wp13.12b-provider-rollback-v1",
+  "component": "SYNTHETIC_STAGING_PROVIDER",
+  "status": "UNEXECUTED_PLAN",
+  "invariants": [
+    "rollback never activates cloud resources",
+    "controlEpoch never decreases",
+    "withdrawn provider revision cannot be selected",
+    "schemaVersion must be compatible",
+    "tombstone dominates cached or rolled-back state",
+    "pure core and in-memory adapter remain runnable without provider package"
+  ],
+  "steps": [
+    "Set stagingEnabled=false and increment controlEpoch",
+    "Verify active, delayed, reconnect and cached-capability commands are denied",
+    "Select only a checksum-verified compatible provider revision",
+    "Deploy only under separate external deployment authorization",
+    "Re-run STOP, deletion, tombstone and no-resurrection proof"
+  ],
+  "externalActionsExecuted": false
+}

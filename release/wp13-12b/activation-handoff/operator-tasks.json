@@ -1,0 +1,396 @@
+{
+  "schemaVersion": "wp13.12b-operator-tasks-v1",
+  "status": "UNEXECUTED_EXTERNAL_ACTIVATION_HANDOFF",
+  "tasks": [
+    {
+      "taskId": "OP-01",
+      "authorizationRequired": "REPOSITORY_SCOPE",
+      "prerequisites": [
+        "checked-out final WP13.12B commit"
+      ],
+      "commands": [
+        "npm run provider:decision:validate",
+        "npm run staging:validate",
+        "npm run provider:cloud:preflight"
+      ],
+      "expectedResult": "Decision, checksums and blocked activation ceiling are verified.",
+      "forbiddenActions": [
+        "use real participant data",
+        "reuse credentials from another project",
+        "open B8, student beta, recruitment or production",
+        "continue after stopCondition"
+      ],
+      "evidenceRequired": [
+        "terminal transcript",
+        "SHA-256 list"
+      ],
+      "rollback": "No external state changed.",
+      "stopCondition": "Any checksum or decision mismatch."
+    },
+    {
+      "taskId": "OP-02",
+      "authorizationRequired": "SEPARATE_EMULATOR_DOWNLOAD_AUTHORIZATION",
+      "prerequisites": [
+        "exact artifact name and published SHA-256"
+      ],
+      "commands": [
+        "npm run provider:emulator:import -- --artifact <exact-jar> --sha256 <published-sha256>"
+      ],
+      "expectedResult": "Exact JAR is imported only after file type and checksum validation.",
+      "forbiddenActions": [
+        "use real participant data",
+        "reuse credentials from another project",
+        "open B8, student beta, recruitment or production",
+        "continue after stopCondition"
+      ],
+      "evidenceRequired": [
+        "artifact hash",
+        "download source"
+      ],
+      "rollback": "Delete only the verified local imported artifact.",
+      "stopCondition": "Artifact is unavailable, non-JAR or checksum differs."
+    },
+    {
+      "taskId": "OP-03",
+      "authorizationRequired": "LOCAL_EMULATOR_SCOPE",
+      "prerequisites": [
+        "OP-02 complete"
+      ],
+      "commands": [
+        "npm run provider:emulator:proof -- --authorized-local-emulator-proof"
+      ],
+      "expectedResult": "Firestore Rules and local Function contract proof complete with zero cloud resources.",
+      "forbiddenActions": [
+        "use real participant data",
+        "reuse credentials from another project",
+        "open B8, student beta, recruitment or production",
+        "continue after stopCondition"
+      ],
+      "evidenceRequired": [
+        "EMULATOR_PROOF_RECEIPT"
+      ],
+      "rollback": "Stop emulator and remove owned temporary state.",
+      "stopCondition": "Any emulator proof fails."
+    },
+    {
+      "taskId": "OP-04",
+      "authorizationRequired": "LOCAL_DEPENDENCY_AUDIT_SCOPE",
+      "prerequisites": [
+        "provider package lock unchanged"
+      ],
+      "commands": [
+        "npm --prefix provider/firebase/functions ci --ignore-scripts",
+        "npm --prefix provider/firebase/functions audit --omit=dev"
+      ],
+      "expectedResult": "Provider dependency tree is re-audited.",
+      "forbiddenActions": [
+        "use real participant data",
+        "reuse credentials from another project",
+        "open B8, student beta, recruitment or production",
+        "continue after stopCondition"
+      ],
+      "evidenceRequired": [
+        "audit JSON",
+        "SBOM",
+        "license inventory"
+      ],
+      "rollback": "Remove local node_modules only; keep lockfile.",
+      "stopCondition": "Any moderate-or-higher unresolved runtime finding."
+    },
+    {
+      "taskId": "OP-05",
+      "authorizationRequired": "NEW_EXPLICIT_CLOUD_PROJECT_CREATION_AUTHORIZATION",
+      "prerequisites": [
+        "OP-01 through OP-04",
+        "all unresolved owner fields resolved"
+      ],
+      "commands": [
+        "gcloud projects create <approved-project-id> --name='LUDYS synthetic staging'"
+      ],
+      "expectedResult": "One isolated synthetic dev project exists.",
+      "forbiddenActions": [
+        "use real participant data",
+        "reuse credentials from another project",
+        "open B8, student beta, recruitment or production",
+        "continue after stopCondition"
+      ],
+      "evidenceRequired": [
+        "FIREBASE_PROJECT_AND_REGION_RECEIPT"
+      ],
+      "rollback": "Schedule project deletion using approved owner path.",
+      "stopCondition": "Authorization, project ID, ownership or cost field missing."
+    },
+    {
+      "taskId": "OP-06",
+      "authorizationRequired": "BILLING_CONFIGURATION_AUTHORIZATION",
+      "prerequisites": [
+        "OP-05",
+        "approved cost ceiling and alert threshold"
+      ],
+      "commands": [
+        "gcloud billing projects link <approved-project-id> --billing-account=<approved-billing-account>",
+        "gcloud billing budgets create --billing-account=<approved-billing-account> --display-name='LUDYS synthetic staging' --budget-amount=<approved-maximum>"
+      ],
+      "expectedResult": "Billing and alerts match recorded owner values; alert is not represented as a hard cap.",
+      "forbiddenActions": [
+        "use real participant data",
+        "reuse credentials from another project",
+        "open B8, student beta, recruitment or production",
+        "continue after stopCondition"
+      ],
+      "evidenceRequired": [
+        "IAM_AND_BILLING_RECEIPT"
+      ],
+      "rollback": "Unlink billing and stop staging.",
+      "stopCondition": "Values differ from owner record or billing reviewer unavailable."
+    },
+    {
+      "taskId": "OP-07",
+      "authorizationRequired": "FIRESTORE_DATABASE_CREATION_AUTHORIZATION",
+      "prerequisites": [
+        "OP-05",
+        "region reverified immediately before creation"
+      ],
+      "commands": [
+        "gcloud firestore databases create --project=<approved-project-id> --location=europe-north1 --type=firestore-native"
+      ],
+      "expectedResult": "Regional Standard Firestore is created once in europe-north1.",
+      "forbiddenActions": [
+        "use real participant data",
+        "reuse credentials from another project",
+        "open B8, student beta, recruitment or production",
+        "continue after stopCondition"
+      ],
+      "evidenceRequired": [
+        "project and region receipt",
+        "provider output"
+      ],
+      "rollback": "Follow destruction plan; region cannot be changed in place.",
+      "stopCondition": "Region support changed or region approval absent."
+    },
+    {
+      "taskId": "OP-08",
+      "authorizationRequired": "IAM_AND_SECRET_CREATION_AUTHORIZATION",
+      "prerequisites": [
+        "OP-05 through OP-07",
+        "IAM plan owner-approved"
+      ],
+      "commands": [
+        "gcloud iam service-accounts create ludys-staging-runtime --project=<approved-project-id>",
+        "gcloud secrets create LUDYS_CAPABILITY_HMAC_KEY --replication-policy=user-managed --locations=europe-north1 --project=<approved-project-id>",
+        "gcloud secrets versions add LUDYS_CAPABILITY_HMAC_KEY --data-file=<operator-owned-one-line-secret-file> --project=<approved-project-id>",
+        "gcloud projects add-iam-policy-binding <approved-project-id> --member=serviceAccount:ludys-staging-runtime@<approved-project-id>.iam.gserviceaccount.com --role=roles/datastore.user",
+        "gcloud projects add-iam-policy-binding <approved-project-id> --member=serviceAccount:ludys-staging-runtime@<approved-project-id>.iam.gserviceaccount.com --role=roles/logging.logWriter",
+        "gcloud secrets add-iam-policy-binding LUDYS_CAPABILITY_HMAC_KEY --member=serviceAccount:ludys-staging-runtime@<approved-project-id>.iam.gserviceaccount.com --role=roles/secretmanager.secretAccessor --project=<approved-project-id>"
+      ],
+      "expectedResult": "Least-privilege runtime identity and one server secret exist without JSON keys.",
+      "forbiddenActions": [
+        "use real participant data",
+        "reuse credentials from another project",
+        "open B8, student beta, recruitment or production",
+        "continue after stopCondition"
+      ],
+      "evidenceRequired": [
+        "IAM_AND_BILLING_RECEIPT"
+      ],
+      "rollback": "Revoke bindings, disable identity and destroy secret.",
+      "stopCondition": "Owner role, JSON key or browser secret would be required."
+    },
+    {
+      "taskId": "OP-09",
+      "authorizationRequired": "CLOUD_FUNCTION_AND_RULE_DEPLOYMENT_AUTHORIZATION",
+      "prerequisites": [
+        "OP-08",
+        "kill switch disabled-by-default control document"
+      ],
+      "commands": [
+        "npm run provider:package",
+        "firebase deploy --project <approved-project-id> --only firestore:rules,firestore:indexes",
+        "gcloud functions deploy issueSyntheticSession --gen2 --runtime=nodejs24 --region=europe-north1 --source=provider/firebase/functions --entry-point=issueSyntheticSession --trigger-http --no-allow-unauthenticated --service-account=ludys-staging-runtime@<approved-project-id>.iam.gserviceaccount.com --set-env-vars=LUDYS_STAGING_SESSION_ISSUANCE_ENABLED=true --set-secrets=LUDYS_CAPABILITY_HMAC_KEY=LUDYS_CAPABILITY_HMAC_KEY:latest --project=<approved-project-id>",
+        "gcloud functions deploy sessionCommand --gen2 --runtime=nodejs24 --region=europe-north1 --source=provider/firebase/functions --entry-point=sessionCommand --trigger-http --allow-unauthenticated --service-account=ludys-staging-runtime@<approved-project-id>.iam.gserviceaccount.com --set-secrets=LUDYS_CAPABILITY_HMAC_KEY=LUDYS_CAPABILITY_HMAC_KEY:latest --project=<approved-project-id>",
+        "gcloud functions deploy sessionProjection --gen2 --runtime=nodejs24 --region=europe-north1 --source=provider/firebase/functions --entry-point=sessionProjection --trigger-http --allow-unauthenticated --service-account=ludys-staging-runtime@<approved-project-id>.iam.gserviceaccount.com --set-secrets=LUDYS_CAPABILITY_HMAC_KEY=LUDYS_CAPABILITY_HMAC_KEY:latest --project=<approved-project-id>",
+        "gcloud functions deploy deleteSyntheticSession --gen2 --runtime=nodejs24 --region=europe-north1 --source=provider/firebase/functions --entry-point=deleteSyntheticSession --trigger-http --no-allow-unauthenticated --service-account=ludys-staging-runtime@<approved-project-id>.iam.gserviceaccount.com --set-secrets=LUDYS_CAPABILITY_HMAC_KEY=LUDYS_CAPABILITY_HMAC_KEY:latest --project=<approved-project-id>",
+        "gcloud functions deploy health --gen2 --runtime=nodejs24 --region=europe-north1 --source=provider/firebase/functions --entry-point=health --trigger-http --no-allow-unauthenticated --service-account=ludys-staging-runtime@<approved-project-id>.iam.gserviceaccount.com --set-secrets=LUDYS_CAPABILITY_HMAC_KEY=LUDYS_CAPABILITY_HMAC_KEY:latest --project=<approved-project-id>"
+      ],
+      "expectedResult": "Backend is deployed disabled-by-default with deny-all direct access.",
+      "forbiddenActions": [
+        "use real participant data",
+        "reuse credentials from another project",
+        "open B8, student beta, recruitment or production",
+        "continue after stopCondition"
+      ],
+      "evidenceRequired": [
+        "deployment transcript",
+        "artifact hashes"
+      ],
+      "rollback": "Advance controlEpoch, disable staging and deploy prior safe provider revision.",
+      "stopCondition": "Any endpoint is enabled before control and receipts are ready."
+    },
+    {
+      "taskId": "OP-10",
+      "authorizationRequired": "VERCEL_PROJECT_AND_PREVIEW_AUTHORIZATION",
+      "prerequisites": [
+        "OP-09",
+        "approved protected-preview plan"
+      ],
+      "commands": [
+        "vercel link --project <approved-preview-project>",
+        "vercel deploy --target=preview"
+      ],
+      "expectedResult": "A non-production protected preview exists with no secrets in browser.",
+      "forbiddenActions": [
+        "use real participant data",
+        "reuse credentials from another project",
+        "open B8, student beta, recruitment or production",
+        "continue after stopCondition"
+      ],
+      "evidenceRequired": [
+        "PROTECTED_PREVIEW_RECEIPT"
+      ],
+      "rollback": "Remove preview and revoke project link.",
+      "stopCondition": "Deployment protection is absent or production domain would be used."
+    },
+    {
+      "taskId": "OP-11",
+      "authorizationRequired": "SYNTHETIC_FIXTURE_SEED_AUTHORIZATION",
+      "prerequisites": [
+        "OP-09",
+        "staging still disabled"
+      ],
+      "commands": [
+        "node provider/firebase/tools/set-staging-control.mjs --project <approved-project-id> --enabled true --control-epoch <approved-monotonic-epoch> --reason EXPLICIT_SYNTHETIC_PROOF_WINDOW --authorized WP13_12B_OPERATOR_AUTHORIZED",
+        "node provider/firebase/tools/seed-synthetic-fixtures.mjs --project <approved-project-id> --issue-url <iam-protected-issue-function-url> --fixture synthetic-wp13-12b-only --locale nb --authorized WP13_12B_OPERATOR_AUTHORIZED"
+      ],
+      "expectedResult": "Only explicit synthetic fixture records exist.",
+      "forbiddenActions": [
+        "use real participant data",
+        "reuse credentials from another project",
+        "open B8, student beta, recruitment or production",
+        "continue after stopCondition"
+      ],
+      "evidenceRequired": [
+        "fixture manifest",
+        "data allowlist scan"
+      ],
+      "rollback": "Run explicit deletion and confirm tombstones.",
+      "stopCondition": "Any field resembles participant, school, health or free-text data."
+    },
+    {
+      "taskId": "OP-12",
+      "authorizationRequired": "PHYSICAL_TWO_DEVICE_PROOF_AUTHORIZATION",
+      "prerequisites": [
+        "OP-10",
+        "two controlled devices",
+        "no participant present"
+      ],
+      "commands": [
+        "Follow release/wp13-12b/activation-handoff/physical-two-device-proof-template.json step by step"
+      ],
+      "expectedResult": "Two physical devices prove separate role capabilities for one synthetic session.",
+      "forbiddenActions": [
+        "use real participant data",
+        "reuse credentials from another project",
+        "open B8, student beta, recruitment or production",
+        "continue after stopCondition"
+      ],
+      "evidenceRequired": [
+        "PHYSICAL_TWO_DEVICE_AND_SAFETY_RECEIPT"
+      ],
+      "rollback": "Close browsers, clear memory/cache and delete fixture.",
+      "stopCondition": "Any screenshot or video could contain person data."
+    },
+    {
+      "taskId": "OP-13",
+      "authorizationRequired": "PHYSICAL_SAFETY_PROOF_AUTHORIZATION",
+      "prerequisites": [
+        "OP-12"
+      ],
+      "commands": [
+        "Execute STOP, explicit deletion, reconnect and delayed-command steps from the physical proof template"
+      ],
+      "expectedResult": "STOP, deletion and no-resurrection are physically observed.",
+      "forbiddenActions": [
+        "use real participant data",
+        "reuse credentials from another project",
+        "open B8, student beta, recruitment or production",
+        "continue after stopCondition"
+      ],
+      "evidenceRequired": [
+        "signed step results",
+        "non-personal screenshots if used"
+      ],
+      "rollback": "Keep kill switch active until discrepancy is resolved.",
+      "stopCondition": "Any session can resume or payload remains after deletion."
+    },
+    {
+      "taskId": "OP-14",
+      "authorizationRequired": "ROLLBACK_AND_KILL_SWITCH_AUTHORIZATION",
+      "prerequisites": [
+        "OP-13",
+        "rollback revision verified"
+      ],
+      "commands": [
+        "Advance controlEpoch and set stagingEnabled=false",
+        "Execute the approved provider rollback command from rollback-plan.json"
+      ],
+      "expectedResult": "All cached capabilities remain invalid and no session resurrects.",
+      "forbiddenActions": [
+        "use real participant data",
+        "reuse credentials from another project",
+        "open B8, student beta, recruitment or production",
+        "continue after stopCondition"
+      ],
+      "evidenceRequired": [
+        "kill-switch proof",
+        "rollback receipt section"
+      ],
+      "rollback": "Keep staging disabled and deploy the last safe revision.",
+      "stopCondition": "Rollback lowers controlEpoch or restores active state."
+    },
+    {
+      "taskId": "OP-15",
+      "authorizationRequired": "RECEIPT_SIGNING_AUTHORIZATION",
+      "prerequisites": [
+        "all applicable proof tasks complete"
+      ],
+      "commands": [
+        "npm run receipt:validate -- --receipt <filled-receipt-path>"
+      ],
+      "expectedResult": "Authentic receipts are checksum-bound and human-confirmed.",
+      "forbiddenActions": [
+        "use real participant data",
+        "reuse credentials from another project",
+        "open B8, student beta, recruitment or production",
+        "continue after stopCondition"
+      ],
+      "evidenceRequired": [
+        "five applicable signed receipts"
+      ],
+      "rollback": "Invalidate erroneous receipt; never edit signed evidence silently.",
+      "stopCondition": "Any receipt is incomplete, fabricated or bound to wrong commit."
+    },
+    {
+      "taskId": "OP-16",
+      "authorizationRequired": "STAGING_DESTRUCTION_AUTHORIZATION",
+      "prerequisites": [
+        "approved staging expiry reached or owner stop"
+      ],
+      "commands": [
+        "Follow release/wp13-12b/activation-handoff/destruction-plan.json in order"
+      ],
+      "expectedResult": "Preview, functions, database, secret, IAM and isolated project are removed or expiration is evidenced.",
+      "forbiddenActions": [
+        "use real participant data",
+        "reuse credentials from another project",
+        "open B8, student beta, recruitment or production",
+        "continue after stopCondition"
+      ],
+      "evidenceRequired": [
+        "destruction transcript",
+        "final zero-resource confirmation"
+      ],
+      "rollback": "Not applicable; destruction is the exit path.",
+      "stopCondition": "Required evidence or minimum tombstone export is not secured."
+    }
+  ]
+}

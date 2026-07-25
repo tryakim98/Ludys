@@ -1,0 +1,39 @@
+{
+  "schemaVersion": "wp13.12b-receipt-contracts-v1",
+  "status": "CONTRACTS_ONLY_NO_RECEIPTS_CREATED",
+  "externalReceipts": 0,
+  "requiredFields": [
+    "receiptId",
+    "receiptType",
+    "status",
+    "createdAt",
+    "performedBy",
+    "environment",
+    "sourceCommit",
+    "sourceTree",
+    "decisionRecordChecksum",
+    "commandsRun",
+    "providerResourceIds",
+    "proofResults",
+    "artifactHashes",
+    "limitations",
+    "humanSignatureOrExplicitConfirmation"
+  ],
+  "receiptTypes": [
+    "EMULATOR_PROOF_RECEIPT",
+    "FIREBASE_PROJECT_AND_REGION_RECEIPT",
+    "IAM_AND_BILLING_RECEIPT",
+    "PROTECTED_PREVIEW_RECEIPT",
+    "PHYSICAL_TWO_DEVICE_AND_SAFETY_RECEIPT"
+  ],
+  "rejectionRules": [
+    "unsigned filled receipt",
+    "missing provider ID where required",
+    "wrong source commit or tree",
+    "missing artifact hashes",
+    "synthetic or fabricated completed status",
+    "missing actual commands",
+    "physical proof without two device records",
+    "receipt that opens B8, student beta or production"
+  ]
+}

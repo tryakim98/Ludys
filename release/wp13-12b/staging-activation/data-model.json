@@ -1,0 +1,83 @@
+{
+  "schemaVersion": "wp13.12b-firestore-data-v1",
+  "collections": {
+    "syntheticSessions": {
+      "purpose": "active authoritative synthetic payload",
+      "allowedFields": [
+        "syntheticSessionId",
+        "stateVersion",
+        "authorityGeneration",
+        "controlEpoch",
+        "syntheticSessionState",
+        "releaseIds",
+        "expiresAt",
+        "tombstone",
+        "processedCommandIds",
+        "coarseTechnicalStatus",
+        "dataClassification"
+      ],
+      "explicitDeletion": "transaction deletes active document before tombstone create"
+    },
+    "syntheticCapabilityGrants": {
+      "purpose": "short-lived role/session/generation-bound server metadata",
+      "allowedFields": [
+        "nonce",
+        "syntheticSessionId",
+        "role",
+        "expiresAt",
+        "remainingCommands",
+        "revoked",
+        "dataClassification"
+      ]
+    },
+    "syntheticSessionTombstones": {
+      "purpose": "minimum no-resurrection record",
+      "allowedFields": [
+        "syntheticSessionId",
+        "terminalStateVersion",
+        "terminalAuthorityGeneration",
+        "controlEpoch",
+        "deletedAt",
+        "noResurrection",
+        "dataClassification"
+      ]
+    },
+    "syntheticStagingControl": {
+      "purpose": "operator-owned kill switch",
+      "allowedFields": [
+        "controlEpoch",
+        "stagingEnabled",
+        "reasonCode",
+        "changedAt"
+      ]
+    }
+  },
+  "prohibitedFields": [
+    "name",
+    "email",
+    "phone",
+    "school",
+    "studentNumber",
+    "birthDate",
+    "diagnosis",
+    "healthData",
+    "stableUID",
+    "tenant",
+    "realLearningResponse",
+    "freeTextAboutParticipant",
+    "audio",
+    "video",
+    "image",
+    "microphoneData",
+    "cameraData",
+    "engagementScore",
+    "crossSessionProfile",
+    "analyticsIdentifier",
+    "sessionReplay",
+    "heatmap",
+    "fingerprint"
+  ],
+  "ttl": "BACKSTOP_ONLY_NOT_CONFIGURED_UNTIL_OWNER_DELETION_POLICY_IS_RESOLVED",
+  "backup": false,
+  "pitr": false
+}

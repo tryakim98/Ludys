@@ -1,0 +1,37 @@
+{
+  "schemaVersion": "wp13.12b-cloud-preflight-v1",
+  "command": "npm run provider:cloud:preflight",
+  "mode": "NON_MUTATING_LOCAL_VALIDATION_ONLY",
+  "externalWrites": 0,
+  "loginAttempted": false,
+  "browserLoginOpened": false,
+  "resourceCreationAttempted": false,
+  "deploymentAttempted": false,
+  "expectedCloudResources": 0,
+  "checks": [
+    "owner decision and source checksums",
+    "europe-north1 selected but not locked",
+    "function-issued short-lived capability",
+    "cost and expiry fields",
+    "project ID format placeholder only",
+    "deny-by-default rules",
+    "empty indexes",
+    "Functions 2nd gen config",
+    "no Firebase Authentication",
+    "no Analytics, Storage, Remote Config, Crashlytics or Performance Monitoring",
+    "no backup or PITR",
+    "no repository or browser secrets",
+    "least-privilege IAM plan",
+    "receipt, rollback, destruction and kill-switch plans"
+  ],
+  "unresolvedOwnerFields": [
+    "monthlyAlertThreshold",
+    "maximumMonthlyCost",
+    "killSwitchOwner",
+    "billingReviewer",
+    "stagingExpiryDate",
+    "automaticDeletionPolicy"
+  ],
+  "externalActivationReady": false,
+  "stopCondition": "Do not provision until every unresolved owner field has a separately recorded value and authorization."
+}

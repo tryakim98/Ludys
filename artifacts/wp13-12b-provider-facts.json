@@ -1,0 +1,12 @@
+{
+  "schemaVersion": "wp13.12b-provider-fact-proof-v1",
+  "checkedAt": "2026-07-25",
+  "selectedRegion": "europe-north1",
+  "firestoreRegionalSupport": "VERIFIED",
+  "functions2ndGenSupport": "VERIFIED",
+  "adminSdkBypassesRules": "VERIFIED_REQUIRES_IAM",
+  "ttlNotInstantaneous": "VERIFIED_TYPICALLY_WITHIN_24_HOURS",
+  "ownerDecisionChanged": false,
+  "providerActivation": "BLOCKED",
+  "officialSourceRegister": "release/wp13-12b/staging-activation/official-source-register.json"
+}

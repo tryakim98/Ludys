@@ -1,0 +1,17 @@
+{
+  "schemaVersion": "wp13.12b-emulator-import-v1",
+  "status": "NO_ARTIFACT_IMPORTED",
+  "exactFilenameRequired": true,
+  "acceptedFileType": "JAR",
+  "sha256Required": true,
+  "publishedChecksumRequired": true,
+  "reject": [
+    "non-JAR file",
+    "renamed archive",
+    "missing checksum",
+    "checksum mismatch",
+    "artifact from unverified source"
+  ],
+  "offlineImportCommand": "npm run provider:emulator:import -- --artifact <exact-jar> --sha256 <published-sha256>",
+  "cloudResourcesCreated": 0
+}

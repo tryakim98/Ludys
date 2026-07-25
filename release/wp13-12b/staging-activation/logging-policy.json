@@ -1,0 +1,36 @@
+{
+  "schemaVersion": "wp13.12b-logging-v1",
+  "applicationLogging": "COARSE_ALLOWLIST_ONLY",
+  "allowed": [
+    "releaseId",
+    "functionVersion",
+    "region",
+    "coarseErrorCode",
+    "denialClass",
+    "rollbackClass",
+    "serviceHealth",
+    "nonidentifyingLatencyBucket"
+  ],
+  "prohibited": [
+    "capability",
+    "capabilityHash",
+    "requestBody",
+    "sessionState",
+    "stimulus",
+    "response",
+    "supportHistory",
+    "roleProjectionPayload",
+    "name",
+    "email",
+    "school",
+    "stableUID",
+    "tenant",
+    "freeText",
+    "analyticsIdentifier"
+  ],
+  "providerServiceLogs": {
+    "controlledByApplicationPolicy": false,
+    "residualArea": "Google Cloud request, audit and service logs require operator retention review.",
+    "currentCloudResources": 0
+  }
+}

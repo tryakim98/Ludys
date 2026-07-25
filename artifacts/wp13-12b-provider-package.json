@@ -1,0 +1,42 @@
+{
+  "schemaVersion": "wp13.12b-provider-package-v1",
+  "status": "LOCAL_DEPLOYABLE_PACKAGE_GENERATED_NOT_DEPLOYED",
+  "sourceCommit": "PENDING_FINAL_COMMIT_NOT_A_RECEIPT",
+  "stagingProviderReleaseId": "wp13-12b-synthetic-staging-provider-r1",
+  "functionsRuntime": "nodejs24",
+  "region": "europe-north1",
+  "providerActivation": "BLOCKED",
+  "cloudResources": 0,
+  "files": [
+    {
+      "path": "provider/firebase/functions/index.mjs",
+      "sha256": "0ed0a0013a4b540806213827423bc62e3091b6e140c4c0bf7f08d5d5a34aea78",
+      "bytes": 3174
+    },
+    {
+      "path": "provider/firebase/functions/firestore-store.mjs",
+      "sha256": "4e660615722c4e8001227b7ede4d93d24ed4e4ec04996854326260f30244fb9e",
+      "bytes": 11905
+    },
+    {
+      "path": "provider/firebase/functions/package.json",
+      "sha256": "ce934f967bb250a234b8abc5ea60de4501a4f5a4e9363e87942ffef54ef314bd",
+      "bytes": 514
+    },
+    {
+      "path": "provider/firebase/functions/package-lock.json",
+      "sha256": "5f37255d76e52abcdd0667bcb359da79e9e82d19e4bd3c101de923db4566c0b7",
+      "bytes": 60026
+    },
+    {
+      "path": "provider/firebase/functions/lib/provider/firebase/functions/src/authoritative-handler.js",
+      "sha256": "5d9b1e4a076f298189388119ecd2665f8ab92873c24d9970be5bd34cf84908c6",
+      "bytes": 14152
+    },
+    {
+      "path": "provider/firebase/functions/lib/src/core/synthetic-staging.js",
+      "sha256": "91c1499a5099abf2c4418d0b17b83ec604bd2533a6d3951f1cb0b5e94692485d",
+      "bytes": 5399
+    }
+  ]
+}

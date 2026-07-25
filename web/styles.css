@@ -444,6 +444,71 @@ dialog::backdrop { background: rgb(0 0 0 / 0.55); }
   .decision-page > section { border-color: Highlight; }
 }
 
+.staging-preview,
+.staging-preview * { min-width: 0; }
+.staging-preview {
+  display: grid;
+  gap: 1rem;
+  margin-inline: auto;
+  max-width: 76rem;
+  overflow-wrap: anywhere;
+  padding: 1rem 1rem 4rem;
+}
+.staging-header {
+  align-items: end;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: space-between;
+}
+.staging-header label { display: grid; gap: 0.3rem; font-weight: 700; }
+.staging-boundary,
+.staging-controls,
+.staging-terminal,
+.staging-projections > section,
+.staging-failed,
+.staging-loading {
+  border: 2px solid currentColor;
+  border-radius: 0.75rem;
+  padding: clamp(1rem, 3vw, 1.75rem);
+}
+.staging-boundary,
+.staging-terminal,
+.staging-failed { border-width: 4px; }
+.staging-status {
+  border-inline-start: 0.4rem solid currentColor;
+  margin: 0;
+  padding: 0.8rem 1rem;
+}
+.staging-projections {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+.staging-projections dl { display: grid; gap: 0.5rem; margin: 0; }
+.staging-projections dl div {
+  display: grid;
+  gap: 0.5rem;
+  grid-template-columns: minmax(9rem, 0.8fr) minmax(0, 1.2fr);
+}
+.staging-projections dt { font-weight: 700; }
+.staging-projections dd { margin: 0; }
+.staging-controls .button-row { align-items: stretch; }
+
+@media (max-width: 42rem) {
+  .staging-header { align-items: stretch; flex-direction: column; }
+  .staging-projections { grid-template-columns: 1fr; }
+  .staging-projections dl div { grid-template-columns: 1fr; gap: 0.1rem; }
+  .staging-controls .button-row { flex-direction: column; }
+  .staging-controls button { width: 100%; }
+}
+
+@media (forced-colors: active) {
+  .staging-boundary,
+  .staging-terminal,
+  .staging-failed { border-color: Highlight; }
+}
+
 .knowledge-filters {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr));

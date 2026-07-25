@@ -1,0 +1,23 @@
+{
+  "schemaVersion": "wp13.12b-staging-destruction-v1",
+  "status": "UNEXECUTED_PLAN",
+  "triggers": [
+    "approved staging expiry date",
+    "owner stop",
+    "cost or security stop condition",
+    "completion of authorized technical proof"
+  ],
+  "orderedSteps": [
+    "disable staging and advance controlEpoch",
+    "explicitly delete all active synthetic session payloads",
+    "verify minimum tombstones and evidence retention decision",
+    "remove protected preview",
+    "remove Functions and Firestore Rules only under authorization",
+    "destroy server secret versions and revoke IAM",
+    "delete database and isolated project under authorization",
+    "verify provider inventory is zero and sign destruction evidence"
+  ],
+  "ttlIsNotDestruction": true,
+  "backupAndPitrExpected": false,
+  "externalActionsExecuted": false
+}
