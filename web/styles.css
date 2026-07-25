@@ -367,6 +367,83 @@ dialog::backdrop { background: rgb(0 0 0 / 0.55); }
   .operations-terminal { border-color: Highlight; }
 }
 
+.decision-page,
+.decision-page * { min-width: 0; }
+.decision-page {
+  width: min(100% - 2rem, 96rem);
+  margin-inline: auto;
+  padding-block: 1rem 4rem;
+  display: grid;
+  gap: 1rem;
+}
+.decision-page > section,
+.decision-selected,
+.decision-option-grid article,
+.decision-card-grid article,
+.decision-threat-grid article {
+  border: 2px solid var(--border, #174a5b);
+  border-radius: 0.85rem;
+  padding: 1rem;
+  background: var(--surface, #fff);
+}
+.decision-boundary { border-block-width: 4px; }
+.decision-integrity { border-width: 4px !important; }
+.decision-pending {
+  border-inline-start: 0.5rem solid #a24700;
+  padding: 0.75rem;
+  font-weight: 700;
+}
+.decision-option-grid,
+.decision-card-grid,
+.decision-threat-grid,
+.decision-data-columns {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 18rem), 1fr));
+  gap: 0.8rem;
+}
+.decision-facts { display: grid; gap: 0.4rem; }
+.decision-facts div { display: grid; grid-template-columns: minmax(8rem, 0.35fr) 1fr; gap: 0.6rem; }
+.decision-facts dt { font-weight: 700; }
+.decision-facts dd { margin: 0; overflow-wrap: anywhere; }
+.decision-flow { display: grid; gap: 0.65rem; padding-inline-start: 1.5rem; }
+.decision-flow li { display: grid; gap: 0.2rem; padding: 0.6rem; border-inline-start: 0.35rem solid #32798f; }
+.decision-flow small { overflow-wrap: anywhere; }
+.table-scroll { max-width: 100%; overflow-x: auto; }
+.decision-page table { width: 100%; border-collapse: collapse; }
+.decision-page th,
+.decision-page td { border: 1px solid currentColor; padding: 0.55rem; text-align: start; vertical-align: top; }
+.decision-page code { white-space: normal; overflow-wrap: anywhere; }
+#provider-dossier-preview,
+#provider-owner-template-preview {
+  width: 100%;
+  min-height: 14rem;
+  margin-block-start: 0.75rem;
+  font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
+  font-size: 0.8rem;
+}
+#provider-dossier-download,
+#provider-owner-template-download {
+  display: inline-flex;
+  min-height: 44px;
+  align-items: center;
+  margin: 0.5rem;
+  font-weight: 700;
+}
+@media (max-width: 36rem) {
+  .decision-page { width: min(100% - 1rem, 96rem); }
+  .decision-facts div { grid-template-columns: 1fr; gap: 0.1rem; }
+  .decision-header { align-items: stretch; }
+  .decision-header .header-actions { width: 100%; }
+  .decision-header button,
+  .decision-header label,
+  .decision-owner button { width: 100%; }
+}
+@media (forced-colors: active) {
+  .decision-integrity,
+  .decision-pending,
+  .decision-page > section { border-color: Highlight; }
+}
+
 .knowledge-filters {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr));

@@ -1,8 +1,10 @@
 import { createSyntheticAppNavigation } from "../../composition/create-synthetic-app-navigation.js";
 import { createAuthoringPipeline } from "../../composition/create-authoring-pipeline.js";
 import { createBetaOperations } from "../../composition/create-beta-operations.js";
+import { createProviderDecision } from "../../composition/create-provider-decision.js";
 import type { AuthoringLocaleTextField } from "../../application/authoring-pipeline-controller.js";
 import type { FindingClassification, OperationsArtifactType, OperationsLocale } from "../../core/beta-operations.js";
+import type { DecisionLocale, ProviderOptionId } from "../../core/provider-decision.js";
 import type { LifecycleRole } from "../../application/session-lifecycle-controller.js";
 import type { AuthoringLifecyclePolicy, LocalAuthoringReviewNote } from "../../core/authoring-pipeline.js";
 import type { Locale } from "../../core/content-contracts.js";
@@ -10,10 +12,11 @@ import type { CorpusLifecyclePolicy, DraftCorpusMode } from "../../core/draft-le
 import { renderSyntheticAppNavigation } from "./synthetic-app-navigation-templates.js";
 import { renderAuthoringWorkspace } from "./authoring-workspace-templates.js";
 import { renderBetaOperations } from "./beta-operations-templates.js";
+import { renderProviderDecision } from "./provider-decision-templates.js";
 import { createLocalPwaCoordinator, type LocalPwaCoordinator } from "./pwa-status.js";
 import { installRuntimeSafetyBoundary } from "./runtime-safety.js";
 import { rollbackComponent, type LocalReleaseState, type ReleaseComponent } from "../../core/release-hardening.js";
-import { wp13_11LocalReleaseState } from "../../content/prototype/wp13-11-release-state.js";
+import { wp13_12aLocalReleaseState } from "../../content/prototype/wp13-12a-release-state.js";
 
 const rootElement = document.querySelector<HTMLDivElement>("#app");
 if (rootElement === null) throw new Error("WP13.7B app shell is missing #app");
@@ -23,21 +26,33 @@ const pageInstance = crypto.randomUUID();
 const { controller } = createSyntheticAppNavigation("nb-NO", pageInstance);
 const authoringController = createAuthoringPipeline();
 const operationsController = createBetaOperations();
+const providerDecisionController = createProviderDecision();
 let authoringOpen = false;
 let operationsOpen = false;
+let providerDecisionOpen = false;
 let pwaCoordinator: LocalPwaCoordinator | undefined;
-let localReleaseState: LocalReleaseState = wp13_11LocalReleaseState;
+let localReleaseState: LocalReleaseState = wp13_12aLocalReleaseState;
 let exportObjectUrl: string | undefined;
+let providerDossierObjectUrl: string | undefined;
+let providerOwnerTemplateObjectUrl: string | undefined;
 
 function render(focus = false): void {
   if (exportObjectUrl !== undefined) URL.revokeObjectURL(exportObjectUrl);
+  if (providerDossierObjectUrl !== undefined) URL.revokeObjectURL(providerDossierObjectUrl);
+  if (providerOwnerTemplateObjectUrl !== undefined) URL.revokeObjectURL(providerOwnerTemplateObjectUrl);
   exportObjectUrl = undefined;
-  root.innerHTML = operationsOpen
+  providerDossierObjectUrl = undefined;
+  providerOwnerTemplateObjectUrl = undefined;
+  root.innerHTML = providerDecisionOpen
+    ? renderProviderDecision(providerDecisionController.view)
+    : operationsOpen
     ? renderBetaOperations(operationsController.view)
     : authoringOpen
       ? renderAuthoringWorkspace(authoringController.view)
       : renderSyntheticAppNavigation(controller.view);
-  const locale = operationsOpen ? operationsController.view.locale : authoringOpen ? authoringController.view.locale : controller.view.locale;
+  const locale = providerDecisionOpen
+    ? providerDecisionController.view.locale
+    : operationsOpen ? operationsController.view.locale : authoringOpen ? authoringController.view.locale : controller.view.locale;
   document.documentElement.lang = locale === "nb-NO" || locale === "nb" ? "nb" : "nn";
   document.documentElement.dataset.wp13_7bReady = "true";
   document.documentElement.dataset.wp13_7cReady = "true";
@@ -47,15 +62,29 @@ function render(focus = false): void {
     exportObjectUrl = URL.createObjectURL(new Blob([operationsController.view.exportPreview], { type: "application/json" }));
     download.href = exportObjectUrl;
   }
+  const dossierDownload = root.querySelector<HTMLAnchorElement>("#provider-dossier-download");
+  if (dossierDownload !== null && providerDecisionController.view.dossierPreview !== "") {
+    providerDossierObjectUrl = URL.createObjectURL(new Blob([providerDecisionController.view.dossierPreview], { type: "application/json" }));
+    dossierDownload.href = providerDossierObjectUrl;
+  }
+  const ownerTemplateDownload = root.querySelector<HTMLAnchorElement>("#provider-owner-template-download");
+  if (ownerTemplateDownload !== null && providerDecisionController.view.ownerTemplatePreview !== "") {
+    providerOwnerTemplateObjectUrl = URL.createObjectURL(new Blob([providerDecisionController.view.ownerTemplatePreview], { type: "text/markdown" }));
+    ownerTemplateDownload.href = providerOwnerTemplateObjectUrl;
+  }
   if (focus) {
     queueMicrotask(() => {
-      root.querySelector<HTMLElement>(operationsOpen ? "#operations-integrity-title" : authoringOpen ? "#authoring-title" : "#screen-title")?.focus();
+      root.querySelector<HTMLElement>(providerDecisionOpen
+        ? "#provider-decision-title"
+        : operationsOpen ? "#operations-integrity-title" : authoringOpen ? "#authoring-title" : "#screen-title")?.focus();
     });
   }
 }
 
 function announce(message: string, urgent = false): void {
-  const target = root.querySelector<HTMLElement>(operationsOpen
+  const target = root.querySelector<HTMLElement>(providerDecisionOpen
+    ? urgent ? "#provider-decision-alert" : "#provider-decision-status"
+    : operationsOpen
     ? urgent ? "#operations-alert" : "#operations-status"
     : authoringOpen
     ? urgent ? "#authoring-alert" : "#authoring-status"
@@ -71,6 +100,36 @@ function controlValue(selector: string): string {
 
 root.addEventListener("click", async (event) => {
   const element = event.target as Element;
+  const providerDecisionButton = element.closest<HTMLButtonElement>("button[data-provider-decision-action]");
+  if (providerDecisionButton !== null && !providerDecisionButton.disabled) {
+    const action = providerDecisionButton.dataset.providerDecisionAction;
+    try {
+      switch (action) {
+        case "open":
+          providerDecisionController.setLocale(controller.view.locale === "nb-NO" ? "nb" : "nn");
+          authoringOpen = false;
+          operationsOpen = false;
+          providerDecisionOpen = true;
+          break;
+        case "close": providerDecisionOpen = false; break;
+        case "export-dossier": providerDecisionController.exportDecisionDossier(); break;
+        case "export-owner-template": providerDecisionController.exportBlankOwnerTemplate(); break;
+        default: return;
+      }
+      render(true);
+      if (providerDecisionOpen) announce(providerDecisionController.view.bundle.pendingOwnerLabel);
+    } catch (error) {
+      render();
+      announce(error instanceof Error ? error.message : String(error), true);
+    }
+    return;
+  }
+  const providerOptionButton = element.closest<HTMLButtonElement>("button[data-provider-option-select]");
+  if (providerOptionButton !== null && !providerOptionButton.disabled) {
+    providerDecisionController.selectOption(providerOptionButton.dataset.providerOptionSelect as ProviderOptionId);
+    render(true);
+    return;
+  }
   const operationsButton = element.closest<HTMLButtonElement>("button[data-operations-action]");
   if (operationsButton !== null && !operationsButton.disabled) {
     const action = operationsButton.dataset.operationsAction;
@@ -79,6 +138,7 @@ root.addEventListener("click", async (event) => {
         case "open":
           operationsController.setLocale(controller.view.locale === "nb-NO" ? "nb" : "nn");
           authoringOpen = false;
+          providerDecisionOpen = false;
           operationsOpen = true;
           break;
         case "close": operationsOpen = false; break;
@@ -131,6 +191,8 @@ root.addEventListener("click", async (event) => {
       switch (action) {
         case "open":
           authoringController.setLocale(controller.view.locale);
+          providerDecisionOpen = false;
+          operationsOpen = false;
           authoringOpen = true;
           break;
         case "close": authoringOpen = false; break;
@@ -252,6 +314,12 @@ root.addEventListener("click", async (event) => {
 });
 
 root.addEventListener("change", (event) => {
+  const providerDecisionLocale = (event.target as Element).closest<HTMLSelectElement>("#provider-decision-locale");
+  if (providerDecisionLocale !== null) {
+    providerDecisionController.setLocale(providerDecisionLocale.value as DecisionLocale);
+    render(true);
+    return;
+  }
   const operationsLocale = (event.target as Element).closest<HTMLSelectElement>("#operations-locale");
   if (operationsLocale !== null) {
     operationsController.setLocale(operationsLocale.value as OperationsLocale);
@@ -321,6 +389,7 @@ const runtimeSafetyBoundary = installRuntimeSafetyBoundary({
     controller.startNewSession();
     authoringOpen = false;
     operationsOpen = false;
+    providerDecisionOpen = false;
     render(true);
   },
 });
@@ -475,5 +544,21 @@ Object.assign(window, {
     exportLocalReview: () => { const result = operationsController.exportLocalReviewPackage(); render(); return result; },
     deleteRecords: () => { operationsController.deleteDryRunRecords(); render(); return operationsController.view; },
     runWithdrawal: (artifactType?: OperationsArtifactType) => { operationsController.runWithdrawalDrill(artifactType); render(true); return operationsController.view; },
+  },
+  __WP13_12A__: {
+    ready: Promise.resolve(true),
+    getDecisionView: () => providerDecisionController.view,
+    openDecision: () => {
+      authoringOpen = false;
+      operationsOpen = false;
+      providerDecisionOpen = true;
+      render(true);
+      return providerDecisionController.view;
+    },
+    closeDecision: () => { providerDecisionOpen = false; render(true); },
+    setLocale: (locale: DecisionLocale) => { providerDecisionController.setLocale(locale); render(true); return providerDecisionController.view; },
+    selectOption: (optionId: ProviderOptionId) => { providerDecisionController.selectOption(optionId); render(true); return providerDecisionController.view; },
+    exportDossier: () => { const result = providerDecisionController.exportDecisionDossier(); render(); return result; },
+    exportOwnerTemplate: () => { const result = providerDecisionController.exportBlankOwnerTemplate(); render(); return result; },
   },
 });

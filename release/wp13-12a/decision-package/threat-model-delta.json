@@ -1,0 +1,636 @@
+{
+  "schemaVersion": "wp13.12a-threat-model-v1",
+  "transition": "LOCAL_PROVIDER_FREE_TO_POSSIBLE_SYNTHETIC_CLOUD_STAGING",
+  "threats": [
+    {
+      "threatId": "stolenCapability",
+      "description": "Cloud-staging delta: stolenCapability",
+      "severity": "MEDIUM",
+      "likelihood": "POSSIBLE",
+      "affectedBoundary": [
+        "TB-CLIENT-AUTHORITY"
+      ],
+      "preventiveControls": [
+        "deny by default",
+        "short-lived scope",
+        "least privilege",
+        "no payload logging",
+        "STOP and tombstone dominance"
+      ],
+      "detectiveControls": [
+        "coarse denial code",
+        "configuration test",
+        "no-resurrection proof"
+      ],
+      "response": [
+        "activate kill switch",
+        "revoke capability",
+        "delete synthetic state",
+        "verify tombstone",
+        "rollback preview"
+      ],
+      "residualRisk": "Must be re-tested against the actual isolated project; provider and operator metadata cannot be eliminated by application code.",
+      "blocksActivation": false
+    },
+    {
+      "threatId": "replayedCapability",
+      "description": "Cloud-staging delta: replayedCapability",
+      "severity": "MEDIUM",
+      "likelihood": "POSSIBLE",
+      "affectedBoundary": [
+        "TB-AUTHORITY-STORE"
+      ],
+      "preventiveControls": [
+        "deny by default",
+        "short-lived scope",
+        "least privilege",
+        "no payload logging",
+        "STOP and tombstone dominance"
+      ],
+      "detectiveControls": [
+        "coarse denial code",
+        "configuration test",
+        "no-resurrection proof"
+      ],
+      "response": [
+        "activate kill switch",
+        "revoke capability",
+        "delete synthetic state",
+        "verify tombstone",
+        "rollback preview"
+      ],
+      "residualRisk": "Must be re-tested against the actual isolated project; provider and operator metadata cannot be eliminated by application code.",
+      "blocksActivation": false
+    },
+    {
+      "threatId": "capabilityLeakInLogs",
+      "description": "Cloud-staging delta: capabilityLeakInLogs",
+      "severity": "MEDIUM",
+      "likelihood": "POSSIBLE",
+      "affectedBoundary": [
+        "TB-OPS-LOGGING"
+      ],
+      "preventiveControls": [
+        "deny by default",
+        "short-lived scope",
+        "least privilege",
+        "no payload logging",
+        "STOP and tombstone dominance"
+      ],
+      "detectiveControls": [
+        "coarse denial code",
+        "configuration test",
+        "no-resurrection proof"
+      ],
+      "response": [
+        "activate kill switch",
+        "revoke capability",
+        "delete synthetic state",
+        "verify tombstone",
+        "rollback preview"
+      ],
+      "residualRisk": "Must be re-tested against the actual isolated project; provider and operator metadata cannot be eliminated by application code.",
+      "blocksActivation": false
+    },
+    {
+      "threatId": "directStoreMutation",
+      "description": "Cloud-staging delta: directStoreMutation",
+      "severity": "HIGH",
+      "likelihood": "POSSIBLE",
+      "affectedBoundary": [
+        "TB-CI-DEPLOY"
+      ],
+      "preventiveControls": [
+        "deny by default",
+        "short-lived scope",
+        "least privilege",
+        "no payload logging",
+        "STOP and tombstone dominance"
+      ],
+      "detectiveControls": [
+        "coarse denial code",
+        "configuration test",
+        "no-resurrection proof"
+      ],
+      "response": [
+        "activate kill switch",
+        "revoke capability",
+        "delete synthetic state",
+        "verify tombstone",
+        "rollback preview"
+      ],
+      "residualRisk": "Must be re-tested against the actual isolated project; provider and operator metadata cannot be eliminated by application code.",
+      "blocksActivation": true
+    },
+    {
+      "threatId": "crossRoleProjection",
+      "description": "Cloud-staging delta: crossRoleProjection",
+      "severity": "MEDIUM",
+      "likelihood": "POSSIBLE",
+      "affectedBoundary": [
+        "TB-CLIENT-AUTHORITY"
+      ],
+      "preventiveControls": [
+        "deny by default",
+        "short-lived scope",
+        "least privilege",
+        "no payload logging",
+        "STOP and tombstone dominance"
+      ],
+      "detectiveControls": [
+        "coarse denial code",
+        "configuration test",
+        "no-resurrection proof"
+      ],
+      "response": [
+        "activate kill switch",
+        "revoke capability",
+        "delete synthetic state",
+        "verify tombstone",
+        "rollback preview"
+      ],
+      "residualRisk": "Must be re-tested against the actual isolated project; provider and operator metadata cannot be eliminated by application code.",
+      "blocksActivation": false
+    },
+    {
+      "threatId": "staleAuthorityGeneration",
+      "description": "Cloud-staging delta: staleAuthorityGeneration",
+      "severity": "MEDIUM",
+      "likelihood": "POSSIBLE",
+      "affectedBoundary": [
+        "TB-AUTHORITY-STORE"
+      ],
+      "preventiveControls": [
+        "deny by default",
+        "short-lived scope",
+        "least privilege",
+        "no payload logging",
+        "STOP and tombstone dominance"
+      ],
+      "detectiveControls": [
+        "coarse denial code",
+        "configuration test",
+        "no-resurrection proof"
+      ],
+      "response": [
+        "activate kill switch",
+        "revoke capability",
+        "delete synthetic state",
+        "verify tombstone",
+        "rollback preview"
+      ],
+      "residualRisk": "Must be re-tested against the actual isolated project; provider and operator metadata cannot be eliminated by application code.",
+      "blocksActivation": false
+    },
+    {
+      "threatId": "delayedCommandAfterStop",
+      "description": "Cloud-staging delta: delayedCommandAfterStop",
+      "severity": "MEDIUM",
+      "likelihood": "POSSIBLE",
+      "affectedBoundary": [
+        "TB-OPS-LOGGING"
+      ],
+      "preventiveControls": [
+        "deny by default",
+        "short-lived scope",
+        "least privilege",
+        "no payload logging",
+        "STOP and tombstone dominance"
+      ],
+      "detectiveControls": [
+        "coarse denial code",
+        "configuration test",
+        "no-resurrection proof"
+      ],
+      "response": [
+        "activate kill switch",
+        "revoke capability",
+        "delete synthetic state",
+        "verify tombstone",
+        "rollback preview"
+      ],
+      "residualRisk": "Must be re-tested against the actual isolated project; provider and operator metadata cannot be eliminated by application code.",
+      "blocksActivation": false
+    },
+    {
+      "threatId": "resurrectionFromCache",
+      "description": "Cloud-staging delta: resurrectionFromCache",
+      "severity": "MEDIUM",
+      "likelihood": "POSSIBLE",
+      "affectedBoundary": [
+        "TB-CI-DEPLOY"
+      ],
+      "preventiveControls": [
+        "deny by default",
+        "short-lived scope",
+        "least privilege",
+        "no payload logging",
+        "STOP and tombstone dominance"
+      ],
+      "detectiveControls": [
+        "coarse denial code",
+        "configuration test",
+        "no-resurrection proof"
+      ],
+      "response": [
+        "activate kill switch",
+        "revoke capability",
+        "delete synthetic state",
+        "verify tombstone",
+        "rollback preview"
+      ],
+      "residualRisk": "Must be re-tested against the actual isolated project; provider and operator metadata cannot be eliminated by application code.",
+      "blocksActivation": false
+    },
+    {
+      "threatId": "resurrectionFromBackup",
+      "description": "Cloud-staging delta: resurrectionFromBackup",
+      "severity": "HIGH",
+      "likelihood": "POSSIBLE",
+      "affectedBoundary": [
+        "TB-CLIENT-AUTHORITY"
+      ],
+      "preventiveControls": [
+        "deny by default",
+        "short-lived scope",
+        "least privilege",
+        "no payload logging",
+        "STOP and tombstone dominance"
+      ],
+      "detectiveControls": [
+        "coarse denial code",
+        "configuration test",
+        "no-resurrection proof"
+      ],
+      "response": [
+        "activate kill switch",
+        "revoke capability",
+        "delete synthetic state",
+        "verify tombstone",
+        "rollback preview"
+      ],
+      "residualRisk": "Must be re-tested against the actual isolated project; provider and operator metadata cannot be eliminated by application code.",
+      "blocksActivation": true
+    },
+    {
+      "threatId": "overbroadServiceAccount",
+      "description": "Cloud-staging delta: overbroadServiceAccount",
+      "severity": "HIGH",
+      "likelihood": "POSSIBLE",
+      "affectedBoundary": [
+        "TB-AUTHORITY-STORE"
+      ],
+      "preventiveControls": [
+        "deny by default",
+        "short-lived scope",
+        "least privilege",
+        "no payload logging",
+        "STOP and tombstone dominance"
+      ],
+      "detectiveControls": [
+        "coarse denial code",
+        "configuration test",
+        "no-resurrection proof"
+      ],
+      "response": [
+        "activate kill switch",
+        "revoke capability",
+        "delete synthetic state",
+        "verify tombstone",
+        "rollback preview"
+      ],
+      "residualRisk": "Must be re-tested against the actual isolated project; provider and operator metadata cannot be eliminated by application code.",
+      "blocksActivation": true
+    },
+    {
+      "threatId": "browserSecretExposure",
+      "description": "Cloud-staging delta: browserSecretExposure",
+      "severity": "HIGH",
+      "likelihood": "POSSIBLE",
+      "affectedBoundary": [
+        "TB-OPS-LOGGING"
+      ],
+      "preventiveControls": [
+        "deny by default",
+        "short-lived scope",
+        "least privilege",
+        "no payload logging",
+        "STOP and tombstone dominance"
+      ],
+      "detectiveControls": [
+        "coarse denial code",
+        "configuration test",
+        "no-resurrection proof"
+      ],
+      "response": [
+        "activate kill switch",
+        "revoke capability",
+        "delete synthetic state",
+        "verify tombstone",
+        "rollback preview"
+      ],
+      "residualRisk": "Must be re-tested against the actual isolated project; provider and operator metadata cannot be eliminated by application code.",
+      "blocksActivation": true
+    },
+    {
+      "threatId": "previewExposure",
+      "description": "Cloud-staging delta: previewExposure",
+      "severity": "HIGH",
+      "likelihood": "POSSIBLE",
+      "affectedBoundary": [
+        "TB-CI-DEPLOY"
+      ],
+      "preventiveControls": [
+        "deny by default",
+        "short-lived scope",
+        "least privilege",
+        "no payload logging",
+        "STOP and tombstone dominance"
+      ],
+      "detectiveControls": [
+        "coarse denial code",
+        "configuration test",
+        "no-resurrection proof"
+      ],
+      "response": [
+        "activate kill switch",
+        "revoke capability",
+        "delete synthetic state",
+        "verify tombstone",
+        "rollback preview"
+      ],
+      "residualRisk": "Must be re-tested against the actual isolated project; provider and operator metadata cannot be eliminated by application code.",
+      "blocksActivation": true
+    },
+    {
+      "threatId": "providerLogPayload",
+      "description": "Cloud-staging delta: providerLogPayload",
+      "severity": "HIGH",
+      "likelihood": "POSSIBLE",
+      "affectedBoundary": [
+        "TB-CLIENT-AUTHORITY"
+      ],
+      "preventiveControls": [
+        "deny by default",
+        "short-lived scope",
+        "least privilege",
+        "no payload logging",
+        "STOP and tombstone dominance"
+      ],
+      "detectiveControls": [
+        "coarse denial code",
+        "configuration test",
+        "no-resurrection proof"
+      ],
+      "response": [
+        "activate kill switch",
+        "revoke capability",
+        "delete synthetic state",
+        "verify tombstone",
+        "rollback preview"
+      ],
+      "residualRisk": "Must be re-tested against the actual isolated project; provider and operator metadata cannot be eliminated by application code.",
+      "blocksActivation": true
+    },
+    {
+      "threatId": "billingAbuse",
+      "description": "Cloud-staging delta: billingAbuse",
+      "severity": "MEDIUM",
+      "likelihood": "POSSIBLE",
+      "affectedBoundary": [
+        "TB-AUTHORITY-STORE"
+      ],
+      "preventiveControls": [
+        "deny by default",
+        "short-lived scope",
+        "least privilege",
+        "no payload logging",
+        "STOP and tombstone dominance"
+      ],
+      "detectiveControls": [
+        "coarse denial code",
+        "configuration test",
+        "no-resurrection proof"
+      ],
+      "response": [
+        "activate kill switch",
+        "revoke capability",
+        "delete synthetic state",
+        "verify tombstone",
+        "rollback preview"
+      ],
+      "residualRisk": "Must be re-tested against the actual isolated project; provider and operator metadata cannot be eliminated by application code.",
+      "blocksActivation": false
+    },
+    {
+      "threatId": "denialOfService",
+      "description": "Cloud-staging delta: denialOfService",
+      "severity": "MEDIUM",
+      "likelihood": "POSSIBLE",
+      "affectedBoundary": [
+        "TB-OPS-LOGGING"
+      ],
+      "preventiveControls": [
+        "deny by default",
+        "short-lived scope",
+        "least privilege",
+        "no payload logging",
+        "STOP and tombstone dominance"
+      ],
+      "detectiveControls": [
+        "coarse denial code",
+        "configuration test",
+        "no-resurrection proof"
+      ],
+      "response": [
+        "activate kill switch",
+        "revoke capability",
+        "delete synthetic state",
+        "verify tombstone",
+        "rollback preview"
+      ],
+      "residualRisk": "Must be re-tested against the actual isolated project; provider and operator metadata cannot be eliminated by application code.",
+      "blocksActivation": false
+    },
+    {
+      "threatId": "dependencyCompromise",
+      "description": "Cloud-staging delta: dependencyCompromise",
+      "severity": "MEDIUM",
+      "likelihood": "POSSIBLE",
+      "affectedBoundary": [
+        "TB-CI-DEPLOY"
+      ],
+      "preventiveControls": [
+        "deny by default",
+        "short-lived scope",
+        "least privilege",
+        "no payload logging",
+        "STOP and tombstone dominance"
+      ],
+      "detectiveControls": [
+        "coarse denial code",
+        "configuration test",
+        "no-resurrection proof"
+      ],
+      "response": [
+        "activate kill switch",
+        "revoke capability",
+        "delete synthetic state",
+        "verify tombstone",
+        "rollback preview"
+      ],
+      "residualRisk": "Must be re-tested against the actual isolated project; provider and operator metadata cannot be eliminated by application code.",
+      "blocksActivation": false
+    },
+    {
+      "threatId": "regionMismatch",
+      "description": "Cloud-staging delta: regionMismatch",
+      "severity": "HIGH",
+      "likelihood": "POSSIBLE",
+      "affectedBoundary": [
+        "TB-CLIENT-AUTHORITY"
+      ],
+      "preventiveControls": [
+        "deny by default",
+        "short-lived scope",
+        "least privilege",
+        "no payload logging",
+        "STOP and tombstone dominance"
+      ],
+      "detectiveControls": [
+        "coarse denial code",
+        "configuration test",
+        "no-resurrection proof"
+      ],
+      "response": [
+        "activate kill switch",
+        "revoke capability",
+        "delete synthetic state",
+        "verify tombstone",
+        "rollback preview"
+      ],
+      "residualRisk": "Must be re-tested against the actual isolated project; provider and operator metadata cannot be eliminated by application code.",
+      "blocksActivation": true
+    },
+    {
+      "threatId": "misconfiguredRules",
+      "description": "Cloud-staging delta: misconfiguredRules",
+      "severity": "HIGH",
+      "likelihood": "POSSIBLE",
+      "affectedBoundary": [
+        "TB-AUTHORITY-STORE"
+      ],
+      "preventiveControls": [
+        "deny by default",
+        "short-lived scope",
+        "least privilege",
+        "no payload logging",
+        "STOP and tombstone dominance"
+      ],
+      "detectiveControls": [
+        "coarse denial code",
+        "configuration test",
+        "no-resurrection proof"
+      ],
+      "response": [
+        "activate kill switch",
+        "revoke capability",
+        "delete synthetic state",
+        "verify tombstone",
+        "rollback preview"
+      ],
+      "residualRisk": "Must be re-tested against the actual isolated project; provider and operator metadata cannot be eliminated by application code.",
+      "blocksActivation": true
+    },
+    {
+      "threatId": "misconfiguredCORS",
+      "description": "Cloud-staging delta: misconfiguredCORS",
+      "severity": "HIGH",
+      "likelihood": "POSSIBLE",
+      "affectedBoundary": [
+        "TB-OPS-LOGGING"
+      ],
+      "preventiveControls": [
+        "deny by default",
+        "short-lived scope",
+        "least privilege",
+        "no payload logging",
+        "STOP and tombstone dominance"
+      ],
+      "detectiveControls": [
+        "coarse denial code",
+        "configuration test",
+        "no-resurrection proof"
+      ],
+      "response": [
+        "activate kill switch",
+        "revoke capability",
+        "delete synthetic state",
+        "verify tombstone",
+        "rollback preview"
+      ],
+      "residualRisk": "Must be re-tested against the actual isolated project; provider and operator metadata cannot be eliminated by application code.",
+      "blocksActivation": true
+    },
+    {
+      "threatId": "unprotectedDeployment",
+      "description": "Cloud-staging delta: unprotectedDeployment",
+      "severity": "HIGH",
+      "likelihood": "POSSIBLE",
+      "affectedBoundary": [
+        "TB-CI-DEPLOY"
+      ],
+      "preventiveControls": [
+        "deny by default",
+        "short-lived scope",
+        "least privilege",
+        "no payload logging",
+        "STOP and tombstone dominance"
+      ],
+      "detectiveControls": [
+        "coarse denial code",
+        "configuration test",
+        "no-resurrection proof"
+      ],
+      "response": [
+        "activate kill switch",
+        "revoke capability",
+        "delete synthetic state",
+        "verify tombstone",
+        "rollback preview"
+      ],
+      "residualRisk": "Must be re-tested against the actual isolated project; provider and operator metadata cannot be eliminated by application code.",
+      "blocksActivation": true
+    },
+    {
+      "threatId": "crossProjectCredentialReuse",
+      "description": "Cloud-staging delta: crossProjectCredentialReuse",
+      "severity": "HIGH",
+      "likelihood": "POSSIBLE",
+      "affectedBoundary": [
+        "TB-CLIENT-AUTHORITY"
+      ],
+      "preventiveControls": [
+        "deny by default",
+        "short-lived scope",
+        "least privilege",
+        "no payload logging",
+        "STOP and tombstone dominance"
+      ],
+      "detectiveControls": [
+        "coarse denial code",
+        "configuration test",
+        "no-resurrection proof"
+      ],
+      "response": [
+        "activate kill switch",
+        "revoke capability",
+        "delete synthetic state",
+        "verify tombstone",
+        "rollback preview"
+      ],
+      "residualRisk": "Must be re-tested against the actual isolated project; provider and operator metadata cannot be eliminated by application code.",
+      "blocksActivation": true
+    }
+  ]
+}

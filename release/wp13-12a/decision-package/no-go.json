@@ -1,0 +1,100 @@
+{
+  "schemaVersion": "wp13.12a-no-go-v1",
+  "entries": [
+    {
+      "noGoId": "NO_PRODUCTION_DOMAIN",
+      "status": "ENFORCED",
+      "rationale": "Binding WP13.12A boundary"
+    },
+    {
+      "noGoId": "NO_REAL_DATA",
+      "status": "ENFORCED",
+      "rationale": "Binding WP13.12A boundary"
+    },
+    {
+      "noGoId": "NO_STUDENT_BETA",
+      "status": "ENFORCED",
+      "rationale": "Binding WP13.12A boundary"
+    },
+    {
+      "noGoId": "NO_RECRUITMENT",
+      "status": "ENFORCED",
+      "rationale": "Binding WP13.12A boundary"
+    },
+    {
+      "noGoId": "NO_PARENT_CONTACT_FOR_PARTICIPATION",
+      "status": "ENFORCED",
+      "rationale": "Binding WP13.12A boundary"
+    },
+    {
+      "noGoId": "NO_FIREBASE_AUTH_IN_RECOMMENDED_BASELINE_WITHOUT_NEW_DECISION",
+      "status": "ENFORCED",
+      "rationale": "Binding WP13.12A boundary"
+    },
+    {
+      "noGoId": "NO_STABLE_UID",
+      "status": "ENFORCED",
+      "rationale": "Binding WP13.12A boundary"
+    },
+    {
+      "noGoId": "NO_ANALYTICS",
+      "status": "ENFORCED",
+      "rationale": "Binding WP13.12A boundary"
+    },
+    {
+      "noGoId": "NO_CRASHLYTICS_WITH_PARTICIPANT_PAYLOAD",
+      "status": "ENFORCED",
+      "rationale": "Binding WP13.12A boundary"
+    },
+    {
+      "noGoId": "NO_PERFORMANCE_MONITORING_WITH_PARTICIPANT_PAYLOAD",
+      "status": "ENFORCED",
+      "rationale": "Binding WP13.12A boundary"
+    },
+    {
+      "noGoId": "NO_REMOTE_CONFIG_FOR_PEDAGOGICAL_DECISIONS",
+      "status": "ENFORCED",
+      "rationale": "Binding WP13.12A boundary"
+    },
+    {
+      "noGoId": "NO_CLOUD_STORAGE",
+      "status": "ENFORCED",
+      "rationale": "Binding WP13.12A boundary"
+    },
+    {
+      "noGoId": "NO_DIRECT_CLIENT_WRITE_TO_AUTHORITATIVE_STATE",
+      "status": "ENFORCED",
+      "rationale": "Binding WP13.12A boundary"
+    },
+    {
+      "noGoId": "NO_CLIENT_SELECTED_AUTHORITY",
+      "status": "ENFORCED",
+      "rationale": "Binding WP13.12A boundary"
+    },
+    {
+      "noGoId": "NO_BACKUP_WITHOUT_EXPLICIT_DECISION",
+      "status": "ENFORCED",
+      "rationale": "Binding WP13.12A boundary"
+    },
+    {
+      "noGoId": "NO_RUNTIME_AI",
+      "status": "ENFORCED",
+      "rationale": "Binding WP13.12A boundary"
+    },
+    {
+      "noGoId": "NO_LUDUS_PROVIDER_REUSE",
+      "status": "ENFORCED",
+      "rationale": "Binding WP13.12A boundary"
+    },
+    {
+      "noGoId": "NO_SHARED_SECRETS",
+      "status": "ENFORCED",
+      "rationale": "Binding WP13.12A boundary"
+    },
+    {
+      "noGoId": "NO_CLOUD_CREATION_IN_WP13_12A",
+      "status": "ENFORCED",
+      "rationale": "Binding WP13.12A boundary"
+    }
+  ]
+}

@@ -1,0 +1,48 @@
+{
+  "schemaVersion": "wp13.12a-logging-observability-v1",
+  "allowed": [
+    "releaseId",
+    "coarse error code",
+    "service health",
+    "denial class",
+    "rollback class",
+    "function version",
+    "region",
+    "non-identifying latency bucket"
+  ],
+  "prohibited": [
+    "request body",
+    "capability",
+    "capability hash",
+    "session state",
+    "stimulus",
+    "response",
+    "support history",
+    "pedagogical payload",
+    "name",
+    "email",
+    "school",
+    "stable UID",
+    "tenant",
+    "free text",
+    "analytics identifier"
+  ],
+  "requestBodyLogging": false,
+  "capabilityLogging": false,
+  "providerLogsFullyControlledByApplication": false,
+  "retention": [
+    "application logs: minimum configurable period",
+    "Google _Required audit logs can retain 400 days",
+    "Vercel retention depends on plan"
+  ],
+  "redaction": [
+    "structured allowlist only",
+    "drop unknown keys",
+    "test thrown errors and framework defaults"
+  ],
+  "tests": [
+    "canary payload must not appear",
+    "capability must not appear",
+    "provider request metadata must be inventoried"
+  ]
+}

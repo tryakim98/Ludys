@@ -1,0 +1,104 @@
+{
+  "schemaVersion": "wp13.12a-recommended-minimum-v1",
+  "optionId": "FIREBASE_CAPABILITY",
+  "option": {
+    "optionId": "FIREBASE_CAPABILITY",
+    "provider": "Google Firebase / Google Cloud with Vercel protected preview",
+    "services": [
+      "Cloud Firestore Standard regional",
+      "Cloud Functions 2nd gen",
+      "Vercel protected preview"
+    ],
+    "regionOptions": [
+      "europe-north1",
+      "europe-north2",
+      "eur3"
+    ],
+    "identityModel": "NO_ACCOUNT; SHORT_LIVED_SESSION_BOUND_CAPABILITY",
+    "authorityModel": "FUNCTION_AUTHORITATIVE_HANDLER_CALLS_PROVIDER_FREE_PURE_CORE",
+    "clientAccessModel": "COMMAND_INGRESS_AND_MINIMUM_ROLE_PROJECTION; NO_DIRECT_STORE_WRITE",
+    "dataClasses": [
+      "syntheticSessionId",
+      "syntheticRole",
+      "stateVersion",
+      "authorityGeneration",
+      "closedCommandType",
+      "syntheticSessionState",
+      "minimumRoleProjection",
+      "expiryTimestamp",
+      "tombstone",
+      "releaseId",
+      "coarseTechnicalEventCode"
+    ],
+    "retentionModel": "EXPLICIT_DELETE_PLUS_TTL_BACKSTOP; BACKUP_AND_PITR_DISABLED",
+    "deletionModel": "AUTHORITATIVE_HANDLER_DELETES_STATE_AND_WRITES_MINIMUM_TOMBSTONE",
+    "noResurrectionModel": "TOMBSTONE, AUTHORITY_GENERATION, REVISION, STOP_AND_DELETE_DOMINANCE",
+    "loggingModel": "COARSE_TECHNICAL_ALLOWLIST; NO_PAYLOAD",
+    "IAMModel": "SEPARATE_RUNTIME_AND_DEPLOY_IDENTITIES; LEAST_PRIVILEGE",
+    "secretsModel": "SERVER_ONLY; NO_JSON_KEYS; NO_BROWSER_SECRET",
+    "costBand": "VERY_LOW_SYNTHETIC_USAGE_ESTIMATE; PAY_AS_YOU_GO_RISK",
+    "operationalLoad": "MEDIUM",
+    "lockInRisk": "MEDIUM",
+    "exitComplexity": "MEDIUM",
+    "supportsSyntheticMultiDevice": true,
+    "preservesProviderFreeCore": true,
+    "requiresStableIdentity": false,
+    "allowsDirectClientWrite": false,
+    "status": "RECOMMENDED",
+    "rationale": [
+      "Supports physical multi-device proof without an account identity",
+      "europe-north1 supports both regional Firestore and 2nd gen Functions",
+      "authoritative server handler prevents direct client mutation",
+      "provider adapter stays outside pure core and local fallback remains available"
+    ],
+    "openQuestions": [
+      "Owner cost bounds",
+      "DPA and subprocessor acceptance",
+      "DPIA and school-owner path before any real data"
+    ],
+    "sourceIds": [
+      "FIREBASE-FIRESTORE-LOCATIONS",
+      "FIREBASE-FUNCTIONS-LOCATIONS",
+      "FIRESTORE-TTL",
+      "FIRESTORE-RULES",
+      "FIRESTORE-QUOTAS",
+      "FIRESTORE-PRICING",
+      "GOOGLE-BUDGETS",
+      "GOOGLE-IAM-SERVICE-ACCOUNTS",
+      "VERCEL-PROTECTION",
+      "VERCEL-PRICING",
+      "VERCEL-SPEND"
+    ]
+  },
+  "region": "europe-north1",
+  "regionLockNotExecuted": true,
+  "capabilityOptionId": "FUNCTION_ISSUED_SHORT_LIVED_SESSION_CAPABILITY",
+  "capability": {
+    "capabilityType": "OPAQUE_RANDOM_SHORT_LIVED_SESSION_CAPABILITY",
+    "maximumLifetime": "15_MINUTES_HARD_MAXIMUM; owner may approve a shorter value",
+    "roleBinding": "ONE_SYNTHETIC_ROLE",
+    "sessionBinding": "ONE_SYNTHETIC_SESSION",
+    "authorityGenerationBinding": "EXACT_SERVER_ISSUED_AUTHORITY_GENERATION",
+    "expectedRevisionBinding": "EVERY_COMMAND_CARRIES_EXPECTED_STATE_REVISION",
+    "clientStorage": "MEMORY_ONLY; NOT LOCAL_STORAGE, INDEXED_DB, URL OR LOG",
+    "serverStorage": "HASH_OR_OPAQUE_LOOKUP_WITH_EXPIRY; NEVER RAW_CAPABILITY_IN_LOG",
+    "revocationTriggers": [
+      "STOP",
+      "DELETE",
+      "EXPIRY",
+      "AUTHORITY_GENERATION_CHANGE",
+      "KILL_SWITCH",
+      "ABUSE_DENIAL"
+    ],
+    "loggingProhibition": [
+      "NO_RAW_CAPABILITY",
+      "NO_CAPABILITY_HASH_IN_APPLICATION_LOG"
+    ],
+    "rotation": "NEW RANDOM CAPABILITY FOR EACH EXPLICIT SYNTHETIC SESSION OR ROLE GRANT",
+    "rateLimiting": "SESSION, SOURCE AND PROJECT-SCOPED LIMITS WITH COARSE DENIAL ONLY",
+    "replayProtection": "EXPECTED_REVISION, COMMAND NONCE, AUTHORITY GENERATION AND SERVER-SIDE USED-NONCE WINDOW"
+  },
+  "directClientWrite": false,
+  "providerFreeCore": true,
+  "runtimeProviderSdkPresent": false
+}

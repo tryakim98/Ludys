@@ -1,0 +1,513 @@
+{
+  "schemaVersion": "wp13.12a-official-sources-v1",
+  "sources": [
+    {
+      "sourceId": "FIREBASE-FIRESTORE-LOCATIONS",
+      "title": "Cloud Firestore locations",
+      "publisher": "Google Firebase",
+      "officialUrl": "https://firebase.google.com/docs/firestore/locations",
+      "checkedAt": "2026-07-25",
+      "factsSupported": [
+        "europe-north1 and europe-north2 are regional Firestore locations",
+        "eur3 is a European multi-region",
+        "database location cannot be changed after provisioning",
+        "regional and multi-region availability targets differ"
+      ],
+      "limitations": [],
+      "cannotDecide": [
+        "Norwegian-school legality or processing basis",
+        "DPIA, DPA or school-owner acceptance",
+        "B8, recruitment, pilot or production authorization"
+      ],
+      "reverificationRequiredBefore": "Before WP13.12B provisioning, price commitment, or any use of real data."
+    },
+    {
+      "sourceId": "FIREBASE-FUNCTIONS-LOCATIONS",
+      "title": "Cloud Functions locations",
+      "publisher": "Google Firebase",
+      "officialUrl": "https://firebase.google.com/docs/functions/locations",
+      "checkedAt": "2026-07-25",
+      "factsSupported": [
+        "europe-north1 supports 2nd generation Functions",
+        "co-location with the data source reduces latency and cross-region cost risk"
+      ],
+      "limitations": [],
+      "cannotDecide": [
+        "Norwegian-school legality or processing basis",
+        "DPIA, DPA or school-owner acceptance",
+        "B8, recruitment, pilot or production authorization"
+      ],
+      "reverificationRequiredBefore": "Before WP13.12B provisioning, price commitment, or any use of real data."
+    },
+    {
+      "sourceId": "FIREBASE-ANONYMOUS-AUTH",
+      "title": "Authenticate with Firebase Anonymously Using JavaScript",
+      "publisher": "Google Firebase",
+      "officialUrl": "https://firebase.google.com/docs/auth/web/anonymous-auth",
+      "checkedAt": "2026-07-25",
+      "factsSupported": [
+        "anonymous authentication creates temporary anonymous accounts with a UID",
+        "automatic cleanup is optional and applies after 30 days with Identity Platform"
+      ],
+      "limitations": [
+        "Temporary accounts are still provider identities and are not session capabilities."
+      ],
+      "cannotDecide": [
+        "Norwegian-school legality or processing basis",
+        "DPIA, DPA or school-owner acceptance",
+        "B8, recruitment, pilot or production authorization"
+      ],
+      "reverificationRequiredBefore": "Before WP13.12B provisioning, price commitment, or any use of real data."
+    },
+    {
+      "sourceId": "FIREBASE-PRIVACY",
+      "title": "Privacy and Security in Firebase",
+      "publisher": "Google Firebase",
+      "officialUrl": "https://firebase.google.com/support/privacy",
+      "checkedAt": "2026-07-25",
+      "factsSupported": [
+        "Firebase Authentication processes in US data centers",
+        "Cloud Functions processes IP addresses temporarily",
+        "Firestore and Functions are global services with service-specific location controls",
+        "service and support data require separate review"
+      ],
+      "limitations": [],
+      "cannotDecide": [
+        "Norwegian-school legality or processing basis",
+        "DPIA, DPA or school-owner acceptance",
+        "B8, recruitment, pilot or production authorization"
+      ],
+      "reverificationRequiredBefore": "Before WP13.12B provisioning, price commitment, or any use of real data."
+    },
+    {
+      "sourceId": "FIRESTORE-TTL",
+      "title": "Manage data retention with TTL policies",
+      "publisher": "Google Firebase",
+      "officialUrl": "https://firebase.google.com/docs/firestore/ttl",
+      "checkedAt": "2026-07-25",
+      "factsSupported": [
+        "TTL deletion is not instantaneous and is typically completed within 24 hours",
+        "TTL deletes are billable and do not delete subcollections"
+      ],
+      "limitations": [],
+      "cannotDecide": [
+        "Norwegian-school legality or processing basis",
+        "DPIA, DPA or school-owner acceptance",
+        "B8, recruitment, pilot or production authorization"
+      ],
+      "reverificationRequiredBefore": "Before WP13.12B provisioning, price commitment, or any use of real data."
+    },
+    {
+      "sourceId": "FIRESTORE-RULES",
+      "title": "Control access to specific fields",
+      "publisher": "Google Firebase",
+      "officialUrl": "https://firebase.google.com/docs/firestore/security/rules-fields",
+      "checkedAt": "2026-07-25",
+      "factsSupported": [
+        "server client libraries bypass Firestore Security Rules",
+        "server access must be controlled through IAM"
+      ],
+      "limitations": [],
+      "cannotDecide": [
+        "Norwegian-school legality or processing basis",
+        "DPIA, DPA or school-owner acceptance",
+        "B8, recruitment, pilot or production authorization"
+      ],
+      "reverificationRequiredBefore": "Before WP13.12B provisioning, price commitment, or any use of real data."
+    },
+    {
+      "sourceId": "FIRESTORE-QUOTAS",
+      "title": "Usage and limits",
+      "publisher": "Google Firebase",
+      "officialUrl": "https://firebase.google.com/docs/firestore/quotas",
+      "checkedAt": "2026-07-25",
+      "factsSupported": [
+        "one free Firestore database is allowed per project",
+        "free quota includes daily reads, writes and deletes",
+        "TTL, PITR and backup operations require billing"
+      ],
+      "limitations": [],
+      "cannotDecide": [
+        "Norwegian-school legality or processing basis",
+        "DPIA, DPA or school-owner acceptance",
+        "B8, recruitment, pilot or production authorization"
+      ],
+      "reverificationRequiredBefore": "Before WP13.12B provisioning, price commitment, or any use of real data."
+    },
+    {
+      "sourceId": "FIRESTORE-PRICING",
+      "title": "Understand Cloud Firestore billing",
+      "publisher": "Google Firebase",
+      "officialUrl": "https://firebase.google.com/docs/firestore/pricing",
+      "checkedAt": "2026-07-25",
+      "factsSupported": [
+        "reads, writes, deletes, storage and data transfer can be billed",
+        "PITR and backup storage are billed separately"
+      ],
+      "limitations": [],
+      "cannotDecide": [
+        "Norwegian-school legality or processing basis",
+        "DPIA, DPA or school-owner acceptance",
+        "B8, recruitment, pilot or production authorization"
+      ],
+      "reverificationRequiredBefore": "Before WP13.12B provisioning, price commitment, or any use of real data."
+    },
+    {
+      "sourceId": "FIRESTORE-PITR",
+      "title": "Work with point-in-time recovery",
+      "publisher": "Google Firebase",
+      "officialUrl": "https://firebase.google.com/docs/firestore/use-pitr",
+      "checkedAt": "2026-07-25",
+      "factsSupported": [
+        "PITR retains one hour when disabled and seven days when enabled"
+      ],
+      "limitations": [],
+      "cannotDecide": [
+        "Norwegian-school legality or processing basis",
+        "DPIA, DPA or school-owner acceptance",
+        "B8, recruitment, pilot or production authorization"
+      ],
+      "reverificationRequiredBefore": "Before WP13.12B provisioning, price commitment, or any use of real data."
+    },
+    {
+      "sourceId": "FIRESTORE-BACKUPS",
+      "title": "Back up and restore data",
+      "publisher": "Google Firebase",
+      "officialUrl": "https://firebase.google.com/docs/firestore/backups",
+      "checkedAt": "2026-07-25",
+      "factsSupported": [
+        "backups remain after source database deletion until expiry or explicit deletion",
+        "backups require Blaze and have separate retention"
+      ],
+      "limitations": [],
+      "cannotDecide": [
+        "Norwegian-school legality or processing basis",
+        "DPIA, DPA or school-owner acceptance",
+        "B8, recruitment, pilot or production authorization"
+      ],
+      "reverificationRequiredBefore": "Before WP13.12B provisioning, price commitment, or any use of real data."
+    },
+    {
+      "sourceId": "GOOGLE-IAM-SERVICE-ACCOUNTS",
+      "title": "Service accounts overview",
+      "publisher": "Google Cloud",
+      "officialUrl": "https://cloud.google.com/iam/docs/service-account-overview",
+      "checkedAt": "2026-07-25",
+      "factsSupported": [
+        "workloads use service accounts and receive all permissions granted to them",
+        "short-lived credentials are preferred to service-account keys",
+        "least privilege is recommended"
+      ],
+      "limitations": [],
+      "cannotDecide": [
+        "Norwegian-school legality or processing basis",
+        "DPIA, DPA or school-owner acceptance",
+        "B8, recruitment, pilot or production authorization"
+      ],
+      "reverificationRequiredBefore": "Before WP13.12B provisioning, price commitment, or any use of real data."
+    },
+    {
+      "sourceId": "GOOGLE-LOG-RETENTION",
+      "title": "Cloud Logging quotas and limits",
+      "publisher": "Google Cloud",
+      "officialUrl": "https://cloud.google.com/logging/quotas",
+      "checkedAt": "2026-07-25",
+      "factsSupported": [
+        "_Default project logs default to 30 days and are configurable",
+        "_Required audit logs retain for 400 days and are not configurable"
+      ],
+      "limitations": [],
+      "cannotDecide": [
+        "Norwegian-school legality or processing basis",
+        "DPIA, DPA or school-owner acceptance",
+        "B8, recruitment, pilot or production authorization"
+      ],
+      "reverificationRequiredBefore": "Before WP13.12B provisioning, price commitment, or any use of real data."
+    },
+    {
+      "sourceId": "GOOGLE-BUDGETS",
+      "title": "Create, edit, or delete budgets and budget alerts",
+      "publisher": "Google Cloud",
+      "officialUrl": "https://cloud.google.com/billing/docs/how-to/budgets",
+      "checkedAt": "2026-07-25",
+      "factsSupported": [
+        "budgets and alerts do not automatically cap usage or spending",
+        "reporting delays require a safety margin"
+      ],
+      "limitations": [],
+      "cannotDecide": [
+        "Norwegian-school legality or processing basis",
+        "DPIA, DPA or school-owner acceptance",
+        "B8, recruitment, pilot or production authorization"
+      ],
+      "reverificationRequiredBefore": "Before WP13.12B provisioning, price commitment, or any use of real data."
+    },
+    {
+      "sourceId": "GOOGLE-DPA",
+      "title": "Cloud Data Processing Addendum",
+      "publisher": "Google Cloud",
+      "officialUrl": "https://cloud.google.com/terms/data-processing-addendum",
+      "checkedAt": "2026-07-25",
+      "factsSupported": [
+        "the addendum defines controller, processor, deletion, transfer and subprocessor terms",
+        "current contract text must be reviewed before use"
+      ],
+      "limitations": [],
+      "cannotDecide": [
+        "Norwegian-school legality or processing basis",
+        "DPIA, DPA or school-owner acceptance",
+        "B8, recruitment, pilot or production authorization"
+      ],
+      "reverificationRequiredBefore": "Before WP13.12B provisioning, price commitment, or any use of real data."
+    },
+    {
+      "sourceId": "GOOGLE-SUBPROCESSORS",
+      "title": "Google Cloud Platform Subprocessors",
+      "publisher": "Google Cloud",
+      "officialUrl": "https://cloud.google.com/terms/subprocessors",
+      "checkedAt": "2026-07-25",
+      "factsSupported": [
+        "Google publishes current subprocessor names, locations and activities"
+      ],
+      "limitations": [],
+      "cannotDecide": [
+        "Norwegian-school legality or processing basis",
+        "DPIA, DPA or school-owner acceptance",
+        "B8, recruitment, pilot or production authorization"
+      ],
+      "reverificationRequiredBefore": "Before WP13.12B provisioning, price commitment, or any use of real data."
+    },
+    {
+      "sourceId": "VERCEL-ENVIRONMENTS",
+      "title": "Environments",
+      "publisher": "Vercel",
+      "officialUrl": "https://vercel.com/docs/deployments/environments",
+      "checkedAt": "2026-07-25",
+      "factsSupported": [
+        "Local, Preview and Production are default environments",
+        "preview deployments receive commit-specific URLs",
+        "custom staging environments require Pro or Enterprise"
+      ],
+      "limitations": [],
+      "cannotDecide": [
+        "Norwegian-school legality or processing basis",
+        "DPIA, DPA or school-owner acceptance",
+        "B8, recruitment, pilot or production authorization"
+      ],
+      "reverificationRequiredBefore": "Before WP13.12B provisioning, price commitment, or any use of real data."
+    },
+    {
+      "sourceId": "VERCEL-PROTECTION",
+      "title": "Deployment Protection on Vercel",
+      "publisher": "Vercel",
+      "officialUrl": "https://vercel.com/docs/deployment-protection",
+      "checkedAt": "2026-07-25",
+      "factsSupported": [
+        "Standard Protection is available on all plans",
+        "Vercel Authentication can protect preview and generated deployment URLs",
+        "production-domain protection has plan constraints"
+      ],
+      "limitations": [],
+      "cannotDecide": [
+        "Norwegian-school legality or processing basis",
+        "DPIA, DPA or school-owner acceptance",
+        "B8, recruitment, pilot or production authorization"
+      ],
+      "reverificationRequiredBefore": "Before WP13.12B provisioning, price commitment, or any use of real data."
+    },
+    {
+      "sourceId": "VERCEL-ROLLBACK",
+      "title": "Rolling back a production deployment",
+      "publisher": "Vercel",
+      "officialUrl": "https://vercel.com/docs/deployments/rollback-production-deployment",
+      "checkedAt": "2026-07-25",
+      "factsSupported": [
+        "rollback changes routing without rebuilding",
+        "Hobby can roll back only to the immediately previous production deployment",
+        "specific older rollback requires Pro or Enterprise"
+      ],
+      "limitations": [],
+      "cannotDecide": [
+        "Norwegian-school legality or processing basis",
+        "DPIA, DPA or school-owner acceptance",
+        "B8, recruitment, pilot or production authorization"
+      ],
+      "reverificationRequiredBefore": "Before WP13.12B provisioning, price commitment, or any use of real data."
+    },
+    {
+      "sourceId": "VERCEL-LOGS",
+      "title": "Runtime Logs",
+      "publisher": "Vercel",
+      "officialUrl": "https://vercel.com/docs/logs/runtime",
+      "checkedAt": "2026-07-25",
+      "factsSupported": [
+        "runtime logs include Functions output and request metadata",
+        "retention differs by plan"
+      ],
+      "limitations": [],
+      "cannotDecide": [
+        "Norwegian-school legality or processing basis",
+        "DPIA, DPA or school-owner acceptance",
+        "B8, recruitment, pilot or production authorization"
+      ],
+      "reverificationRequiredBefore": "Before WP13.12B provisioning, price commitment, or any use of real data."
+    },
+    {
+      "sourceId": "VERCEL-ANALYTICS",
+      "title": "Privacy and Compliance for Web Analytics",
+      "publisher": "Vercel",
+      "officialUrl": "https://vercel.com/docs/analytics/privacy-policy",
+      "checkedAt": "2026-07-25",
+      "factsSupported": [
+        "Web Analytics is a separately enabled data collection feature",
+        "URL paths and custom events can still expose personal information if designed unsafely"
+      ],
+      "limitations": [],
+      "cannotDecide": [
+        "Norwegian-school legality or processing basis",
+        "DPIA, DPA or school-owner acceptance",
+        "B8, recruitment, pilot or production authorization"
+      ],
+      "reverificationRequiredBefore": "Before WP13.12B provisioning, price commitment, or any use of real data."
+    },
+    {
+      "sourceId": "VERCEL-SPEED",
+      "title": "Speed Insights Overview",
+      "publisher": "Vercel",
+      "officialUrl": "https://vercel.com/docs/speed-insights",
+      "checkedAt": "2026-07-25",
+      "factsSupported": [
+        "Speed Insights tracks deployed environments only after it is enabled"
+      ],
+      "limitations": [],
+      "cannotDecide": [
+        "Norwegian-school legality or processing basis",
+        "DPIA, DPA or school-owner acceptance",
+        "B8, recruitment, pilot or production authorization"
+      ],
+      "reverificationRequiredBefore": "Before WP13.12B provisioning, price commitment, or any use of real data."
+    },
+    {
+      "sourceId": "VERCEL-PRICING",
+      "title": "Vercel pricing",
+      "publisher": "Vercel",
+      "officialUrl": "https://vercel.com/pricing",
+      "checkedAt": "2026-07-25",
+      "factsSupported": [
+        "Hobby is USD 0 and Pro is USD 20 per month at check time",
+        "usage allowances and metered prices vary by plan"
+      ],
+      "limitations": [],
+      "cannotDecide": [
+        "Norwegian-school legality or processing basis",
+        "DPIA, DPA or school-owner acceptance",
+        "B8, recruitment, pilot or production authorization"
+      ],
+      "reverificationRequiredBefore": "Before WP13.12B provisioning, price commitment, or any use of real data."
+    },
+    {
+      "sourceId": "VERCEL-SPEND",
+      "title": "Spend Management",
+      "publisher": "Vercel",
+      "officialUrl": "https://vercel.com/docs/spend-management",
+      "checkedAt": "2026-07-25",
+      "factsSupported": [
+        "Pro spend management can notify, call a webhook, or pause production deployments",
+        "a spend amount does not stop usage unless the pause action is enabled"
+      ],
+      "limitations": [],
+      "cannotDecide": [
+        "Norwegian-school legality or processing basis",
+        "DPIA, DPA or school-owner acceptance",
+        "B8, recruitment, pilot or production authorization"
+      ],
+      "reverificationRequiredBefore": "Before WP13.12B provisioning, price commitment, or any use of real data."
+    },
+    {
+      "sourceId": "VERCEL-DPA",
+      "title": "Data Processing Addendum",
+      "publisher": "Vercel",
+      "officialUrl": "https://vercel.com/legal/dpa",
+      "checkedAt": "2026-07-25",
+      "factsSupported": [
+        "the current DPA applies to Pro and Enterprise processing",
+        "primary processing facilities are in the United States and subprocessors require review"
+      ],
+      "limitations": [],
+      "cannotDecide": [
+        "Norwegian-school legality or processing basis",
+        "DPIA, DPA or school-owner acceptance",
+        "B8, recruitment, pilot or production authorization"
+      ],
+      "reverificationRequiredBefore": "Before WP13.12B provisioning, price commitment, or any use of real data."
+    },
+    {
+      "sourceId": "DATATILSYNET-SCHOOL-DPA",
+      "title": "Databehandleravtale for skoler",
+      "publisher": "Datatilsynet",
+      "officialUrl": "https://www.datatilsynet.no/regelverk-og-verktoy/sporsmal-svar/Skole-og-barnehage/databehandleravtale-for-skoler/",
+      "checkedAt": "2026-07-25",
+      "factsSupported": [
+        "school owners must know their processors and enter processor agreements"
+      ],
+      "limitations": [],
+      "cannotDecide": [
+        "Norwegian-school legality or processing basis",
+        "DPIA, DPA or school-owner acceptance",
+        "B8, recruitment, pilot or production authorization"
+      ],
+      "reverificationRequiredBefore": "Before WP13.12B provisioning, price commitment, or any use of real data."
+    },
+    {
+      "sourceId": "DATATILSYNET-DPIA",
+      "title": "Bruk av skytjenester i skolen – vurdering av personvernkonsekvenser",
+      "publisher": "Datatilsynet",
+      "officialUrl": "https://www.datatilsynet.no/personvern-pa-ulike-omrader/skole-barn-unge/bruk-av-google-chromebook-og-g-suite-for-education-og-andre-skytjenester-i-grunnskolen/vurdering-av-personvernkonsekvenser/",
+      "checkedAt": "2026-07-25",
+      "factsSupported": [
+        "vulnerable data subjects such as children are a DPIA risk criterion"
+      ],
+      "limitations": [],
+      "cannotDecide": [
+        "Norwegian-school legality or processing basis",
+        "DPIA, DPA or school-owner acceptance",
+        "B8, recruitment, pilot or production authorization"
+      ],
+      "reverificationRequiredBefore": "Before WP13.12B provisioning, price commitment, or any use of real data."
+    },
+    {
+      "sourceId": "DATATILSYNET-TRANSFERS",
+      "title": "Overføring av personopplysninger ut av EØS",
+      "publisher": "Datatilsynet",
+      "officialUrl": "https://www.datatilsynet.no/rettigheter-og-plikter/virksomhetenes-plikter/overforing-av-personopplysninger-ut-av-eos/personopplysninger-utelukkende-behandlet-i-eos/",
+      "checkedAt": "2026-07-25",
+      "factsSupported": [
+        "EEA hosting does not by itself settle third-country access risk"
+      ],
+      "limitations": [],
+      "cannotDecide": [
+        "Norwegian-school legality or processing basis",
+        "DPIA, DPA or school-owner acceptance",
+        "B8, recruitment, pilot or production authorization"
+      ],
+      "reverificationRequiredBefore": "Before WP13.12B provisioning, price commitment, or any use of real data."
+    },
+    {
+      "sourceId": "UDIR-SCHOOL-OWNER",
+      "title": "Barnehage- og skoleeiers personvernansvar",
+      "publisher": "Utdanningsdirektoratet",
+      "officialUrl": "https://www.udir.no/regelverk-og-tilsyn/personvern-for-barnehage-og-skole/barnehage--og-skoleeiers-ansvar/",
+      "checkedAt": "2026-07-25",
+      "factsSupported": [
+        "school owners retain responsibility for procurement, risk, DPIA and processor follow-up"
+      ],
+      "limitations": [],
+      "cannotDecide": [
+        "Norwegian-school legality or processing basis",
+        "DPIA, DPA or school-owner acceptance",
+        "B8, recruitment, pilot or production authorization"
+      ],
+      "reverificationRequiredBefore": "Before WP13.12B provisioning, price commitment, or any use of real data."
+    }
+  ]
+}

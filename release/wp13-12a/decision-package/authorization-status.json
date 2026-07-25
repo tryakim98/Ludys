@@ -1,0 +1,22 @@
+{
+  "schemaVersion": "wp13.12a-authorization-v1",
+  "packageStatus": "OWNER_DECISION_RECORDED",
+  "ownerDecision": "APPROVE_RECOMMENDED_SYNTHETIC_DEV",
+  "providerActivation": "BLOCKED",
+  "cloudResources": 0,
+  "externalReceipts": 0,
+  "b8": "NOT_DECISION_READY",
+  "wp13_12b": "BLOCKED",
+  "studentBeta": "NOT_AUTHORIZED",
+  "recruitment": "NOT_AUTHORIZED",
+  "parentContactForParticipation": "NOT_AUTHORIZED",
+  "realParticipantData": "NOT_AUTHORIZED",
+  "production": "NOT_AUTHORIZED",
+  "runtimeAi": "NOT_PRESENT",
+  "firebaseProjectCreated": false,
+  "vercelProjectCreatedByWorkPackage": false,
+  "firestoreCreated": false,
+  "functionsCreated": false,
+  "serviceAccountsCreated": 0,
+  "secretsCreated": 0
+}

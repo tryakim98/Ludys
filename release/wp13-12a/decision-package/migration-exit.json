@@ -1,0 +1,37 @@
+{
+  "schemaVersion": "wp13.12a-migration-exit-v1",
+  "localOnlyFallback": [
+    "Keep in-memory adapter current",
+    "do not make cloud transport a product prerequisite"
+  ],
+  "previewRollback": [
+    "select exact known deployment/commit",
+    "verify protected access",
+    "never treat rollback as provider activation"
+  ],
+  "ingressDisablement": [
+    "kill switch rejects new capability issue",
+    "retain explicit deletion path"
+  ],
+  "capabilityRevocation": [
+    "revoke by session and authority generation",
+    "wait past hard maximum lifetime"
+  ],
+  "deletionVerification": [
+    "delete synthetic sessions",
+    "verify tombstones",
+    "reconnect and replay cannot resurrect"
+  ],
+  "projectClosure": [
+    "disable billing after resource inventory",
+    "delete secrets and identities",
+    "delete database, backups and project",
+    "record residual provider logs"
+  ],
+  "providerMigration": [
+    "export schema and synthetic fixtures only",
+    "replace adapter and handler outside pure core",
+    "rerun complete STOP/deletion/no-resurrection suite"
+  ],
+  "executed": false
+}

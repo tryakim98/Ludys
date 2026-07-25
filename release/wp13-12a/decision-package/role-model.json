@@ -1,0 +1,25 @@
+{
+  "schemaVersion": "wp13.12a-role-model-v1",
+  "roles": [
+    {
+      "role": "SYNTHETIC_CHILD_PROJECTION",
+      "account": false,
+      "stableIdentity": false,
+      "authority": false
+    },
+    {
+      "role": "SYNTHETIC_ADULT_AUTHORITY",
+      "account": false,
+      "stableIdentity": false,
+      "authority": true
+    },
+    {
+      "role": "TECHNICAL_OPERATOR",
+      "participant": false,
+      "authority": "OPERATIONS_ONLY"
+    }
+  ],
+  "capabilityBindsExactlyOneRole": true,
+  "crossRoleProjection": false,
+  "childOrStudentAccount": false
+}

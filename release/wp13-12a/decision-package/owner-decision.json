@@ -1,0 +1,63 @@
+{
+  "schemaVersion": "wp13.12a-owner-decision-v1",
+  "decisionId": "wp13-12a-owner-decision-2026-07-25-r1",
+  "decision": "APPROVE_RECOMMENDED_SYNTHETIC_DEV",
+  "decisionDate": "2026-07-25",
+  "productOwnerNameOrReference": "EXPLICIT_USER_CONFIRMATION_IN_CURRENT_CODEX_TASK",
+  "selectedOption": "FIREBASE_CAPABILITY",
+  "selectedRegion": "europe-north1",
+  "selectedRegionStatus": "SELECTED_CANDIDATE_NOT_PROVISIONED_OR_LOCKED",
+  "selectedCapabilityModel": "FUNCTION_ISSUED_SHORT_LIVED_SESSION_CAPABILITY",
+  "monthlyAlertThreshold": "UNRESOLVED_MUST_BE_SET_BEFORE_PROVISIONING",
+  "maximumMonthlyCost": "UNRESOLVED_MUST_BE_SET_BEFORE_PROVISIONING",
+  "killSwitchOwner": "UNRESOLVED_MUST_BE_SET_BEFORE_PROVISIONING",
+  "billingReviewer": "UNRESOLVED_MUST_BE_SET_BEFORE_PROVISIONING",
+  "stagingExpiryDate": "UNRESOLVED_MUST_BE_SET_BEFORE_PROVISIONING",
+  "automaticDeletionPolicy": "UNRESOLVED_MUST_BE_SET_BEFORE_PROVISIONING",
+  "conditions": [
+    "ISOLATED_AND_TIME_LIMITED_SYNTHETIC_STAGING_ONLY",
+    "FIREBASE_CAPABILITY_ONLY_NO_STABLE_ACCOUNT_OR_ANONYMOUS_AUTH",
+    "NO_REAL_PARTICIPANT_SCHOOL_HEALTH_AUDIO_OR_DIAGNOSIS_DATA",
+    "NO_DIRECT_CLIENT_WRITE_TO_AUTHORITATIVE_STATE",
+    "NO_ANALYTICS_CRASHLYTICS_REMOTE_CONFIG_OR_CLOUD_STORAGE",
+    "PROVIDER_ACTIVATION_ONLY_WITHIN_WP13_12B",
+    "WP13_12B_STOPS_AFTER_DOCUMENTED_TECHNICAL_STAGING_PROOF",
+    "STUDENT_BETA_B8_RECRUITMENT_AND_PRODUCTION_REMAIN_BLOCKED",
+    "SEPARATE_IMPLEMENTATION_PROMPT_REQUIRED_TO_OPEN_WP13_12B"
+  ],
+  "acknowledgedOpenRisks": [
+    "MONTHLY_ALERT_THRESHOLD_NOT_SET",
+    "MAXIMUM_MONTHLY_COST_NOT_SET",
+    "KILL_SWITCH_OWNER_NOT_SET",
+    "BILLING_REVIEWER_NOT_SET",
+    "STAGING_EXPIRY_DATE_NOT_SET",
+    "AUTOMATIC_DELETION_POLICY_NOT_SET",
+    "LEGAL_DPA_DPIA_AND_SCHOOL_OWNER_REVIEWS_NOT_RESOLVED",
+    "PROVIDER_FACTS_PRICING_AND_REGION_MUST_BE_REVERIFIED_BEFORE_PROVISIONING"
+  ],
+  "signatureOrExplicitOwnerConfirmation": {
+    "kind": "EXPLICIT_OWNER_CONFIRMATION",
+    "confirmationText": "Jeg beslutter APPROVE_RECOMMENDED_SYNTHETIC_DEV med de oppgitte grensene.",
+    "confirmationReference": "CURRENT_CODEX_TASK_USER_MESSAGE_2026_07_25",
+    "explicitOwnerConfirmationPresent": true,
+    "signaturePresent": false
+  },
+  "sourcePackageVersion": "13.12A.1",
+  "sourcePackageChecksum": "f3830a640fd901f193279ed99338d923848acaef662e79e8a831e870a7813de7",
+  "sourcePackageChecksumTarget": "release/wp13-12a/decision-package/artifact-checksums.sha256",
+  "sourceCommit": "929674d8a159ebd9ac6026c066f5dd044ebcea62",
+  "sourceTree": "b1630a612bf176ccb121aa3e7d50d545f6f72b60",
+  "effects": {
+    "recordsOwnerDecisionOnly": true,
+    "opensWp13_12b": false,
+    "activatesProvider": false,
+    "createsCloudResources": false,
+    "nextAuthorizedScope": "SEPARATE_WP13_12B_IMPLEMENTATION_PROMPT_ONLY",
+    "wp13_12bStopPoint": "DOCUMENTED_TECHNICAL_STAGING_PROOF",
+    "realDataOrParticipantUseAuthorized": false,
+    "studentBetaAuthorized": false,
+    "b8Authorized": false,
+    "recruitmentAuthorized": false,
+    "productionAuthorized": false
+  }
+}

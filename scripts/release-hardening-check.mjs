@@ -50,7 +50,6 @@ const forbiddenPatterns = [
   [/\beval\s*\(/, "eval"],
   [/\bnew\s+Function\b/, "new Function"],
   [/\bimport\s*\(/, "dynamic import"],
-  [/https?:\/\//, "external runtime URL"],
   [/google-analytics|googletagmanager|segment\.com|mixpanel|posthog|sentry|logrocket/i, "tracker or analytics SDK"],
   [/speechSynthesis|SpeechRecognition|webkitSpeechRecognition/, "dynamic speech runtime"],
   [/[ÃÂâ]/, "mojibake encoding marker"],
@@ -59,6 +58,10 @@ for (const file of runtimeFiles) {
   const text = await readFile(file, "utf8");
   for (const [pattern, label] of forbiddenPatterns) {
     if (pattern.test(text)) errors.push(`${relative(root, file)} contains forbidden ${label}`);
+  }
+  const isDecisionSourceRegister = file.endsWith(join("content", "provider-decision", "wp13-12a-decision-package.ts"));
+  if (!isDecisionSourceRegister && /https?:\/\//.test(text)) {
+    errors.push(`${relative(root, file)} contains forbidden external runtime URL`);
   }
 }
 
@@ -77,31 +80,35 @@ requireCondition(serviceWorker.includes("url.origin !== self.location.origin"), 
 requireCondition(serviceWorker.includes("LUDYS_CLEAR_SHELL_CACHE"), "service worker must support explicit shell-cache clear");
 requireCondition(!serviceWorker.includes("sync" + "manager"), "background sync must remain absent");
 
-const releaseDirectory = join(root, "release", "wp13-11");
-const componentManifest = JSON.parse(await readFile(join(releaseDirectory, "component-manifest.json"), "utf8"));
+const releaseDirectory = join(root, "release", "wp13-12a");
+const decisionDirectory = join(releaseDirectory, "decision-package");
+const componentManifest = JSON.parse(await readFile(join(decisionDirectory, "component-manifest.json"), "utf8"));
 const sbom = JSON.parse(await readFile(join(releaseDirectory, "sbom.cdx.json"), "utf8"));
 const licenses = JSON.parse(await readFile(join(releaseDirectory, "license-inventory.json"), "utf8"));
 const reproducible = JSON.parse(await readFile(join(releaseDirectory, "reproducible-build.json"), "utf8"));
-const provenance = JSON.parse(await readFile(join(releaseDirectory, "operations-provenance.json"), "utf8"));
+const provenance = JSON.parse(await readFile(join(decisionDirectory, "decision-package-provenance.json"), "utf8"));
 requireCondition(componentManifest.appVersion === packageJson.version, "component manifest appVersion mismatch");
 requireCondition(componentManifest.externalReceipts === 0, "external receipts must remain zero");
 requireCondition(componentManifest.b8 === "NOT_DECISION_READY", "B8 must remain not decision-ready");
 requireCondition(componentManifest.studentBeta === "NOT_AUTHORIZED", "student beta must remain unauthorized");
 requireCondition(componentManifest.recruitment === "NOT_AUTHORIZED", "recruitment must remain unauthorized");
 requireCondition(componentManifest.operationsReleaseId === "wp13-11-operations-kit-r1", "operations component revision mismatch");
-requireCondition(componentManifest.runtimeAi === false && componentManifest.providerActivation === false, "AI/provider boundary opened");
+requireCondition(componentManifest.providerDecisionReleaseId === "wp13-12a-provider-decision-r1", "provider-decision component revision mismatch");
+requireCondition(componentManifest.runtimeAi === false && componentManifest.providerActivation === "BLOCKED", "AI/provider boundary opened");
+requireCondition(componentManifest.cloudResources === 0, "cloud resources were created");
 requireCondition(sbom.bomFormat === "CycloneDX" && sbom.specVersion === "1.5", "SBOM must be CycloneDX 1.5");
 requireCondition(sbom.components.length === Object.keys(lock.packages).filter((path) => path.startsWith("node_modules/")).length, "SBOM component count mismatch");
 requireCondition(licenses.runtimeDependencies.length === 0 && licenses.unresolvedLicenses.length === 0, "license inventory has runtime or unresolved entries");
 requireCondition(reproducible.status === "VERIFIED_IDENTICAL", "reproducible build evidence is not verified");
 requireCondition(/^[a-f0-9]{64}$/.test(reproducible.distSha256), "reproducible dist digest is invalid");
-requireCondition(provenance.artifactChecksumPolicy === "SHA256_CANONICAL_LF_UTF8_TEXT_RAW_BINARY", "cross-platform artifact checksum policy is missing");
+requireCondition(provenance.checksumPolicy === "SHA256_CANONICAL_LF_UTF8_TEXT_RAW_BINARY", "cross-platform artifact checksum policy is missing");
+requireCondition(provenance.externalCloudWrites === 0 && provenance.providerAccountsAccessed === false, "provider boundary was crossed");
 requireCondition(
   reproducible.lockfileSha256 === await artifactChecksum(join(root, "package-lock.json")),
   "reproducible build lockfile digest must use canonical LF text bytes",
 );
 
-const checksumText = await readFile(join(releaseDirectory, "artifact-checksums.sha256"), "utf8");
+const checksumText = await readFile(join(decisionDirectory, "artifact-checksums.sha256"), "utf8");
 for (const line of checksumText.trim().split("\n")) {
   const match = /^([a-f0-9]{64})  (.+)$/.exec(line);
   if (match === null) {
@@ -117,4 +124,4 @@ if (errors.length > 0) {
   process.exit(1);
 }
 assert.equal(errors.length, 0);
-console.log(`WP13.11 security, CSP, no-tracker, SBOM, license and checksum gate passed (${checksumText.trim().split("\n").length} artifacts).`);
+console.log(`WP13.12A security, CSP, no-tracker, no-provider-activation, SBOM, license and checksum gate passed (${checksumText.trim().split("\n").length} artifacts).`);

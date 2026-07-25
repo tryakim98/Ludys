@@ -1,6 +1,6 @@
 # LUDYS — rekonstruert R1-baseline
 
-**Versjon:** `0.14.0-reconstructed.8`
+**Versjon:** `0.14.0-reconstructed.9`
 
 **Status:** intern, lokal og syntetisk rekonstruksjonsbaseline  
 **Pilot/B8:** ikke autorisert
@@ -28,15 +28,17 @@ Den er **ikke** den tapte historiske versjonen `0.13.1`, og den påstår ikke å
 - komplett WP13.11 operations-kit med nøyaktig 27 semantiske artefakter og 54 separate BM-/NN-filer (`nb`/`nn`)
 - integrert `Betaoperasjon` for adult-only syntetisk dry-run, identifierguard, SEV0, STOP, deletion/no-resurrection, rollback, withdrawal og lokal deterministisk eksport
 - maskinlesbar måleordbok og datainventar som teknisk blokkerer elevmål, profilering, inferens og score
+- komplett WP13.12A-beslutningspakke med fem provideralternativer, region- og capabilityanalyse, dataflyt, trust boundaries, trusselmodell, kost/exit/no-go, blank mal og checksum-bundet produkteierbeslutning
+- integrert providerbeslutningsflate i separate BM-/NN-bundles; `APPROVE_RECOMMENDED_SYNTHETIC_DEV` er registrert, mens provideraktivering og WP13.12B forblir blokkert
 - lite Audio Content System og Knowledge Content System
 - tilgjengelig browserproof og 320 px reflow
 - B8-evidensmotor som ikke kan autorisere pilot
-- 130+ kompilerte tester, service-worker-kontrakt og ti Chromium/Edge-bevis
+- 207 kompilerte tester, service-worker-kontrakt og elleve Chromium/Edge-bevis
 - maskinell rekonstruksjonsvakt
 
 ## Det som ikke er rekonstruert ennå
 
-Ekstern språk-/målform-/uttale-/co-design-review, juridisk/etisk/skoleeier-review, manuell tilgjengelighetsreview, validert progresjon, faktisk menneskelig lydproduksjon, produksjonsdeployment, providerarbeid, betaautorisasjon og ekstern evidens står fortsatt i `docs/RECONSTRUCTION_GAP_REGISTER.md`.
+WP13.12B-implementering, kostgrenser, navngitte driftsansvar, stagingutløp, ekstern språk-/målform-/uttale-/co-design-review, juridisk/etisk/skoleeier-review, manuell tilgjengelighetsreview, validert progresjon, faktisk menneskelig lydproduksjon, provideraktivering, produksjonsdeployment, betaautorisasjon og ekstern evidens står fortsatt i `docs/RECONSTRUCTION_GAP_REGISTER.md`.
 
 ## Kjøring
 

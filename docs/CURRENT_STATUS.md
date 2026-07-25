@@ -1,13 +1,17 @@
-# Gjeldende teknisk status – R1 + WP13.11
+# Gjeldende teknisk status – R1 + WP13.12A
 
 ```text
 Product: LUDYS
 Repository: ludys-app-reconstructed
-Version: 0.14.0-reconstructed.8
-Baseline: WP13.4 functional proof + WP13.7A lifecycle chassis + WP13.7B app journey + WP13.7C local PWA shell + WP13.8 authentic draft corpus + WP13.9 authoring/audio pipeline + WP13.10 reliability/security/release hardening + WP13.11 adult-only operations kit
+Version: 0.14.0-reconstructed.9
+Baseline: WP13.4 functional proof + WP13.7A lifecycle chassis + WP13.7B app journey + WP13.7C local PWA shell + WP13.8 authentic draft corpus + WP13.9 authoring/audio pipeline + WP13.10 reliability/security/release hardening + WP13.11 adult-only operations kit + WP13.12A provider/region/capability decision package
 Data: synthetic and session-bound
 Runtime AI: none
-Provider/backend/auth: none
+Provider/backend/auth runtime: none
+Provider decision package: OWNER_DECISION_RECORDED
+Owner decision: APPROVE_RECOMMENDED_SYNTHETIC_DEV
+Provider activation: BLOCKED
+Cloud resources created: 0
 B8: NOT DECISION READY
 Pilot: NOT AUTHORIZED
 Student beta: NOT AUTHORIZED
@@ -41,4 +45,8 @@ WP13.11 legger til en femte, separat `OPERATIONS`-releasekomponent og en integre
 
 Måleordboken tillater bare avgrensede voksen-, tekniske-, tilgjengelighets-, innholdsreview- og drillmål. Elevresultat, hastighet, nivå, profil, kryssøktprogresjon, engagement, inferens, readiness og samlet score er `NOT_COLLECTED` og teknisk blokkert. Datainventaret autoriserer ingen ekte person- eller skoledata. Fire deltakerrettede utkast er tydelig `DRAFT_NOT_AUTHORIZED_FOR_STUDENT_USE`; de er ikke rekrutteringsmateriell, consent, assent, behandlingsgrunnlag, DPIA eller autorisasjon.
 
-Beviset er lokalt, syntetisk og maskinelt. Edge er kjørt headless på faktisk lokal browserorigin; 320 px, touch og Android-liknende miljø er emulering, ikke fysisk enhetstest. Firefox, Safari/iOS, fysisk Android, produksjons-service-worker, produksjonsrollback og manuell hjelpemiddeltest er ikke testet. Provider, auth, produksjonspersistens, ekte data, produksjonsdeployment, bakgrunnssynkronisering, pushvarsler, faktisk lydopptak, validert progresjon og ekstern fag-/språk-/juridisk-/etisk-/skoleeier-/co-design-review er ikke åpnet eller påstått fullført. `OPERATIONS_KIT` er maksimalt `READY_FOR_ADULT_ONLY_DRY_RUN`; receipts er 0, B8 er ikke beslutningsklar, og studentbeta og produksjon er ikke autorisert.
+WP13.12A legger til en sjette, separat `PROVIDER_DECISION`-releasekomponent og et fullstendig beslutningsgrunnlag uten runtime-provider. Fem obligatoriske alternativer sammenlignes: lokal-only, Firebase/Google Cloud med kortlivet capability, Firebase Anonymous Auth, self-hosted og eksplisitt cross-product no-go. Den tekniske anbefalingen er regional Firestore og Cloud Functions 2nd gen i `europe-north1`, bak Vercel-beskyttet preview, med serverutstedt kortlivet capability for én syntetisk økt og ingen providerkontoidentitet. Regionen er ikke låst, ingen konto er åpnet, ingen tjeneste er aktivert og ingen deployment er utført.
+
+Pakken dokumenterer åtte dataflytsteg, sju trust boundaries, eksplisitte tillatte og forbudte dataklasser, synkron sletting med TTL kun som backstop, logging-allowlist, minst privilegium, kost-/exitmodell, 21 trusler, 19 no-go-regler, 28 kontrollerte offisielle kilder, blank produkteiermal og en separat checksum-bundet eierbeslutning. BM og NN er separate, reviewpliktige bundles uten fallback. UI-et kan sammenligne og eksportere dossier eller blank mal, men har ingen kontroll for aktivering, prosjektopprettelse, deployment, provider-login, billing eller secrets.
+
+Beviset er lokalt, syntetisk og maskinelt. Edge er kjørt headless på faktisk lokal browserorigin; 320 px, touch og Android-liknende miljø er emulering, ikke fysisk enhetstest. Firefox, Safari/iOS, fysisk Android, faktisk provider, produksjons-service-worker, produksjonsrollback og manuell hjelpemiddeltest er ikke testet. Auth, produksjonspersistens, ekte data, produksjonsdeployment, bakgrunnssynkronisering, pushvarsler, faktisk lydopptak, validert progresjon og ekstern fag-/språk-/juridisk-/etisk-/skoleeier-/co-design-review er ikke åpnet eller påstått fullført. `OPERATIONS_KIT` er maksimalt `READY_FOR_ADULT_ONLY_DRY_RUN`; WP13.12A har `OWNER_DECISION_RECORDED`; receipts er 0, provideraktivering og WP13.12B er fortsatt blokkert, B8 er ikke beslutningsklar, og studentbeta og produksjon er ikke autorisert. Kostnadsgrenser, navngitte driftsansvar og stagingutløp må avklares før provisioning.

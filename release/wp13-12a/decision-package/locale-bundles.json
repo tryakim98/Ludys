@@ -1,0 +1,70 @@
+{
+  "schemaVersion": "wp13.12a-locale-bundles-v1",
+  "fallback": false,
+  "bundles": [
+    {
+      "locale": "nb",
+      "humanReviewStatus": "REVIEW_REQUIRED",
+      "title": "Providerbeslutning",
+      "recommendationLabel": "Valgt teknisk retning – ikke aktivert",
+      "recommendationRationale": [
+        "Kortlivet capability for én syntetisk økt",
+        "Regional samlokalisering i Finland",
+        "Serverkontrollert autoritet og providerfri kjerne"
+      ],
+      "riskLabel": "Åpen restrisiko",
+      "pendingOwnerLabel": "Produkteierbeslutning registrert",
+      "blockedLabel": "Provideraktivering er blokkert",
+      "sectionLabels": {
+        "options": "Provideralternativer",
+        "region": "Regionanalyse",
+        "capability": "Capabilitymodeller",
+        "dataflow": "Dataflyt",
+        "trust": "Tillitsgrenser",
+        "data": "Dataklasser",
+        "retention": "Retensjon og sletting",
+        "logging": "Logging og observability",
+        "iam": "IAM og secrets",
+        "cost": "Kostnad",
+        "threats": "Trusselmodell",
+        "legal": "Juridiske og operative spørsmål",
+        "exit": "Exit og rollback",
+        "noGo": "No-go-register",
+        "sources": "Offisielle kilder",
+        "owner": "Registrert produkteierbeslutning"
+      }
+    },
+    {
+      "locale": "nn",
+      "humanReviewStatus": "REVIEW_REQUIRED",
+      "title": "Provideravgjerd",
+      "recommendationLabel": "Vald teknisk retning – ikkje aktivert",
+      "recommendationRationale": [
+        "Kortliva capability for éi syntetisk økt",
+        "Regional samlokalisering i Finland",
+        "Serverkontrollert autoritet og providerfri kjerne"
+      ],
+      "riskLabel": "Open restrisiko",
+      "pendingOwnerLabel": "Produkteigaravgjerd registrert",
+      "blockedLabel": "Provideraktivering er blokkert",
+      "sectionLabels": {
+        "options": "Provideralternativ",
+        "region": "Regionanalyse",
+        "capability": "Capabilitymodellar",
+        "dataflow": "Dataflyt",
+        "trust": "Tillitsgrenser",
+        "data": "Dataklassar",
+        "retention": "Retensjon og sletting",
+        "logging": "Logging og observability",
+        "iam": "IAM og secrets",
+        "cost": "Kostnad",
+        "threats": "Trusselmodell",
+        "legal": "Juridiske og operative spørsmål",
+        "exit": "Exit og rollback",
+        "noGo": "No-go-register",
+        "sources": "Offisielle kjelder",
+        "owner": "Registrert produkteigaravgjerd"
+      }
+    }
+  ]
+}

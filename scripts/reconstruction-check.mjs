@@ -5,7 +5,7 @@ import { fileURLToPath } from "node:url";
 const repo = fileURLToPath(new URL("..", import.meta.url));
 const errors = [];
 const pkg = JSON.parse(await readFile(join(repo, "package.json"), "utf8"));
-const requiredVersion = "0.14.0-reconstructed.8";
+const requiredVersion = "0.14.0-reconstructed.9";
 
 if (pkg.name !== "ludys-app-reconstructed") errors.push(`unexpected package name: ${pkg.name}`);
 if (pkg.version !== requiredVersion) errors.push(`version must be ${requiredVersion}, got ${pkg.version}`);
