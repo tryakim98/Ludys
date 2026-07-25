@@ -2,10 +2,10 @@
   "schemaVersion": "wp13.12a-reproducible-build-v1",
   "status": "VERIFIED_IDENTICAL",
   "copies": 2,
-  "distSha256": "7e7bfef06b1fa3276b7742d82cdd57142864ff046a78e93e91db3653dec1c46a",
+  "distSha256": "f489e119d859dd09870d747eb00c3c071d19f08461f0684eae39a7a42d3d7997",
   "digests": [
-    "7e7bfef06b1fa3276b7742d82cdd57142864ff046a78e93e91db3653dec1c46a",
-    "7e7bfef06b1fa3276b7742d82cdd57142864ff046a78e93e91db3653dec1c46a"
+    "f489e119d859dd09870d747eb00c3c071d19f08461f0684eae39a7a42d3d7997",
+    "f489e119d859dd09870d747eb00c3c071d19f08461f0684eae39a7a42d3d7997"
   ],
   "command": "npm ci --offline --ignore-scripts --audit=false && npm run build",
   "nodeVersion": "v24.18.0",

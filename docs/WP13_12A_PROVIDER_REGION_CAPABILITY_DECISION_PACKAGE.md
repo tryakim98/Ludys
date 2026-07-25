@@ -189,7 +189,7 @@ Den integrerte UI-flaten viser alle deler i separate BM-/NN-bundles. Den kan lok
 - security/release: 30 checksum-bundne WP13.12A-artefakter bestått
 - CycloneDX SBOM: 0 runtime dependencies
 - lisensinventar: 0 unresolved
-- reproduserbar dist-SHA-256: `7e7bfef06b1fa3276b7742d82cdd57142864ff046a78e93e91db3653dec1c46a`
+- reproduserbar dist-SHA-256: `f489e119d859dd09870d747eb00c3c071d19f08461f0684eae39a7a42d3d7997`
 
 Finalkandidaten skal i tillegg bestå tre komplette `npm run check:release`-runder på samme frosne kilde. Eksakt resultat bindes av commit, draft-PR og CI; dokumentet fabricerer ikke disse før de finnes.
 
