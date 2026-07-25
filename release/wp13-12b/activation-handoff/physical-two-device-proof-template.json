@@ -1,0 +1,47 @@
+{
+  "schemaVersion": "wp13.12b-physical-two-device-proof-v1",
+  "status": "UNFILLED_TEMPLATE_NOT_EVIDENCE",
+  "templateMarker": "UNFILLED_TEMPLATE_NOT_EVIDENCE",
+  "performed": false,
+  "sourceCommit": "",
+  "sourceTree": "",
+  "stagingUrl": "",
+  "sessionFixture": "synthetic-wp13-12b-only",
+  "devices": [
+    {
+      "role": "CHILD",
+      "deviceType": "",
+      "operatingSystem": "",
+      "browser": "",
+      "observedAt": ""
+    },
+    {
+      "role": "ADULT",
+      "deviceType": "",
+      "operatingSystem": "",
+      "browser": "",
+      "observedAt": ""
+    }
+  ],
+  "steps": [
+    "Verify protected preview and SYNTHETIC ONLY marking",
+    "Issue separate CHILD and ADULT capabilities for the same session",
+    "Prove WAIT and help projection isolation",
+    "Interrupt network and reconnect",
+    "Send delayed and stale-state commands",
+    "Prove STOP dominates pending actions and audio",
+    "Explicitly delete active payload and create tombstone",
+    "Reconnect both devices and prove no-resurrection",
+    "Activate kill switch and prove cached capability rejection",
+    "Rollback provider revision without lowering controlEpoch",
+    "Clear browser memory/cache and close the staging run"
+  ],
+  "stepResults": [],
+  "screenshotsOrVideo": [],
+  "containsPersonData": false,
+  "checksum": "",
+  "humanSignatureOrExplicitConfirmation": {
+    "confirmed": false,
+    "confirmationText": ""
+  }
+}

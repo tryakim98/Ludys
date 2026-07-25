@@ -1,0 +1,11 @@
+{
+  "schemaVersion": "wp13.12b-functions-framework-proof-v1",
+  "status": "LOCAL_RUNTIME_COMPATIBILITY_PASSED",
+  "functionsFramework": "5.0.5",
+  "securityOverride": "cloudevents>uuid@11.1.1",
+  "endpoint": "health",
+  "firestore": "LOCAL_STUB_NO_PROVIDER_RESOURCE",
+  "externalCalls": 0,
+  "cloudResources": 0,
+  "deployment": false
+}

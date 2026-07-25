@@ -1,0 +1,2898 @@
+{
+  "bomFormat": "CycloneDX",
+  "specVersion": "1.6",
+  "serialNumber": "urn:uuid:13b12026-0725-4000-8000-000000000001",
+  "version": 1,
+  "metadata": {
+    "timestamp": "2026-07-25T00:00:00.000Z",
+    "component": {
+      "type": "application",
+      "name": "@ludys/synthetic-staging-firebase-functions",
+      "version": "13.12.0-repository.1"
+    }
+  },
+  "components": [
+    {
+      "type": "library",
+      "name": "@babel/code-frame",
+      "version": "7.29.7",
+      "purl": "pkg:npm/@babel%2Fcode-frame@7.29.7",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "Aup7aUOfpbAUg2ROOJN6Iw5f9DMBlzu0mIkm/malLQFN/YQgO48wCj0Kxa3sEHJvPVFg7siR+qRInwXd2qhQKw=="
+        }
+      ],
+      "properties": [
+        {
+          "name": "ludys:scope",
+          "value": "runtime"
+        },
+        {
+          "name": "ludys:optional",
+          "value": "false"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "@babel/helper-validator-identifier",
+      "version": "7.29.7",
+      "purl": "pkg:npm/@babel%2Fhelper-validator-identifier@7.29.7",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "qehxGkRj55h/ff8EMaJ+cYhyaKlHIxqYDn682wQD7RNp9UujOQsHog2uS0r2vzr4pW+sXf90NeeayjcNaX3fFg=="
+        }
+      ],
+      "properties": [
+        {
+          "name": "ludys:scope",
+          "value": "runtime"
+        },
+        {
+          "name": "ludys:optional",
+          "value": "false"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "@google-cloud/functions-framework",
+      "version": "5.0.5",
+      "purl": "pkg:npm/@google-cloud%2Ffunctions-framework@5.0.5",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "/w+OB1MxJux1uO9KRud4CRPLouaB7bZcy0v6STfFVh7yqafZ1L5coWIpseoKPLUgyNfawyoEfE2mEBDRZNGL2w=="
+        }
+      ],
+      "properties": [
+        {
+          "name": "ludys:scope",
+          "value": "runtime"
+        },
+        {
+          "name": "ludys:optional",
+          "value": "false"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "@types/body-parser",
+      "version": "1.19.6",
+      "purl": "pkg:npm/@types%2Fbody-parser@1.19.6",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "HLFeCYgz89uk22N5Qg3dvGvsv46B8GLvKKo1zKG4NybA8U2DiEO3w9lqGg29t/tfLRJpJ6iQxnVw4OnB7MoM9g=="
+        }
+      ],
+      "properties": [
+        {
+          "name": "ludys:scope",
+          "value": "runtime"
+        },
+        {
+          "name": "ludys:optional",
+          "value": "false"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "@types/connect",
+      "version": "3.4.38",
+      "purl": "pkg:npm/@types%2Fconnect@3.4.38",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "K6uROf1LD88uDQqJCktA4yzL1YYAK6NgfsI0v/mTgyPKWsX1CnJ0XPSDhViejru1GcRkLWb8RlzFYJRqGUbaug=="
+        }
+      ],
+      "properties": [
+        {
+          "name": "ludys:scope",
+          "value": "runtime"
+        },
+        {
+          "name": "ludys:optional",
+          "value": "false"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "@types/express-serve-static-core",
+      "version": "5.1.2",
+      "purl": "pkg:npm/@types%2Fexpress-serve-static-core@5.1.2",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "d3KvEXBSo/lOAMc2u6fkyDHBvetBHeqD7wm/AcXfLpSOQwlmG9D/aQ0SFswVjv05p7ullQS7Mjohj6/VdbZuTg=="
+        }
+      ],
+      "properties": [
+        {
+          "name": "ludys:scope",
+          "value": "runtime"
+        },
+        {
+          "name": "ludys:optional",
+          "value": "false"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "@types/express",
+      "version": "5.0.6",
+      "purl": "pkg:npm/@types%2Fexpress@5.0.6",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "sKYVuV7Sv9fbPIt/442koC7+IIwK5olP1KWeD88e/idgoJqDm3JV/YUiPwkoKK92ylff2MGxSz1CSjsXelx0YA=="
+        }
+      ],
+      "properties": [
+        {
+          "name": "ludys:scope",
+          "value": "runtime"
+        },
+        {
+          "name": "ludys:optional",
+          "value": "false"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "@types/http-errors",
+      "version": "2.0.5",
+      "purl": "pkg:npm/@types%2Fhttp-errors@2.0.5",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "r8Tayk8HJnX0FztbZN7oVqGccWgw98T/0neJphO91KkmOzug1KkofZURD4UaD5uH8AqcFLfdPErnBod0u71/qg=="
+        }
+      ],
+      "properties": [
+        {
+          "name": "ludys:scope",
+          "value": "runtime"
+        },
+        {
+          "name": "ludys:optional",
+          "value": "false"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "@types/node",
+      "version": "26.1.1",
+      "purl": "pkg:npm/@types%2Fnode@26.1.1",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "nxAkRSVkN1Y0JC1W8ky/fTfkGsMmcrRsbx+3XoZE+rMOX71kLYTV7fLXpqud1GpbpP5TuffXFqfX7fH2GgZREw=="
+        }
+      ],
+      "properties": [
+        {
+          "name": "ludys:scope",
+          "value": "runtime"
+        },
+        {
+          "name": "ludys:optional",
+          "value": "false"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "@types/normalize-package-data",
+      "version": "2.4.4",
+      "purl": "pkg:npm/@types%2Fnormalize-package-data@2.4.4",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "37i+OaWTh9qeK4LSHPsyRC7NahnGotNuZvjLSgcPzblpHB3rrCJxAOgI5gCdKm7coonsaX1Of0ILiTcnZjbfxA=="
+        }
+      ],
+      "properties": [
+        {
+          "name": "ludys:scope",
+          "value": "runtime"
+        },
+        {
+          "name": "ludys:optional",
+          "value": "false"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "@types/qs",
+      "version": "6.15.1",
+      "purl": "pkg:npm/@types%2Fqs@6.15.1",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "GZHUBZR9hckSUhrxmp1nG6NwdpM9fCunJwyThLW1X3AyHgd9IlHb6VANpQQqDr2o/qQp6McZ3y/IA2rVzKzSbw=="
+        }
+      ],
+      "properties": [
+        {
+          "name": "ludys:scope",
+          "value": "runtime"
+        },
+        {
+          "name": "ludys:optional",
+          "value": "false"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "@types/range-parser",
+      "version": "1.2.7",
+      "purl": "pkg:npm/@types%2Frange-parser@1.2.7",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "hKormJbkJqzQGhziax5PItDUTMAM9uE2XXQmM37dyd4hVM+5aVl7oVxMVUiVQn2oCQFN/LKCZdvSM0pFRqbSmQ=="
+        }
+      ],
+      "properties": [
+        {
+          "name": "ludys:scope",
+          "value": "runtime"
+        },
+        {
+          "name": "ludys:optional",
+          "value": "false"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "@types/send",
+      "version": "1.2.1",
+      "purl": "pkg:npm/@types%2Fsend@1.2.1",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "arsCikDvlU99zl1g69TcAB3mzZPpxgw0UQnaHeC1Nwb015xp8bknZv5rIfri9xTOcMuaVgvabfIRA7PSZVuZIQ=="
+        }
+      ],
+      "properties": [
+        {
+          "name": "ludys:scope",
+          "value": "runtime"
+        },
+        {
+          "name": "ludys:optional",
+          "value": "false"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "@types/serve-static",
+      "version": "2.2.0",
+      "purl": "pkg:npm/@types%2Fserve-static@2.2.0",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "8mam4H1NHLtu7nmtalF7eyBH14QyOASmcxHhSfEoRyr0nP/YdoesEtU+uSRvMe96TW/HPTtkoKqQLl53N7UXMQ=="
+        }
+      ],
+      "properties": [
+        {
+          "name": "ludys:scope",
+          "value": "runtime"
+        },
+        {
+          "name": "ludys:optional",
+          "value": "false"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "accepts",
+      "version": "2.0.0",
+      "purl": "pkg:npm/accepts@2.0.0",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "5cvg6CtKwfgdmVqY1WIiXKc3Q1bkRqGLi+2W/6ao+6Y7gu/RCwRuAhGEzh5B4KlszSuTLgZYuqFqo5bImjNKng=="
+        }
+      ],
+      "properties": [
+        {
+          "name": "ludys:scope",
+          "value": "runtime"
+        },
+        {
+          "name": "ludys:optional",
+          "value": "false"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "ajv-formats",
+      "version": "2.1.1",
+      "purl": "pkg:npm/ajv-formats@2.1.1",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "Wx0Kx52hxE7C18hkMEggYlEifqWZtYaRgouJor+WMdPnQyEK13vgEWyVNup7SoeeoLMsr4kf5h6dOW11I15MUA=="
+        }
+      ],
+      "properties": [
+        {
+          "name": "ludys:scope",
+          "value": "runtime"
+        },
+        {
+          "name": "ludys:optional",
+          "value": "false"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "ajv",
+      "version": "8.20.0",
+      "purl": "pkg:npm/ajv@8.20.0",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "Thbli+OlOj+iMPYFBVBfJ3OmCAnaSyNn4M1vz9T6Gka5Jt9ba/HIR56joy65tY6kx/FCF5VXNB819Y7/GUrBGA=="
+        }
+      ],
+      "properties": [
+        {
+          "name": "ludys:scope",
+          "value": "runtime"
+        },
+        {
+          "name": "ludys:optional",
+          "value": "false"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "available-typed-arrays",
+      "version": "1.0.7",
+      "purl": "pkg:npm/available-typed-arrays@1.0.7",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "wvUjBtSGN7+7SjNpq/9M2Tg350UZD3q62IFZLbRAR1bSMlCo1ZaeW+BJ+D090e4hIIZLBcTDWe4Mh4jvUDajzQ=="
+        }
+      ],
+      "properties": [
+        {
+          "name": "ludys:scope",
+          "value": "runtime"
+        },
+        {
+          "name": "ludys:optional",
+          "value": "false"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "bignumber.js",
+      "version": "9.3.1",
+      "purl": "pkg:npm/bignumber.js@9.3.1",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "Ko0uX15oIUS7wJ3Rb30Fs6SkVbLmPBAKdlm7q9+ak9bbIeFf0MwuBsQV6z7+X768/cHsfg+WlysDWJcmthjsjQ=="
+        }
+      ],
+      "properties": [
+        {
+          "name": "ludys:scope",
+          "value": "runtime"
+        },
+        {
+          "name": "ludys:optional",
+          "value": "false"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "body-parser",
+      "version": "2.3.0",
+      "purl": "pkg:npm/body-parser@2.3.0",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "2cGmJupaNgg+QUwVLAucDuWuoMZ6EX9iHDRswZ5lsNYEmwPaRknMPCLZz07yTzVq/83p4o/wzbDZbBrTvGGTIw=="
+        }
+      ],
+      "properties": [
+        {
+          "name": "ludys:scope",
+          "value": "runtime"
+        },
+        {
+          "name": "ludys:optional",
+          "value": "false"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "bytes",
+      "version": "3.1.2",
+      "purl": "pkg:npm/bytes@3.1.2",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "/Nf7TyzTx6S3yRJObOAV7956r8cr2+Oj8AC5dt8wSP3BQAoeX58NoHyCU8P8zGkNXStjTSi6fzO6F0pBdcYbEg=="
+        }
+      ],
+      "properties": [
+        {
+          "name": "ludys:scope",
+          "value": "runtime"
+        },
+        {
+          "name": "ludys:optional",
+          "value": "false"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "call-bind-apply-helpers",
+      "version": "1.0.2",
+      "purl": "pkg:npm/call-bind-apply-helpers@1.0.2",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "Sp1ablJ0ivDkSzjcaJdxEunN5/XvksFJ2sMBFfq6x0ryhQV/2b/KwFe21cMpmHtPOSij8K99/wSfoEuTObmuMQ=="
+        }
+      ],
+      "properties": [
+        {
+          "name": "ludys:scope",
+          "value": "runtime"
+        },
+        {
+          "name": "ludys:optional",
+          "value": "false"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "call-bind",
+      "version": "1.0.9",
+      "purl": "pkg:npm/call-bind@1.0.9",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "a/hy+pNsFUTR+Iz8TCJvXudKVLAnz/DyeSUo10I5yvFDQJBFU2s9uqQpoSrJlroHUKoKqzg+epxyP9lqFdzfBQ=="
+        }
+      ],
+      "properties": [
+        {
+          "name": "ludys:scope",
+          "value": "runtime"
+        },
+        {
+          "name": "ludys:optional",
+          "value": "false"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "call-bound",
+      "version": "1.0.4",
+      "purl": "pkg:npm/call-bound@1.0.4",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "+ys997U96po4Kx/ABpBCqhA9EuxJaQWDQg7295H4hBphv3IZg0boBKuwYpt4YXp6MZ5AmZQnU/tyMTlRpaSejg=="
+        }
+      ],
+      "properties": [
+        {
+          "name": "ludys:scope",
+          "value": "runtime"
+        },
+        {
+          "name": "ludys:optional",
+          "value": "false"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "cloudevents",
+      "version": "10.0.0",
+      "purl": "pkg:npm/cloudevents@10.0.0",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "uyzC+PpMMRawbouHO+3mlisr3QfEDObmo2pN4oTTF6dZncZgpIzdasZx0tRBFI1dMsqCLZZXMtz8cUuvYqHdbw=="
+        }
+      ],
+      "properties": [
+        {
+          "name": "ludys:scope",
+          "value": "runtime"
+        },
+        {
+          "name": "ludys:optional",
+          "value": "false"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "content-disposition",
+      "version": "1.1.0",
+      "purl": "pkg:npm/content-disposition@1.1.0",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "5jRCH9Z/+DRP7rkvY83B+yGIGX96OYdJmzngqnw2SBSxqCFPd0w2km3s5iawpGX8krnwSGmF0FW5Nhr0Hfai3g=="
+        }
+      ],
+      "properties": [
+        {
+          "name": "ludys:scope",
+          "value": "runtime"
+        },
+        {
+          "name": "ludys:optional",
+          "value": "false"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "content-type",
+      "version": "1.0.5",
+      "purl": "pkg:npm/content-type@1.0.5",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "nTjqfcBFEipKdXCv4YDQWCfmcLZKm81ldF0pAopTvyrFGVbcR6P/VAAd5G7N+0tTr8QqiU0tFadD6FK4NtJwOA=="
+        }
+      ],
+      "properties": [
+        {
+          "name": "ludys:scope",
+          "value": "runtime"
+        },
+        {
+          "name": "ludys:optional",
+          "value": "false"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "content-type",
+      "version": "2.0.0",
+      "purl": "pkg:npm/content-type@2.0.0",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "j/O/d7GcZCyNl7/hwZAb606rzqkyvaDctLmckbxLzHvFBzTJHuGEdodATcP3yIRoDrLHkIATJuvzbFlp/ki2cQ=="
+        }
+      ],
+      "properties": [
+        {
+          "name": "ludys:scope",
+          "value": "runtime"
+        },
+        {
+          "name": "ludys:optional",
+          "value": "false"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "content-type",
+      "version": "2.0.0",
+      "purl": "pkg:npm/content-type@2.0.0",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "j/O/d7GcZCyNl7/hwZAb606rzqkyvaDctLmckbxLzHvFBzTJHuGEdodATcP3yIRoDrLHkIATJuvzbFlp/ki2cQ=="
+        }
+      ],
+      "properties": [
+        {
+          "name": "ludys:scope",
+          "value": "runtime"
+        },
+        {
+          "name": "ludys:optional",
+          "value": "false"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "cookie-signature",
+      "version": "1.2.2",
+      "purl": "pkg:npm/cookie-signature@1.2.2",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "D76uU73ulSXrD1UXF4KE2TMxVVwhsnCgfAyTg9k8P6KGZjlXKrOLe4dJQKI3Bxi5wjesZoFXJWElNWBjPZMbhg=="
+        }
+      ],
+      "properties": [
+        {
+          "name": "ludys:scope",
+          "value": "runtime"
+        },
+        {
+          "name": "ludys:optional",
+          "value": "false"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "cookie",
+      "version": "0.7.2",
+      "purl": "pkg:npm/cookie@0.7.2",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "yki5XnKuf750l50uGTllt6kKILY4nQ1eNIQatoXEByZ5dWgnKqbnqmTrBE5B4N7lrMJKQ2ytWMiTO2o0v6Ew/w=="
+        }
+      ],
+      "properties": [
+        {
+          "name": "ludys:scope",
+          "value": "runtime"
+        },
+        {
+          "name": "ludys:optional",
+          "value": "false"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "debug",
+      "version": "4.4.3",
+      "purl": "pkg:npm/debug@4.4.3",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "RGwwWnwQvkVfavKVt22FGLw+xYSdzARwm0ru6DhTVA3umU5hZc28V3kO4stgYryrTlLpuvgI9GiijltAjNbcqA=="
+        }
+      ],
+      "properties": [
+        {
+          "name": "ludys:scope",
+          "value": "runtime"
+        },
+        {
+          "name": "ludys:optional",
+          "value": "false"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "debug",
+      "version": "4.4.3",
+      "purl": "pkg:npm/debug@4.4.3",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "RGwwWnwQvkVfavKVt22FGLw+xYSdzARwm0ru6DhTVA3umU5hZc28V3kO4stgYryrTlLpuvgI9GiijltAjNbcqA=="
+        }
+      ],
+      "properties": [
+        {
+          "name": "ludys:scope",
+          "value": "runtime"
+        },
+        {
+          "name": "ludys:optional",
+          "value": "false"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "define-data-property",
+      "version": "1.1.4",
+      "purl": "pkg:npm/define-data-property@1.1.4",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "rBMvIzlpA8v6E+SJZoo++HAYqsLrkg7MSfIinMPFhmkorw7X+dOXVJQs+QT69zGkzMyfDnIMN2Wid1+NbL3T+A=="
+        }
+      ],
+      "properties": [
+        {
+          "name": "ludys:scope",
+          "value": "runtime"
+        },
+        {
+          "name": "ludys:optional",
+          "value": "false"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "depd",
+      "version": "2.0.0",
+      "purl": "pkg:npm/depd@2.0.0",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "g7nH6P6dyDioJogAAGprGpCtVImJhpPk/roCzdb3fIh61/s/nPsfR6onyMwkCAR/OlC3yBC0lESvUoQEAssIrw=="
+        }
+      ],
+      "properties": [
+        {
+          "name": "ludys:scope",
+          "value": "runtime"
+        },
+        {
+          "name": "ludys:optional",
+          "value": "false"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "dunder-proto",
+      "version": "1.0.1",
+      "purl": "pkg:npm/dunder-proto@1.0.1",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "KIN/nDJBQRcXw0MLVhZE9iQHmG68qAVIBg9CqmUYjmQIhgij9U5MFvrqkUL5FbtyyzZuOeOt0zdeRe4UY7ct+A=="
+        }
+      ],
+      "properties": [
+        {
+          "name": "ludys:scope",
+          "value": "runtime"
+        },
+        {
+          "name": "ludys:optional",
+          "value": "false"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "ee-first",
+      "version": "1.1.1",
+      "purl": "pkg:npm/ee-first@1.1.1",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "WMwm9LhRUo+WUaRN+vRuETqG89IgZphVSNkdFgeb6sS/E4OrDIN7t48CAewSHXc6C8lefD8KKfr5vY61brQlow=="
+        }
+      ],
+      "properties": [
+        {
+          "name": "ludys:scope",
+          "value": "runtime"
+        },
+        {
+          "name": "ludys:optional",
+          "value": "false"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "encodeurl",
+      "version": "2.0.0",
+      "purl": "pkg:npm/encodeurl@2.0.0",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "Q0n9HRi4m6JuGIV1eFlmvJB7ZEVxu93IrMyiMsGC0lrMJMWzRgx6WGquyfQgZVb31vhGgXnfmPNNXmxnOkRBrg=="
+        }
+      ],
+      "properties": [
+        {
+          "name": "ludys:scope",
+          "value": "runtime"
+        },
+        {
+          "name": "ludys:optional",
+          "value": "false"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "es-define-property",
+      "version": "1.0.1",
+      "purl": "pkg:npm/es-define-property@1.0.1",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "e3nRfgfUZ4rNGL232gUgX06QNyyez04KdjFrF+LTRoOXmrOgFKDg4BCdsjW8EnT69eqdYGmRpJwiPVYNrCaW3g=="
+        }
+      ],
+      "properties": [
+        {
+          "name": "ludys:scope",
+          "value": "runtime"
+        },
+        {
+          "name": "ludys:optional",
+          "value": "false"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "es-errors",
+      "version": "1.3.0",
+      "purl": "pkg:npm/es-errors@1.3.0",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "Zf5H2Kxt2xjTvbJvP2ZWLEICxA6j+hAmMzIlypy4xcBg1vKVnx89Wy0GbS+kf5cwCVFFzdCFh2XSCFNULS6csw=="
+        }
+      ],
+      "properties": [
+        {
+          "name": "ludys:scope",
+          "value": "runtime"
+        },
+        {
+          "name": "ludys:optional",
+          "value": "false"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "es-object-atoms",
+      "version": "1.1.2",
+      "purl": "pkg:npm/es-object-atoms@1.1.2",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "HWcBoN6NileqtSydK2FqHbS/LoDd2pqrnQHLyJzBj4kOp/ky2MWMN694xOfkK8/SnUsW2DH7EfyVlydKCsm1Zw=="
+        }
+      ],
+      "properties": [
+        {
+          "name": "ludys:scope",
+          "value": "runtime"
+        },
+        {
+          "name": "ludys:optional",
+          "value": "false"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "escape-html",
+      "version": "1.0.3",
+      "purl": "pkg:npm/escape-html@1.0.3",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "NiSupZ4OeuGwr68lGIeym/ksIZMJodUGOSCZ/FSnTxcrekbvqrgdUxlJOMpijaKZVjAJrWrGs/6Jy8OMuyj9ow=="
+        }
+      ],
+      "properties": [
+        {
+          "name": "ludys:scope",
+          "value": "runtime"
+        },
+        {
+          "name": "ludys:optional",
+          "value": "false"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "etag",
+      "version": "1.8.1",
+      "purl": "pkg:npm/etag@1.8.1",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "aIL5Fx7mawVa300al2BnEE4iNvo1qETxLrPI/o05L7z6go7fCw1J6EQmbK4FmJ2AS7kgVF/KEZWufBfdClMcPg=="
+        }
+      ],
+      "properties": [
+        {
+          "name": "ludys:scope",
+          "value": "runtime"
+        },
+        {
+          "name": "ludys:optional",
+          "value": "false"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "express",
+      "version": "5.2.1",
+      "purl": "pkg:npm/express@5.2.1",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "hIS4idWWai69NezIdRt2xFVofaF4j+6INOpJlVOLDO8zXGpUVEVzIYk12UUi2JzjEzWL3IOAxcTubgz9Po0yXw=="
+        }
+      ],
+      "properties": [
+        {
+          "name": "ludys:scope",
+          "value": "runtime"
+        },
+        {
+          "name": "ludys:optional",
+          "value": "false"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "fast-deep-equal",
+      "version": "3.1.3",
+      "purl": "pkg:npm/fast-deep-equal@3.1.3",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "f3qQ9oQy9j2AhBe/H9VC91wLmKBCCU/gDOnKNAYG5hswO7BLKj09Hc5HYNz9cGI++xlpDCIgDaitVs03ATR84Q=="
+        }
+      ],
+      "properties": [
+        {
+          "name": "ludys:scope",
+          "value": "runtime"
+        },
+        {
+          "name": "ludys:optional",
+          "value": "false"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "fast-uri",
+      "version": "3.1.4",
+      "purl": "pkg:npm/fast-uri@3.1.4",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "8JnbkQ4juDyvYs4mgFGQqg4yCYtFDtUtmp2QIQq11ZZe5CFQ5wcqm1rqDgAh/QdMySuBnPzMUiJUNZG5N/AiQw=="
+        }
+      ],
+      "properties": [
+        {
+          "name": "ludys:scope",
+          "value": "runtime"
+        },
+        {
+          "name": "ludys:optional",
+          "value": "false"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "finalhandler",
+      "version": "2.1.1",
+      "purl": "pkg:npm/finalhandler@2.1.1",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "S8KoZgRZN+a5rNwqTxlZZePjT/4cnm0ROV70LedRHZ0p8u9fRID0hJUZQpkKLzro8LfmC8sx23bY6tVNxv8pQA=="
+        }
+      ],
+      "properties": [
+        {
+          "name": "ludys:scope",
+          "value": "runtime"
+        },
+        {
+          "name": "ludys:optional",
+          "value": "false"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "find-up-simple",
+      "version": "1.0.1",
+      "purl": "pkg:npm/find-up-simple@1.0.1",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "afd4O7zpqHeRyg4PfDQsXmlDe2PfdHtJt6Akt8jOWaApLOZk5JXs6VMR29lz03pRe9mpykrRCYIYxaJYcfpncQ=="
+        }
+      ],
+      "properties": [
+        {
+          "name": "ludys:scope",
+          "value": "runtime"
+        },
+        {
+          "name": "ludys:optional",
+          "value": "false"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "for-each",
+      "version": "0.3.5",
+      "purl": "pkg:npm/for-each@0.3.5",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "dKx12eRCVIzqCxFGplyFKJMPvLEWgmNtUrpTiJIR5u97zEhRG8ySrtboPHZXx7daLxQVrl643cTzbab2tkQjxg=="
+        }
+      ],
+      "properties": [
+        {
+          "name": "ludys:scope",
+          "value": "runtime"
+        },
+        {
+          "name": "ludys:optional",
+          "value": "false"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "forwarded",
+      "version": "0.2.0",
+      "purl": "pkg:npm/forwarded@0.2.0",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "buRG0fpBtRHSTCOASe6hD258tEubFoRLb4ZNA6NxMVHNw2gOcwHo9wyablzMzOA5z9xA9L1KNjk/Nt6MT9aYow=="
+        }
+      ],
+      "properties": [
+        {
+          "name": "ludys:scope",
+          "value": "runtime"
+        },
+        {
+          "name": "ludys:optional",
+          "value": "false"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "fresh",
+      "version": "2.0.0",
+      "purl": "pkg:npm/fresh@2.0.0",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "Rx/WycZ60HOaqLKAi6cHRKKI7zxWbJ31MhntmtwMoaTeF7XFH9hhBp8vITaMidfljRQ6eYWCKkaTK+ykVJHP2A=="
+        }
+      ],
+      "properties": [
+        {
+          "name": "ludys:scope",
+          "value": "runtime"
+        },
+        {
+          "name": "ludys:optional",
+          "value": "false"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "function-bind",
+      "version": "1.1.2",
+      "purl": "pkg:npm/function-bind@1.1.2",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "7XHNxH7qX9xG5mIwxkhumTox/MIRNcOgDrxWsMt2pAr23WHp6MrRlN7FBSFpCpr+oVO0F744iUgR82nJMfG2SA=="
+        }
+      ],
+      "properties": [
+        {
+          "name": "ludys:scope",
+          "value": "runtime"
+        },
+        {
+          "name": "ludys:optional",
+          "value": "false"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "generator-function",
+      "version": "2.0.1",
+      "purl": "pkg:npm/generator-function@2.0.1",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "SFdFmIJi+ybC0vjlHN0ZGVGHc3lgE0DxPAT0djjVg+kjOnSqclqmj0KQ7ykTOLP6YxoqOvuAODGdcHJn+43q3g=="
+        }
+      ],
+      "properties": [
+        {
+          "name": "ludys:scope",
+          "value": "runtime"
+        },
+        {
+          "name": "ludys:optional",
+          "value": "false"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "get-intrinsic",
+      "version": "1.3.0",
+      "purl": "pkg:npm/get-intrinsic@1.3.0",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "9fSjSaos/fRIVIp+xSJlE6lfwhES7LNtKaCBIamHsjr2na1BiABJPo0mOjjz8GJDURarmCPGqaiVg5mfjb98CQ=="
+        }
+      ],
+      "properties": [
+        {
+          "name": "ludys:scope",
+          "value": "runtime"
+        },
+        {
+          "name": "ludys:optional",
+          "value": "false"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "get-proto",
+      "version": "1.0.1",
+      "purl": "pkg:npm/get-proto@1.0.1",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "sTSfBjoXBp89JvIKIefqw7U2CCebsc74kiY6awiGogKtoSGbgjYE/G/+l9sF3MWFPNc9IcoOC4ODfKHfxFmp0g=="
+        }
+      ],
+      "properties": [
+        {
+          "name": "ludys:scope",
+          "value": "runtime"
+        },
+        {
+          "name": "ludys:optional",
+          "value": "false"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "gopd",
+      "version": "1.2.0",
+      "purl": "pkg:npm/gopd@1.2.0",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "ZUKRh6/kUFoAiTAtTYPZJ3hw9wNxx+BIBOijnlG9PnrJsCcSjs1wyyD6vJpaYtgnzDrKYRSqf3OO6Rfa93xsRg=="
+        }
+      ],
+      "properties": [
+        {
+          "name": "ludys:scope",
+          "value": "runtime"
+        },
+        {
+          "name": "ludys:optional",
+          "value": "false"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "has-property-descriptors",
+      "version": "1.0.2",
+      "purl": "pkg:npm/has-property-descriptors@1.0.2",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "55JNKuIW+vq4Ke1BjOTjM2YctQIvCT7GFzHwmfZPGo5wnrgkid0YQtnAleFSqumZm4az3n2BS+erby5ipJdgrg=="
+        }
+      ],
+      "properties": [
+        {
+          "name": "ludys:scope",
+          "value": "runtime"
+        },
+        {
+          "name": "ludys:optional",
+          "value": "false"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "has-symbols",
+      "version": "1.1.0",
+      "purl": "pkg:npm/has-symbols@1.1.0",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "1cDNdwJ2Jaohmb3sg4OmKaMBwuC48sYni5HUw2DvsC8LjGTLK9h+eb1X6RyuOHe4hT0ULCW68iomhjUoKUqlPQ=="
+        }
+      ],
+      "properties": [
+        {
+          "name": "ludys:scope",
+          "value": "runtime"
+        },
+        {
+          "name": "ludys:optional",
+          "value": "false"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "has-tostringtag",
+      "version": "1.0.2",
+      "purl": "pkg:npm/has-tostringtag@1.0.2",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "NqADB8VjPFLM2V0VvHUewwwsw0ZWBaIdgo+ieHtK3hasLz4qeCRjYcqfB6AQrBggRKppKF8L52/VqdVsO47Dlw=="
+        }
+      ],
+      "properties": [
+        {
+          "name": "ludys:scope",
+          "value": "runtime"
+        },
+        {
+          "name": "ludys:optional",
+          "value": "false"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "hasown",
+      "version": "2.0.4",
+      "purl": "pkg:npm/hasown@2.0.4",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "T2UbfbBEF32wiepXIsMlTW9+dDYC6wMh/t/vYA4tuOMKqWz/n3vr1NFSxQiyP+zk2mXsoMA/i/7qV6LKut1t1A=="
+        }
+      ],
+      "properties": [
+        {
+          "name": "ludys:scope",
+          "value": "runtime"
+        },
+        {
+          "name": "ludys:optional",
+          "value": "false"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "hosted-git-info",
+      "version": "7.0.2",
+      "purl": "pkg:npm/hosted-git-info@7.0.2",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "puUZAUKT5m8Zzvs72XWy3HtvVbTWljRE66cP60bxJzAqf2DgICo7lYTY2IHUmLnNpjYvw5bvmoHvPc0QO2a62w=="
+        }
+      ],
+      "properties": [
+        {
+          "name": "ludys:scope",
+          "value": "runtime"
+        },
+        {
+          "name": "ludys:optional",
+          "value": "false"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "http-errors",
+      "version": "2.0.1",
+      "purl": "pkg:npm/http-errors@2.0.1",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "4FbRdAX+bSdmo4AUFuS0WNiPz8NgFt+r8ThgNWmlrjQjt1Q7ZR9+zTlce2859x4KSXrwIsaeTqDoKQmtP8pLmQ=="
+        }
+      ],
+      "properties": [
+        {
+          "name": "ludys:scope",
+          "value": "runtime"
+        },
+        {
+          "name": "ludys:optional",
+          "value": "false"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "iconv-lite",
+      "version": "0.7.3",
+      "purl": "pkg:npm/iconv-lite@0.7.3",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "IKXpvIzjnC9XTAUbVBcMfGS0EPaIXtW6v+zr+RRp+hqULEpo0owZax6wyRwPOJbWbzjYspQwusTsfVr0ifh4uQ=="
+        }
+      ],
+      "properties": [
+        {
+          "name": "ludys:scope",
+          "value": "runtime"
+        },
+        {
+          "name": "ludys:optional",
+          "value": "false"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "index-to-position",
+      "version": "1.2.0",
+      "purl": "pkg:npm/index-to-position@1.2.0",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "Yg7+ztRkqslMAS2iFaU+Oa4KTSidr63OsFGlOrJoW981kIYO3CGCS3wA95P1mUi/IVSJkn0D479KTJpVpvFNuw=="
+        }
+      ],
+      "properties": [
+        {
+          "name": "ludys:scope",
+          "value": "runtime"
+        },
+        {
+          "name": "ludys:optional",
+          "value": "false"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "inherits",
+      "version": "2.0.4",
+      "purl": "pkg:npm/inherits@2.0.4",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "k/vGaX4/Yla3WzyMCvTQOXYeIHvqOKtnqBduzTHpzpQZzAskKMhZ2K+EnBiSM9zGSoIFeMpXKxa4dYeZIQqewQ=="
+        }
+      ],
+      "properties": [
+        {
+          "name": "ludys:scope",
+          "value": "runtime"
+        },
+        {
+          "name": "ludys:optional",
+          "value": "false"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "ipaddr.js",
+      "version": "1.9.1",
+      "purl": "pkg:npm/ipaddr.js@1.9.1",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "0KI/607xoxSToH7GjN1FfSbLoU0+btTicjsQSWQlh/hZykN8KpmMf7uYwPW3R+akZ6R/w18ZlXSHBYXiYUPO3g=="
+        }
+      ],
+      "properties": [
+        {
+          "name": "ludys:scope",
+          "value": "runtime"
+        },
+        {
+          "name": "ludys:optional",
+          "value": "false"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "is-arguments",
+      "version": "1.2.0",
+      "purl": "pkg:npm/is-arguments@1.2.0",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "7bVbi0huj/wrIAOzb8U1aszg9kdi3KN/CyU19CTI7tAoZYEZoL9yCDXpbXN+uPsuWnP02cyug1gleqq+TU+YCA=="
+        }
+      ],
+      "properties": [
+        {
+          "name": "ludys:scope",
+          "value": "runtime"
+        },
+        {
+          "name": "ludys:optional",
+          "value": "false"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "is-callable",
+      "version": "1.2.7",
+      "purl": "pkg:npm/is-callable@1.2.7",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "1BC0BVFhS/p0qtw6enp8e+8OD0UrK0oFLztSjNzhcKA3WDuJxxAPXzPuPtKkjEY9UUoEWlX/8fgKeu2S8i9JTA=="
+        }
+      ],
+      "properties": [
+        {
+          "name": "ludys:scope",
+          "value": "runtime"
+        },
+        {
+          "name": "ludys:optional",
+          "value": "false"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "is-generator-function",
+      "version": "1.1.2",
+      "purl": "pkg:npm/is-generator-function@1.1.2",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "upqt1SkGkODW9tsGNG5mtXTXtECizwtS2kA161M+gJPc1xdb/Ax629af6YrTwcOeQHbewrPNlE5Dx7kzvXTizA=="
+        }
+      ],
+      "properties": [
+        {
+          "name": "ludys:scope",
+          "value": "runtime"
+        },
+        {
+          "name": "ludys:optional",
+          "value": "false"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "is-promise",
+      "version": "4.0.0",
+      "purl": "pkg:npm/is-promise@4.0.0",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "hvpoI6korhJMnej285dSg6nu1+e6uxs7zG3BYAm5byqDsgJNWwxzM6z6iZiAgQR4TJ30JmBTOwqZUw3WlyH3AQ=="
+        }
+      ],
+      "properties": [
+        {
+          "name": "ludys:scope",
+          "value": "runtime"
+        },
+        {
+          "name": "ludys:optional",
+          "value": "false"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "is-regex",
+      "version": "1.2.1",
+      "purl": "pkg:npm/is-regex@1.2.1",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "MjYsKHO5O7mCsmRGxWcLWheFqN9DJ/2TmngvjKXihe6efViPqc274+Fx/4fYj/r03+ESvBdTXK0V6tA3rgez1g=="
+        }
+      ],
+      "properties": [
+        {
+          "name": "ludys:scope",
+          "value": "runtime"
+        },
+        {
+          "name": "ludys:optional",
+          "value": "false"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "is-typed-array",
+      "version": "1.1.15",
+      "purl": "pkg:npm/is-typed-array@1.1.15",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "p3EcsicXjit7SaskXHs1hA91QxgTw46Fv6EFKKGS5DRFLD8yKnohjF3hxoju94b/OcMZoQukzpPpBE9uLVKzgQ=="
+        }
+      ],
+      "properties": [
+        {
+          "name": "ludys:scope",
+          "value": "runtime"
+        },
+        {
+          "name": "ludys:optional",
+          "value": "false"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "js-tokens",
+      "version": "4.0.0",
+      "purl": "pkg:npm/js-tokens@4.0.0",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "RdJUflcE3cUzKiMqQgsCu06FPu9UdIJO0beYbPhHN4k6apgJtifcoCtT9bcxOpYBtpD2kCM6Sbzg4CausW/PKQ=="
+        }
+      ],
+      "properties": [
+        {
+          "name": "ludys:scope",
+          "value": "runtime"
+        },
+        {
+          "name": "ludys:optional",
+          "value": "false"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "json-bigint",
+      "version": "1.0.0",
+      "purl": "pkg:npm/json-bigint@1.0.0",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "SiPv/8VpZuWbvLSMtTDU8hEfrZWg/mH/nV/b4o0CYbSxu1UIQPLdwKOCIyLQX+VIPO5vrLX3i8qtqFyhdPSUSQ=="
+        }
+      ],
+      "properties": [
+        {
+          "name": "ludys:scope",
+          "value": "runtime"
+        },
+        {
+          "name": "ludys:optional",
+          "value": "false"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "json-schema-traverse",
+      "version": "1.0.0",
+      "purl": "pkg:npm/json-schema-traverse@1.0.0",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "NM8/P9n3XjXhIZn1lLhkFaACTOURQXjWhV4BA/RnOv8xvgqtqpAX9IO4mRQxSx1Rlo4tqzeqb0sOlruaOy3dug=="
+        }
+      ],
+      "properties": [
+        {
+          "name": "ludys:scope",
+          "value": "runtime"
+        },
+        {
+          "name": "ludys:optional",
+          "value": "false"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "lru-cache",
+      "version": "10.4.3",
+      "purl": "pkg:npm/lru-cache@10.4.3",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "JNAzZcXrCt42VGLuYz0zfAzDfAvJWW6AfYlDBQyDV5DClI2m5sAmK+OIO7s59XfsRsWHp02jAJrRadPRGTt6SQ=="
+        }
+      ],
+      "properties": [
+        {
+          "name": "ludys:scope",
+          "value": "runtime"
+        },
+        {
+          "name": "ludys:optional",
+          "value": "false"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "math-intrinsics",
+      "version": "1.1.0",
+      "purl": "pkg:npm/math-intrinsics@1.1.0",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "/IXtbwEk5HTPyEwyKX6hGkYXxM9nbj64B+ilVJnC/R6B0pH5G4V3b0pVbL7DBj4tkhBAppbQUlf6F6Xl9LHu1g=="
+        }
+      ],
+      "properties": [
+        {
+          "name": "ludys:scope",
+          "value": "runtime"
+        },
+        {
+          "name": "ludys:optional",
+          "value": "false"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "media-typer",
+      "version": "1.1.1",
+      "purl": "pkg:npm/media-typer@1.1.1",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "yz3xRaG20c6/BOzvYoDaGtPmGscs7YivItZEEqe6GbwNfHuxu9YNmvnEkMzKldAGY4/80pRcQRZSEnhquk9XuQ=="
+        }
+      ],
+      "properties": [
+        {
+          "name": "ludys:scope",
+          "value": "runtime"
+        },
+        {
+          "name": "ludys:optional",
+          "value": "false"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "merge-descriptors",
+      "version": "2.0.0",
+      "purl": "pkg:npm/merge-descriptors@2.0.0",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "Snk314V5ayFLhp3fkUREub6WtjBfPdCPY1Ln8/8munuLuiYhsABgBVWsozAG+MWMbVEvcdcpbi9R7ww22l9Q3g=="
+        }
+      ],
+      "properties": [
+        {
+          "name": "ludys:scope",
+          "value": "runtime"
+        },
+        {
+          "name": "ludys:optional",
+          "value": "false"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "mime-db",
+      "version": "1.54.0",
+      "purl": "pkg:npm/mime-db@1.54.0",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "aU5EJuIN2WDemCcAp2vFBfp/m4EAhWJnUNSSw0ixs7/kXbd6Pg64EmwJkNdFhB8aWt1sH2CTXrLxo/iAGV3oPQ=="
+        }
+      ],
+      "properties": [
+        {
+          "name": "ludys:scope",
+          "value": "runtime"
+        },
+        {
+          "name": "ludys:optional",
+          "value": "false"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "mime-types",
+      "version": "3.0.2",
+      "purl": "pkg:npm/mime-types@3.0.2",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "Lbgzdk0h4juoQ9fCKXW4by0UJqj+nOOrI9MJ1sSj4nI8aI2eo1qmvQEie4VD1glsS250n15LsWsYtCugiStS5A=="
+        }
+      ],
+      "properties": [
+        {
+          "name": "ludys:scope",
+          "value": "runtime"
+        },
+        {
+          "name": "ludys:optional",
+          "value": "false"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "minimist",
+      "version": "1.2.8",
+      "purl": "pkg:npm/minimist@1.2.8",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "2yyAR8qBkN3YuheJanUpWC5U3bb5osDywNB8RzDVlDwDHbocAJveqqj1u8+SVD7jkWT4yvsHCpWqqWqAxb0zCA=="
+        }
+      ],
+      "properties": [
+        {
+          "name": "ludys:scope",
+          "value": "runtime"
+        },
+        {
+          "name": "ludys:optional",
+          "value": "false"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "ms",
+      "version": "2.1.3",
+      "purl": "pkg:npm/ms@2.1.3",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "6FlzubTLZG3J2a/NVCAleEhjzq5oxgHyaCU9yYXvcLsvoVaHJq/s5xXI6/XXP6tz7R9xAOtHnSO/tXtF3WRTlA=="
+        }
+      ],
+      "properties": [
+        {
+          "name": "ludys:scope",
+          "value": "runtime"
+        },
+        {
+          "name": "ludys:optional",
+          "value": "false"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "ms",
+      "version": "2.1.3",
+      "purl": "pkg:npm/ms@2.1.3",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "6FlzubTLZG3J2a/NVCAleEhjzq5oxgHyaCU9yYXvcLsvoVaHJq/s5xXI6/XXP6tz7R9xAOtHnSO/tXtF3WRTlA=="
+        }
+      ],
+      "properties": [
+        {
+          "name": "ludys:scope",
+          "value": "runtime"
+        },
+        {
+          "name": "ludys:optional",
+          "value": "false"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "negotiator",
+      "version": "1.0.0",
+      "purl": "pkg:npm/negotiator@1.0.0",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "8Ofs/AUQh8MaEcrlq5xOX0CQ9ypTF5dl78mjlMNfOK08fzpgTHQRQPBxcPlEtIw0yRpws+Zo/3r+5WRby7u3Gg=="
+        }
+      ],
+      "properties": [
+        {
+          "name": "ludys:scope",
+          "value": "runtime"
+        },
+        {
+          "name": "ludys:optional",
+          "value": "false"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "normalize-package-data",
+      "version": "6.0.2",
+      "purl": "pkg:npm/normalize-package-data@6.0.2",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "V6gygoYb/5EmNI+MEGrWkC+e6+Rr7mTmfHrxDbLzxQogBkgzo76rkok0Am6thgSF7Mv2nLOajAJj5vDJZEFn7g=="
+        }
+      ],
+      "properties": [
+        {
+          "name": "ludys:scope",
+          "value": "runtime"
+        },
+        {
+          "name": "ludys:optional",
+          "value": "false"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "object-inspect",
+      "version": "1.13.4",
+      "purl": "pkg:npm/object-inspect@1.13.4",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "W67iLl4J2EXEGTbfeHCffrjDfitvLANg0UlX3wFUUSTx92KXRFegMHUVgSqE+wvhAbi4WqjGg9czysTV2Epbew=="
+        }
+      ],
+      "properties": [
+        {
+          "name": "ludys:scope",
+          "value": "runtime"
+        },
+        {
+          "name": "ludys:optional",
+          "value": "false"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "on-finished",
+      "version": "2.4.1",
+      "purl": "pkg:npm/on-finished@2.4.1",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "oVlzkg3ENAhCk2zdv7IJwd/QUD4z2RxRwpkcGY8psCVcCYZNq4wYnVWALHM+brtuJjePWiYF/ClmuDr8Ch5+kg=="
+        }
+      ],
+      "properties": [
+        {
+          "name": "ludys:scope",
+          "value": "runtime"
+        },
+        {
+          "name": "ludys:optional",
+          "value": "false"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "once",
+      "version": "1.4.0",
+      "purl": "pkg:npm/once@1.4.0",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "lNaJgI+2Q5URQBkccEKHTQOPaXdUxnZZElQTZY0MFUAuaEqe1E+Nyvgdz/aIyNi6Z9MzO5dv1H8n58/GELp3+w=="
+        }
+      ],
+      "properties": [
+        {
+          "name": "ludys:scope",
+          "value": "runtime"
+        },
+        {
+          "name": "ludys:optional",
+          "value": "false"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "parse-json",
+      "version": "8.3.0",
+      "purl": "pkg:npm/parse-json@8.3.0",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "ybiGyvspI+fAoRQbIPRddCcSTV9/LsJbf0e/S85VLowVGzRmokfneg2kwVW/KU5rOXrPSbF1qAKPMgNTqqROQQ=="
+        }
+      ],
+      "properties": [
+        {
+          "name": "ludys:scope",
+          "value": "runtime"
+        },
+        {
+          "name": "ludys:optional",
+          "value": "false"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "parseurl",
+      "version": "1.3.3",
+      "purl": "pkg:npm/parseurl@1.3.3",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "CiyeOxFT/JZyN5m0z9PfXw4SCBJ6Sygz1Dpl0wqjlhDEGGBP1GnsUVEL0p63hoG1fcj3fHynXi9NYO4nWOL+qQ=="
+        }
+      ],
+      "properties": [
+        {
+          "name": "ludys:scope",
+          "value": "runtime"
+        },
+        {
+          "name": "ludys:optional",
+          "value": "false"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "path-to-regexp",
+      "version": "8.4.2",
+      "purl": "pkg:npm/path-to-regexp@8.4.2",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "qRcuIdP69NPm4qbACK+aDogI5CBDMi1jKe0ry5rSQJz8JVLsC7jV8XpiJjGRLLol3N+R5ihGYcrPLTno6pAdBA=="
+        }
+      ],
+      "properties": [
+        {
+          "name": "ludys:scope",
+          "value": "runtime"
+        },
+        {
+          "name": "ludys:optional",
+          "value": "false"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "picocolors",
+      "version": "1.1.1",
+      "purl": "pkg:npm/picocolors@1.1.1",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "xceH2snhtb5M9liqDsmEw56le376mTZkEX/jEb/RxNFyegNul7eNslCXP9FDj/Lcu0X8KEyMceP2ntpaHrDEVA=="
+        }
+      ],
+      "properties": [
+        {
+          "name": "ludys:scope",
+          "value": "runtime"
+        },
+        {
+          "name": "ludys:optional",
+          "value": "false"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "possible-typed-array-names",
+      "version": "1.1.0",
+      "purl": "pkg:npm/possible-typed-array-names@1.1.0",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "/+5VFTchJDoVj3bhoqi6UeymcD00DAwb1nJwamzPvHEszJ4FpF6SNNbUbOS8yI56qHzdV8eK0qEfOSiodkTdxg=="
+        }
+      ],
+      "properties": [
+        {
+          "name": "ludys:scope",
+          "value": "runtime"
+        },
+        {
+          "name": "ludys:optional",
+          "value": "false"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "process",
+      "version": "0.11.10",
+      "purl": "pkg:npm/process@0.11.10",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "cdGef/drWFoydD1JsMzuFf8100nZl+GT+yacc2bEced5f9Rjk4z+WtFUTBu9PhOi9j/jfmBPu0mMEY4wIdAF8A=="
+        }
+      ],
+      "properties": [
+        {
+          "name": "ludys:scope",
+          "value": "runtime"
+        },
+        {
+          "name": "ludys:optional",
+          "value": "false"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "proxy-addr",
+      "version": "2.0.7",
+      "purl": "pkg:npm/proxy-addr@2.0.7",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "llQsMLSUDUPT44jdrU/O37qlnifitDP+ZwrmmZcoSKyLKvtZxpyV0n2/bD/N4tBAAZ/gJEdZU7KMraoK1+XYAg=="
+        }
+      ],
+      "properties": [
+        {
+          "name": "ludys:scope",
+          "value": "runtime"
+        },
+        {
+          "name": "ludys:optional",
+          "value": "false"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "qs",
+      "version": "6.15.3",
+      "purl": "pkg:npm/qs@6.15.3",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "O9gl3zCl5h5blw1KGUzQKhA5oUXSl8rwUIM5o0S3nCXMliSvy5Dzx7/DJcI+SwgICv+IneSZwhBh1oSyEHA71A=="
+        }
+      ],
+      "properties": [
+        {
+          "name": "ludys:scope",
+          "value": "runtime"
+        },
+        {
+          "name": "ludys:optional",
+          "value": "false"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "range-parser",
+      "version": "1.2.1",
+      "purl": "pkg:npm/range-parser@1.2.1",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "Hrgsx+orqoygnmhFbKaHE6c296J+HTAQXoxEF6gNupROmmGJRoyzfG3ccAveqCBrwr/2yxQ5BVd/GTl5agOwSg=="
+        }
+      ],
+      "properties": [
+        {
+          "name": "ludys:scope",
+          "value": "runtime"
+        },
+        {
+          "name": "ludys:optional",
+          "value": "false"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "raw-body",
+      "version": "3.0.2",
+      "purl": "pkg:npm/raw-body@3.0.2",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "K5zQjDllxWkf7Z5xJdV0/B0WTNqx6vxG70zJE4N0kBs4LovmEYWJzQGxC9bS9RAKu3bgM40lrd5zoLJ12MQ5BA=="
+        }
+      ],
+      "properties": [
+        {
+          "name": "ludys:scope",
+          "value": "runtime"
+        },
+        {
+          "name": "ludys:optional",
+          "value": "false"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "read-package-up",
+      "version": "11.0.0",
+      "purl": "pkg:npm/read-package-up@11.0.0",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "MbgfoNPANMdb4oRBNg5eqLbB2t2r+o5Ua1pNt8BqGp4I0FJZhuVSOj3PaBPni4azWuSzEdNn2evevzVmEk1ohQ=="
+        }
+      ],
+      "properties": [
+        {
+          "name": "ludys:scope",
+          "value": "runtime"
+        },
+        {
+          "name": "ludys:optional",
+          "value": "false"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "read-pkg",
+      "version": "9.0.1",
+      "purl": "pkg:npm/read-pkg@9.0.1",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "9viLL4/n1BJUCT1NXVTdS1jtm80yDEgR5T4yCelII49Mbj0v1rZdKqj7zCiYdbB0CuCgdrvHcNogAKTFPBocFA=="
+        }
+      ],
+      "properties": [
+        {
+          "name": "ludys:scope",
+          "value": "runtime"
+        },
+        {
+          "name": "ludys:optional",
+          "value": "false"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "require-from-string",
+      "version": "2.0.2",
+      "purl": "pkg:npm/require-from-string@2.0.2",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "Xf0nWe6RseziFMu+Ap9biiUbmplq6S9/p+7w7YXP/JBHhrUDDUhwa+vANyubuqfZWTveU//DYVGsDG7RKL/vEw=="
+        }
+      ],
+      "properties": [
+        {
+          "name": "ludys:scope",
+          "value": "runtime"
+        },
+        {
+          "name": "ludys:optional",
+          "value": "false"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "router",
+      "version": "2.2.0",
+      "purl": "pkg:npm/router@2.2.0",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "nLTrUKm2UyiL7rlhapu/Zl45FwNgkZGaCpZbIHajDYgwlJCOzLSk+cIPAnsEqV955GjILJnKbdQC1nVPz+gAYQ=="
+        }
+      ],
+      "properties": [
+        {
+          "name": "ludys:scope",
+          "value": "runtime"
+        },
+        {
+          "name": "ludys:optional",
+          "value": "false"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "safe-regex-test",
+      "version": "1.1.0",
+      "purl": "pkg:npm/safe-regex-test@1.1.0",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "x/+Cz4YrimQxQccJf5mKEbIa1NzeCRNI5Ecl/ekmlYaampdNLPalVyIcCZNNH3MvmqBugV5TMYZXv0ljslUlaw=="
+        }
+      ],
+      "properties": [
+        {
+          "name": "ludys:scope",
+          "value": "runtime"
+        },
+        {
+          "name": "ludys:optional",
+          "value": "false"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "safer-buffer",
+      "version": "2.1.2",
+      "purl": "pkg:npm/safer-buffer@2.1.2",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "YZo3K82SD7Riyi0E1EQPojLz7kpepnSQI9IyPbHHg1XXXevb5dJI7tpyN2ADxGcQbHG7vcyRHk0cbwqcQriUtg=="
+        }
+      ],
+      "properties": [
+        {
+          "name": "ludys:scope",
+          "value": "runtime"
+        },
+        {
+          "name": "ludys:optional",
+          "value": "false"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "semver",
+      "version": "7.8.5",
+      "purl": "pkg:npm/semver@7.8.5",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "Y7/KDsb8LjooZpwaqGyulO6DQlksgCncchHGk+sZIY4SBvUocMBEFH5Ur1fI4dV+Jvl0w6cjvucaIi40puRioA=="
+        }
+      ],
+      "properties": [
+        {
+          "name": "ludys:scope",
+          "value": "runtime"
+        },
+        {
+          "name": "ludys:optional",
+          "value": "false"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "send",
+      "version": "1.2.1",
+      "purl": "pkg:npm/send@1.2.1",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "1gnZf7DFcoIcajTjTwjwuDjzuz4PPcY2StKPlsGAQ1+YH20IRVrBaXSWmdjowTJ6u8Rc01PoYOGHXfP1mYcZNQ=="
+        }
+      ],
+      "properties": [
+        {
+          "name": "ludys:scope",
+          "value": "runtime"
+        },
+        {
+          "name": "ludys:optional",
+          "value": "false"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "serve-static",
+      "version": "2.2.1",
+      "purl": "pkg:npm/serve-static@2.2.1",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "xRXBn0pPqQTVQiC8wyQrKs2MOlX24zQ0POGaj0kultvoOCstBQM5yvOhAVSUwOMjQtTvsPWoNCHfPGwaaQJhTw=="
+        }
+      ],
+      "properties": [
+        {
+          "name": "ludys:scope",
+          "value": "runtime"
+        },
+        {
+          "name": "ludys:optional",
+          "value": "false"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "set-function-length",
+      "version": "1.2.2",
+      "purl": "pkg:npm/set-function-length@1.2.2",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "pgRc4hJ4/sNjWCSS9AmnS40x3bNMDTknHgL5UaMBTMyJnU90EgWh1Rz+MC9eFu4BuN/UwZjKQuY/1v3rM7HMfg=="
+        }
+      ],
+      "properties": [
+        {
+          "name": "ludys:scope",
+          "value": "runtime"
+        },
+        {
+          "name": "ludys:optional",
+          "value": "false"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "setprototypeof",
+      "version": "1.2.0",
+      "purl": "pkg:npm/setprototypeof@1.2.0",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "E5LDX7Wrp85Kil5bhZv46j8jOeboKq5JMmYM3gVGdGH8xFpPWXUMsNrlODCrkoxMEeNi/XZIwuRvY4XNwYMJpw=="
+        }
+      ],
+      "properties": [
+        {
+          "name": "ludys:scope",
+          "value": "runtime"
+        },
+        {
+          "name": "ludys:optional",
+          "value": "false"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "side-channel-list",
+      "version": "1.0.1",
+      "purl": "pkg:npm/side-channel-list@1.0.1",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "mjn/0bi/oUURjc5Xl7IaWi/OJJJumuoJFQJfDDyO46+hBWsfaVM65TBHq2eoZBhzl9EchxOijpkbRC8SVBQU0w=="
+        }
+      ],
+      "properties": [
+        {
+          "name": "ludys:scope",
+          "value": "runtime"
+        },
+        {
+          "name": "ludys:optional",
+          "value": "false"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "side-channel-map",
+      "version": "1.0.1",
+      "purl": "pkg:npm/side-channel-map@1.0.1",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "VCjCNfgMsby3tTdo02nbjtM/ewra6jPHmpThenkTYh8pG9ucZ/1P8So4u4FGBek/BjpOVsDCMoLA/iuBKIFXRA=="
+        }
+      ],
+      "properties": [
+        {
+          "name": "ludys:scope",
+          "value": "runtime"
+        },
+        {
+          "name": "ludys:optional",
+          "value": "false"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "side-channel-weakmap",
+      "version": "1.0.2",
+      "purl": "pkg:npm/side-channel-weakmap@1.0.2",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "WPS/HvHQTYnHisLo9McqBHOJk2FkHO/tlpvldyrnem4aeQp4hai3gythswg6p01oSoTl58rcpiFAjF2br2Ak2A=="
+        }
+      ],
+      "properties": [
+        {
+          "name": "ludys:scope",
+          "value": "runtime"
+        },
+        {
+          "name": "ludys:optional",
+          "value": "false"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "side-channel",
+      "version": "1.1.1",
+      "purl": "pkg:npm/side-channel@1.1.1",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "6x6dK6zJdpTzF4sQeNYxwtvBzf6Eg4GtlesS94HOvTudUeyK2WXAaIfmDgsyslYrRBeFIlsi54AYsFGUuhmvrQ=="
+        }
+      ],
+      "properties": [
+        {
+          "name": "ludys:scope",
+          "value": "runtime"
+        },
+        {
+          "name": "ludys:optional",
+          "value": "false"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "spdx-correct",
+      "version": "3.2.0",
+      "purl": "pkg:npm/spdx-correct@3.2.0",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "kN9dJbvnySHULIluDHy32WHRUu3Og7B9sbY7tsFLctQkIqnMh3hErYgdMjTYuqmcXX+lK5T1lnUt3G7zNswmZA=="
+        }
+      ],
+      "properties": [
+        {
+          "name": "ludys:scope",
+          "value": "runtime"
+        },
+        {
+          "name": "ludys:optional",
+          "value": "false"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "spdx-exceptions",
+      "version": "2.5.0",
+      "purl": "pkg:npm/spdx-exceptions@2.5.0",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "PiU42r+xO4UbUS1buo3LPJkjlO7430Xn5SVAhdpzzsPHsjbYVflnnFdATgabnLude+Cqu25p6N+g2lw/PFsa4w=="
+        }
+      ],
+      "properties": [
+        {
+          "name": "ludys:scope",
+          "value": "runtime"
+        },
+        {
+          "name": "ludys:optional",
+          "value": "false"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "spdx-expression-parse",
+      "version": "3.0.1",
+      "purl": "pkg:npm/spdx-expression-parse@3.0.1",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "cbqHunsQWnJNE6KhVSMsMeH5H/L9EpymbzqTQ3uLwNCLZ1Q481oWaofqH7nO6V07xlXwY6PhQdQ2IedWx/ZK4Q=="
+        }
+      ],
+      "properties": [
+        {
+          "name": "ludys:scope",
+          "value": "runtime"
+        },
+        {
+          "name": "ludys:optional",
+          "value": "false"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "spdx-license-ids",
+      "version": "3.0.23",
+      "purl": "pkg:npm/spdx-license-ids@3.0.23",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "CWLcCCH7VLu13TgOH+r8p1O/Znwhqv/dbb6lqWy67G+pT1kHmeD/+V36AVb/vq8QMIQwVShJ6Ssl5FPh0fuSdw=="
+        }
+      ],
+      "properties": [
+        {
+          "name": "ludys:scope",
+          "value": "runtime"
+        },
+        {
+          "name": "ludys:optional",
+          "value": "false"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "statuses",
+      "version": "2.0.2",
+      "purl": "pkg:npm/statuses@2.0.2",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "DvEy55V3DB7uknRo+4iOGT5fP1slR8wQohVdknigZPMpMstaKJQWhwiYBACJE3Ul2pTnATihhBYnRhZQHGBiRw=="
+        }
+      ],
+      "properties": [
+        {
+          "name": "ludys:scope",
+          "value": "runtime"
+        },
+        {
+          "name": "ludys:optional",
+          "value": "false"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "toidentifier",
+      "version": "1.0.1",
+      "purl": "pkg:npm/toidentifier@1.0.1",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "o5sSPKEkg/DIQNmH43V0/uerLrpzVedkUh8tGNvaeXpfpuwjKenlSox/2O/BTlZUtEe+JG7s5YhEz608PlAHRA=="
+        }
+      ],
+      "properties": [
+        {
+          "name": "ludys:scope",
+          "value": "runtime"
+        },
+        {
+          "name": "ludys:optional",
+          "value": "false"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "type-fest",
+      "version": "4.41.0",
+      "purl": "pkg:npm/type-fest@4.41.0",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "TeTSQ6H5YHvpqVwBRcnLDCBnDOHWYu7IvGbHT6N8AOymcr9PJGjc1GTtiWZTYg0NCgYwvnYWEkVChQAr9bjfwA=="
+        }
+      ],
+      "properties": [
+        {
+          "name": "ludys:scope",
+          "value": "runtime"
+        },
+        {
+          "name": "ludys:optional",
+          "value": "false"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "type-is",
+      "version": "2.1.0",
+      "purl": "pkg:npm/type-is@2.1.0",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "faYHw0anBbc/kWF3zFTEnxSFOAGUX9GFbOBthvDdLsIlEoWOFOtS0zgCiQYwIskL9iGXZL3kAXD8OoZ4GmMATA=="
+        }
+      ],
+      "properties": [
+        {
+          "name": "ludys:scope",
+          "value": "runtime"
+        },
+        {
+          "name": "ludys:optional",
+          "value": "false"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "undici-types",
+      "version": "8.3.0",
+      "purl": "pkg:npm/undici-types@8.3.0",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "j375ScV60dom+YkPFIfTLcOiPxkN/buHz5GobjLhixFuANaNs3C9l4GmrWqejgXWJ7BbJcFYpTEUkS1Ge8bpZQ=="
+        }
+      ],
+      "properties": [
+        {
+          "name": "ludys:scope",
+          "value": "runtime"
+        },
+        {
+          "name": "ludys:optional",
+          "value": "false"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "unicorn-magic",
+      "version": "0.1.0",
+      "purl": "pkg:npm/unicorn-magic@0.1.0",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "lRfVq8fE8gz6QMBuDM6a+LO3IAzTi05H6gCVaUpir2E1Rwpo4ZUog45KpNXKC/Mn3Yb9UDuHumeFTo9iV/D9FQ=="
+        }
+      ],
+      "properties": [
+        {
+          "name": "ludys:scope",
+          "value": "runtime"
+        },
+        {
+          "name": "ludys:optional",
+          "value": "false"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "unpipe",
+      "version": "1.0.0",
+      "purl": "pkg:npm/unpipe@1.0.0",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "pjy2bYhSsufwWlKwPc+l3cN7+wuJlK6uz0YdJEOlQDbl6jo/YlPi4mb8agUkVC8BF7V8NuzeyPNqRksA3hztKQ=="
+        }
+      ],
+      "properties": [
+        {
+          "name": "ludys:scope",
+          "value": "runtime"
+        },
+        {
+          "name": "ludys:optional",
+          "value": "false"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "util",
+      "version": "0.12.5",
+      "purl": "pkg:npm/util@0.12.5",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "kZf/K6hEIrWHI6XqOFUiiMa+79wE/D8Q+NCNAWclkyg3b4d2k7s0QGepNjiABc+aR3N1PAyHL7p6UcLY6LmrnA=="
+        }
+      ],
+      "properties": [
+        {
+          "name": "ludys:scope",
+          "value": "runtime"
+        },
+        {
+          "name": "ludys:optional",
+          "value": "false"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "uuid",
+      "version": "11.1.1",
+      "purl": "pkg:npm/uuid@11.1.1",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "vIYxrBCC/N/K+Js3qSN88go7kIfNPssr/hHCesKCQNAjmgvYS2oqr69kIufEG+O4+PfezOH4EbIeHCfFov8ZgQ=="
+        }
+      ],
+      "properties": [
+        {
+          "name": "ludys:scope",
+          "value": "runtime"
+        },
+        {
+          "name": "ludys:optional",
+          "value": "false"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "validate-npm-package-license",
+      "version": "3.0.4",
+      "purl": "pkg:npm/validate-npm-package-license@3.0.4",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "DpKm2Ui/xN7/HQKCtpZxoRWBhZ9Z0kqtygG8XCgNQ8ZlDnxuQmWhj566j8fN4Cu3/JmbhsDo7fcAJq4s9h27Ew=="
+        }
+      ],
+      "properties": [
+        {
+          "name": "ludys:scope",
+          "value": "runtime"
+        },
+        {
+          "name": "ludys:optional",
+          "value": "false"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "vary",
+      "version": "1.1.2",
+      "purl": "pkg:npm/vary@1.1.2",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "BNGbWLfd0eUPabhkXUVm0j8uuvREyTh5ovRa/dyow/BqAbZJyC+5fU+IzQOzmAKzYqYRAISoRhdQr3eIZ/PXqg=="
+        }
+      ],
+      "properties": [
+        {
+          "name": "ludys:scope",
+          "value": "runtime"
+        },
+        {
+          "name": "ludys:optional",
+          "value": "false"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "which-typed-array",
+      "version": "1.1.22",
+      "purl": "pkg:npm/which-typed-array@1.1.22",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "fvO4ExWMFsqyhG3AiPAObMuY1lxaqgYcxbc49CNdWDDECOJNgQyvsOWVwbZc+qf3rzRtxojBK+CMEv0Ld5CYpw=="
+        }
+      ],
+      "properties": [
+        {
+          "name": "ludys:scope",
+          "value": "runtime"
+        },
+        {
+          "name": "ludys:optional",
+          "value": "false"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "wrappy",
+      "version": "1.0.2",
+      "purl": "pkg:npm/wrappy@1.0.2",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "l4Sp/DRseor9wL6EvV2+TuQn63dMkPjZ/sp9XkghTEbV9KlPS1xUsZ3u7/IQO4wxtcFB4bgpQPRcR3QCvezPcQ=="
+        }
+      ],
+      "properties": [
+        {
+          "name": "ludys:scope",
+          "value": "runtime"
+        },
+        {
+          "name": "ludys:optional",
+          "value": "false"
+        }
+      ]
+    }
+  ]
+}

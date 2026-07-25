@@ -1,0 +1,31 @@
+{
+  "schemaVersion": "wp13.12b-receipt-template-v1",
+  "templateMarker": "UNFILLED_TEMPLATE_NOT_EVIDENCE",
+  "receiptId": "",
+  "receiptType": "PROTECTED_PREVIEW_RECEIPT",
+  "status": "UNFILLED_TEMPLATE_NOT_EVIDENCE",
+  "createdAt": "",
+  "performedBy": "",
+  "environment": "",
+  "sourceCommit": "",
+  "sourceTree": "",
+  "expectedSourceCommit": "",
+  "decisionRecordChecksum": "a5085b3dd4351bb1e6f35718b46f882667bd2e2995bc0e501065e0de6eac8754",
+  "commandsRun": [],
+  "providerResourceIds": {},
+  "proofResults": {},
+  "artifactHashes": {},
+  "limitations": [],
+  "humanSignatureOrExplicitConfirmation": {
+    "confirmed": false,
+    "confirmationText": "",
+    "confirmedAt": ""
+  },
+  "opensB8": false,
+  "authorizesStudentBeta": false,
+  "authorizesProduction": false,
+  "realParticipantData": false,
+  "syntheticOrFabricated": false,
+  "physicalProof": false,
+  "devices": []
+}

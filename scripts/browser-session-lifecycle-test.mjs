@@ -1,5 +1,6 @@
 import assert from "node:assert/strict";
 import { mkdir, mkdtemp, writeFile } from "node:fs/promises";
+import { createServer } from "node:net";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
@@ -11,8 +12,24 @@ import {
 import { resolveBrowserExecutable } from "./browser-executable.mjs";
 
 const repo = fileURLToPath(new URL("..", import.meta.url));
-const serverPort = 4174;
-const debugPort = 9336;
+async function allocateLoopbackPort() {
+  const probe = createServer();
+  await new Promise((resolve, reject) => {
+    probe.once("error", reject);
+    probe.listen(0, "127.0.0.1", resolve);
+  });
+  const address = probe.address();
+  if (address === null || typeof address === "string") {
+    probe.close();
+    throw new Error("Could not allocate a loopback proof port.");
+  }
+  await new Promise((resolve, reject) => probe.close((error) => (
+    error === undefined ? resolve() : reject(error)
+  )));
+  return address.port;
+}
+const serverPort = await allocateLoopbackPort();
+const debugPort = await allocateLoopbackPort();
 const profile = await mkdtemp(join(tmpdir(), "wp13-7a-chromium-"));
 const browserExecutable = resolveBrowserExecutable();
 const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
@@ -103,7 +120,16 @@ try {
       if (await evaluate(expression)) return;
       await wait(50);
     }
-    throw new Error(`Timed out waiting for browser expression: ${expression}`);
+    const diagnostic = await evaluate(`({
+      url: location.href,
+      readyState: document.readyState,
+      title: document.title,
+      lifecycleReady: document.documentElement?.dataset.lifecycleReady,
+      body: document.body?.textContent?.slice(0, 240),
+    })`);
+    throw new Error(
+      `Timed out waiting for browser expression: ${expression}; diagnostic=${JSON.stringify(diagnostic)}`,
+    );
   }
 
   async function pressEnter(selector) {

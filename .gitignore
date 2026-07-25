@@ -11,3 +11,9 @@ artifacts/*
 !artifacts/wp13-10-*.json
 !artifacts/wp13-11-*.json
 !artifacts/wp13-11-*.png
+!artifacts/wp13-12b-*.json
+!artifacts/wp13-12b-*.png
+
+provider/firebase/functions/lib/
+provider/firebase/.emulator-cache/
+.tmp/

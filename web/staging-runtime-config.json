@@ -1,0 +1,7 @@
+{
+  "schemaVersion": "wp13.12b-preview-config-v1",
+  "mode": "LOCAL_SYNTHETIC_FIXTURE",
+  "providerEnabled": false,
+  "cloudResources": 0,
+  "externalProviderCalls": false
+}

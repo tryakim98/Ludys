@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { createHash } from "node:crypto";
-import { cp, mkdtemp, readFile, readdir, rm, stat, writeFile } from "node:fs/promises";
+import { cp, mkdir, mkdtemp, readFile, readdir, rm, stat, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { basename, dirname, join, relative } from "node:path";
 import { spawnSync } from "node:child_process";
@@ -11,9 +11,18 @@ const npmCli = process.env.npm_execpath ?? (process.platform === "win32"
   ? join(dirname(process.execPath), "node_modules", "npm", "bin", "npm-cli.js")
   : undefined);
 const writeEvidence = process.argv.includes("--write-evidence");
-const inputs = ["src", "tests", "scripts", "web", "package.json", "package-lock.json", "tsconfig.json"];
-const generatedEvidencePath = join(root, "artifacts", "wp13-12a-reproducible-build-result.json");
-const committedEvidencePath = join(root, "release", "wp13-12a", "reproducible-build.json");
+const inputs = [
+  "src",
+  "tests",
+  "scripts",
+  "web",
+  "provider/firebase/functions/src",
+  "package.json",
+  "package-lock.json",
+  "tsconfig.json",
+];
+const generatedEvidencePath = join(root, "artifacts", "wp13-12b-reproducible-build-result.json");
+const committedEvidencePath = join(root, "release", "wp13-12b", "reproducible-build.json");
 
 async function collect(directory) {
   const entries = await readdir(directory, { withFileTypes: true });
@@ -50,9 +59,12 @@ function runNpm(directory, args) {
 const copies = [];
 try {
   for (const label of ["a", "b"]) {
-    const directory = await mkdtemp(join(tmpdir(), `wp13-12a-clean-build-${label}-`));
+    const directory = await mkdtemp(join(tmpdir(), `wp13-12b-clean-build-${label}-`));
     copies.push(directory);
-    for (const input of inputs) await cp(join(root, input), join(directory, input), { recursive: true });
+    for (const input of inputs) {
+      await mkdir(dirname(join(directory, input)), { recursive: true });
+      await cp(join(root, input), join(directory, input), { recursive: true });
+    }
     runNpm(directory, ["ci", "--offline", "--ignore-scripts", "--audit=false", "--fund=false"]);
     runNpm(directory, ["run", "build"]);
   }
@@ -74,12 +86,15 @@ try {
     "utf8",
   ).catch(() => "{}"));
   if (writeEvidence) {
+    await mkdir(dirname(generatedEvidencePath), { recursive: true });
+    await mkdir(dirname(committedEvidencePath), { recursive: true });
     await writeFile(generatedEvidencePath, `${JSON.stringify(evidence, null, 2)}\n`, "utf8");
+    await writeFile(committedEvidencePath, `${JSON.stringify(evidence, null, 2)}\n`, "utf8");
   } else {
     assert.equal(recorded.status, "VERIFIED_IDENTICAL", "recorded reproducible-build evidence is missing");
     assert.equal(recorded.distSha256, evidence.distSha256, "current clean-copy digest differs from recorded evidence");
   }
-  console.log(`WP13.12A reproducible build passed: ${digests[0]} (${copies.length} independent clean copies).`);
+  console.log(`WP13.12B reproducible build passed: ${digests[0]} (${copies.length} independent clean copies).`);
 } finally {
   for (const directory of copies) await rm(directory, { recursive: true, force: true, maxRetries: 5, retryDelay: 200 });
 }
