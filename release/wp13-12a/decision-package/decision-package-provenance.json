@@ -13,6 +13,10 @@
   "providerAccountsAccessed": false,
   "timestampPolicy": "FIXED_CHECK_DATE_AND_CONTENT_ONLY_DIGESTS",
   "checksumPolicy": "SHA256_CANONICAL_LF_UTF8_TEXT_RAW_BINARY",
+  "ownerDecisionSourceCommit": "929674d8a159ebd9ac6026c066f5dd044ebcea62",
+  "ownerDecisionSourceTree": "b1630a612bf176ccb121aa3e7d50d545f6f72b60",
+  "ownerDecisionSourcePackageChecksum": "f3830a640fd901f193279ed99338d923848acaef662e79e8a831e870a7813de7",
+  "ownerDecisionRegistrationCreatesCloudResources": false,
   "buildCommands": [
     "npm run build",
     "npm run provider:decision:generate",

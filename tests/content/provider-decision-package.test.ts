@@ -17,11 +17,12 @@ test("WP13.12A evaluates exactly the five mandatory provider options", () => {
   assert.equal(decision.recommendedOptionId, "FIREBASE_CAPABILITY");
 });
 
-test("recommendation is source-grounded but remains an unselected technical recommendation", () => {
+test("source-grounded recommendation is explicitly selected without opening provider activation", () => {
   const recommended = decision.providerOptions.find((item) => item.optionId === decision.recommendedOptionId);
   assert.ok(recommended);
   assert.ok(recommended.sourceIds.length >= 8);
-  assert.equal(decision.authorization.ownerDecision, "PENDING_OWNER_ACTION");
+  assert.equal(decision.authorization.ownerDecision, "APPROVE_RECOMMENDED_SYNTHETIC_DEV");
+  assert.equal(decision.authorization.packageStatus, "OWNER_DECISION_RECORDED");
   assert.equal(decision.authorization.providerActivation, "BLOCKED");
   assert.equal(decision.authorization.cloudResources, 0);
 });
@@ -32,6 +33,22 @@ test("region analysis re-verifies a co-located europe-north1 candidate without l
   assert.equal(row.colocated, true);
   assert.equal(row.immutableAfterProvisioning, true);
   assert.equal(decision.regionLockNotExecuted, true);
+});
+
+test("owner decision is bound to the source package and preserves every approved scope ceiling", () => {
+  const record = decision.ownerDecisionRecord;
+  assert.equal(record.decision, "APPROVE_RECOMMENDED_SYNTHETIC_DEV");
+  assert.equal(record.selectedOption, "FIREBASE_CAPABILITY");
+  assert.equal(record.selectedRegionStatus, "SELECTED_CANDIDATE_NOT_PROVISIONED_OR_LOCKED");
+  assert.equal(record.signatureOrExplicitOwnerConfirmation.explicitOwnerConfirmationPresent, true);
+  assert.equal(record.signatureOrExplicitOwnerConfirmation.signaturePresent, false);
+  assert.equal(record.effects.opensWp13_12b, false);
+  assert.equal(record.effects.activatesProvider, false);
+  assert.equal(record.effects.createsCloudResources, false);
+  assert.equal(record.effects.realDataOrParticipantUseAuthorized, false);
+  assert.equal(record.effects.wp13_12bStopPoint, "DOCUMENTED_TECHNICAL_STAGING_PROOF");
+  assert.ok(record.conditions.includes("NO_ANALYTICS_CRASHLYTICS_REMOTE_CONFIG_OR_CLOUD_STORAGE"));
+  assert.ok(record.acknowledgedOpenRisks.every((risk) => risk.endsWith("_NOT_SET") || risk.includes("NOT_RESOLVED") || risk.includes("MUST_BE_REVERIFIED")));
 });
 
 test("all capability models are explicit and the recommendation creates no account identity", () => {
@@ -69,7 +86,7 @@ test("BM and NN are separate complete review-required bundles without fallback",
 
 test("all official sources are current primary URLs with explicit decision limits", () => {
   assert.equal(decision.officialSources.length, 28);
-  assert.ok(decision.officialSources.every((item) => item.checkedAt === "2026-07-23"));
+  assert.ok(decision.officialSources.every((item) => item.checkedAt === "2026-07-25"));
   assert.ok(decision.officialSources.every((item) => item.officialUrl.startsWith("https://")));
   assert.ok(decision.officialSources.every((item) => item.cannotDecide.length >= 3));
 });

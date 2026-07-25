@@ -2,10 +2,11 @@
 
 ## Resultat
 
-WP13.12A leverer et kildebelagt, maskinlesbart og lokalt verifisert beslutningsgrunnlag for produkteier. Pakken er `READY_FOR_OWNER_DECISION`, men ingen eierbeslutning er gjort:
+WP13.12A leverer et kildebelagt, maskinlesbart og lokalt verifisert beslutningsgrunnlag for produkteier. Den eksplisitte produkteierbeslutningen er nå registrert uten å åpne neste arbeidspakke:
 
 ```text
-OWNER_DECISION = PENDING_OWNER_ACTION
+PACKAGE_STATUS = OWNER_DECISION_RECORDED
+OWNER_DECISION = APPROVE_RECOMMENDED_SYNTHETIC_DEV
 PROVIDER_ACTIVATION = BLOCKED
 CLOUD_RESOURCES = 0
 EXTERNAL_RECEIPTS = 0
@@ -53,11 +54,11 @@ Før første kildeendring var arbeidstreet rent, én worktree var registrert, in
 | `SELF_HOSTED` | Krever mer evidens | Kan være capability | Ja | Høy | Lav–medium | Større kontroll, men uavklart provider, patching, IAM, DPA og kost |
 | `LUDUS_REUSE` | No-go | Uavklart cross-product-identitet | Nei | Uakseptabel | Uakseptabel | Cross-product provider-, credential- og kodegjenbruk er forbudt |
 
-Anbefalingen er en teknisk kandidat, ikke et valg. Produkteiermalen er blank, og validatoren avviser automatisk godkjenning, signatur eller utfylte eierfelt.
+Anbefalingen er valgt av produkteier for et senere, isolert og tidsbegrenset syntetisk stagingproof. Den blanke malen beholdes uendret som proveniens, mens den eksplisitte beslutningen ligger separat og checksum-bundet. Valget er ikke provideraktivering.
 
 ## Anbefalt teknisk minimum
 
-Den minste anbefalte eksterne dev-arkitekturen, dersom produkteier senere godkjenner den, er:
+Den valgte tekniske retningen for en eventuell senere WP13.12B er:
 
 1. Vercel-beskyttet preview for den statiske appflaten.
 2. Regional Cloud Firestore Standard i `europe-north1`.
@@ -97,7 +98,7 @@ Sju trust boundaries dekker preview, klient/handler, handler/store, handler/pure
 
 ## Dataklasser
 
-Tillatte kandidater er kun syntetiske og betinget av senere eierbeslutning: sessionreferanse, syntetisk rolle, stateversjon, authority generation, lukket kommandotype, syntetisk state, minimum rolleprojeksjon, expiry, tombstone, release-ID og grov teknisk eventkode.
+Tillatte kandidater er kun syntetiske og betinget av en separat WP13.12B-implementeringsprompt: sessionreferanse, syntetisk rolle, stateversjon, authority generation, lukket kommandotype, syntetisk state, minimum rolleprojeksjon, expiry, tombstone, release-ID og grov teknisk eventkode.
 
 Navn, e-post, telefon, skole, studentnummer, fødselsdato, diagnose, helse, stabil UID, tenant, fritekst om deltaker, lyd, video, bilde, mikrofon, kamera, ekte læringsrespons, kryssøktprofil, engagement, analytics-ID, replay, heatmap og fingerprint er `NOT_COLLECTED` og `NOT_AUTHORIZED`.
 
@@ -119,7 +120,7 @@ Runtime- og deployidentitet skal være separate og least-privilege. Broad owner-
 
 ## Kost og kill switch
 
-Kostradene er retningsgivende, ikke garantier. Billing alerts er ikke harde tak. Produkteier må eksplisitt fylle:
+Kostradene er retningsgivende, ikke garantier. Billing alerts er ikke harde tak. Følgende pre-provisioning-felt ble ikke oppgitt i beslutningen og må fylles før en provider kan aktiveres:
 
 - månedlig alertgrense i NOK
 - maksimalt akseptert månedlig kost
@@ -128,13 +129,13 @@ Kostradene er retningsgivende, ikke garantier. Billing alerts er ikke harde tak.
 - utløpsdato for staging
 - automatisk slettingspolicy
 
-Alle står `PENDING_OWNER_ACTION`.
+Alle står `UNRESOLVED_MUST_BE_SET_BEFORE_PROVISIONING`. Dette ugyldiggjør ikke retningsvalget, men blokkerer provisioning.
 
 ## Trusler og no-go
 
 Trusselmodellen har 21 obligatoriske trusler, blant annet capability theft/replay, direct write bypass, stale revision/authority, resurrection, logglekkasje, overprivilegert IAM, secret leakage, misconfigurasjon, kostoverskridelse, denial-of-wallet, provider outage, region drift, supply chain, support/subprocessor access og feilaktig eier-/B8-autorisasjon.
 
-No-go-registeret har 19 obligatoriske stoppsignaler. Det stanser blant annet manglende eierbeslutning, uavklart DPA/DPIA/skoleeier, stabil elevidentitet, direkte klientskriv, payloadlogging, browser secrets, manglende kostgrense/kill-switch, manglende exit, resurrection-proof-feil, manglende BM/NN-review og enhver implicit studentbeta/produksjon.
+No-go-registeret har 19 obligatoriske stoppsignaler. Det stanser blant annet uavklart DPA/DPIA/skoleeier, stabil elevidentitet, direkte klientskriv, payloadlogging, browser secrets, manglende kostgrense/kill-switch, manglende exit, resurrection-proof-feil, manglende BM/NN-review og enhver implicit studentbeta/produksjon.
 
 ## Juridiske og operative restspørsmål
 
@@ -151,7 +152,7 @@ Pakken dokumenterer, men avgjør ikke:
 
 Ingen kilde eller teknisk test kan erstatte de ansvarlige menneskelige beslutningene.
 
-## Offisielle kilder kontrollert 2026-07-23
+## Offisielle kilder kontrollert 2026-07-25
 
 Kilderegisteret har 28 primærkilder med faktum, begrensning og reverifiseringstrigger. Sentrale eksempler:
 
@@ -170,14 +171,14 @@ Fullt register ligger i `release/wp13-12a/decision-package/official-source-regis
 
 ## Artefakter og UI
 
-`release/wp13-12a/decision-package/` inneholder provider-/region-/capabilitymatriser, dataflyt/trust, role model, datagrense, DPA/DPIA-register, retention, logging, IAM, kost, trussel, migration/exit, deployment-runbook, no-go, autorisasjon, kilder, validatorresultat, checksums, proveniens, limitations, locale-bundles, rollbackregister, componentmanifest og blank eiermal.
+`release/wp13-12a/decision-package/` inneholder provider-/region-/capabilitymatriser, dataflyt/trust, role model, datagrense, DPA/DPIA-register, retention, logging, IAM, kost, trussel, migration/exit, deployment-runbook, no-go, autorisasjon, kilder, validatorresultat, checksums, proveniens, limitations, locale-bundles, rollbackregister, componentmanifest, blank eiermal og registrert eierbeslutning i både JSON og Markdown.
 
 Den integrerte UI-flaten viser alle deler i separate BM-/NN-bundles. Den kan lokalt eksportere et deterministisk dossier og en blank eiermal. Den kan ikke aktivere provider eller utføre eksterne handlinger.
 
 ## Verifikasjonsstatus før finalrundene
 
-- 203/203 kompilerte tester bestått
-- WP13.12A målrettet: 55/55
+- 207/207 kompilerte tester bestått
+- WP13.12A målrettet: 59/59
 - WP13.10 rollback/reliability: 13/13
 - WP13.11: 18/18
 - browser cleanup: 11/11
@@ -185,20 +186,21 @@ Den integrerte UI-flaten viser alle deler i separate BM-/NN-bundles. Den kan lok
 - alle elleve lokale Chromium/Edge-bevis bestått
 - beslutningsbrowser: 320 px, 200 %, touch, tastatur, fokusrekkefølge, forced colors, reduced motion, AX tree og 0 eksterne kall
 - secret scan: bestått
-- security/release: 28 checksum-bundne WP13.12A-artefakter bestått
+- security/release: 30 checksum-bundne WP13.12A-artefakter bestått
 - CycloneDX SBOM: 0 runtime dependencies
 - lisensinventar: 0 unresolved
-- reproduserbar dist-SHA-256: `78d9dfb53bb244570a9533f04778f1526816a0d2c35c153edbe8253979b212d5`
+- reproduserbar dist-SHA-256: `7e7bfef06b1fa3276b7742d82cdd57142864ff046a78e93e91db3653dec1c46a`
 
 Finalkandidaten skal i tillegg bestå tre komplette `npm run check:release`-runder på samme frosne kilde. Eksakt resultat bindes av commit, draft-PR og CI; dokumentet fabricerer ikke disse før de finnes.
 
-## Produkteierens neste handling
+## Neste autoriserte steg
 
-Produkteier må bruke den blanke malen og enten avvise, utsette eller eksplisitt velge provider, region og capability sammen med kostgrenser, navngitte ansvar, juridiske/operative avklaringer og godkjente rest-risikoer. Før det er gjort, skal status forbli:
+Beslutningsregistreringen er fullført. En separat implementeringsprompt kan senere åpne WP13.12B, men først må kostgrenser, navngitte ansvar, stagingutløp og automatisk sletting avklares. WP13.12B skal begrenses til isolert, tidsbegrenset og syntetisk staging og stoppe etter dokumentert teknisk stagingproof. Gjeldende status er:
 
 ```text
-READY_FOR_OWNER_DECISION
-PENDING_OWNER_ACTION
+OWNER_DECISION_RECORDED
+APPROVE_RECOMMENDED_SYNTHETIC_DEV
 PROVIDER_ACTIVATION = BLOCKED
 CLOUD_RESOURCES = 0
+WP13.12B = BLOCKED
 ```

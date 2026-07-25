@@ -1,5 +1,30 @@
 export const PROVIDER_DECISION_SCHEMA_VERSION = "wp13.12a-provider-decision-v1" as const;
 export const PROVIDER_DECISION_RELEASE_ID = "wp13-12a-provider-decision-r1" as const;
+export const OWNER_DECISION_APPROVAL = "APPROVE_RECOMMENDED_SYNTHETIC_DEV" as const;
+export const UNRESOLVED_PRE_PROVISIONING = "UNRESOLVED_MUST_BE_SET_BEFORE_PROVISIONING" as const;
+
+export const REQUIRED_OWNER_DECISION_CONDITIONS = [
+  "ISOLATED_AND_TIME_LIMITED_SYNTHETIC_STAGING_ONLY",
+  "FIREBASE_CAPABILITY_ONLY_NO_STABLE_ACCOUNT_OR_ANONYMOUS_AUTH",
+  "NO_REAL_PARTICIPANT_SCHOOL_HEALTH_AUDIO_OR_DIAGNOSIS_DATA",
+  "NO_DIRECT_CLIENT_WRITE_TO_AUTHORITATIVE_STATE",
+  "NO_ANALYTICS_CRASHLYTICS_REMOTE_CONFIG_OR_CLOUD_STORAGE",
+  "PROVIDER_ACTIVATION_ONLY_WITHIN_WP13_12B",
+  "WP13_12B_STOPS_AFTER_DOCUMENTED_TECHNICAL_STAGING_PROOF",
+  "STUDENT_BETA_B8_RECRUITMENT_AND_PRODUCTION_REMAIN_BLOCKED",
+  "SEPARATE_IMPLEMENTATION_PROMPT_REQUIRED_TO_OPEN_WP13_12B",
+] as const;
+
+export const REQUIRED_OWNER_DECISION_OPEN_RISKS = [
+  "MONTHLY_ALERT_THRESHOLD_NOT_SET",
+  "MAXIMUM_MONTHLY_COST_NOT_SET",
+  "KILL_SWITCH_OWNER_NOT_SET",
+  "BILLING_REVIEWER_NOT_SET",
+  "STAGING_EXPIRY_DATE_NOT_SET",
+  "AUTOMATIC_DELETION_POLICY_NOT_SET",
+  "LEGAL_DPA_DPIA_AND_SCHOOL_OWNER_REVIEWS_NOT_RESOLVED",
+  "PROVIDER_FACTS_PRICING_AND_REGION_MUST_BE_REVERIFIED_BEFORE_PROVISIONING",
+] as const;
 
 export const REQUIRED_PROVIDER_OPTIONS = [
   "LOCAL_ONLY",
@@ -142,8 +167,8 @@ export interface CapabilityOption {
 }
 
 export interface ProviderDecisionAuthorization {
-  readonly packageStatus: "READY_FOR_OWNER_DECISION";
-  readonly ownerDecision: "PENDING_OWNER_ACTION";
+  readonly packageStatus: "OWNER_DECISION_RECORDED";
+  readonly ownerDecision: typeof OWNER_DECISION_APPROVAL;
   readonly providerActivation: "BLOCKED";
   readonly cloudResources: 0;
   readonly externalReceipts: 0;
@@ -155,6 +180,51 @@ export interface ProviderDecisionAuthorization {
   readonly realParticipantData: "NOT_AUTHORIZED";
   readonly production: "NOT_AUTHORIZED";
   readonly runtimeAi: "NOT_PRESENT";
+}
+
+export interface ProviderOwnerDecisionRecord {
+  readonly schemaVersion: "wp13.12a-owner-decision-v1";
+  readonly decisionId: "wp13-12a-owner-decision-2026-07-25-r1";
+  readonly decision: typeof OWNER_DECISION_APPROVAL;
+  readonly decisionDate: "2026-07-25";
+  readonly productOwnerNameOrReference: "EXPLICIT_USER_CONFIRMATION_IN_CURRENT_CODEX_TASK";
+  readonly selectedOption: "FIREBASE_CAPABILITY";
+  readonly selectedRegion: "europe-north1";
+  readonly selectedRegionStatus: "SELECTED_CANDIDATE_NOT_PROVISIONED_OR_LOCKED";
+  readonly selectedCapabilityModel: "FUNCTION_ISSUED_SHORT_LIVED_SESSION_CAPABILITY";
+  readonly monthlyAlertThreshold: typeof UNRESOLVED_PRE_PROVISIONING;
+  readonly maximumMonthlyCost: typeof UNRESOLVED_PRE_PROVISIONING;
+  readonly killSwitchOwner: typeof UNRESOLVED_PRE_PROVISIONING;
+  readonly billingReviewer: typeof UNRESOLVED_PRE_PROVISIONING;
+  readonly stagingExpiryDate: typeof UNRESOLVED_PRE_PROVISIONING;
+  readonly automaticDeletionPolicy: typeof UNRESOLVED_PRE_PROVISIONING;
+  readonly conditions: readonly string[];
+  readonly acknowledgedOpenRisks: readonly string[];
+  readonly signatureOrExplicitOwnerConfirmation: {
+    readonly kind: "EXPLICIT_OWNER_CONFIRMATION";
+    readonly confirmationText: "Jeg beslutter APPROVE_RECOMMENDED_SYNTHETIC_DEV med de oppgitte grensene.";
+    readonly confirmationReference: "CURRENT_CODEX_TASK_USER_MESSAGE_2026_07_25";
+    readonly explicitOwnerConfirmationPresent: true;
+    readonly signaturePresent: false;
+  };
+  readonly sourcePackageVersion: "13.12A.1";
+  readonly sourcePackageChecksum: "f3830a640fd901f193279ed99338d923848acaef662e79e8a831e870a7813de7";
+  readonly sourcePackageChecksumTarget: "release/wp13-12a/decision-package/artifact-checksums.sha256";
+  readonly sourceCommit: "929674d8a159ebd9ac6026c066f5dd044ebcea62";
+  readonly sourceTree: "b1630a612bf176ccb121aa3e7d50d545f6f72b60";
+  readonly effects: {
+    readonly recordsOwnerDecisionOnly: true;
+    readonly opensWp13_12b: false;
+    readonly activatesProvider: false;
+    readonly createsCloudResources: false;
+    readonly nextAuthorizedScope: "SEPARATE_WP13_12B_IMPLEMENTATION_PROMPT_ONLY";
+    readonly wp13_12bStopPoint: "DOCUMENTED_TECHNICAL_STAGING_PROOF";
+    readonly realDataOrParticipantUseAuthorized: false;
+    readonly studentBetaAuthorized: false;
+    readonly b8Authorized: false;
+    readonly recruitmentAuthorized: false;
+    readonly productionAuthorized: false;
+  };
 }
 
 export interface ProviderDecisionPackage {
@@ -308,12 +378,12 @@ export interface ProviderDecisionPackage {
       readonly sourceIds: readonly string[];
     }[];
     readonly ownerFields: {
-      readonly monthlyAlertThresholdNOK: "PENDING_OWNER_ACTION";
-      readonly maximumAcceptedMonthlyCostNOK: "PENDING_OWNER_ACTION";
-      readonly killSwitchOwner: "PENDING_OWNER_ACTION";
-      readonly billingReviewer: "PENDING_OWNER_ACTION";
-      readonly stagingExpiryDate: "PENDING_OWNER_ACTION";
-      readonly automaticDeletionPolicy: "PENDING_OWNER_ACTION";
+      readonly monthlyAlertThresholdNOK: typeof UNRESOLVED_PRE_PROVISIONING;
+      readonly maximumAcceptedMonthlyCostNOK: typeof UNRESOLVED_PRE_PROVISIONING;
+      readonly killSwitchOwner: typeof UNRESOLVED_PRE_PROVISIONING;
+      readonly billingReviewer: typeof UNRESOLVED_PRE_PROVISIONING;
+      readonly stagingExpiryDate: typeof UNRESOLVED_PRE_PROVISIONING;
+      readonly automaticDeletionPolicy: typeof UNRESOLVED_PRE_PROVISIONING;
     };
   };
   readonly threats: readonly {
@@ -368,6 +438,7 @@ export interface ProviderDecisionPackage {
     readonly signaturePresent: false;
     readonly explicitOwnerConfirmationPresent: false;
   };
+  readonly ownerDecisionRecord: ProviderOwnerDecisionRecord;
   readonly officialSources: readonly OfficialDecisionSource[];
   readonly authorization: ProviderDecisionAuthorization;
   readonly releaseComponents: {
@@ -385,8 +456,8 @@ export interface ProviderDecisionValidation {
   readonly valid: boolean;
   readonly errors: readonly string[];
   readonly warnings: readonly string[];
-  readonly packageStatus: "READY_FOR_OWNER_DECISION" | "INVALID";
-  readonly ownerDecision: "PENDING_OWNER_ACTION";
+  readonly packageStatus: "OWNER_DECISION_RECORDED" | "INVALID";
+  readonly ownerDecision: typeof OWNER_DECISION_APPROVAL;
   readonly providerActivation: "BLOCKED";
   readonly cloudResources: 0;
   readonly externalReceipts: 0;
@@ -482,9 +553,9 @@ export function validateProviderDecisionPackage(pkg: ProviderDecisionPackage): P
   ];
   if (
     !exactSet(Object.keys(pkg.costModel.ownerFields), requiredCostOwnerFields) ||
-    Object.values(pkg.costModel.ownerFields).some((value) => value !== "PENDING_OWNER_ACTION")
+    Object.values(pkg.costModel.ownerFields).some((value) => value !== UNRESOLVED_PRE_PROVISIONING)
   ) {
-    errors.push("owner cost fields were fabricated");
+    errors.push("unresolved owner cost fields were fabricated or omitted");
   }
   if (!exactSet(pkg.threats.map((threat) => threat.threatId), REQUIRED_THREATS)) errors.push("threat model delta is incomplete");
   if (pkg.threats.some((threat) => threat.residualRisk.trim() === "" || threat.affectedBoundary.length === 0)) errors.push("threat residual risk is hidden");
@@ -497,7 +568,7 @@ export function validateProviderDecisionPackage(pkg: ProviderDecisionPackage): P
   }
   if (!exactSet(pkg.noGo.map((item) => item.noGoId), REQUIRED_NO_GO)) errors.push("no-go register is incomplete");
   if (!pkg.ownerDecisionTemplate.blank || pkg.ownerDecisionTemplate.signaturePresent || pkg.ownerDecisionTemplate.explicitOwnerConfirmationPresent) {
-    errors.push("owner decision or signature was fabricated");
+    errors.push("blank owner decision template or signature provenance is invalid");
   }
   const requiredOwnerFields = [
     "decisionId", "decision", "decisionDate", "productOwnerNameOrReference", "selectedOption",
@@ -506,13 +577,84 @@ export function validateProviderDecisionPackage(pkg: ProviderDecisionPackage): P
     "signatureOrExplicitOwnerConfirmation", "sourcePackageVersion", "sourcePackageChecksum",
   ];
   if (!exactSet(pkg.ownerDecisionTemplate.requiredFields, requiredOwnerFields)) errors.push("owner decision template fields are incomplete");
+  const ownerDecision = pkg.ownerDecisionRecord;
+  if (
+    ownerDecision.schemaVersion !== "wp13.12a-owner-decision-v1" ||
+    ownerDecision.decisionId !== "wp13-12a-owner-decision-2026-07-25-r1" ||
+    ownerDecision.decision !== OWNER_DECISION_APPROVAL ||
+    ownerDecision.decisionDate !== "2026-07-25" ||
+    ownerDecision.productOwnerNameOrReference !== "EXPLICIT_USER_CONFIRMATION_IN_CURRENT_CODEX_TASK"
+  ) {
+    errors.push("owner decision record identity or explicit confirmation reference is invalid");
+  }
+  if (
+    ownerDecision.selectedOption !== pkg.recommendedOptionId ||
+    ownerDecision.selectedRegion !== pkg.recommendedRegion ||
+    ownerDecision.selectedRegionStatus !== "SELECTED_CANDIDATE_NOT_PROVISIONED_OR_LOCKED" ||
+    ownerDecision.selectedCapabilityModel !== pkg.recommendedCapabilityOptionId
+  ) {
+    errors.push("owner decision selection is not bound to the recommended option, region and capability");
+  }
+  const unresolvedOwnerFields = [
+    ownerDecision.monthlyAlertThreshold,
+    ownerDecision.maximumMonthlyCost,
+    ownerDecision.killSwitchOwner,
+    ownerDecision.billingReviewer,
+    ownerDecision.stagingExpiryDate,
+    ownerDecision.automaticDeletionPolicy,
+  ];
+  if (unresolvedOwnerFields.some((value) => value !== UNRESOLVED_PRE_PROVISIONING)) {
+    errors.push("unresolved pre-provisioning owner fields were fabricated or omitted");
+  }
+  if (!exactSet(ownerDecision.conditions, REQUIRED_OWNER_DECISION_CONDITIONS)) {
+    errors.push("owner decision conditions do not preserve the approved boundaries");
+  }
+  if (!exactSet(ownerDecision.acknowledgedOpenRisks, REQUIRED_OWNER_DECISION_OPEN_RISKS)) {
+    errors.push("owner decision open risks or pre-provisioning blockers are incomplete");
+  }
+  const confirmation = ownerDecision.signatureOrExplicitOwnerConfirmation;
+  if (
+    confirmation.kind !== "EXPLICIT_OWNER_CONFIRMATION" ||
+    confirmation.confirmationText !== "Jeg beslutter APPROVE_RECOMMENDED_SYNTHETIC_DEV med de oppgitte grensene." ||
+    confirmation.confirmationReference !== "CURRENT_CODEX_TASK_USER_MESSAGE_2026_07_25" ||
+    !confirmation.explicitOwnerConfirmationPresent ||
+    confirmation.signaturePresent
+  ) {
+    errors.push("explicit owner confirmation is missing or a signature was fabricated");
+  }
+  if (
+    ownerDecision.sourcePackageVersion !== pkg.packageVersion ||
+    ownerDecision.sourcePackageChecksum !== "f3830a640fd901f193279ed99338d923848acaef662e79e8a831e870a7813de7" ||
+    ownerDecision.sourcePackageChecksumTarget !== "release/wp13-12a/decision-package/artifact-checksums.sha256" ||
+    ownerDecision.sourceCommit !== "929674d8a159ebd9ac6026c066f5dd044ebcea62" ||
+    ownerDecision.sourceTree !== "b1630a612bf176ccb121aa3e7d50d545f6f72b60"
+  ) {
+    errors.push("owner decision source package provenance is invalid");
+  }
+  if (
+    !ownerDecision.effects.recordsOwnerDecisionOnly ||
+    ownerDecision.effects.opensWp13_12b ||
+    ownerDecision.effects.activatesProvider ||
+    ownerDecision.effects.createsCloudResources ||
+    ownerDecision.effects.nextAuthorizedScope !== "SEPARATE_WP13_12B_IMPLEMENTATION_PROMPT_ONLY" ||
+    ownerDecision.effects.wp13_12bStopPoint !== "DOCUMENTED_TECHNICAL_STAGING_PROOF" ||
+    ownerDecision.effects.realDataOrParticipantUseAuthorized ||
+    ownerDecision.effects.studentBetaAuthorized ||
+    ownerDecision.effects.b8Authorized ||
+    ownerDecision.effects.recruitmentAuthorized ||
+    ownerDecision.effects.productionAuthorized
+  ) {
+    errors.push("owner decision effects opened WP13.12B, provider, participant or production scope");
+  }
   if (pkg.officialSources.length < 15) errors.push("official source register is incomplete");
   for (const source of pkg.officialSources) {
     if (!/^https:\/\//.test(source.officialUrl) || source.factsSupported.length === 0 || source.cannotDecide.length === 0) errors.push(`${source.sourceId} is incomplete`);
     if (!/^\d{4}-\d{2}-\d{2}$/.test(source.checkedAt) || source.reverificationRequiredBefore.trim() === "") errors.push(`${source.sourceId} is undated`);
   }
   const authorization = pkg.authorization;
-  if (authorization.ownerDecision !== "PENDING_OWNER_ACTION") errors.push("owner decision must remain pending");
+  if (authorization.packageStatus !== "OWNER_DECISION_RECORDED" || authorization.ownerDecision !== OWNER_DECISION_APPROVAL) {
+    errors.push("owner decision authorization does not match the recorded approval");
+  }
   if (authorization.providerActivation !== "BLOCKED" || authorization.cloudResources !== 0) errors.push("provider activation or cloud resources boundary opened");
   if (authorization.externalReceipts !== 0 || authorization.b8 !== "NOT_DECISION_READY" || authorization.wp13_12b !== "BLOCKED") errors.push("receipt, B8 or WP13.12B boundary opened");
   if (authorization.studentBeta !== "NOT_AUTHORIZED" || authorization.production !== "NOT_AUTHORIZED" || authorization.realParticipantData !== "NOT_AUTHORIZED") errors.push("student, production or real-data authorization opened");
@@ -523,8 +665,8 @@ export function validateProviderDecisionPackage(pkg: ProviderDecisionPackage): P
     valid: errors.length === 0,
     errors,
     warnings,
-    packageStatus: errors.length === 0 ? "READY_FOR_OWNER_DECISION" : "INVALID",
-    ownerDecision: "PENDING_OWNER_ACTION",
+    packageStatus: errors.length === 0 ? "OWNER_DECISION_RECORDED" : "INVALID",
+    ownerDecision: OWNER_DECISION_APPROVAL,
     providerActivation: "BLOCKED",
     cloudResources: 0,
     externalReceipts: 0,

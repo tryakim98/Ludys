@@ -20,7 +20,7 @@
         "Usage-priced services; verify current regional SKUs",
         "Provider free allowances are not a billing guarantee"
       ],
-      "estimate": "Likely low at bounded synthetic traffic, but PENDING_OWNER_ACTION for limit",
+      "estimate": "Likely low at bounded synthetic traffic, but cost limit remains unresolved before provisioning",
       "estimateIsGuarantee": false,
       "billingAlertIsHardCap": false,
       "hardCapAvailability": "Google budgets are alerts; quotas and an explicit kill switch are separate controls",
@@ -39,7 +39,7 @@
         "Usage-priced services; verify current regional SKUs",
         "Provider free allowances are not a billing guarantee"
       ],
-      "estimate": "Likely low at bounded synthetic traffic, but PENDING_OWNER_ACTION for limit",
+      "estimate": "Likely low at bounded synthetic traffic, but cost limit remains unresolved before provisioning",
       "estimateIsGuarantee": false,
       "billingAlertIsHardCap": false,
       "hardCapAvailability": "Provider-specific verification required",
@@ -75,11 +75,11 @@
     }
   ],
   "ownerFields": {
-    "monthlyAlertThresholdNOK": "PENDING_OWNER_ACTION",
-    "maximumAcceptedMonthlyCostNOK": "PENDING_OWNER_ACTION",
-    "killSwitchOwner": "PENDING_OWNER_ACTION",
-    "billingReviewer": "PENDING_OWNER_ACTION",
-    "stagingExpiryDate": "PENDING_OWNER_ACTION",
-    "automaticDeletionPolicy": "PENDING_OWNER_ACTION"
+    "monthlyAlertThresholdNOK": "UNRESOLVED_MUST_BE_SET_BEFORE_PROVISIONING",
+    "maximumAcceptedMonthlyCostNOK": "UNRESOLVED_MUST_BE_SET_BEFORE_PROVISIONING",
+    "killSwitchOwner": "UNRESOLVED_MUST_BE_SET_BEFORE_PROVISIONING",
+    "billingReviewer": "UNRESOLVED_MUST_BE_SET_BEFORE_PROVISIONING",
+    "stagingExpiryDate": "UNRESOLVED_MUST_BE_SET_BEFORE_PROVISIONING",
+    "automaticDeletionPolicy": "UNRESOLVED_MUST_BE_SET_BEFORE_PROVISIONING"
   }
 }

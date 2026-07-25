@@ -6,14 +6,14 @@
       "locale": "nb",
       "humanReviewStatus": "REVIEW_REQUIRED",
       "title": "Providerbeslutning",
-      "recommendationLabel": "Teknisk anbefaling – ikke valgt",
+      "recommendationLabel": "Valgt teknisk retning – ikke aktivert",
       "recommendationRationale": [
         "Kortlivet capability for én syntetisk økt",
         "Regional samlokalisering i Finland",
         "Serverkontrollert autoritet og providerfri kjerne"
       ],
       "riskLabel": "Åpen restrisiko",
-      "pendingOwnerLabel": "Avventer produkteierhandling",
+      "pendingOwnerLabel": "Produkteierbeslutning registrert",
       "blockedLabel": "Provideraktivering er blokkert",
       "sectionLabels": {
         "options": "Provideralternativer",
@@ -31,21 +31,21 @@
         "exit": "Exit og rollback",
         "noGo": "No-go-register",
         "sources": "Offisielle kilder",
-        "owner": "Blank produkteiermal"
+        "owner": "Registrert produkteierbeslutning"
       }
     },
     {
       "locale": "nn",
       "humanReviewStatus": "REVIEW_REQUIRED",
       "title": "Provideravgjerd",
-      "recommendationLabel": "Teknisk tilråding – ikkje vald",
+      "recommendationLabel": "Vald teknisk retning – ikkje aktivert",
       "recommendationRationale": [
         "Kortliva capability for éi syntetisk økt",
         "Regional samlokalisering i Finland",
         "Serverkontrollert autoritet og providerfri kjerne"
       ],
       "riskLabel": "Open restrisiko",
-      "pendingOwnerLabel": "Vent på handling frå produkteigar",
+      "pendingOwnerLabel": "Produkteigaravgjerd registrert",
       "blockedLabel": "Provideraktivering er blokkert",
       "sectionLabels": {
         "options": "Provideralternativ",
@@ -63,7 +63,7 @@
         "exit": "Exit og rollback",
         "noGo": "No-go-register",
         "sources": "Offisielle kjelder",
-        "owner": "Blank produkteigarmal"
+        "owner": "Registrert produkteigaravgjerd"
       }
     }
   ]

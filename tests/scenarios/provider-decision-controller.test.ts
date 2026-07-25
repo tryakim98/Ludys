@@ -2,9 +2,9 @@ import assert from "node:assert/strict";
 import test from "node:test";
 import { createProviderDecision } from "../../src/composition/create-provider-decision.js";
 
-test("decision controller starts pending with five visible options", () => {
+test("decision controller starts with the recorded decision and five visible options", () => {
   const controller = createProviderDecision();
-  assert.equal(controller.view.authorization.ownerDecision, "PENDING_OWNER_ACTION");
+  assert.equal(controller.view.authorization.ownerDecision, "APPROVE_RECOMMENDED_SYNTHETIC_DEV");
   assert.equal(controller.view.authorization.providerActivation, "BLOCKED");
   assert.equal(controller.view.authorization.cloudResources, 0);
   assert.equal(controller.view.providerOptions.length, 5);
@@ -22,7 +22,7 @@ test("selected option comparison does not alter recommendation or authorization"
   controller.selectOption("SELF_HOSTED");
   assert.equal(controller.view.selectedOption.optionId, "SELF_HOSTED");
   assert.equal(controller.view.recommendedOptionId, "FIREBASE_CAPABILITY");
-  assert.equal(controller.view.authorization.ownerDecision, "PENDING_OWNER_ACTION");
+  assert.equal(controller.view.authorization.ownerDecision, "APPROVE_RECOMMENDED_SYNTHETIC_DEV");
   assert.throws(() => controller.selectOption("UNKNOWN" as never), /UNKNOWN_OPTION/);
 });
 
@@ -32,8 +32,9 @@ test("dossier export is deterministic and retains the authorization ceiling", ()
   const second = controller.exportDecisionDossier();
   assert.equal(first, second);
   const dossier = JSON.parse(first);
-  assert.equal(dossier.recommendationIsOwnerDecision, false);
-  assert.equal(dossier.ownerDecision, "PENDING_OWNER_ACTION");
+  assert.equal(dossier.recommendationAcceptedByOwner, true);
+  assert.equal(dossier.ownerDecision, "APPROVE_RECOMMENDED_SYNTHETIC_DEV");
+  assert.equal(dossier.ownerDecisionRecord.effects.opensWp13_12b, false);
   assert.equal(dossier.providerActivation, "BLOCKED");
   assert.equal(dossier.cloudResources, 0);
 });

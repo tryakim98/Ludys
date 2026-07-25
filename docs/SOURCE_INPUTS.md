@@ -8,4 +8,4 @@
 
 ## WP13.12A-kildekontroll
 
-Provider-, region-, capability-, personvern-, kontrakt-, kost- og skoleeierfakta ble kontrollert 2026-07-23 mot 28 offisielle primærkilder. Full URL, støttet faktum, begrensning, hva kilden ikke kan avgjøre og krav til reverifisering ligger i `release/wp13-12a/decision-package/official-source-register.json`. Kildene gir teknisk og faktisk beslutningsgrunnlag; de utgjør ikke produkteierbeslutning, juridisk rådgivning, DPIA, DPA-aksept, skoleeiervedtak, B8 eller produksjonsautorisasjon.
+Provider-, region-, capability-, personvern-, kontrakt-, kost- og skoleeierfakta ble kontrollert på nytt 2026-07-25 mot 28 offisielle primærkilder. Full URL, støttet faktum, begrensning, hva kilden ikke kan avgjøre og krav til reverifisering ligger i `release/wp13-12a/decision-package/official-source-register.json`. Kildene gir teknisk og faktisk beslutningsgrunnlag; de utgjør ikke juridisk rådgivning, DPIA, DPA-aksept, skoleeiervedtak, B8 eller produksjonsautorisasjon. Produkteierbeslutningen ligger separat og er bundet til den kontrollerte kildepakken.

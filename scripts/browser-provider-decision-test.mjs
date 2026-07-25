@@ -95,7 +95,7 @@ try {
   assert.equal(await evaluate("document.querySelectorAll('[data-provider-option]').length"), 5);
   assert.equal(await evaluate("document.querySelectorAll('[data-provider-status=RECOMMENDED]').length"), 1);
   assert.equal(await evaluate("document.querySelector('[data-provider-status=RECOMMENDED]').dataset.providerOption"), "FIREBASE_CAPABILITY");
-  assert.match(await evaluate("document.body.innerText"), /PENDING_OWNER_ACTION.*PROVIDER_ACTIVATION BLOCKED.*CLOUD_RESOURCES 0/is);
+  assert.match(await evaluate("document.body.innerText"), /APPROVE_RECOMMENDED_SYNTHETIC_DEV.*PROVIDER_ACTIVATION BLOCKED.*CLOUD_RESOURCES 0/is);
   assert.match(await evaluate("document.body.innerText"), /WP13\.12B (?:= )?BLOCKED/is);
   assert.match(await evaluate("document.body.innerText"), /STUDENT_BETA = NOT_AUTHORIZED/is);
   assert.match(await evaluate("document.body.innerText"), /PRODUCTION = NOT_AUTHORIZED/is);
@@ -118,11 +118,13 @@ try {
   await evaluate("window.__WP13_12A__.selectOption('LOCAL_ONLY')");
   assert.match(await evaluate("document.querySelector('.decision-selected h3').textContent"), /LOCAL_ONLY/);
   assert.equal(await evaluate("window.__WP13_12A__.getDecisionView().recommendedOptionId"), "FIREBASE_CAPABILITY");
-  assert.equal(await evaluate("window.__WP13_12A__.getDecisionView().authorization.ownerDecision"), "PENDING_OWNER_ACTION");
+  assert.equal(await evaluate("window.__WP13_12A__.getDecisionView().authorization.ownerDecision"), "APPROVE_RECOMMENDED_SYNTHETIC_DEV");
+  assert.equal(await evaluate("window.__WP13_12A__.getDecisionView().ownerDecisionRecord.effects.opensWp13_12b"), false);
 
   const dossier = JSON.parse(await evaluate("window.__WP13_12A__.exportDossier()"));
-  assert.equal(dossier.recommendationIsOwnerDecision, false);
-  assert.equal(dossier.ownerDecision, "PENDING_OWNER_ACTION");
+  assert.equal(dossier.recommendationAcceptedByOwner, true);
+  assert.equal(dossier.ownerDecision, "APPROVE_RECOMMENDED_SYNTHETIC_DEV");
+  assert.equal(dossier.ownerDecisionRecord.effects.activatesProvider, false);
   assert.equal(dossier.providerActivation, "BLOCKED");
   assert.equal(dossier.cloudResources, 0);
   assert.equal(await evaluate("document.querySelector('#provider-dossier-download').href.startsWith('blob:')"), true);
@@ -165,7 +167,7 @@ try {
   const names = (ax.nodes ?? []).map((node) => node.name?.value).filter(Boolean);
   assert.ok(names.some((name) => /Providerbeslutning/.test(name)));
   assert.ok(names.some((name) => /Eksporter beslutningsdossier/.test(name)));
-  assert.ok(names.some((name) => /Avventer produkteierhandling/.test(name)));
+  assert.ok(names.some((name) => /Produkteierbeslutning registrert/.test(name)));
 
   const external = requests.filter((url) => /^https?:/i.test(url) && !url.startsWith(origin));
   assert.deepEqual(external, []);
@@ -174,7 +176,7 @@ try {
   await mkdir(join(root, "artifacts"), { recursive: true });
   const screenshot = await client.send("Page.captureScreenshot", { format: "png", fromSurface: true, captureBeyondViewport: true });
   await writeFile(join(root, "artifacts", "wp13-12a-provider-decision.png"), Buffer.from(screenshot.data, "base64"));
-  console.log("WP13.12A provider-decision browser proof passed: five options, recommendation without owner selection, BM/NN, blank exports, full decision sections, 320px, 200%, touch, keyboard, forced colors, reduced motion, AX tree, zero external calls and no activation controls.");
+  console.log("WP13.12A provider-decision browser proof passed: five options, recorded owner decision without activation, BM/NN, blank-template provenance, full decision sections, 320px, 200%, touch, keyboard, forced colors, reduced motion, AX tree, zero external calls and no activation controls.");
 } finally {
   await cleanupBrowserProof({
     browser, browserLabel: "WP13.12A provider-decision Edge/Chromium", client, profile,

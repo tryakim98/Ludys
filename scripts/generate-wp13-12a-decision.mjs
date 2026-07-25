@@ -48,7 +48,7 @@ const packageFiles = {
   "provider-options.json": {
     schemaVersion: "wp13.12a-provider-options-v1",
     recommendedOptionId: decision.recommendedOptionId,
-    recommendationIsOwnerDecision: false,
+    recommendationAcceptedByOwner: true,
     options: decision.providerOptions,
   },
   "recommended-minimum.json": {
@@ -131,7 +131,7 @@ const packageFiles = {
   },
   "deployment-runbook.json": {
     schemaVersion: "wp13.12a-deployment-runbook-v1",
-    scope: "FUTURE_WP13_12B_ONLY_IF_OWNER_APPROVES",
+    scope: "FUTURE_WP13_12B_ONLY_WITH_SEPARATE_IMPLEMENTATION_PROMPT",
     executedSteps: 0,
     steps: decision.deploymentRunbook,
   },
@@ -149,6 +149,7 @@ const packageFiles = {
     serviceAccountsCreated: 0,
     secretsCreated: 0,
   },
+  "owner-decision.json": decision.ownerDecisionRecord,
   "official-source-register.json": {
     schemaVersion: "wp13.12a-official-sources-v1",
     sources: decision.officialSources,
@@ -157,8 +158,8 @@ const packageFiles = {
     valid: true,
     errors: [],
     warnings: [],
-    packageStatus: "READY_FOR_OWNER_DECISION",
-    ownerDecision: "PENDING_OWNER_ACTION",
+    packageStatus: "OWNER_DECISION_RECORDED",
+    ownerDecision: "APPROVE_RECOMMENDED_SYNTHETIC_DEV",
     providerActivation: "BLOCKED",
     cloudResources: 0,
     externalReceipts: 0,
@@ -179,6 +180,10 @@ const packageFiles = {
     providerAccountsAccessed: false,
     timestampPolicy: "FIXED_CHECK_DATE_AND_CONTENT_ONLY_DIGESTS",
     checksumPolicy: "SHA256_CANONICAL_LF_UTF8_TEXT_RAW_BINARY",
+    ownerDecisionSourceCommit: decision.ownerDecisionRecord.sourceCommit,
+    ownerDecisionSourceTree: decision.ownerDecisionRecord.sourceTree,
+    ownerDecisionSourcePackageChecksum: decision.ownerDecisionRecord.sourcePackageChecksum,
+    ownerDecisionRegistrationCreatesCloudResources: false,
     buildCommands: ["npm run build", "npm run provider:decision:generate", "npm run provider:decision:validate", "npm run check:release"],
     candidateCommitBinding: "Final Git commit and draft PR bind the tracked package after all checks pass.",
   },
@@ -186,7 +191,8 @@ const packageFiles = {
     schemaVersion: "wp13.12a-known-limitations-v1",
     manualReviewRequired: [
       "Human BM review", "Human NN review", "Manual screen-reader and assistive-technology review",
-      "Product-owner decision", "Legal and DPA review", "School-owner review", "DPIA decision", "Ethical review",
+      "Monthly alert and maximum cost", "Named kill-switch owner and billing reviewer", "Staging expiry and automatic deletion policy",
+      "Legal and DPA review", "School-owner review", "DPIA decision", "Ethical review",
     ],
     notTested: ["Physical two-device flow", "Actual provider project", "Actual regional latency", "Actual IAM", "Actual deletion from provider backups", "Safari/iOS", "Firefox"],
     cannotBeProvedByThisPackage: ["Provider contract acceptance", "Norwegian-school legality", "Hard billing guarantee", "Production readiness"],
@@ -206,7 +212,7 @@ const packageFiles = {
     sourceClassification: "SYNTHETIC_PROVIDER_DECISION_ONLY",
     externalReceipts: 0,
     b8: "NOT_DECISION_READY",
-    ownerDecision: "PENDING_OWNER_ACTION",
+    ownerDecision: "APPROVE_RECOMMENDED_SYNTHETIC_DEV",
     studentBeta: "NOT_AUTHORIZED",
     recruitment: "NOT_AUTHORIZED",
     parentContactForParticipation: "NOT_AUTHORIZED",
@@ -248,8 +254,49 @@ Allowed decision values: \`APPROVE_RECOMMENDED_SYNTHETIC_DEV\`, \`APPROVE_WITH_C
 No owner name, signature, confirmation, selection, region, cost limit or date has been fabricated.
 `;
 
+const ownerDecisionRecord = `# WP13.12A – registrert produkteierbeslutning
+
+> DECISION: ${decision.ownerDecisionRecord.decision}
+> DECISION_DATE: ${decision.ownerDecisionRecord.decisionDate}
+> PROVIDER_ACTIVATION: ${decision.authorization.providerActivation}
+> CLOUD_RESOURCES: ${decision.authorization.cloudResources}
+> WP13.12B: ${decision.authorization.wp13_12b}
+
+Beslutningen er registrert fra en eksplisitt bekreftelse i den gjeldende Codex-oppgaven. Ingen navn eller signatur er konstruert.
+
+| Felt | Registrert verdi |
+|---|---|
+| decisionId | ${decision.ownerDecisionRecord.decisionId} |
+| productOwnerNameOrReference | ${decision.ownerDecisionRecord.productOwnerNameOrReference} |
+| selectedOption | ${decision.ownerDecisionRecord.selectedOption} |
+| selectedRegion | ${decision.ownerDecisionRecord.selectedRegion} (${decision.ownerDecisionRecord.selectedRegionStatus}) |
+| selectedCapabilityModel | ${decision.ownerDecisionRecord.selectedCapabilityModel} |
+| monthlyAlertThreshold | ${decision.ownerDecisionRecord.monthlyAlertThreshold} |
+| maximumMonthlyCost | ${decision.ownerDecisionRecord.maximumMonthlyCost} |
+| killSwitchOwner | ${decision.ownerDecisionRecord.killSwitchOwner} |
+| billingReviewer | ${decision.ownerDecisionRecord.billingReviewer} |
+| stagingExpiryDate | ${decision.ownerDecisionRecord.stagingExpiryDate} |
+| automaticDeletionPolicy | ${decision.ownerDecisionRecord.automaticDeletionPolicy} |
+| signatureOrExplicitOwnerConfirmation | ${decision.ownerDecisionRecord.signatureOrExplicitOwnerConfirmation.kind}; signaturePresent=false |
+| sourcePackageVersion | ${decision.ownerDecisionRecord.sourcePackageVersion} |
+| sourcePackageChecksum | ${decision.ownerDecisionRecord.sourcePackageChecksum} |
+| sourceCommit | ${decision.ownerDecisionRecord.sourceCommit} |
+| sourceTree | ${decision.ownerDecisionRecord.sourceTree} |
+
+## Bindende grenser
+
+${decision.ownerDecisionRecord.conditions.map((condition) => `- \`${condition}\``).join("\n")}
+
+## Åpne pre-provisioning-sperrer
+
+${decision.ownerDecisionRecord.acknowledgedOpenRisks.map((risk) => `- \`${risk}\``).join("\n")}
+
+Denne registreringen åpner ikke WP13.12B, aktiverer ingen provider, oppretter ingen skyressurs og autoriserer ikke B8, studentbeta, rekruttering, ekte data eller produksjon. WP13.12B krever en separat implementeringsprompt og skal stoppe etter dokumentert teknisk stagingproof.
+`;
+
 for (const [name, value] of Object.entries(packageFiles)) expected.set(join(packageDirectory, name), stableJson(value));
 expected.set(join(packageDirectory, "WP13_12A_OWNER_DECISION_TEMPLATE.md"), ownerTemplate);
+expected.set(join(packageDirectory, "WP13_12A_OWNER_DECISION.md"), ownerDecisionRecord);
 
 const lockComponents = Object.entries(lock.packages)
   .filter(([path]) => path.startsWith("node_modules/"))
@@ -321,8 +368,8 @@ for (const [name, value] of Object.entries(releaseFiles)) expected.set(join(rele
 
 if (!checkOnly) {
   expected.set(join(artifactsDirectory, "wp13-12a-decision-evidence.json"), stableJson({
-    schemaVersion: "wp13.12a-decision-evidence-v1", evidenceDate: "2026-07-23",
-    packageStatus: "READY_FOR_OWNER_DECISION", ownerDecision: "PENDING_OWNER_ACTION",
+    schemaVersion: "wp13.12a-decision-evidence-v1", evidenceDate: "2026-07-25",
+    packageStatus: "OWNER_DECISION_RECORDED", ownerDecision: "APPROVE_RECOMMENDED_SYNTHETIC_DEV",
     browser: "HEADLESS_BROWSER_PROOF", accessibility: "HEADLESS_BROWSER_PROOF_AND_MANUAL_REVIEW_REQUIRED",
     cloudResources: 0, providerReceipts: 0, externalReceipts: 0,
     b8: "NOT_DECISION_READY", studentBeta: "NOT_AUTHORIZED", production: "NOT_AUTHORIZED",

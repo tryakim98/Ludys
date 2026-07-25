@@ -1,13 +1,13 @@
 {
   "schemaVersion": "wp13.12a-deployment-runbook-v1",
-  "scope": "FUTURE_WP13_12B_ONLY_IF_OWNER_APPROVES",
+  "scope": "FUTURE_WP13_12B_ONLY_WITH_SEPARATE_IMPLEMENTATION_PROMPT",
   "executedSteps": 0,
   "steps": [
     {
       "sequence": 1,
-      "action": "Verify signed owner decision",
+      "action": "Verify explicit owner confirmation",
       "status": "NOT_EXECUTED",
-      "requiredGate": "SIGNED_OWNER_DECISION_BOUND_TO_PACKAGE_CHECKSUM"
+      "requiredGate": "EXPLICIT_OWNER_CONFIRMATION_BOUND_TO_PACKAGE_CHECKSUM"
     },
     {
       "sequence": 2,

@@ -28,7 +28,8 @@ const requiredFiles = [
   "iam-and-secrets.json", "cost-model.json", "threat-model-delta.json", "migration-exit.json",
   "deployment-runbook.json", "no-go.json", "authorization-status.json", "official-source-register.json",
   "validation.json", "artifact-checksums.sha256", "decision-package-provenance.json",
-  "known-limitations.json", "WP13_12A_OWNER_DECISION_TEMPLATE.md",
+  "known-limitations.json", "owner-decision.json", "WP13_12A_OWNER_DECISION.md",
+  "WP13_12A_OWNER_DECISION_TEMPLATE.md",
 ];
 const files = (await readdir(packageDirectory)).sort();
 for (const file of requiredFiles) requireCondition(files.includes(file), `missing required decision-package file: ${file}`);
@@ -48,6 +49,7 @@ const exit = JSON.parse(await readFile(join(packageDirectory, "migration-exit.js
 const runbook = JSON.parse(await readFile(join(packageDirectory, "deployment-runbook.json"), "utf8"));
 const noGo = JSON.parse(await readFile(join(packageDirectory, "no-go.json"), "utf8"));
 const authorization = JSON.parse(await readFile(join(packageDirectory, "authorization-status.json"), "utf8"));
+const ownerDecision = JSON.parse(await readFile(join(packageDirectory, "owner-decision.json"), "utf8"));
 const sources = JSON.parse(await readFile(join(packageDirectory, "official-source-register.json"), "utf8"));
 const locales = JSON.parse(await readFile(join(packageDirectory, "locale-bundles.json"), "utf8"));
 const manifest = JSON.parse(await readFile(join(packageDirectory, "component-manifest.json"), "utf8"));
@@ -55,6 +57,7 @@ const rollback = JSON.parse(await readFile(join(packageDirectory, "rollback-regi
 const recordedValidation = JSON.parse(await readFile(join(packageDirectory, "validation.json"), "utf8"));
 const provenance = JSON.parse(await readFile(join(packageDirectory, "decision-package-provenance.json"), "utf8"));
 const template = await readFile(join(packageDirectory, "WP13_12A_OWNER_DECISION_TEMPLATE.md"), "utf8");
+const ownerDecisionMarkdown = await readFile(join(packageDirectory, "WP13_12A_OWNER_DECISION.md"), "utf8");
 
 requireCondition(sameJson(providerOptions.options, decision.providerOptions), "provider-options.json differs from runtime package");
 requireCondition(sameJson(region.rows, decision.regionAnalysis), "region-analysis.json differs from runtime package");
@@ -70,12 +73,22 @@ requireCondition(legal.requirements.every((item) => item.status !== "RESOLVED"),
 requireCondition(exit.executed === false && runbook.executedSteps === 0, "exit or future runbook was falsely executed");
 requireCondition(sameJson(noGo.entries, decision.noGo), "no-go register differs");
 requireCondition(locales.fallback === false && sameJson(locales.bundles, decision.localeBundles), "locale bundles use fallback or differ");
-requireCondition(authorization.ownerDecision === "PENDING_OWNER_ACTION", "owner decision is not pending");
+requireCondition(
+  authorization.packageStatus === "OWNER_DECISION_RECORDED" &&
+  authorization.ownerDecision === "APPROVE_RECOMMENDED_SYNTHETIC_DEV",
+  "owner decision authorization does not match the recorded approval",
+);
 requireCondition(authorization.providerActivation === "BLOCKED" && authorization.cloudResources === 0, "provider activation or cloud resource boundary opened");
 requireCondition(authorization.firebaseProjectCreated === false && authorization.vercelProjectCreatedByWorkPackage === false, "package falsely claims external creation");
 requireCondition(authorization.externalReceipts === 0 && authorization.b8 === "NOT_DECISION_READY", "receipt or B8 boundary opened");
 requireCondition(authorization.studentBeta === "NOT_AUTHORIZED" && authorization.production === "NOT_AUTHORIZED", "student or production boundary opened");
-requireCondition(sources.sources.length === decision.officialSources.length && sources.sources.every((source) => source.checkedAt === "2026-07-23"), "official source register is incomplete or stale");
+requireCondition(sources.sources.length === decision.officialSources.length && sources.sources.every((source) => source.checkedAt === "2026-07-25"), "official source register is incomplete or stale");
+requireCondition(sameJson(ownerDecision, decision.ownerDecisionRecord), "owner-decision.json differs from runtime package");
+requireCondition(ownerDecision.signatureOrExplicitOwnerConfirmation.explicitOwnerConfirmationPresent === true, "explicit owner confirmation is missing");
+requireCondition(ownerDecision.signatureOrExplicitOwnerConfirmation.signaturePresent === false, "owner signature was fabricated");
+requireCondition(ownerDecision.effects.opensWp13_12b === false && ownerDecision.effects.activatesProvider === false, "decision registration opened WP13.12B or provider activation");
+requireCondition(ownerDecision.effects.createsCloudResources === false && ownerDecision.effects.realDataOrParticipantUseAuthorized === false, "decision registration opened cloud or real-data scope");
+requireCondition(ownerDecisionMarkdown.includes("APPROVE_RECOMMENDED_SYNTHETIC_DEV") && ownerDecisionMarkdown.includes("WP13.12B: BLOCKED"), "owner decision Markdown is incomplete");
 requireCondition(manifest.providerDecisionReleaseId === decision.providerDecisionReleaseId && manifest.cloudResources === 0, "component manifest is inconsistent");
 requireCondition(rollback.appendOnly === true && rollback.rollbackActivatesProvider === false, "rollback could activate provider");
 requireCondition(rollback.revisions.some((revision) => revision.lifecycle === "WITHDRAWN"), "rollback register lacks withdrawn revision");
@@ -107,7 +120,7 @@ const output = {
   ...actual,
   valid: errors.length === 0,
   errors,
-  packageStatus: errors.length === 0 ? "READY_FOR_OWNER_DECISION" : "INVALID",
+  packageStatus: errors.length === 0 ? "OWNER_DECISION_RECORDED" : "INVALID",
 };
 if (errors.length > 0) {
   console.error(JSON.stringify(output, null, 2));

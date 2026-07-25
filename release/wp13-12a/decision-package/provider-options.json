@@ -1,7 +1,7 @@
 {
   "schemaVersion": "wp13.12a-provider-options-v1",
   "recommendedOptionId": "FIREBASE_CAPABILITY",
-  "recommendationIsOwnerDecision": false,
+  "recommendationAcceptedByOwner": true,
   "options": [
     {
       "optionId": "LOCAL_ONLY",

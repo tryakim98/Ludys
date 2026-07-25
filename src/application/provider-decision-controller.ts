@@ -34,6 +34,7 @@ export interface ProviderDecisionView {
   readonly migrationExit: ProviderDecisionPackage["migrationExit"];
   readonly noGo: ProviderDecisionPackage["noGo"];
   readonly officialSources: ProviderDecisionPackage["officialSources"];
+  readonly ownerDecisionRecord: ProviderDecisionPackage["ownerDecisionRecord"];
   readonly ownerTemplateBlank: true;
   readonly dossierPreview: string;
   readonly ownerTemplatePreview: string;
@@ -72,7 +73,7 @@ export class ProviderDecisionController {
       ownerDecision: this.decision.authorization.ownerDecision,
       providerActivation: this.decision.authorization.providerActivation,
       cloudResources: this.decision.authorization.cloudResources,
-      recommendationIsOwnerDecision: false,
+      recommendationAcceptedByOwner: true,
       recommendedOptionId: this.decision.recommendedOptionId,
       recommendedRegion: this.decision.recommendedRegion,
       recommendedCapabilityOptionId: this.decision.recommendedCapabilityOptionId,
@@ -90,6 +91,7 @@ export class ProviderDecisionController {
       dataProcessingRequirements: this.decision.dataProcessingRequirements,
       migrationExit: this.decision.migrationExit,
       noGo: this.decision.noGo,
+      ownerDecisionRecord: this.decision.ownerDecisionRecord,
       officialSources: this.decision.officialSources,
       authorization: this.decision.authorization,
     };
@@ -148,6 +150,7 @@ export class ProviderDecisionController {
       migrationExit: this.decision.migrationExit,
       noGo: this.decision.noGo,
       officialSources: this.decision.officialSources,
+      ownerDecisionRecord: this.decision.ownerDecisionRecord,
       ownerTemplateBlank: this.decision.ownerDecisionTemplate.blank,
       dossierPreview: this.#dossierPreview,
       ownerTemplatePreview: this.#ownerTemplatePreview,

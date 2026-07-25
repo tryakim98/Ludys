@@ -11,7 +11,7 @@
   "sourceClassification": "SYNTHETIC_PROVIDER_DECISION_ONLY",
   "externalReceipts": 0,
   "b8": "NOT_DECISION_READY",
-  "ownerDecision": "PENDING_OWNER_ACTION",
+  "ownerDecision": "APPROVE_RECOMMENDED_SYNTHETIC_DEV",
   "studentBeta": "NOT_AUTHORIZED",
   "recruitment": "NOT_AUTHORIZED",
   "parentContactForParticipation": "NOT_AUTHORIZED",

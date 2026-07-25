@@ -1,7 +1,7 @@
 {
   "schemaVersion": "wp13.12a-authorization-v1",
-  "packageStatus": "READY_FOR_OWNER_DECISION",
-  "ownerDecision": "PENDING_OWNER_ACTION",
+  "packageStatus": "OWNER_DECISION_RECORDED",
+  "ownerDecision": "APPROVE_RECOMMENDED_SYNTHETIC_DEV",
   "providerActivation": "BLOCKED",
   "cloudResources": 0,
   "externalReceipts": 0,
