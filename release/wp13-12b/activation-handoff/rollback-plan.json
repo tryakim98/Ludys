@@ -5,17 +5,48 @@
   "invariants": [
     "rollback never activates cloud resources",
     "controlEpoch never decreases",
+    "control is false at a strictly advanced epoch before issuance is disabled",
+    "issuance and every function are safe-disabled before WIF is disabled",
+    "WIF provider and pool are disabled and verified before the rollback preview is used",
+    "rollback uses the existing receipt-bound safe-disabled deployment and never creates or promotes another deployment",
+    "final pre-rollback inventory is exactly one active plus one receipt-bound rollback, zero unrelated and two total",
     "withdrawn provider revision cannot be selected",
     "schemaVersion must be compatible",
     "tombstone dominates cached or rolled-back state",
-    "pure core and in-memory adapter remain runnable without provider package"
+    "pure core and in-memory adapter remain runnable without provider package",
+    "an already issued STS token may linger until its own expiry, but backend control, issuance and functions are disabled first"
   ],
   "steps": [
     "Set stagingEnabled=false and increment controlEpoch",
+    "Provision and verify only the time-bounded keyless deploy identity",
+    "Deploy configure-preview-origin for the exact receipt-bound active origin and verify issueSyntheticSession issuance is false",
+    "Deploy the safe-disabled function set and verify the safe origin/function readback",
+    "Revoke and verify the deploy identity",
+    "Disable the exact WIF provider, then the exact WIF pool, and verify both disabled",
+    "Use only the existing receipt-bound safe-disabled rollback preview in a separate logged-in Chrome/browser session without a protection bypass token or shareable link",
     "Verify active, delayed, reconnect and cached-capability commands are denied",
-    "Select only a checksum-verified compatible provider revision",
-    "Deploy only under separate external deployment authorization",
     "Re-run STOP, deletion, tombstone and no-resurrection proof"
   ],
+  "commands": [
+    "node provider/firebase/tools/set-staging-control.mjs --project ludys-12b-stg-20260725 --google-account tryakim@gmail.com --region europe-north1 --enabled false --control-epoch <current-control-epoch-plus-one> --reason ROLLBACK --authorized \"AUTHORIZE_WP13_12B_DEACTIVATION_EXECUTION;ludys-12b-stg-20260725;expiry=2027-01-25\"",
+    "node scripts/provider-external-deploy-identity-control.mjs --action plan --project ludys-12b-stg-20260725 --google-account tryakim@gmail.com --region europe-north1 --window-expires-at <UTC-ISO-WITHIN-60-MINUTES>",
+    "node scripts/provider-external-deploy-identity-control.mjs --action provision --project ludys-12b-stg-20260725 --google-account tryakim@gmail.com --region europe-north1 --window-expires-at <UTC-ISO-WITHIN-60-MINUTES> --authorized AUTHORIZE_WP13_12B_EXTERNAL_ACTIVATION",
+    "node scripts/provider-external-deploy-identity-control.mjs --action verify --project ludys-12b-stg-20260725 --google-account tryakim@gmail.com --region europe-north1 --window-expires-at <UTC-ISO-WITHIN-60-MINUTES>",
+    "node scripts/provider-external-function-deploy.mjs --action configure-preview-origin --project ludys-12b-stg-20260725 --google-account tryakim@gmail.com --region europe-north1 --impersonate-service-account ludys-staging-deployer@ludys-12b-stg-20260725.iam.gserviceaccount.com --window-expires-at <UTC-ISO-WITHIN-60-MINUTES> --source-commit <CURRENT-FULL-40-CHAR-COMMIT> --source-tree <CURRENT-FULL-40-CHAR-TREE> --source-sha256 <CURRENT-DETERMINISTIC-FUNCTIONS-SOURCE-SHA256> --preview-origin <EXACT_RECEIPT_BOUND_ACTIVE_PREVIEW_ORIGIN> --authorized AUTHORIZE_WP13_12B_EXTERNAL_ACTIVATION",
+    "node scripts/provider-external-function-deploy.mjs --action deploy-disabled --project ludys-12b-stg-20260725 --google-account tryakim@gmail.com --region europe-north1 --impersonate-service-account ludys-staging-deployer@ludys-12b-stg-20260725.iam.gserviceaccount.com --window-expires-at <UTC-ISO-WITHIN-60-MINUTES> --source-commit <CURRENT-FULL-40-CHAR-COMMIT> --source-tree <CURRENT-FULL-40-CHAR-TREE> --source-sha256 <CURRENT-DETERMINISTIC-FUNCTIONS-SOURCE-SHA256> --authorized AUTHORIZE_WP13_12B_EXTERNAL_ACTIVATION",
+    "node scripts/provider-external-deploy-identity-control.mjs --action revoke --project ludys-12b-stg-20260725 --google-account tryakim@gmail.com --region europe-north1 --window-expires-at <UTC-ISO-WITHIN-60-MINUTES> --authorized AUTHORIZE_WP13_12B_EXTERNAL_ACTIVATION",
+    "node scripts/provider-external-wif-control.mjs --action disable-workload-identity-provider",
+    "node scripts/provider-external-wif-control.mjs --action disable-workload-identity-pool",
+    "node scripts/provider-external-wif-control.mjs --action verify-disabled",
+    "Open only <RECEIPT_BOUND_ROLLBACK_PREVIEW_ORIGIN> in the separate logged-in Chrome/browser session and re-run the deletion/tombstone/no-resurrection proof; do not redeploy, promote, bypass protection or create a shareable link"
+  ],
+  "requiredDeploymentInventoryBeforeRollback": {
+    "active": 1,
+    "receiptBoundRollback": 1,
+    "unrelated": 0,
+    "total": 2
+  },
+  "residualTokenNote": "Previously issued STS tokens may remain valid until their own expiry, but staging control, issuance and safe-disabled functions deny useful backend access first.",
+  "deactivationCommand": "node provider/firebase/tools/set-staging-control.mjs --project ludys-12b-stg-20260725 --google-account tryakim@gmail.com --region europe-north1 --enabled false --control-epoch <current-control-epoch-plus-one> --reason ROLLBACK --authorized \"AUTHORIZE_WP13_12B_DEACTIVATION_EXECUTION;ludys-12b-stg-20260725;expiry=2027-01-25\"",
   "externalActionsExecuted": false
 }

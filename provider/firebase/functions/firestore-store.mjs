@@ -2,6 +2,63 @@ const SESSION_COLLECTION = "syntheticSessions";
 const CAPABILITY_COLLECTION = "syntheticCapabilityGrants";
 const TOMBSTONE_COLLECTION = "syntheticSessionTombstones";
 const CONTROL_DOCUMENT = "syntheticStagingControl/current";
+const LOCAL_EMULATOR_RUNTIME_PHASE = "LOCAL_EMULATOR_PROOF";
+const METADATA_ORIGIN = "http://metadata.google.internal";
+const EXACT_LOOPBACK_EMULATOR_HOST =
+  /^127\.0\.0\.1:([1-9][0-9]{0,4})$/u;
+
+export const firestoreRestTimeouts = Object.freeze({
+  metadataTokenMs: 5_000,
+  requestMs: 10_000,
+});
+
+function validatedEmulatorHost(options) {
+  const ambientHost = process.env.FIRESTORE_EMULATOR_HOST;
+  const optionHost = options.emulatorHost;
+  const emulatorConfigured =
+    ambientHost !== undefined || optionHost !== undefined;
+  const strictLocalEmulatorMode =
+    process.env.LUDYS_LOCAL_EMULATOR_PROOF === "true"
+    && process.env.LUDYS_STAGING_RUNTIME_PHASE
+      === LOCAL_EMULATOR_RUNTIME_PHASE;
+
+  if (
+    process.env.LUDYS_LOCAL_EMULATOR_PROOF === "true"
+    && process.env.LUDYS_STAGING_RUNTIME_PHASE
+      !== LOCAL_EMULATOR_RUNTIME_PHASE
+  ) {
+    throw new Error("FIRESTORE_EMULATOR_MODE_INVALID");
+  }
+  if (emulatorConfigured && !strictLocalEmulatorMode) {
+    throw new Error("FIRESTORE_EMULATOR_MODE_FORBIDDEN");
+  }
+  if (strictLocalEmulatorMode && !emulatorConfigured) {
+    throw new Error("FIRESTORE_EMULATOR_HOST_REQUIRED");
+  }
+  if (
+    ambientHost !== undefined
+    && optionHost !== undefined
+    && ambientHost !== optionHost
+  ) {
+    throw new Error("FIRESTORE_EMULATOR_HOST_MISMATCH");
+  }
+  if (!emulatorConfigured) return undefined;
+
+  const emulatorHost = optionHost ?? ambientHost;
+  const match = typeof emulatorHost === "string"
+    ? EXACT_LOOPBACK_EMULATOR_HOST.exec(emulatorHost)
+    : null;
+  const port = match === null ? 0 : Number(match[1]);
+  if (
+    match === null
+    || !Number.isSafeInteger(port)
+    || port < 1
+    || port > 65_535
+  ) {
+    throw new Error("FIRESTORE_EMULATOR_HOST_INVALID");
+  }
+  return emulatorHost;
+}
 
 function fieldValue(value) {
   if (value instanceof Date) return { timestampValue: value.toISOString() };
@@ -118,27 +175,48 @@ function documentWrite(name, value, precondition) {
 export class FirestoreRestSyntheticStagingStore {
   #accessToken;
   #accessTokenExpiresAt = 0;
+  #localEmulator;
 
   constructor(projectId, options = {}) {
     if (!/^[a-z][a-z0-9-]{4,28}[a-z0-9]$/.test(projectId)) throw new Error("INVALID_PROJECT_ID");
     this.projectId = projectId;
-    const emulator = options.emulatorHost ?? process.env.FIRESTORE_EMULATOR_HOST;
-    this.documentRoot = emulator
-      ? `http://${emulator}/v1/projects/${projectId}/databases/(default)/documents`
+    const emulatorHost = validatedEmulatorHost(options);
+    this.#localEmulator = emulatorHost !== undefined;
+    this.firestoreOrigin = this.#localEmulator
+      ? `http://${emulatorHost}`
+      : "https://firestore.googleapis.com";
+    this.documentRoot = this.#localEmulator
+      ? `${this.firestoreOrigin}/v1/projects/${projectId}/databases/(default)/documents`
       : `https://firestore.googleapis.com/v1/projects/${projectId}/databases/(default)/documents`;
     this.databaseRoot = this.documentRoot.replace(/\/documents$/u, "");
-    this.metadataOrigin = options.metadataOrigin ?? "http://metadata.google.internal";
+    this.documentResourceRoot = `projects/${projectId}/databases/(default)/documents`;
+    this.metadataOrigin = options.metadataOrigin ?? METADATA_ORIGIN;
+    if (this.metadataOrigin !== METADATA_ORIGIN) {
+      throw new Error("RUNTIME_METADATA_ORIGIN_INVALID");
+    }
   }
 
   async #token() {
-    if (this.documentRoot.startsWith("http://127.0.0.1") || this.documentRoot.startsWith("http://localhost")) {
-      return undefined;
+    if (this.#localEmulator) {
+      // The Firestore emulator recognizes this fixed local-only sentinel as
+      // server/admin authority. It is never used on the production HTTPS path.
+      return "owner";
     }
     if (this.#accessToken && Date.now() < this.#accessTokenExpiresAt - 60_000) return this.#accessToken;
-    const response = await fetch(
-      `${this.metadataOrigin}/computeMetadata/v1/instance/service-accounts/default/token`,
-      { headers: { "Metadata-Flavor": "Google" } },
-    );
+    let response;
+    try {
+      response = await fetch(
+        `${this.metadataOrigin}/computeMetadata/v1/instance/service-accounts/default/token`,
+        {
+          headers: { "Metadata-Flavor": "Google" },
+          signal: AbortSignal.timeout(
+            firestoreRestTimeouts.metadataTokenMs,
+          ),
+        },
+      );
+    } catch {
+      throw new Error("RUNTIME_IAM_TOKEN_UNAVAILABLE");
+    }
     if (!response.ok) throw new Error("RUNTIME_IAM_TOKEN_UNAVAILABLE");
     const token = await response.json();
     if (typeof token.access_token !== "string" || typeof token.expires_in !== "number") {
@@ -150,26 +228,62 @@ export class FirestoreRestSyntheticStagingStore {
   }
 
   async #request(url, init = {}, allowNotFound = false) {
+    let requestOrigin;
+    try {
+      requestOrigin = new URL(url).origin;
+    } catch {
+      throw new Error("FIRESTORE_REST_ORIGIN_INVALID");
+    }
+    if (requestOrigin !== this.firestoreOrigin) {
+      throw new Error("FIRESTORE_REST_ORIGIN_INVALID");
+    }
     const token = await this.#token();
-    const response = await fetch(url, {
-      ...init,
-      headers: {
-        "content-type": "application/json",
-        ...(token ? { authorization: `Bearer ${token}` } : {}),
-        ...(init.headers ?? {}),
-      },
-    });
+    let response;
+    try {
+      response = await fetch(url, {
+        ...init,
+        headers: {
+          "content-type": "application/json",
+          ...(init.headers ?? {}),
+          ...(token ? { authorization: `Bearer ${token}` } : {}),
+        },
+        signal: AbortSignal.timeout(firestoreRestTimeouts.requestMs),
+      });
+    } catch {
+      throw new Error("FIRESTORE_REST_UNAVAILABLE");
+    }
     if (allowNotFound && response.status === 404) return undefined;
-    if (!response.ok) throw new Error(`FIRESTORE_REST_${response.status}`);
+    if (!response.ok) {
+      if (process.env.LUDYS_LOCAL_EMULATOR_PROOF === "true") {
+        let diagnostic = "";
+        try {
+          const errorBody = await response.clone().json();
+          diagnostic = `${errorBody?.error?.status ?? "UNKNOWN"}:${errorBody?.error?.message ?? ""}`
+            .replace(/synthetic-wp13-12b-[A-Za-z0-9_-]+/gu, "[SYNTHETIC_SESSION]")
+            .replace(/[A-Za-z0-9_-]{20,}/gu, "[OPAQUE]")
+            .slice(0, 500);
+        } catch {
+          diagnostic = "UNPARSEABLE_ERROR_BODY";
+        }
+        process.stderr.write(
+          `LUDYS_LOCAL_FIRESTORE_DIAGNOSTIC:${response.status}:${diagnostic}\n`,
+        );
+      }
+      throw new Error(`FIRESTORE_REST_${response.status}`);
+    }
     return response.status === 204 ? undefined : response.json();
   }
 
   #name(path) {
+    return `${this.documentResourceRoot}/${path}`;
+  }
+
+  #url(path) {
     return `${this.documentRoot}/${path}`;
   }
 
   async #get(path) {
-    const response = await this.#request(this.#name(path), {}, true);
+    const response = await this.#request(this.#url(path), {}, true);
     return response === undefined
       ? undefined
       : { data: record(response.fields ?? {}), updateTime: response.updateTime };
@@ -334,11 +448,10 @@ export class FirestoreRestSyntheticStagingStore {
         },
         { exists: false },
       ),
-      ...grants.map((grant) => documentWrite(
-        grant.name,
-        { ...grant.data, revoked: true },
-        { updateTime: grant.updateTime },
-      )),
+      ...grants.map((grant) => ({
+        delete: grant.name,
+        currentDocument: { updateTime: grant.updateTime },
+      })),
     ]);
   }
 }

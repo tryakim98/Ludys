@@ -13,7 +13,8 @@ artifacts/*
 !artifacts/wp13-11-*.png
 !artifacts/wp13-12b-*.json
 !artifacts/wp13-12b-*.png
+!artifacts/wp13-12b-external-resource-inventory.json.tmp-*
 
-provider/firebase/functions/lib/
 provider/firebase/.emulator-cache/
+provider/vercel/wp13-12b-preview/.vercel/
 .tmp/

@@ -8,6 +8,8 @@
   "resourceCreationAttempted": false,
   "deploymentAttempted": false,
   "expectedCloudResources": 0,
+  "ownerAuthorization": "release/wp13-12b/external-activation/owner-authorization.json",
+  "externalActivationAuthorized": true,
   "checks": [
     "owner decision and source checksums",
     "europe-north1 selected but not locked",
@@ -24,14 +26,13 @@
     "least-privilege IAM plan",
     "receipt, rollback, destruction and kill-switch plans"
   ],
-  "unresolvedOwnerFields": [
-    "monthlyAlertThreshold",
-    "maximumMonthlyCost",
-    "killSwitchOwner",
-    "billingReviewer",
-    "stagingExpiryDate",
-    "automaticDeletionPolicy"
+  "unresolvedOwnerFields": [],
+  "irreversibleFieldsStillRequiringApproval": [
+    "plannedProjectId",
+    "projectDisplayName",
+    "approvedGoogleAccountOrOrganizationContext",
+    "approvedBillingAccount"
   ],
   "externalActivationReady": false,
-  "stopCondition": "Do not provision until every unresolved owner field has a separately recorded value and authorization."
+  "stopCondition": "Do not provision until planned project ID, display name, Google account or organization context and billing account are explicitly shown and approved."
 }

@@ -1,0 +1,34 @@
+{
+  "schemaVersion": "wp13.12b-ea-resource-inventory-v1",
+  "inventoryId": "wp13-12b-ea-current-resource-inventory",
+  "inventoryStatus": "PENDING_AUTHENTIC_PROVIDER_READBACK",
+  "approvedContextReference": "release/wp13-12b/external-activation/cloud-field-approval.json",
+  "observation": {
+    "observedAt": null,
+    "performedBy": null,
+    "providerReadbackCommands": [],
+    "evidencePaths": []
+  },
+  "operatorEvidence": {
+    "path": "artifacts/wp13-12b-external-resource-inventory.json",
+    "artifactSha256": null,
+    "inventoryDigest": null,
+    "overlayResourcesDigest": null,
+    "schemaVersion": null,
+    "source": null,
+    "mode": null,
+    "authenticatedVercelReadback": false,
+    "blockerCount": null
+  },
+  "resourceCount": null,
+  "zeroResourcesAsserted": false,
+  "resources": [],
+  "pendingInventorySemantics": "The empty resources array is not a zero-resource claim. No provider inventory is accepted until authentic readback evidence is recorded.",
+  "scopeCeilings": {
+    "syntheticDataOnly": true,
+    "realParticipantData": false,
+    "firebaseAuthentication": false,
+    "production": false,
+    "wp13_12c": false
+  }
+}

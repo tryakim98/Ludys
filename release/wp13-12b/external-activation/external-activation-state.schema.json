@@ -1,0 +1,279 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ludys.invalid/schemas/wp13.12b-ea-state-v1",
+  "title": "LUDYS WP13.12B external activation state overlay",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "overlayId",
+    "overlayStatus",
+    "pr3",
+    "pr3ProofFamilies",
+    "historicalRepositoryBaseline",
+    "authorizationEvidence",
+    "evidence",
+    "cloudState",
+    "safetyCeilings"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "const": "wp13.12b-ea-state-v1"
+    },
+    "overlayId": {
+      "const": "wp13-12b-ea-current-state"
+    },
+    "overlayStatus": {
+      "enum": [
+        "IN_PROGRESS_AUTHENTIC_EVIDENCE_PENDING",
+        "ACTIVE_SYNTHETIC_STAGING_WITH_AUTHENTIC_EVIDENCE",
+        "DISABLED_PENDING_DESTRUCTION",
+        "DESTROYED_WITH_AUTHENTIC_EVIDENCE"
+      ]
+    },
+    "pr3": {
+      "enum": [
+        "NOT_ACHIEVED",
+        "ACHIEVED"
+      ]
+    },
+    "pr3ProofFamilies": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "EMULATOR",
+        "IAM_AND_BILLING",
+        "FIREBASE_DISABLED_FIRST_DEPLOYMENT",
+        "PROTECTED_PREVIEW",
+        "PHYSICAL_TWO_DEVICE",
+        "STOP_DELETION_NO_RESURRECTION",
+        "KILL_SWITCH",
+        "ROLLBACK_TO_SAFE_DISABLED_STATE"
+      ],
+      "properties": {
+        "EMULATOR": {
+          "$ref": "#/$defs/proofFamilyStatus"
+        },
+        "IAM_AND_BILLING": {
+          "$ref": "#/$defs/proofFamilyStatus"
+        },
+        "FIREBASE_DISABLED_FIRST_DEPLOYMENT": {
+          "$ref": "#/$defs/proofFamilyStatus"
+        },
+        "PROTECTED_PREVIEW": {
+          "$ref": "#/$defs/proofFamilyStatus"
+        },
+        "PHYSICAL_TWO_DEVICE": {
+          "$ref": "#/$defs/proofFamilyStatus"
+        },
+        "STOP_DELETION_NO_RESURRECTION": {
+          "$ref": "#/$defs/proofFamilyStatus"
+        },
+        "KILL_SWITCH": {
+          "$ref": "#/$defs/proofFamilyStatus"
+        },
+        "ROLLBACK_TO_SAFE_DISABLED_STATE": {
+          "$ref": "#/$defs/proofFamilyStatus"
+        }
+      }
+    },
+    "historicalRepositoryBaseline": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "authorizationStatusPath",
+        "repositoryContractPath",
+        "preservedWithoutMutation",
+        "providerActivationAtRepositoryPhase",
+        "cloudResourcesAtRepositoryPhase",
+        "externalReceiptsAtRepositoryPhase"
+      ],
+      "properties": {
+        "authorizationStatusPath": {
+          "const": "release/wp13-12b/authorization-status.json"
+        },
+        "repositoryContractPath": {
+          "const": "release/wp13-12b/staging-activation/repository-contract.json"
+        },
+        "preservedWithoutMutation": {
+          "const": true
+        },
+        "providerActivationAtRepositoryPhase": {
+          "const": "BLOCKED"
+        },
+        "cloudResourcesAtRepositoryPhase": {
+          "const": 0
+        },
+        "externalReceiptsAtRepositoryPhase": {
+          "const": 0
+        }
+      }
+    },
+    "authorizationEvidence": {
+      "type": "array",
+      "uniqueItems": true,
+      "minItems": 2,
+      "items": {
+        "type": "string",
+        "pattern": "^release/wp13-12b/external-activation/[^/]+\\.json$"
+      }
+    },
+    "evidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "historicalReceiptPaths",
+        "historicalReceiptCount",
+        "historicalEmulatorProof",
+        "validatedReceiptPaths",
+        "validatedReceiptCount",
+        "emulatorProof",
+        "cloudProviderReadback",
+        "physicalTwoDeviceProof"
+      ],
+      "properties": {
+        "historicalReceiptPaths": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "pattern": "^release/wp13-12b/receipts/actual/[^/]+\\.json$"
+          }
+        },
+        "historicalReceiptCount": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "historicalEmulatorProof": {
+          "enum": [
+            "NOT_RECORDED",
+            "PRESERVED_NOT_FRESH_V2_NONCE_EVIDENCE"
+          ]
+        },
+        "validatedReceiptPaths": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "pattern": "^release/wp13-12b/receipts/actual/[^/]+\\.json$"
+          }
+        },
+        "validatedReceiptCount": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "emulatorProof": {
+          "enum": [
+            "NOT_RECORDED",
+            "AUTHENTIC_EVIDENCE_RECORDED"
+          ]
+        },
+        "cloudProviderReadback": {
+          "enum": [
+            "PENDING_AUTHENTIC_RECEIPTS",
+            "AUTHENTIC_RECEIPTS_RECORDED"
+          ]
+        },
+        "physicalTwoDeviceProof": {
+          "enum": [
+            "NOT_PERFORMED",
+            "AUTHENTIC_EVIDENCE_RECORDED"
+          ]
+        }
+      }
+    },
+    "cloudState": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "inventoryPath",
+        "inventoryStatus",
+        "resourceCount",
+        "zeroResourcesAsserted",
+        "providerActivation"
+      ],
+      "properties": {
+        "inventoryPath": {
+          "const": "release/wp13-12b/external-activation/resource-inventory.json"
+        },
+        "inventoryStatus": {
+          "enum": [
+            "PENDING_AUTHENTIC_PROVIDER_READBACK",
+            "AUTHENTIC_PROVIDER_SNAPSHOT",
+            "DESTRUCTION_VERIFIED_ZERO_RESOURCES"
+          ]
+        },
+        "resourceCount": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "minimum": 0
+        },
+        "zeroResourcesAsserted": {
+          "type": "boolean"
+        },
+        "providerActivation": {
+          "enum": [
+            "IN_PROGRESS_NOT_YET_RECEIPT_COMPLETE",
+            "ACTIVE_WITH_AUTHENTIC_EVIDENCE",
+            "DISABLED",
+            "DESTROYED"
+          ]
+        }
+      }
+    },
+    "safetyCeilings": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "syntheticDataOnly",
+        "realParticipantData",
+        "stableParticipantIdentity",
+        "firebaseAuthentication",
+        "studentBeta",
+        "recruitment",
+        "production",
+        "b8",
+        "wp13_12c"
+      ],
+      "properties": {
+        "syntheticDataOnly": {
+          "const": true
+        },
+        "realParticipantData": {
+          "const": false
+        },
+        "stableParticipantIdentity": {
+          "const": false
+        },
+        "firebaseAuthentication": {
+          "const": false
+        },
+        "studentBeta": {
+          "const": "NOT_AUTHORIZED"
+        },
+        "recruitment": {
+          "const": "NOT_AUTHORIZED"
+        },
+        "production": {
+          "const": "NOT_AUTHORIZED"
+        },
+        "b8": {
+          "const": "NOT_DECISION_READY"
+        },
+        "wp13_12c": {
+          "const": "BLOCKED"
+        }
+      }
+    }
+  },
+  "$defs": {
+    "proofFamilyStatus": {
+      "enum": [
+        "NOT_RECORDED",
+        "AUTHENTIC_EVIDENCE_RECORDED"
+      ]
+    }
+  }
+}

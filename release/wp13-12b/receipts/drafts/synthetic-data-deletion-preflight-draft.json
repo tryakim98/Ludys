@@ -1,0 +1,78 @@
+{
+  "schemaVersion": "wp13.12b-synthetic-data-deletion-preflight-draft-v1",
+  "classification": "DRAFT_NOT_EVIDENCE",
+  "authenticReceipt": false,
+  "preflightDate": "2026-07-28",
+  "status": "BLOCKED_BEFORE_MUTATION",
+  "authorization": {
+    "provided": true,
+    "exactText": "AUTHORIZE_WP13_12B_SYNTHETIC_DATA_DELETION_EXECUTION;project=ludys-12b-stg-20260725;expiry=2027-01-25;scope=bounded-synthetic-session-delete",
+    "project": "ludys-12b-stg-20260725",
+    "expiry": "2027-01-25",
+    "scope": "bounded-synthetic-session-delete"
+  },
+  "sourceBinding": {
+    "currentCommit": "fdb78846aae350c9418b8d50a1e46ec437f4ae2e",
+    "currentTree": "7180681e32435fb3ef5cbeb602b99ce9bc9b5313",
+    "deletionToolingBoundToCurrentCommitAndTree": false,
+    "reason": "DELETION_TOOLING_IS_UNTRACKED_AND_WORKTREE_IS_NOT_CLEAN"
+  },
+  "requiredLivePreDeletionFacts": {
+    "projectId": "ludys-12b-stg-20260725",
+    "projectNumber": null,
+    "syntheticSessionCount": null,
+    "syntheticCapabilityGrantCount": null,
+    "syntheticSessionTombstoneCount": null,
+    "realDataAbsenceVerifiedByFreshProviderReadback": false,
+    "controlEnabled": null,
+    "controlReason": null,
+    "controlEpoch": null,
+    "authorityGenerations": null,
+    "freshProviderReadbackComplete": false
+  },
+  "boundedCollections": {
+    "deleted": [
+      "syntheticSessions/{syntheticSessionId}",
+      "syntheticCapabilityGrants/{nonce}"
+    ],
+    "createdOrRetained": [
+      "syntheticSessionTombstones/{syntheticSessionId}"
+    ],
+    "readOnly": [
+      "syntheticStagingControl/current"
+    ]
+  },
+  "plannedNonDataResourceChanges": [
+    "Temporarily grant a conditional service-account token-creator binding to the deploy service account.",
+    "Temporarily grant the exact Cloud Run deleteSyntheticSession/run.invoker binding.",
+    "Revoke all temporary deletion authority after the bounded operation."
+  ],
+  "blockingFindings": [
+    "No fresh authenticated provider readback establishes exact collection counts, control epoch, authority generations, or absence of real data.",
+    "The resource inventory artifact is pending and cannot be treated as a zero-resource assertion.",
+    "The pinned Firebase OAuth helper times out after 30 seconds while the independently matching 19417-file toolchain attestation requires more than 100 seconds.",
+    "The 256-entry dirty worktree and untracked deletion tooling fail the clean source-bound execution gate.",
+    "A first execution with zero sessions, zero grants and zero tombstones intentionally fails because zero without tombstone history is not deletion proof.",
+    "Current receipt contracts do not bind source commit/tree, exact authority-generation evidence, exact unaffected-resource diffs, live delayed-command denial, reconnect denial, cached-capability denial, export absence, or post-run process absence."
+  ],
+  "executedEffects": {
+    "deletionExecuted": false,
+    "recordsDeleted": 0,
+    "tombstonesCreated": 0,
+    "temporaryIamChanges": 0,
+    "cloudChanges": 0,
+    "deployments": 0,
+    "loginExecuted": false
+  },
+  "requiredAuthenticPostDeletionEvidence": {
+    "deletedRecordCountsByCollection": null,
+    "terminalTombstoneCountsAndAuthorityGenerations": null,
+    "delayedCommandRejected": null,
+    "reconnectDoesNotResurrect": null,
+    "cachedCapabilityIneffective": null,
+    "exportAbsenceVerified": null,
+    "unexpectedResourceDeltaCount": null,
+    "emulatorOrBackgroundProcessCount": null
+  },
+  "decision": "DO_NOT_DELETE_UNTIL_ALL_LIVE_AND_SOURCE_BINDING_GATES_PASS"
+}

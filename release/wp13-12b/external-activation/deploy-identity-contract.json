@@ -1,0 +1,75 @@
+{
+  "schemaVersion": "wp13.12b-ea-deploy-identity-contract-v1",
+  "status": "CONTRACT_READY_NO_EXTERNAL_WRITE_EXECUTED",
+  "approvalBinding": {
+    "ownerAuthorization": "release/wp13-12b/external-activation/owner-authorization.json",
+    "cloudFieldApproval": "release/wp13-12b/external-activation/cloud-field-approval.json",
+    "projectId": "ludys-12b-stg-20260725",
+    "projectNumber": "134654966474",
+    "organizationId": "724335528970",
+    "approvedGoogleAccount": "tryakim@gmail.com",
+    "region": "europe-north1",
+    "stagingExpiryDate": "2027-01-25"
+  },
+  "identities": {
+    "deployServiceAccount": "ludys-staging-deployer@ludys-12b-stg-20260725.iam.gserviceaccount.com",
+    "runtimeServiceAccount": "ludys-staging-runtime@ludys-12b-stg-20260725.iam.gserviceaccount.com",
+    "previewServiceAccount": "ludys-preview-invoker@ludys-12b-stg-20260725.iam.gserviceaccount.com",
+    "buildServiceAccount": "134654966474-compute@developer.gserviceaccount.com",
+    "allIdentitiesMustBeDistinct": true,
+    "userManagedKeysAllowed": 0
+  },
+  "humanImpersonation": {
+    "mode": "TIME_BOUND_KEYLESS_SERVICE_ACCOUNT_IMPERSONATION",
+    "operatorMember": "user:tryakim@gmail.com",
+    "roleOnDeployIdentity": "roles/iam.serviceAccountTokenCreator",
+    "minimumWindowSeconds": 300,
+    "maximumWindowSeconds": 3600,
+    "unconditionalBindingAllowed": false,
+    "windowMustEndNoLaterThanStagingExpiry": true,
+    "postDeploymentRevocationRequired": true
+  },
+  "temporaryProjectRoles": [
+    "roles/cloudfunctions.developer",
+    "roles/firebaserules.admin",
+    "roles/run.admin",
+    "roles/serviceusage.serviceUsageConsumer"
+  ],
+  "temporaryServiceAccountUserBindings": [
+    "ludys-staging-runtime@ludys-12b-stg-20260725.iam.gserviceaccount.com",
+    "134654966474-compute@developer.gserviceaccount.com"
+  ],
+  "forbiddenDeployRoles": [
+    "roles/owner",
+    "roles/editor",
+    "roles/iam.securityAdmin",
+    "roles/iam.serviceAccountAdmin",
+    "roles/resourcemanager.projectIamAdmin"
+  ],
+  "deploymentCommandPolicy": {
+    "requiredImpersonationFlag": "--impersonate-service-account=ludys-staging-deployer@ludys-12b-stg-20260725.iam.gserviceaccount.com",
+    "requiredProjectFlag": "--project=ludys-12b-stg-20260725",
+    "requiredAccountFlag": "--account=tryakim@gmail.com",
+    "requiredRegionFlag": "--region=europe-north1",
+    "longLivedCredentialFilesAllowed": false,
+    "runtimePhase": "EXTERNAL_SYNTHETIC_STAGING",
+    "sessionIssuanceAtInitialDeploy": false,
+    "previewOriginMustBeExactProtectedDeploymentOrigin": true,
+    "environmentUpdatesMustMergeWithoutDroppingRuntimePhaseOrOrigin": true
+  },
+  "verification": {
+    "activeCallerMustResolveToDeployServiceAccount": true,
+    "zeroUserManagedKeysRequired": true,
+    "exactConditionedBindingsRequired": true,
+    "distinctIdentityReadbackRequired": true,
+    "revocationReadbackRequired": true,
+    "receiptProofResultsRequiredTrue": [
+      "deploy_identity_least_privilege",
+      "deploy_identity_keyless",
+      "deploy_identity_distinct",
+      "deploy_commands_impersonated",
+      "deploy_identity_revoked"
+    ]
+  },
+  "externalWrites": 0
+}

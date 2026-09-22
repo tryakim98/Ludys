@@ -15,7 +15,16 @@ if (extname(artifact).toLowerCase() !== ".jar") throw new Error("EMULATOR_ARTIFA
 if (!/^[a-f0-9]{64}$/u.test(expectedSha256)) throw new Error("PUBLISHED_SHA256_REQUIRED");
 const resolved = resolve(artifact);
 const bytes = await readFile(resolved);
-if (bytes[0] !== 0x50 || bytes[1] !== 0x4b) throw new Error("EMULATOR_ARTIFACT_NOT_A_JAR");
+const localFileHeader = bytes.indexOf(Buffer.from([0x50, 0x4b, 0x03, 0x04]));
+const endOfCentralDirectory = bytes.lastIndexOf(Buffer.from([0x50, 0x4b, 0x05, 0x06]));
+const manifestEntry = bytes.lastIndexOf(Buffer.from("META-INF/MANIFEST.MF", "ascii"));
+const conventionalJar = localFileHeader === 0;
+const selfExtractingJar = (
+  localFileHeader > 0
+  && manifestEntry > localFileHeader
+  && endOfCentralDirectory > manifestEntry
+);
+if (!conventionalJar && !selfExtractingJar) throw new Error("EMULATOR_ARTIFACT_NOT_A_JAR");
 const actual = createHash("sha256").update(bytes).digest("hex");
 if (actual !== expectedSha256) throw new Error("EMULATOR_ARTIFACT_CHECKSUM_MISMATCH");
 const cache = resolve(repo, "provider/firebase/.emulator-cache");
@@ -25,4 +34,10 @@ const target = resolve(cache, basename(resolved));
 await copyFile(resolved, target);
 const handle = await open(target, "r");
 await handle.close();
-console.log(JSON.stringify({ imported: true, filename: basename(target), sha256: actual, cloudResources: 0 }));
+console.log(JSON.stringify({
+  imported: true,
+  filename: basename(target),
+  archiveForm: selfExtractingJar ? "SELF_EXTRACTING_JAR" : "CONVENTIONAL_JAR",
+  sha256: actual,
+  cloudResources: 0,
+}));

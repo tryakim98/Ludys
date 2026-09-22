@@ -321,7 +321,7 @@
     },
     {
       "package": "fast-uri",
-      "version": "3.1.4",
+      "version": "3.1.5",
       "scope": "runtime",
       "license": "BSD-3-Clause",
       "runtimeReachability": "PROVIDER_FUNCTIONS_RUNTIME"

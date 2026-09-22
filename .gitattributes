@@ -1,1 +1,27 @@
+*.cjs text eol=lf
+*.css text eol=lf
+*.example text eol=lf
+*.html text eol=lf
+*.js text eol=lf
+*.json text eol=lf
+*.md text eol=lf
+*.mjs text eol=lf
+*.rules text eol=lf
+*.sha256 text eol=lf
+*.txt text eol=lf
+*.ts text eol=lf
+*.yaml text eol=lf
+*.yml text eol=lf
+.gitattributes text eol=lf
+.gitignore text eol=lf
+provider/vercel/wp13-12b-preview/.vercelignore text eol=lf
+
 src/ui/browser/*templates.ts text eol=lf
+artifacts/wp13-12b-provider-package.json text eol=lf
+provider/firebase/firestore.indexes.json text eol=lf
+provider/firebase/firestore.rules text eol=lf
+provider/firebase/functions/.gcloudignore text eol=lf
+provider/firebase/functions/*.json text eol=lf
+provider/firebase/functions/*.mjs text eol=lf
+provider/firebase/functions/*.yaml text eol=lf
+provider/firebase/functions/lib/**/*.js text eol=lf

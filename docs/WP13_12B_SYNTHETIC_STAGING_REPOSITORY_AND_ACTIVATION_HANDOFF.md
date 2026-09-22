@@ -1,5 +1,43 @@
 # WP13.12B — syntetisk stagingrepository og aktiveringshandoff
 
+## Gjeldende ekstern aktiveringsstatus
+
+Dom- og nullressurspåstandene i resten av dette dokumentet beskriver den
+historiske repositoryfasen. Gjeldende ekstern status føres separat i
+`release/wp13-12b/external-activation/` slik at den historiske baselinen ikke
+skrives om.
+
+Per 2026-07-27 er faktisk Firebase Emulator Suite-proof gjennomført, arkivert
+og eksplisitt bekreftet av produkteier. Det isolerte Google/Firebase-prosjektet
+`ludys-12b-stg-20260725` har billingkontroll, regional Firestore, deny-all
+regler, fem Functions 2nd gen-tjenester, nøkkelfrie servicekontoer og et
+serversecret. Backend er deployet deaktivert; ingen syntetiske økter er seedet.
+Vercel-prosjektet finnes uten deployment eller domene. Den eksakte
+Vercel-preview-identiteten er konfigurert med nøkkelfri Workload Identity
+Federation, men både pool og provider er deaktivert.
+
+Provideraktivering, beskyttet previewdeployment, cloudreceipts og fysisk
+to-enhetsproof er derfor fortsatt ufullført. Ekte data, stabil deltakeridentitet,
+Firebase Auth, studentbeta, rekruttering, produksjon, B8 og WP13.12C er fortsatt
+forbudt eller blokkert.
+
+Det historiske emulatorbeviset og den generelle eierbekreftelsen bevares som
+historisk evidens, men kvalifiserer ikke alene til PR-3. Et nytt bevis må
+kjøres fra en ren implementasjonscommit. V2-receipten krever en engangskode og
+en eksakt menneskelig bekreftelse bundet til commit, tree, hele proofartefaktens
+SHA-256, emulator-JAR-ens SHA-256, demo project ID og fast proof-formål.
+
+`PR3` er eksplisitt `NOT_ACHIEVED`. Den maskinelle PR-3-porten krever alle
+åtte kvitteringsavledede bevisfamilier, inkludert fysisk STOP, sletting,
+no-resurrection, kill switch og rollback. Previewtekst er separat
+menneskegodkjent og bundet til source-set SHA-256; enhver tekstendring lukker
+deploymentporten igjen.
+
+Utløpsdestruksjon er autorisert, men ingen schedulerreceipt finnes. Statusen er
+`AUTHORIZED_AT_EXPIRY_NOT_SCHEDULED`; execution contract og destruction plan
+er etterprøvbare, men repositoryet påstår ikke at en ekstern scheduler er
+opprettet.
+
 ## Dom
 
 Denne arbeidspakken gjør LUDYS-repositoryet teknisk klart for en senere, separat autorisert syntetisk Firebase-/Vercel-staging. Den oppretter ingen konto, billingkobling, database, service account, secret, deployment eller annen ekstern skyressurs.
@@ -7,7 +45,8 @@ Denne arbeidspakken gjør LUDYS-repositoryet teknisk klart for en senere, separa
 Maksimal status er:
 
 - `WP13_12B_REPOSITORY_IMPLEMENTATION = COMPLETE` etter grønn lokal kontroll og Git-leveranse
-- `WP13_12B_EXTERNAL_ACTIVATION = BLOCKED_PENDING_AUTHORIZED_OPERATOR`
+- `WP13_12B_EXTERNAL_ACTIVATION = AUTHORIZED_BY_EXPLICIT_PRODUCT_OWNER_CONFIRMATION`
+- `CLOUD_PROVISIONING = BLOCKED_PENDING_EXPLICIT_PROJECT_ID_ACCOUNT_AND_BILLING_ACCOUNT_APPROVAL`
 - `PROVIDER_ACTIVATION = BLOCKED`
 - `CLOUD_RESOURCES = 0`
 - `EXTERNAL_RECEIPTS = 0`

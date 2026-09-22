@@ -1,0 +1,557 @@
+{
+  "schemaVersion": "wp13.12b-ea-expiry-destruction-execution-contract-v4",
+  "status": "MATERIALIZATION_AVAILABLE_EXECUTION_NOT_RUN",
+  "approvalBinding": {
+    "ownerAuthorization": "release/wp13-12b/external-activation/owner-authorization.json",
+    "cloudFieldApproval": "release/wp13-12b/external-activation/cloud-field-approval.json",
+    "trustContract": "release/wp13-12b/external-activation/vercel-google-trust-contract.json",
+    "destructionPlan": "release/wp13-12b/activation-handoff/destruction-plan.json",
+    "projectId": "ludys-12b-stg-20260725",
+    "projectNumber": "134654966474",
+    "approvedGoogleAccount": "tryakim@gmail.com",
+    "organizationId": "724335528970",
+    "billingAccount": "01CD9D-0900DF-4FB36A",
+    "region": "europe-north1",
+    "stagingExpiryDate": "2027-01-25",
+    "vercelTeamId": "team_1Gnn3VSNrP3mbseXx6a92a4J",
+    "vercelProjectId": "prj_nHs1hbdyfcMMMglNUTwoYRS43naN"
+  },
+  "existingOwnerAuthorization": {
+    "expiryExecutionStatus": "AUTHORIZED_AT_EXPIRY_NOT_SCHEDULED",
+    "schedulerReceipt": null,
+    "authorizedEffects": [
+      "DISABLE_STAGING_AND_ADVANCE_CONTROL_EPOCH",
+      "ESTABLISH_SAFE_DISABLED_BACKEND_BEFORE_TRUST_REMOVAL",
+      "REVOKE_TIME_BOUNDED_DEPLOY_IDENTITY",
+      "DISABLE_EXACT_WIF_PROVIDER_AND_POOL",
+      "DELETE_ALL_EXTERNAL_RESOURCES_PER_DESTRUCTION_PLAN"
+    ],
+    "doesNotRemoveRuntimeSafeguards": true
+  },
+  "executionClockPhases": {
+    "safeBackendTransition": {
+      "mayStartBeforeExpiryOnOwnerStop": true,
+      "mustCompleteBeforeExpiry": true,
+      "externalActivationWindowMustRemainOpenForDeployIdentityAndFunctionDeployment": true
+    },
+    "syntheticDeletionTransition": {
+      "classification": "BOUNDED_PRE_DESTRUCTION_SAFETY_CLEANUP_EXCEPTION",
+      "separateExactAuthorizationRequired": true,
+      "minimumDeletionOnlyWindowMinutes": 5,
+      "maximumDeletionOnlyWindowMinutes": 30,
+      "ordinaryExecutionMayStartBeforeExpiry": true,
+      "ordinaryPostExpiryGraceEndsAt": "2027-01-26T00:00:00.000Z",
+      "executionAfterOrdinaryGraceRequiresSeparateExceptionalRecoveryAuthorization": true,
+      "fullDeployOrRedeployAuthorityIsForbiddenInDeletionOnlyWindow": true,
+      "fullDeployRecoveryAfterExpiryRequiresSeparateExceptionalRecoveryAuthorization": true
+    },
+    "irreversibleDestruction": {
+      "mustNotStartBeforeExpiry": true,
+      "excludesBoundedSyntheticSafetyCleanup": true,
+      "deactivationReceiptMaterializationAtOrAfterExpiry": true,
+      "systemClockIsAuthoritative": true
+    }
+  },
+  "runtimeExecutionSafeguards": {
+    "projectAndScopeMustMatchApprovalExactly": true,
+    "liveReadOnlyMultiProviderInventoryMustMatchConfirmedDigest": true,
+    "googleProjectNumberMustBeConfirmedSeparately": true,
+    "vercelTeamAndProjectIdsMustBeConfirmedSeparately": true,
+    "controlFalseAndStrictlyAdvancedEpochMustPrecedeSafeBackendDeployment": true,
+    "safeBackendReadbackMustPrecedeWifDisable": true,
+    "deployIdentityRevocationMustPrecedeWifDisable": true,
+    "syntheticDeletionUsesOnlyExactDeletionOnlyIdentity": true,
+    "syntheticDeletionDownscopeRequiresSeparateExactAuthorization": true,
+    "syntheticDeletionIdentityRevocationRunsInGuaranteedFinally": true,
+    "syntheticDeletionIdentityRevocationRequiresNoAuthorization": true,
+    "syntheticDeletionReceiptIsWrittenOnlyAfterAuthenticatedRevokedReadback": true,
+    "syntheticDeletionFirstRunZeroRequiresRetainedTombstoneHistory": true,
+    "syntheticDeletionZeroWithoutTombstoneHistoryFailsClosed": true,
+    "syntheticDeletionIntentAndReceiptAreImmutableAndCrossBound": true,
+    "syntheticDeletionProductionMutatorRejectsDependencyInjection": true,
+    "externalMutatorsRejectToolModuleTlsProxyAndNodeEnvironmentOverrides": true,
+    "externalNodeChildScriptsUseCanonicalAbsoluteRepositoryPathsAndExplicitCwd": true,
+    "externalChildProcessesUseCleanEnvironmentAndBoundedTimeouts": true,
+    "deactivationExecutionRequiresDirectLiveSafeBackendInventory": true,
+    "deactivationExecutionMustRecollectOnEveryResume": true,
+    "deactivationProductionMutatorUsesOnlyActualWallClockRealCollectorAndRealCommands": true,
+    "deactivationProductionMutatorReadsExactEvidencePathsInternally": true,
+    "deactivationTestCoreRequiresAllTestDoublesWithoutProductionDefaults": true,
+    "deactivationReceiptMustFollowSafeBackendAndWifVerification": true,
+    "wifProviderAndPoolMustBeDisabledBeforeVercelDeletion": true,
+    "syntheticPayloadDeletionAndRetentionEvidenceRequired": true,
+    "syntheticPayloadDeletionMustPrecedeDeactivationReceipt": true,
+    "syntheticPayloadDeletionEvidenceMustBeValidatedBeforeWifDisable": true,
+    "syntheticPayloadDeletionEvidenceMustMatchFreshLiveInventoryBinding": true,
+    "executionEvidencePathsMustMatchAuthoritativeReceiptPaths": true,
+    "executionEvidenceReadsResolveFromCanonicalRepositoryRoot": true,
+    "executionEvidenceReadsRequireRegularNonSymlinkSingleLinkFiles": true,
+    "executionEvidenceReadsVerifyCanonicalPathAndOpenedFileIdentity": true,
+    "canonicalEvidenceDigestsMustBeCrossBound": true,
+    "humanConfirmationUsesSeparateImmutableDigestBoundRecorderArtifacts": true,
+    "humanConfirmationRecorderClaimsNoActorIdentityOrSignature": true,
+    "exactVercelProjectDeletionRequiresSeparateAuthenticatedExecutionAndEvidence": true,
+    "vercelProductionMutatorUsesOnlyActualWallClockAndRealLiveClients": true,
+    "vercelProductionMutatorReadsExactEvidencePathsInternally": true,
+    "noExportedVercelMutatorAcceptsInjectedClockInventoryOrProvider": true,
+    "vercelPostAbsenceReadbacksRequireProjectSettings404AndEmptyDeploymentsDomainsAndEnvironment": true,
+    "humanConfirmationOfVercelAbsenceRequiredBeforeGoogleDestruction": true,
+    "googleDestructionReadsBothExactImmutableConfirmationArtifacts": true,
+    "billingUnlinkIsEmittedOnlyWhenFreshInventoryShowsLinked": true,
+    "alreadyAbsentGoogleProjectIsExplicitZeroCommandNoOp": true,
+    "freshPostVercelInventoryMustUseDestructionPhaseRules": true,
+    "readyVercelDeploymentRequiredAfterVercelDeletion": false,
+    "enabledWifRequiredAfterDeactivation": false,
+    "unknownResourcesBlockExecution": true,
+    "separateExecutionAuthorizationStringsRequired": true,
+    "tokensMayNeverBePrintedOrPersisted": true
+  },
+  "requiredEvidence": {
+    "safeBackendTransition": {
+      "evidenceKind": "ORDERED_OPERATOR_TRANSCRIPT_AND_AUTHENTICATED_READBACKS",
+      "requiredAssertions": [
+        "stagingEnabled=false at a strictly advanced controlEpoch",
+        "only the time-bounded keyless deploy identity was provisioned and verified",
+        "the exact receipt-bound preview origin was configured with issueSyntheticSession issuance=false",
+        "the safe-disabled function set was deployed and read back before trust removal",
+        "all broad deploy authority was replaced by the exact time-bounded deletion-only identity and verified"
+      ],
+      "mustPrecedeEvidence": [
+        "syntheticDataDeletion",
+        "deactivation"
+      ],
+      "preTrustRemovalInventory": {
+        "inventoryPhase": "SAFE_BACKEND_FOR_DESTRUCTION",
+        "source": "DIRECT_LIVE_MULTI_PROVIDER_READBACK",
+        "requiredBeforeEveryWifDisableOrResume": true,
+        "requiresControlFalseAtStrictlyAdvancedEpoch": true,
+        "requiresIssuanceFalseAtExactProtectedOrigin": true,
+        "requiresSafeDisabledExactFunctionSet": true,
+        "requiresBroadDeployAuthorityRevoked": true,
+        "requiresExactDeletionOnlyAuthorityActive": true
+      }
+    },
+    "deactivation": {
+      "schemaVersion": "wp13.12b-ea-deactivation-execution-receipt-v3",
+      "requiredAssertions": [
+        "executed=true",
+        "stagingEnabled=false",
+        "controlEpoch is a safe integer greater than or equal to 2",
+        "safeBackendForDestructionVerified=true with a direct live inventory digest",
+        "sessionIssuanceDisabled=true at the exact protected preview origin",
+        "deployIdentityRevoked=true",
+        "syntheticDataDeletionVerified=true and evidence digest bound",
+        "workloadIdentityProviderDisabled=true",
+        "workloadIdentityPoolDisabled=true",
+        "federatedPreviewTrustDisabled=true"
+      ],
+      "requiredFields": [
+        "projectId",
+        "stagingExpiryDate",
+        "controlEpoch",
+        "safeBackendInventoryDigest",
+        "syntheticDataDeletionEvidenceSha256",
+        "syntheticDataDeletionConfirmationSha256"
+      ],
+      "mustBeMaterializedAfter": [
+        "safeBackendTransition",
+        "syntheticDataDeletion",
+        "syntheticDataDeletionConfirmation"
+      ]
+    },
+    "syntheticDataDeletionIntent": {
+      "schemaVersion": "wp13.12b-synthetic-data-deletion-intent-v1",
+      "path": "release/wp13-12b/receipts/actual/synthetic-data-deletion-intent.json",
+      "immutableAtomicFailClosedWrite": true,
+      "mustPrecedeAnyDeleteInvocation": true,
+      "acceptedInitialStateClassifications": [
+        "ACTIVE_SYNTHETIC_DATA_REQUIRES_DELETION",
+        "ALREADY_ZERO_WITH_RETAINED_TOMBSTONE_HISTORY"
+      ],
+      "zeroSessionIntentRequiresZeroGrantsAndAtLeastOneTombstone": true,
+      "bindsPreDeletionInventoryAndSessionAndTombstoneSetDigests": true,
+      "bindsExpectedPostDeletionTombstoneSetDigestAndCount": true,
+      "syntheticIdentifiersPersistedOrPrinted": false
+    },
+    "syntheticDataDeletionExecutionReceipt": {
+      "schemaVersion": "wp13.12b-synthetic-data-deletion-execution-receipt-v1",
+      "path": "release/wp13-12b/receipts/actual/synthetic-data-deletion-execution-receipt.json",
+      "immutableAtomicFailClosedWrite": true,
+      "acceptedExecutionClassifications": [
+        "AUTHENTICATED_BOUNDED_DELETION_EXECUTED",
+        "AUTHENTICATED_INTENT_RECOVERY_AFTER_COMPLETED_DELETION",
+        "AUTHENTICATED_ALREADY_ZERO_WITH_TOMBSTONE_HISTORY_NO_OP"
+      ],
+      "requiredExactAuthorityStateAfter": "ALL_DEPLOY_AND_DELETION_AUTHORITY_REVOKED",
+      "deletionIdentityRevokedBeforeReceiptWrite": true,
+      "requiresAuthenticatedPostRevokeGoogleOnlyInventory": true,
+      "bindsIntentDownscopeRevokeAndPostRevokeDigests": true,
+      "noOpRequiresZeroDeleteInvocationsAndZeroSyntheticWrites": true,
+      "syntheticIdentifiersPersistedOrPrinted": false
+    },
+    "syntheticDataDeletion": {
+      "schemaVersion": "wp13.12b-synthetic-data-deletion-evidence-v1",
+      "requiredFields": [
+        "projectId",
+        "stagingExpiryDate",
+        "operatorGoogleAccount",
+        "controlEpoch",
+        "activeSyntheticSessionCount",
+        "activeCapabilityGrantCount",
+        "tombstoneCount",
+        "tombstoneRetentionDisposition",
+        "observedAt",
+        "observedSyntheticDataInventoryDigest",
+        "syntheticDataDeletionIntentSha256",
+        "syntheticDataDeletionExecutionReceiptSha256",
+        "humanConfirmationText",
+        "humanConfirmationSha256"
+      ],
+      "requiredExactFields": {
+        "projectId": "ludys-12b-stg-20260725",
+        "stagingExpiryDate": "2027-01-25",
+        "operatorGoogleAccount": "tryakim@gmail.com",
+        "activeSyntheticSessionCount": 0,
+        "activeCapabilityGrantCount": 0,
+        "tombstoneRetentionDisposition": "RETAIN_MINIMUM_TOMBSTONES_UNTIL_FINAL_ZERO_RESOURCE_EVIDENCE"
+      },
+      "requiredTrueFields": [
+        "allActiveSyntheticSessionPayloadsDeleted",
+        "tombstoneAndRetentionDecisionSecured"
+      ],
+      "requiredFalseFields": [
+        "humanConfirmed"
+      ],
+      "minimumControlEpoch": 2,
+      "tombstoneCountMustBeNonnegativeSafeInteger": true,
+      "observedAtMustBeCanonicalIsoTimestamp": true,
+      "observedSyntheticDataInventoryDigestMustBeSha256": true,
+      "liveInventoryDigestMustMatchAtDeactivationAndGoogleDestruction": true,
+      "humanConfirmationTextTemplate": "CONFIRM_WP13_12B_SYNTHETIC_DATA_DELETION;projectId=<projectId>;stagingExpiryDate=<stagingExpiryDate>;operatorGoogleAccount=<operatorGoogleAccount>;controlEpoch=<controlEpoch>;activeSyntheticSessionCount=<activeSyntheticSessionCount>;activeCapabilityGrantCount=<activeCapabilityGrantCount>;tombstoneCount=<tombstoneCount>;tombstoneRetentionDisposition=<tombstoneRetentionDisposition>;observedAt=<observedAt>;observedSyntheticDataInventoryDigest=<observedSyntheticDataInventoryDigest>;syntheticDataDeletionIntentSha256=<syntheticDataDeletionIntentSha256>;syntheticDataDeletionExecutionReceiptSha256=<syntheticDataDeletionExecutionReceiptSha256>",
+      "humanConfirmationSha256MustMatchExactText": true
+    },
+    "syntheticDataDeletionConfirmation": {
+      "schemaVersion": "wp13.12b-synthetic-data-deletion-confirmation-v1",
+      "path": "release/wp13-12b/receipts/actual/synthetic-data-deletion-confirmation.json",
+      "evidencePath": "release/wp13-12b/receipts/actual/synthetic-data-deletion-evidence.json",
+      "evidenceKind": "SYNTHETIC_DATA_DELETION",
+      "requiredFields": [
+        "evidenceSha256",
+        "confirmationPhrase",
+        "confirmationPhraseSha256",
+        "recordedAt",
+        "recorderClassification"
+      ],
+      "requiredTrueFields": [
+        "immutableRecord"
+      ],
+      "requiredFalseFields": [
+        "actorIdentityClaimed",
+        "signatureClaimed"
+      ],
+      "recorderClassification": "EXPLICIT_LOCAL_PHRASE_ENTRY_NO_ACTOR_IDENTITY_OR_SIGNATURE_CLAIM",
+      "recordedAtMustUseActualWallClockAndNotPrecedeEvidenceObservation": true,
+      "confirmationPhraseMustExactlyMatchEvidenceHumanConfirmationText": true,
+      "evidenceSha256MustMatchCanonicalEvidence": true,
+      "additionalFieldsForbidden": true
+    },
+    "protectedPreview": {
+      "schemaVersion": "wp13.12b-preview-destruction-evidence-v2",
+      "acceptedStatuses": [
+        "VERIFIED_DESTROYED"
+      ],
+      "requiredExactFields": {
+        "provider": "VERCEL",
+        "teamId": "team_1Gnn3VSNrP3mbseXx6a92a4J",
+        "teamSlug": "trym-s-projects",
+        "vercelProjectId": "prj_nHs1hbdyfcMMMglNUTwoYRS43naN",
+        "vercelProjectName": "ludys-wp13-12b-staging"
+      },
+      "requiredTrueFields": [
+        "authenticatedProviderReadback",
+        "projectAbsentAfterDeletion",
+        "deploymentsAfterProjectAbsenceReadbackAuthenticated",
+        "domainsAfterProjectAbsenceReadbackAuthenticated",
+        "environmentVariablesAfterProjectAbsenceReadbackAuthenticated",
+        "projectSettingsAfterProjectAbsenceReadbackAuthenticated",
+        "projectSettingsAbsentAfterProjectAbsence"
+      ],
+      "requiredFalseFields": [
+        "humanConfirmed",
+        "tokenPrinted",
+        "oidcTokenPrinted"
+      ],
+      "requiredBindingFields": [
+        "observedAt",
+        "safeBackendInventoryDigest",
+        "controlEpoch",
+        "deactivationReceiptSha256",
+        "syntheticDataDeletionEvidenceSha256",
+        "syntheticDataDeletionConfirmationSha256",
+        "deploymentsObservedAfterProjectAbsence",
+        "domainsObservedAfterProjectAbsence",
+        "environmentVariablesObservedAfterProjectAbsence",
+        "canonicalAbsenceEvidenceDigest",
+        "humanConfirmationText",
+        "humanConfirmationSha256"
+      ],
+      "observedAtMustBeCanonicalIsoTimestamp": true,
+      "canonicalAbsenceEvidenceDigestMustBeSha256": true,
+      "canonicalEvidenceMustCrossBindDeactivationAndSyntheticDigests": true,
+      "humanConfirmationTextTemplate": "CONFIRM_WP13_12B_VERCEL_PROJECT_ABSENCE;teamId=<teamId>;vercelProjectId=<vercelProjectId>;vercelProjectName=<vercelProjectName>;observedAt=<observedAt>;canonicalAbsenceEvidenceDigest=<canonicalAbsenceEvidenceDigest>;deactivationReceiptSha256=<deactivationReceiptSha256>;syntheticDataDeletionEvidenceSha256=<syntheticDataDeletionEvidenceSha256>;syntheticDataDeletionConfirmationSha256=<syntheticDataDeletionConfirmationSha256>",
+      "humanConfirmationSha256MustMatchExactText": true,
+      "postAbsenceObservedCountsMustAllBeZero": true,
+      "acceptedExecutionClassifications": [
+        "deletionExecuted=true and alreadyAbsent=false",
+        "deletionExecuted=false and alreadyAbsent=true with authenticated retry readback"
+      ],
+      "neverCreatedStatusAllowed": false,
+      "reason": "The exact Vercel project has already been created, even though no deployment exists yet."
+    },
+    "protectedPreviewConfirmation": {
+      "schemaVersion": "wp13.12b-preview-destruction-confirmation-v1",
+      "path": "release/wp13-12b/receipts/actual/preview-destruction-confirmation.json",
+      "evidencePath": "release/wp13-12b/receipts/actual/preview-destruction-evidence.json",
+      "evidenceKind": "PREVIEW_DESTRUCTION",
+      "requiredFields": [
+        "evidenceSha256",
+        "confirmationPhrase",
+        "confirmationPhraseSha256",
+        "recordedAt",
+        "recorderClassification"
+      ],
+      "requiredTrueFields": [
+        "immutableRecord"
+      ],
+      "requiredFalseFields": [
+        "actorIdentityClaimed",
+        "signatureClaimed"
+      ],
+      "recorderClassification": "EXPLICIT_LOCAL_PHRASE_ENTRY_NO_ACTOR_IDENTITY_OR_SIGNATURE_CLAIM",
+      "recordedAtMustUseActualWallClockAndNotPrecedeEvidenceObservation": true,
+      "confirmationPhraseMustExactlyMatchEvidenceHumanConfirmationText": true,
+      "evidenceSha256MustMatchCanonicalEvidence": true,
+      "additionalFieldsForbidden": true
+    }
+  },
+  "executionAuthorizationStrings": {
+    "syntheticDataDeletion": "AUTHORIZE_WP13_12B_SYNTHETIC_DATA_DELETION_EXECUTION;project=ludys-12b-stg-20260725;expiry=2027-01-25;scope=bounded-synthetic-session-delete",
+    "deactivation": "AUTHORIZE_WP13_12B_DEACTIVATION_EXECUTION;ludys-12b-stg-20260725;expiry=2027-01-25",
+    "vercelDestruction": "AUTHORIZE_WP13_12B_VERCEL_DESTRUCTION_EXECUTION;team=team_1Gnn3VSNrP3mbseXx6a92a4J;project=prj_nHs1hbdyfcMMMglNUTwoYRS43naN;expiry=2027-01-25",
+    "destruction": "AUTHORIZE_WP13_12B_DESTRUCTION_EXECUTION;ludys-12b-stg-20260725;expiry=2027-01-25"
+  },
+  "materialization": {
+    "defaultMode": "PLAN_ONLY_NO_EXTERNAL_WRITES",
+    "deactivationCommand": "npm run provider:external:deactivation-plan",
+    "vercelDestructionCommand": "node scripts/wp13-12b-external-resource-operator.mjs --action vercel-destruction-plan",
+    "destructionCommand": "npm run provider:external:destruction-plan",
+    "inventoryCommand": "npm run provider:external:inventory",
+    "inventoryEvidenceCommand": "npm run provider:external:inventory -- --output artifacts/wp13-12b-external-resource-inventory.json",
+    "syntheticDataDeletionExecutionCommand": "node scripts/wp13-12b-external-resource-operator.mjs --action delete-synthetic-data --window-expires-at <UTC-ISO-WITHIN-30-MINUTES-AND-NO-LATER-THAN-2027-01-26T00:00:00.000Z> --execute \"AUTHORIZE_WP13_12B_SYNTHETIC_DATA_DELETION_EXECUTION;project=ludys-12b-stg-20260725;expiry=2027-01-25;scope=bounded-synthetic-session-delete\"",
+    "syntheticDataDeletionEvidencePlanCommand": "node scripts/wp13-12b-external-resource-operator.mjs --action synthetic-data-deletion-evidence-plan",
+    "syntheticDataDeletionConfirmationCommand": "node scripts/wp13-12b-external-resource-operator.mjs --action record-synthetic-data-deletion-confirmation --confirm-human-phrase \"<EXACT_humanConfirmationText_FROM_SYNTHETIC_EVIDENCE>\"",
+    "previewDestructionConfirmationCommand": "node scripts/wp13-12b-external-resource-operator.mjs --action record-preview-destruction-confirmation --confirm-human-phrase \"<EXACT_humanConfirmationText_FROM_PREVIEW_EVIDENCE>\"",
+    "executionEvidencePaths": {
+      "syntheticDataDeletionIntent": "release/wp13-12b/receipts/actual/synthetic-data-deletion-intent.json",
+      "syntheticDataDeletionExecution": "release/wp13-12b/receipts/actual/synthetic-data-deletion-execution-receipt.json",
+      "syntheticDataDeletion": "release/wp13-12b/receipts/actual/synthetic-data-deletion-evidence.json",
+      "syntheticDataDeletionConfirmation": "release/wp13-12b/receipts/actual/synthetic-data-deletion-confirmation.json",
+      "deactivation": "release/wp13-12b/receipts/actual/deactivation-execution-receipt.json",
+      "previewDestruction": "release/wp13-12b/receipts/actual/preview-destruction-evidence.json",
+      "previewDestructionConfirmation": "release/wp13-12b/receipts/actual/preview-destruction-confirmation.json"
+    },
+    "executionEvidenceWritesAreAtomicAndFailClosed": true,
+    "executionEvidenceReadsAreCanonicalRegularSingleLinkFiles": true,
+    "identicalExistingEvidenceIsAnIdempotentNoOp": true,
+    "differentExistingEvidenceBlocksReplacement": true,
+    "safeBackendSequenceSource": "release/wp13-12b/activation-handoff/destruction-plan.json#orderedCommands",
+    "deactivationCommandRole": "AT_OR_AFTER_EXPIRY_RECEIPT_MATERIALIZATION_AFTER_SAFE_BACKEND_TRANSITION; NOT_A_STANDALONE_SAFE_BACKEND_ORCHESTRATOR",
+    "deactivationExecutionRequires": [
+      "--execute <exact deactivation authorization string>",
+      "--control-epoch <strictly advanced safe integer>",
+      "--synthetic-data-deletion-evidence release/wp13-12b/receipts/actual/synthetic-data-deletion-evidence.json",
+      "exact synthetic deletion evidence and immutable confirmation read internally",
+      "direct live SAFE_BACKEND_FOR_DESTRUCTION inventory recollected in-process"
+    ],
+    "freshInventoryRequiredBeforeEveryGoogleResume": true,
+    "firebaseToolsOAuthToolchain": {
+      "moduleRoot": "C:\\Users\\tryak\\AppData\\Roaming\\npm\\node_modules\\firebase-tools",
+      "version": "15.22.4",
+      "treeAlgorithm": "SORTED_RELATIVE_PATH_CODE_UNIT_NUL_SIZE_NUL_SHA256_LF_V1",
+      "regularFileCount": 19417,
+      "totalBytes": 189433946,
+      "treeSha256": "fdbf5c3e8c960490a3bec6097989127616f33d396115a6b5f911372722fbe7fa",
+      "verifiedBeforeAnyFirebaseToolsRequire": true,
+      "oauthAccessTokenTransferredOnlyOverIsolatedIpc": true,
+      "tokenPrintedOrPersisted": false
+    },
+    "vercelCliToolchain": {
+      "moduleRoot": "C:\\Users\\tryak\\AppData\\Local\\LUDYS\\toolchains\\vercel-cli-58.0.0\\node_modules",
+      "version": "58.0.0",
+      "treeAlgorithm": "ASCII_CODE_UNIT_SORTED_RELATIVE_PATH_NUL_SIZE_NUL_SHA256_LF_V2",
+      "regularFileCount": 6731,
+      "treeSha256": "4d97f7ef1a2631946dd5344d29db7ad9b931782e24bd478ea2a4241e2a0f57fc",
+      "forbiddenInstallLogPaths": [
+        "npm-install.stderr.log",
+        "npm-install.stdout.log"
+      ],
+      "forbiddenInstallLogsAbsent": true,
+      "globalAuthConfigRoot": "C:\\Users\\tryak\\AppData\\Local\\com.vercel.cli",
+      "ambientModuleRootAllowed": false,
+      "verifiedBeforeCredentialLoad": true,
+      "tokenPrintedOrPersisted": false
+    },
+    "googleCloudCliToolchain": {
+      "moduleRoot": "C:\\Users\\tryak\\AppData\\Local\\LUDYS\\toolchains\\gcloud-577.0.0\\google-cloud-sdk",
+      "version": "577.0.0",
+      "archiveName": "google-cloud-sdk-577.0.0-windows-x86_64-bundled-python.zip",
+      "acquiredFrom": "https://storage.googleapis.com/cloud-sdk-release/google-cloud-sdk-577.0.0-windows-x86_64-bundled-python.zip",
+      "officialMirror": "https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-sdk-577.0.0-windows-x86_64-bundled-python.zip",
+      "archiveBytes": 110769066,
+      "archiveSha256": "dcf9097b2c7a0a29bd6322571f5090c6046bed96b19c0750e62f549b735b80eb",
+      "logicalCommand": "gcloud",
+      "commandShim": "C:\\Users\\tryak\\AppData\\Local\\LUDYS\\toolchains\\gcloud-577.0.0\\google-cloud-sdk\\bin\\gcloud.cmd",
+      "commandShimExecuted": false,
+      "physicalExecutable": "C:\\Users\\tryak\\AppData\\Local\\LUDYS\\toolchains\\gcloud-577.0.0\\google-cloud-sdk\\platform\\bundledpython\\python.exe",
+      "physicalExecutableBytes": 106208,
+      "physicalExecutableSha256": "03168c01b7b7491423350e82c26fee71f35b43694d1319d3c668bda6903a0c38",
+      "pythonEntrypoint": "C:\\Users\\tryak\\AppData\\Local\\LUDYS\\toolchains\\gcloud-577.0.0\\google-cloud-sdk\\lib\\gcloud.py",
+      "pythonEntrypointBytes": 6579,
+      "pythonEntrypointSha256": "d223bce54ff2e1441268e73b06eec4830032dd7b4b17b8fa9e2638d4f6d8d39d",
+      "pythonFlags": [
+        "-I",
+        "-S",
+        "-B"
+      ],
+      "treeAlgorithm": "SORTED_RELATIVE_PATH_CODE_UNIT_NUL_SIZE_NUL_SHA256_LF_V1",
+      "regularFileCount": 29931,
+      "directoryCount": 5662,
+      "totalBytes": 459287508,
+      "treeSha256": "da1f9c6799bb76a3bae3e59bd138b68ef4954dbc396306357c5babf46c34423d",
+      "symlinkReparseSpecialEntryCount": 0,
+      "hardlinkEntryCount": 0,
+      "archiveSymlinkModeEntryCount": 6,
+      "archiveSymlinkEntriesMaterializedAsRegularFiles": 6,
+      "requiredBeforeAnyGoogleCliProcess": true,
+      "pathOrEnvironmentOverrideAllowed": false,
+      "oauthAccessTokenSource": "PINNED_FIREBASE_TOOLS_ISOLATED_IPC_HELPER",
+      "oauthAccessTokenInjectedOnlyIntoCleanChildEnvironment": true,
+      "ownedCloudSdkConfigCreatedPerCommand": true,
+      "ownedCloudSdkConfigRemovedInFinally": true,
+      "maximumCommandTimeoutMs": 600000,
+      "maximumOutputBytes": 1048576,
+      "inheritedDangerousEnvironmentRejected": true,
+      "execArgvMustBeEmpty": true,
+      "accessTokenPrintedOrPersisted": false,
+      "firebaseHostingDestructionFailsClosedUntilPinnedAdapter": true
+    },
+    "vercelExecutionRequires": [
+      "--execute <exact vercelDestruction authorization string>",
+      "--confirm-vercel-team-id team_1Gnn3VSNrP3mbseXx6a92a4J",
+      "--confirm-vercel-project-id prj_nHs1hbdyfcMMMglNUTwoYRS43naN",
+      "--deactivation-receipt release/wp13-12b/receipts/actual/deactivation-execution-receipt.json",
+      "--synthetic-data-deletion-evidence release/wp13-12b/receipts/actual/synthetic-data-deletion-evidence.json",
+      "exact deactivation, synthetic deletion evidence and immutable confirmation read internally",
+      "fresh combined live inventory proving exact deactivation epoch, deletion binding, and disabled WIF"
+    ],
+    "googleDestructionExecutionRequires": [
+      "release/wp13-12b/receipts/actual/deactivation-execution-receipt.json",
+      "release/wp13-12b/receipts/actual/synthetic-data-deletion-evidence.json",
+      "release/wp13-12b/receipts/actual/synthetic-data-deletion-confirmation.json",
+      "release/wp13-12b/receipts/actual/preview-destruction-evidence.json",
+      "release/wp13-12b/receipts/actual/preview-destruction-confirmation.json",
+      "fresh authenticated combined inventory and exact confirmed inventory digest"
+    ]
+  },
+  "destructionOrderActionIds": [
+    "CONTROL_FALSE_EPOCH_STRICTLY_ADVANCED",
+    "TIME_BOUNDED_KEYLESS_DEPLOY_IDENTITY_PROVISIONED_AND_VERIFIED",
+    "EXACT_PREVIEW_ORIGIN_CONFIGURED_WITH_ISSUANCE_FALSE",
+    "SAFE_DISABLED_FUNCTION_SET_DEPLOYED_AND_READ_BACK",
+    "TIME_BOUNDED_DEPLOY_IDENTITY_DOWNSCOPED_TO_SYNTHETIC_DELETION_ONLY_AND_VERIFIED",
+    "SYNTHETIC_DELETION_INTENT_RECORDED_AND_PAYLOADS_DELETED_OR_AUTHENTICATED_TOMBSTONE_HISTORY_NO_OP",
+    "DELETION_ONLY_IDENTITY_REVOKED_IN_GUARANTEED_FINALLY_AND_VERIFIED",
+    "SYNTHETIC_ZERO_STATE_EVIDENCE_AND_HUMAN_CONFIRMATION_SECURED",
+    "WIF_PROVIDER_DISABLED_THEN_POOL_DISABLED_AND_BOTH_VERIFIED",
+    "DEACTIVATION_RECEIPT_MATERIALIZED_AT_OR_AFTER_EXPIRY",
+    "EXACT_VERCEL_PROJECT_DELETED",
+    "EXACT_VERCEL_ABSENCE_AUTHENTICATED_AND_HUMAN_CONFIRMED",
+    "FRESH_POST_VERCEL_COMBINED_INVENTORY_CONFIRMED",
+    "GOOGLE_DESTRUCTION_MATERIALIZED_FOR_OBSERVED_APPROVED_REMAINDER",
+    "FRESH_COMBINED_ZERO_RESOURCE_INVENTORY_VERIFIED"
+  ],
+  "destructionOrder": [
+    "disable staging at a strictly advanced controlEpoch",
+    "provision and verify only the time-bounded keyless deploy identity",
+    "configure the exact receipt-bound preview origin and verify issueSyntheticSession issuance is false",
+    "deploy the safe-disabled function set and verify the safe backend readback",
+    "downscope and verify the deploy identity to only conditional TokenCreator plus exact deleteSyntheticSession run.invoker authority in a 5-to-30-minute deletion window",
+    "write the immutable intent, then either delete every bounded active synthetic session or authenticate the already-zero state with retained tombstone history",
+    "in guaranteed finally cleanup, revoke all deletion-only authority and authenticate the exact Google-only revoked readback before writing the execution receipt",
+    "from the revoked zero state, secure tombstone-retention evidence and record the exact immutable digest-bound confirmation phrase",
+    "disable the exact WIF provider, then disable the exact WIF pool, and verify both disabled",
+    "at or after expiry, materialize the deactivation receipt without weakening the already-safe state",
+    "use the separately authenticated and exactly confirmed Vercel destruction action to delete only project prj_nHs1hbdyfcMMMglNUTwoYRS43naN in team team_1Gnn3VSNrP3mbseXx6a92a4J",
+    "verify authenticated project-settings 404 plus empty deployment, domain and project-environment readbacks, then record the exact immutable digest-bound confirmation phrase without recording any token",
+    "capture and confirm a fresh combined Google/Vercel inventory digest using post-deactivation destruction-phase rules",
+    "delete issueSyntheticSession first when present, then delete only the observed approved remaining Cloud Functions",
+    "remove only observed approved remaining preview service-level run.invoker bindings",
+    "delete the exact WIF provider and pool, then delete the keyless preview service account",
+    "destroy observed approved secret versions and delete the approved secret",
+    "delete the approved runtime service account after Functions",
+    "delete the default Firestore database",
+    "delete observed approved build Artifact Registry repositories",
+    "unlink billing only when fresh inventory shows it linked, and delete only the project-scoped approved budget",
+    "request deletion of the exact isolated Google project",
+    "repeat authenticated combined read-only inventory until both provider scopes are verified empty"
+  ],
+  "repeatSafety": {
+    "freshAuthenticatedInventoryRequiredBeforeEveryGoogleResume": true,
+    "freshAuthenticatedSafeBackendInventoryRequiredBeforeEveryDeactivationResume": true,
+    "alreadyDisabledWifSubstepsAreSkippedOnlyAfterFreshExactReadback": true,
+    "postVercelAbsenceSelectsDestructionInventoryPhase": true,
+    "readyVercelDeploymentRequiredAfterVercelDeletion": false,
+    "enabledWifRequiredAfterDeactivation": false,
+    "onlyObservedApprovedRemainingResourcesAreMaterialized": true,
+    "alreadyAbsentApprovedResourcesAreNoOp": true,
+    "alreadyZeroSyntheticDataWithRetainedTombstoneHistoryIsAuthenticatedNoOp": true,
+    "alreadyZeroSyntheticDataWithoutTombstoneHistoryBlocksFirstRun": true,
+    "existingSyntheticDeletionReceiptRetryRevokesIdentityAgainBeforeReadback": true,
+    "syntheticDeletionFailureNeverSkipsGuaranteedIdentityRevocation": true,
+    "broadRedeployRecoveryAfterExpiryIsNeverImplicitlyReenabled": true,
+    "alreadyAbsentGoogleProjectIsVerifiedZeroCommandNoOp": true,
+    "billingUnlinkIsSkippedWhenFreshInventoryShowsAlreadyUnlinked": true,
+    "partialApprovedFunctionSetMayBeRetiredAcrossRetries": true,
+    "issueSyntheticSessionDeletedFirstWhenPresent": true,
+    "staleMaterializedCommandsMustNotBeReplayed": true,
+    "unknownOrUnapprovedResourcesBlockResume": true,
+    "completionRequiresFreshCombinedZeroResourceInventory": true,
+    "resumeRule": "RECOLLECT_AUTHENTICATED_COMBINED_INVENTORY_AND_MATERIALIZE_ONLY_THE_OBSERVED_APPROVED_REMAINDER"
+  },
+  "vercelDestructionBoundary": {
+    "teamId": "team_1Gnn3VSNrP3mbseXx6a92a4J",
+    "projectId": "prj_nHs1hbdyfcMMMglNUTwoYRS43naN",
+    "projectName": "ludys-wp13-12b-staging",
+    "exactEndpoint": "/v9/projects/prj_nHs1hbdyfcMMMglNUTwoYRS43naN?teamId=team_1Gnn3VSNrP3mbseXx6a92a4J",
+    "authenticatedPostAbsenceReadbacksRequired": [
+      "exact project settings endpoint returns authenticated 404",
+      "deployments",
+      "domains",
+      "project environment variables"
+    ],
+    "allPostAbsenceChildCountsMustBeZero": true,
+    "projectCascadeAbsenceIsNotAssumedWithoutReadback": true,
+    "authentication": "EXISTING_VERCEL_CLI_OS_CREDENTIAL_STORE_TOKEN_USED_IN_MEMORY_ONLY",
+    "tokenOutput": false,
+    "wholeTeamDeletion": false,
+    "otherProjectDeletion": false
+  },
+  "storageDestructionBoundary": {
+    "appCloudStorageExpected": "OFF",
+    "functionsBuildBuckets": "SUPPORTING_BUILD_ARTIFACTS_REMOVED_WITH_THE_ISOLATED_PROJECT",
+    "directBucketDeletionByOperatorTool": false,
+    "unexpectedAppOrUnknownBucket": "BLOCK_DESTRUCTION_AND_REQUIRE_HUMAN_REVIEW"
+  },
+  "completionRule": "GOOGLE_PROJECT_DELETE_REQUESTED_IS_NOT_ZERO_RESOURCE_CONFIRMATION; BOTH AUTHENTICATED PROVIDER INVENTORIES MUST VERIFY THE EXACT GOOGLE AND VERCEL SCOPES EMPTY",
+  "externalActionsExecuted": false
+}

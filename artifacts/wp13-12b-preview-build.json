@@ -10,7 +10,7 @@
   "vercelProjectCreated": false,
   "vercelDeployment": false,
   "protectionRequirement": "External preview must use separately authorized Vercel Deployment Protection.",
-  "digest": "7b33d849829b3339ee588548c5e40e586631b77c90eff308156b8d53993759f7",
+  "digest": "5d33e9d679fd7c325679db5bb94dbdbccbe90a2528f0b90afa40d1ad559ceda5",
   "files": [
     {
       "path": "web/staging-preview.html",
@@ -24,8 +24,8 @@
     },
     {
       "path": "web/styles.css",
-      "sha256": "cbd156a06166391e6f3ce06c9be50027bdb8615a907f0c103a768f38f224e8b0",
-      "bytes": 22131
+      "sha256": "29336861dc1179b69c8338617715dcf9bef8c071ced344ed8694ed91e8ed6f9a",
+      "bytes": 21588
     },
     {
       "path": "dist/src/ui/browser/staging-preview.js",

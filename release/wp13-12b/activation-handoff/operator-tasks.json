@@ -54,12 +54,15 @@
       "taskId": "OP-03",
       "authorizationRequired": "LOCAL_EMULATOR_SCOPE",
       "prerequisites": [
-        "OP-02 complete"
+        "OP-02 complete",
+        "implementation committed and worktree clean before proof execution"
       ],
       "commands": [
-        "npm run provider:emulator:proof -- --authorized-local-emulator-proof"
+        "npm run provider:emulator:proof -- --authorized-local-emulator-proof",
+        "npm run provider:emulator:confirmation",
+        "npm run provider:emulator:confirmation -- --record --confirmation \"<EXACT_V2_NONCE_COMMIT_S_PROOF_TOOL_RUNNER_PREVIEW_PROOF_HASHES_COUNTS_EXPIRY_BOUND_OWNER_RESPONSE>\""
       ],
-      "expectedResult": "Firestore Rules and local Function contract proof complete with zero cloud resources.",
+      "expectedResult": "Firestore Rules and local Function contract proof complete with zero cloud resources; only the exact v2 challenge response creates the receipt.",
       "forbiddenActions": [
         "use real participant data",
         "reuse credentials from another project",
@@ -67,22 +70,23 @@
         "continue after stopCondition"
       ],
       "evidenceRequired": [
-        "EMULATOR_PROOF_RECEIPT"
+        "immutable actual emulator proof artifact",
+        "challenge-bound EMULATOR_PROOF_RECEIPT"
       ],
       "rollback": "Stop emulator and remove owned temporary state.",
-      "stopCondition": "Any emulator proof fails."
+      "stopCondition": "Any emulator proof fails or the exact proof-bound owner response is absent."
     },
     {
       "taskId": "OP-04",
       "authorizationRequired": "LOCAL_DEPENDENCY_AUDIT_SCOPE",
       "prerequisites": [
-        "provider package lock unchanged"
+        "provider security remediation record is current and package lock is hash-bound"
       ],
       "commands": [
         "npm --prefix provider/firebase/functions ci --ignore-scripts",
         "npm --prefix provider/firebase/functions audit --omit=dev"
       ],
-      "expectedResult": "Provider dependency tree is re-audited.",
+      "expectedResult": "Provider dependency tree is re-audited and the active provider package resolves fast-uri@3.1.5.",
       "forbiddenActions": [
         "use real participant data",
         "reuse credentials from another project",
@@ -92,10 +96,11 @@
       "evidenceRequired": [
         "audit JSON",
         "SBOM",
-        "license inventory"
+        "license inventory",
+        "provider security remediation provenance"
       ],
       "rollback": "Remove local node_modules only; keep lockfile.",
-      "stopCondition": "Any moderate-or-higher unresolved runtime finding."
+      "stopCondition": "Any moderate-or-higher unresolved runtime finding or any mismatch between lock, provider package, audit, SBOM, license inventory and remediation provenance."
     },
     {
       "taskId": "OP-05",
@@ -105,9 +110,9 @@
         "all unresolved owner fields resolved"
       ],
       "commands": [
-        "gcloud projects create <approved-project-id> --name='LUDYS synthetic staging'"
+        "LOGICAL_OPERATOR_GATE_ONLY_NO_DIRECT_COMMAND: create the exact approved isolated project only after a bounded project-creation wrapper is implemented and reviewed"
       ],
-      "expectedResult": "One isolated synthetic dev project exists.",
+      "expectedResult": "Project creation remains a separately authorized logical gate; this handoff exposes no ambient or direct creation command.",
       "forbiddenActions": [
         "use real participant data",
         "reuse credentials from another project",
@@ -115,10 +120,11 @@
         "continue after stopCondition"
       ],
       "evidenceRequired": [
-        "FIREBASE_PROJECT_AND_REGION_RECEIPT"
+        "FIREBASE_PROJECT_AND_REGION_RECEIPT",
+        "bounded wrapper review before any future execution"
       ],
-      "rollback": "Schedule project deletion using approved owner path.",
-      "stopCondition": "Authorization, project ID, ownership or cost field missing."
+      "rollback": "No external state changed by this logical gate.",
+      "stopCondition": "A reviewed bounded project-creation wrapper is absent, or authorization, project ID, ownership or cost field is missing."
     },
     {
       "taskId": "OP-06",
@@ -128,8 +134,9 @@
         "approved cost ceiling and alert threshold"
       ],
       "commands": [
-        "gcloud billing projects link <approved-project-id> --billing-account=<approved-billing-account>",
-        "gcloud billing budgets create --billing-account=<approved-billing-account> --display-name='LUDYS synthetic staging' --budget-amount=<approved-maximum>"
+        "node scripts/provider-external-cloud-control.mjs --action link-billing --project ludys-12b-stg-20260725 --google-account tryakim@gmail.com --region europe-north1 --authorized AUTHORIZE_WP13_12B_EXTERNAL_ACTIVATION",
+        "node scripts/provider-external-cloud-control.mjs --action create-budget --project ludys-12b-stg-20260725 --google-account tryakim@gmail.com --region europe-north1 --authorized AUTHORIZE_WP13_12B_EXTERNAL_ACTIVATION",
+        "node scripts/provider-external-cloud-control.mjs --action inspect-billing"
       ],
       "expectedResult": "Billing and alerts match recorded owner values; alert is not represented as a hard cap.",
       "forbiddenActions": [
@@ -152,9 +159,9 @@
         "region reverified immediately before creation"
       ],
       "commands": [
-        "gcloud firestore databases create --project=<approved-project-id> --location=europe-north1 --type=firestore-native"
+        "LOGICAL_OPERATOR_GATE_ONLY_NO_DIRECT_COMMAND: create the default regional Firestore database only after a bounded database-creation wrapper is implemented and reviewed"
       ],
-      "expectedResult": "Regional Standard Firestore is created once in europe-north1.",
+      "expectedResult": "Firestore creation remains a separately authorized logical gate; this handoff exposes no ambient or direct creation command.",
       "forbiddenActions": [
         "use real participant data",
         "reuse credentials from another project",
@@ -163,27 +170,27 @@
       ],
       "evidenceRequired": [
         "project and region receipt",
-        "provider output"
+        "bounded wrapper review before any future execution"
       ],
-      "rollback": "Follow destruction plan; region cannot be changed in place.",
-      "stopCondition": "Region support changed or region approval absent."
+      "rollback": "No external state changed by this logical gate.",
+      "stopCondition": "A reviewed bounded Firestore creation wrapper is absent, region support changed or region approval is absent."
     },
     {
       "taskId": "OP-08",
       "authorizationRequired": "IAM_AND_SECRET_CREATION_AUTHORIZATION",
       "prerequisites": [
         "OP-05 through OP-07",
-        "IAM plan owner-approved"
+        "IAM plan owner-approved",
+        "separate keyless deploy identity contract/control reviewed; deploy identity is not runtime or preview identity"
       ],
       "commands": [
-        "gcloud iam service-accounts create ludys-staging-runtime --project=<approved-project-id>",
-        "gcloud secrets create LUDYS_CAPABILITY_HMAC_KEY --replication-policy=user-managed --locations=europe-north1 --project=<approved-project-id>",
-        "gcloud secrets versions add LUDYS_CAPABILITY_HMAC_KEY --data-file=<operator-owned-one-line-secret-file> --project=<approved-project-id>",
-        "gcloud projects add-iam-policy-binding <approved-project-id> --member=serviceAccount:ludys-staging-runtime@<approved-project-id>.iam.gserviceaccount.com --role=roles/datastore.user",
-        "gcloud projects add-iam-policy-binding <approved-project-id> --member=serviceAccount:ludys-staging-runtime@<approved-project-id>.iam.gserviceaccount.com --role=roles/logging.logWriter",
-        "gcloud secrets add-iam-policy-binding LUDYS_CAPABILITY_HMAC_KEY --member=serviceAccount:ludys-staging-runtime@<approved-project-id>.iam.gserviceaccount.com --role=roles/secretmanager.secretAccessor --project=<approved-project-id>"
+        "node scripts/provider-external-cloud-control.mjs --action create-runtime-service-account --project ludys-12b-stg-20260725 --google-account tryakim@gmail.com --region europe-north1 --authorized AUTHORIZE_WP13_12B_EXTERNAL_ACTIVATION",
+        "node scripts/provider-external-cloud-control.mjs --action grant-runtime-project-roles --project ludys-12b-stg-20260725 --google-account tryakim@gmail.com --region europe-north1 --authorized AUTHORIZE_WP13_12B_EXTERNAL_ACTIVATION",
+        "node scripts/provider-external-cloud-control.mjs --action create-capability-secret --project ludys-12b-stg-20260725 --google-account tryakim@gmail.com --region europe-north1 --authorized AUTHORIZE_WP13_12B_EXTERNAL_ACTIVATION",
+        "node scripts/provider-external-cloud-control.mjs --action grant-secret-access --project ludys-12b-stg-20260725 --google-account tryakim@gmail.com --region europe-north1 --authorized AUTHORIZE_WP13_12B_EXTERNAL_ACTIVATION",
+        "node scripts/provider-external-cloud-control.mjs --action inspect-security"
       ],
-      "expectedResult": "Least-privilege runtime identity and one server secret exist without JSON keys.",
+      "expectedResult": "Least-privilege runtime identity and one server secret exist without JSON keys; the separate keyless deploy identity remains bound to its time-limited OP-09 control.",
       "forbiddenActions": [
         "use real participant data",
         "reuse credentials from another project",
@@ -194,23 +201,24 @@
         "IAM_AND_BILLING_RECEIPT"
       ],
       "rollback": "Revoke bindings, disable identity and destroy secret.",
-      "stopCondition": "Owner role, JSON key or browser secret would be required."
+      "stopCondition": "Deploy, runtime, build or preview identities overlap; Owner role, JSON key or browser secret would be required."
     },
     {
       "taskId": "OP-09",
       "authorizationRequired": "CLOUD_FUNCTION_AND_RULE_DEPLOYMENT_AUTHORIZATION",
       "prerequisites": [
         "OP-08",
-        "kill switch disabled-by-default control document"
+        "kill switch disabled-by-default control document",
+        "time-limited exact deploy identity grant expires within 60 minutes"
       ],
       "commands": [
         "npm run provider:package",
-        "firebase deploy --project <approved-project-id> --only firestore:rules,firestore:indexes",
-        "gcloud functions deploy issueSyntheticSession --gen2 --runtime=nodejs24 --region=europe-north1 --source=provider/firebase/functions --entry-point=issueSyntheticSession --trigger-http --no-allow-unauthenticated --service-account=ludys-staging-runtime@<approved-project-id>.iam.gserviceaccount.com --set-env-vars=LUDYS_STAGING_SESSION_ISSUANCE_ENABLED=true --set-secrets=LUDYS_CAPABILITY_HMAC_KEY=LUDYS_CAPABILITY_HMAC_KEY:latest --project=<approved-project-id>",
-        "gcloud functions deploy sessionCommand --gen2 --runtime=nodejs24 --region=europe-north1 --source=provider/firebase/functions --entry-point=sessionCommand --trigger-http --allow-unauthenticated --service-account=ludys-staging-runtime@<approved-project-id>.iam.gserviceaccount.com --set-secrets=LUDYS_CAPABILITY_HMAC_KEY=LUDYS_CAPABILITY_HMAC_KEY:latest --project=<approved-project-id>",
-        "gcloud functions deploy sessionProjection --gen2 --runtime=nodejs24 --region=europe-north1 --source=provider/firebase/functions --entry-point=sessionProjection --trigger-http --allow-unauthenticated --service-account=ludys-staging-runtime@<approved-project-id>.iam.gserviceaccount.com --set-secrets=LUDYS_CAPABILITY_HMAC_KEY=LUDYS_CAPABILITY_HMAC_KEY:latest --project=<approved-project-id>",
-        "gcloud functions deploy deleteSyntheticSession --gen2 --runtime=nodejs24 --region=europe-north1 --source=provider/firebase/functions --entry-point=deleteSyntheticSession --trigger-http --no-allow-unauthenticated --service-account=ludys-staging-runtime@<approved-project-id>.iam.gserviceaccount.com --set-secrets=LUDYS_CAPABILITY_HMAC_KEY=LUDYS_CAPABILITY_HMAC_KEY:latest --project=<approved-project-id>",
-        "gcloud functions deploy health --gen2 --runtime=nodejs24 --region=europe-north1 --source=provider/firebase/functions --entry-point=health --trigger-http --no-allow-unauthenticated --service-account=ludys-staging-runtime@<approved-project-id>.iam.gserviceaccount.com --set-secrets=LUDYS_CAPABILITY_HMAC_KEY=LUDYS_CAPABILITY_HMAC_KEY:latest --project=<approved-project-id>"
+        "node scripts/provider-external-deploy-identity-control.mjs --action plan --project ludys-12b-stg-20260725 --google-account tryakim@gmail.com --region europe-north1 --window-expires-at <UTC-ISO-WITHIN-60-MINUTES>",
+        "node scripts/provider-external-deploy-identity-control.mjs --action provision --project ludys-12b-stg-20260725 --google-account tryakim@gmail.com --region europe-north1 --window-expires-at <UTC-ISO-WITHIN-60-MINUTES> --authorized AUTHORIZE_WP13_12B_EXTERNAL_ACTIVATION",
+        "node scripts/provider-external-deploy-identity-control.mjs --action verify --project ludys-12b-stg-20260725 --google-account tryakim@gmail.com --region europe-north1 --window-expires-at <UTC-ISO-WITHIN-60-MINUTES>",
+        "node scripts/provider-external-function-deploy.mjs --action deploy-firestore-rules --project ludys-12b-stg-20260725 --google-account tryakim@gmail.com --region europe-north1 --impersonate-service-account ludys-staging-deployer@ludys-12b-stg-20260725.iam.gserviceaccount.com --window-expires-at <UTC-ISO-WITHIN-60-MINUTES> --source-commit <CURRENT-FULL-40-CHAR-COMMIT> --source-tree <CURRENT-FULL-40-CHAR-TREE> --source-sha256 <CURRENT-DETERMINISTIC-FUNCTIONS-SOURCE-SHA256> --authorized AUTHORIZE_WP13_12B_EXTERNAL_ACTIVATION",
+        "node scripts/provider-external-function-deploy.mjs --action deploy-disabled --project ludys-12b-stg-20260725 --google-account tryakim@gmail.com --region europe-north1 --impersonate-service-account ludys-staging-deployer@ludys-12b-stg-20260725.iam.gserviceaccount.com --window-expires-at <UTC-ISO-WITHIN-60-MINUTES> --source-commit <CURRENT-FULL-40-CHAR-COMMIT> --source-tree <CURRENT-FULL-40-CHAR-TREE> --source-sha256 <CURRENT-DETERMINISTIC-FUNCTIONS-SOURCE-SHA256> --authorized AUTHORIZE_WP13_12B_EXTERNAL_ACTIVATION",
+        "node scripts/provider-external-deploy-identity-control.mjs --action revoke --project ludys-12b-stg-20260725 --google-account tryakim@gmail.com --region europe-north1 --window-expires-at <UTC-ISO-WITHIN-60-MINUTES> --authorized AUTHORIZE_WP13_12B_EXTERNAL_ACTIVATION"
       ],
       "expectedResult": "Backend is deployed disabled-by-default with deny-all direct access.",
       "forbiddenActions": [
@@ -223,21 +231,28 @@
         "deployment transcript",
         "artifact hashes"
       ],
-      "rollback": "Advance controlEpoch, disable staging and deploy prior safe provider revision.",
-      "stopCondition": "Any endpoint is enabled before control and receipts are ready."
+      "rollback": "Revoke deploy identity bindings, advance controlEpoch, disable staging and deploy prior safe provider revision.",
+      "stopCondition": "Any endpoint is enabled before control and receipts are ready, or deploy identity cannot be revoked."
     },
     {
       "taskId": "OP-10",
       "authorizationRequired": "VERCEL_PROJECT_AND_PREVIEW_AUTHORIZATION",
       "prerequisites": [
         "OP-09",
-        "approved protected-preview plan"
+        "approved protected-preview plan",
+        "WIF provider and pool are both disabled"
       ],
       "commands": [
-        "vercel link --project <approved-preview-project>",
-        "vercel deploy --target=preview"
+        "node scripts/provider-external-wif-control.mjs --action verify-disabled",
+        "node scripts/provider-external-vercel-preview-deploy.mjs --action deploy-preview --team-id team_1Gnn3VSNrP3mbseXx6a92a4J --team-slug trym-s-projects --project-id prj_nHs1hbdyfcMMMglNUTwoYRS43naN --project-name ludys-wp13-12b-staging --target preview --deployment-role rollback --source-commit <CURRENT-FULL-40-CHAR-COMMIT> --source-tree <CURRENT-FULL-40-CHAR-TREE> --authorized AUTHORIZE_WP13_12B_EXTERNAL_ACTIVATION",
+        "node scripts/provider-external-wif-control.mjs --action verify-disabled",
+        "node scripts/provider-external-vercel-preview-deploy.mjs --action deploy-preview --team-id team_1Gnn3VSNrP3mbseXx6a92a4J --team-slug trym-s-projects --project-id prj_nHs1hbdyfcMMMglNUTwoYRS43naN --project-name ludys-wp13-12b-staging --target preview --deployment-role active --source-commit <CURRENT-FULL-40-CHAR-COMMIT> --source-tree <CURRENT-FULL-40-CHAR-TREE> --rollback-deployment-id <ROLLBACK_DEPLOYMENT_ID> --rollback-deployment-url <ROLLBACK_DEPLOYMENT_ORIGIN> --rollback-source-commit <ROLLBACK_SOURCE_COMMIT> --rollback-source-tree <ROLLBACK_SOURCE_TREE> --rollback-evidence-sha256 <ROLLBACK_EVIDENCE_SHA256> --authorized AUTHORIZE_WP13_12B_EXTERNAL_ACTIVATION",
+        "node scripts/provider-external-wif-control.mjs --action verify-disabled",
+        "Complete and validate the PROTECTED_PREVIEW_RECEIPT from both deployment outputs before final project readback",
+        "node scripts/provider-external-vercel-control.mjs --action inspect-project",
+        "Using a separate already logged-in Chrome/browser session, open the exact active and rollback protected preview origins, record the authenticated protection proof, and create neither a protection bypass token nor a shareable link"
       ],
-      "expectedResult": "A non-production protected preview exists with no secrets in browser.",
+      "expectedResult": "Rollback is deployed first in a real safe-disabled role; active is deployed second and binds the rollback ID, origin, source commit/tree and evidence digest. Final inventory is exactly one active plus one receipt-bound rollback, zero unrelated deployments and two total, while WIF remains disabled.",
       "forbiddenActions": [
         "use real participant data",
         "reuse credentials from another project",
@@ -245,23 +260,36 @@
         "continue after stopCondition"
       ],
       "evidenceRequired": [
+        "authenticated deployment/project/domain readback",
+        "rollback safe-disabled source and deployment evidence",
+        "active-to-rollback binding evidence",
+        "final exact 1 active + 1 receipt-bound rollback + 0 unrelated + 2 total inventory",
+        "separate logged-in Chrome/browser protection proof with no bypass token or shareable link",
         "PROTECTED_PREVIEW_RECEIPT"
       ],
-      "rollback": "Remove preview and revoke project link.",
-      "stopCondition": "Deployment protection is absent or production domain would be used."
+      "rollback": "Keep WIF disabled, delete only the exact two preview deployments and remove the local project link; do not create or promote a production deployment.",
+      "stopCondition": "Copy review, clean commit/tree binding, nested preview root, exact team/project, preview target, safe-disabled rollback behavior, active-to-rollback evidence binding, Standard Protection, separate logged-in browser proof, final exact deployment inventory, zero production/custom-domain proof or WIF-disabled readback fails."
     },
     {
       "taskId": "OP-11",
-      "authorizationRequired": "SYNTHETIC_FIXTURE_SEED_AUTHORIZATION",
+      "authorizationRequired": "AUTHORIZE_WP13_12B_EXTERNAL_ACTIVATION",
       "prerequisites": [
-        "OP-09",
-        "staging still disabled"
+        "OP-10",
+        "current date is before 2027-01-25",
+        "issueSyntheticSession issuance flag is false",
+        "staging control is disabled",
+        "exact protected preview origin is known",
+        "final Vercel readback proves exactly 1 active + 1 receipt-bound rollback + 0 unrelated + 2 total",
+        "separate logged-in Chrome/browser proof verifies Standard Protection for both exact origins without a protection bypass token or shareable link",
+        "WIF remained disabled through both deployment transitions",
+        "genuine confirmed challenge-bound v2 emulator proof receipt is committed and current",
+        "activation repository differs from the emulator proof source only by exact hash-bound evidence",
+        "individual authority-increasing WIF, issuance, control and seed mutators are internal to the fail-closed orchestrator and are not operator commands"
       ],
       "commands": [
-        "node provider/firebase/tools/set-staging-control.mjs --project <approved-project-id> --enabled true --control-epoch <approved-monotonic-epoch> --reason EXPLICIT_SYNTHETIC_PROOF_WINDOW --authorized WP13_12B_OPERATOR_AUTHORIZED",
-        "node provider/firebase/tools/seed-synthetic-fixtures.mjs --project <approved-project-id> --issue-url <iam-protected-issue-function-url> --fixture synthetic-wp13-12b-only --locale nb --authorized WP13_12B_OPERATOR_AUTHORIZED"
+        "npm run provider:external:activate -- --action activate --project ludys-12b-stg-20260725 --google-account tryakim@gmail.com --region europe-north1 --impersonate-service-account ludys-staging-deployer@ludys-12b-stg-20260725.iam.gserviceaccount.com --window-expires-at <UTC-ISO-WITHIN-60-MINUTES> --source-commit <CURRENT-FULL-40-CHAR-COMMIT> --source-tree <CURRENT-FULL-40-CHAR-TREE> --source-sha256 <CURRENT-DETERMINISTIC-FUNCTIONS-SOURCE-SHA256> --preview-origin <EXACT_PROTECTED_PREVIEW_ORIGIN> --control-epoch <APPROVED_MONOTONIC_EPOCH> --issue-url https://issuesyntheticsession-qbqbamvs6q-lz.a.run.app --authorized AUTHORIZE_WP13_12B_EXTERNAL_ACTIVATION"
       ],
-      "expectedResult": "Only explicit synthetic fixture records exist.",
+      "expectedResult": "The single fail-closed orchestrator revalidates phase-bound proof before each authority increase, enables WIF then issuance then control then exact NB/NN synthetic fixtures, and verifies deploy-identity revocation. Any mid-sequence failure compensates by advancing disabled control, deploying the safe-disabled backend, disabling and verifying WIF, and revoking deploy identity.",
       "forbiddenActions": [
         "use real participant data",
         "reuse credentials from another project",
@@ -269,11 +297,18 @@
         "continue after stopCondition"
       ],
       "evidenceRequired": [
+        "final exact 1 active + 1 receipt-bound rollback + 0 unrelated + 2 total readback",
+        "separate logged-in Chrome/browser protection proof with no bypass token or shareable link",
+        "genuine challenge-bound emulator v2 receipt and exact evidence-only Git diff",
+        "WIF enabled readback",
+        "issuance flag readback",
         "fixture manifest",
-        "data allowlist scan"
+        "data allowlist scan",
+        "deploy identity revoked readback",
+        "orchestrator step/compensation result"
       ],
-      "rollback": "Run explicit deletion and confirm tombstones.",
-      "stopCondition": "Any field resembles participant, school, health or free-text data."
+      "rollback": "Use the independently callable fail-safe decrease commands: disable control at an advanced epoch, deploy the safe-disabled backend, disable and verify WIF, revoke deploy identity, explicitly delete fixtures and confirm tombstones.",
+      "stopCondition": "Expiry is reached, any activation or receipt binding differs, repository or clock state is stale, separate logged-in browser protection proof is absent, a bypass/share link exists, compensation or deploy-identity revocation is incomplete, or any field resembles participant, school, health or free-text data."
     },
     {
       "taskId": "OP-12",
@@ -286,7 +321,7 @@
       "commands": [
         "Follow release/wp13-12b/activation-handoff/physical-two-device-proof-template.json step by step"
       ],
-      "expectedResult": "Two physical devices prove separate role capabilities for one synthetic session.",
+      "expectedResult": "Two physical devices complete the exact 27-step sequence with one primary session, one distinct deletion session and a distinct receipt-bound known-valid safe-disabled rollback deployment.",
       "forbiddenActions": [
         "use real participant data",
         "reuse credentials from another project",
@@ -294,10 +329,11 @@
         "continue after stopCondition"
       ],
       "evidenceRequired": [
-        "PHYSICAL_TWO_DEVICE_AND_SAFETY_RECEIPT"
+        "PHYSICAL_TWO_DEVICE_AND_SAFETY_RECEIPT",
+        "active and rollback deployment evidence"
       ],
-      "rollback": "Close browsers, clear memory/cache and delete fixture.",
-      "stopCondition": "Any screenshot or video could contain person data."
+      "rollback": "Close browsers, clear memory/cache and delete both synthetic sessions.",
+      "stopCondition": "Any screenshot or video could contain person data, the two session IDs are reused, or active/rollback deployment evidence does not bind exactly."
     },
     {
       "taskId": "OP-13",
@@ -327,13 +363,23 @@
       "authorizationRequired": "ROLLBACK_AND_KILL_SWITCH_AUTHORIZATION",
       "prerequisites": [
         "OP-13",
-        "rollback revision verified"
+        "final inventory is exactly 1 active + 1 receipt-bound rollback + 0 unrelated + 2 total",
+        "receipt-bound rollback safe-disabled behavior verified"
       ],
       "commands": [
-        "Advance controlEpoch and set stagingEnabled=false",
-        "Execute the approved provider rollback command from rollback-plan.json"
+        "node provider/firebase/tools/set-staging-control.mjs --project ludys-12b-stg-20260725 --google-account tryakim@gmail.com --region europe-north1 --enabled false --control-epoch <current-control-epoch-plus-one> --reason ROLLBACK --authorized \"AUTHORIZE_WP13_12B_DEACTIVATION_EXECUTION;ludys-12b-stg-20260725;expiry=2027-01-25\"",
+        "node scripts/provider-external-deploy-identity-control.mjs --action plan --project ludys-12b-stg-20260725 --google-account tryakim@gmail.com --region europe-north1 --window-expires-at <UTC-ISO-WITHIN-60-MINUTES>",
+        "node scripts/provider-external-deploy-identity-control.mjs --action provision --project ludys-12b-stg-20260725 --google-account tryakim@gmail.com --region europe-north1 --window-expires-at <UTC-ISO-WITHIN-60-MINUTES> --authorized AUTHORIZE_WP13_12B_EXTERNAL_ACTIVATION",
+        "node scripts/provider-external-deploy-identity-control.mjs --action verify --project ludys-12b-stg-20260725 --google-account tryakim@gmail.com --region europe-north1 --window-expires-at <UTC-ISO-WITHIN-60-MINUTES>",
+        "node scripts/provider-external-function-deploy.mjs --action configure-preview-origin --project ludys-12b-stg-20260725 --google-account tryakim@gmail.com --region europe-north1 --impersonate-service-account ludys-staging-deployer@ludys-12b-stg-20260725.iam.gserviceaccount.com --window-expires-at <UTC-ISO-WITHIN-60-MINUTES> --source-commit <CURRENT-FULL-40-CHAR-COMMIT> --source-tree <CURRENT-FULL-40-CHAR-TREE> --source-sha256 <CURRENT-DETERMINISTIC-FUNCTIONS-SOURCE-SHA256> --preview-origin <EXACT_RECEIPT_BOUND_ACTIVE_PREVIEW_ORIGIN> --authorized AUTHORIZE_WP13_12B_EXTERNAL_ACTIVATION",
+        "node scripts/provider-external-function-deploy.mjs --action deploy-disabled --project ludys-12b-stg-20260725 --google-account tryakim@gmail.com --region europe-north1 --impersonate-service-account ludys-staging-deployer@ludys-12b-stg-20260725.iam.gserviceaccount.com --window-expires-at <UTC-ISO-WITHIN-60-MINUTES> --source-commit <CURRENT-FULL-40-CHAR-COMMIT> --source-tree <CURRENT-FULL-40-CHAR-TREE> --source-sha256 <CURRENT-DETERMINISTIC-FUNCTIONS-SOURCE-SHA256> --authorized AUTHORIZE_WP13_12B_EXTERNAL_ACTIVATION",
+        "node scripts/provider-external-deploy-identity-control.mjs --action revoke --project ludys-12b-stg-20260725 --google-account tryakim@gmail.com --region europe-north1 --window-expires-at <UTC-ISO-WITHIN-60-MINUTES> --authorized AUTHORIZE_WP13_12B_EXTERNAL_ACTIVATION",
+        "node scripts/provider-external-wif-control.mjs --action disable-workload-identity-provider",
+        "node scripts/provider-external-wif-control.mjs --action disable-workload-identity-pool",
+        "node scripts/provider-external-wif-control.mjs --action verify-disabled",
+        "Open only <RECEIPT_BOUND_ROLLBACK_PREVIEW_ORIGIN> in the separate logged-in Chrome/browser session and re-run the deletion/tombstone/no-resurrection proof; do not redeploy, promote, bypass protection or create a shareable link"
       ],
-      "expectedResult": "All cached capabilities remain invalid and no session resurrects.",
+      "expectedResult": "Control is false at a strictly advanced epoch before issuance is disabled and all functions enter the safe-disabled/origin state; WIF is then disabled and verified before the existing receipt-bound rollback preview is used. Previously issued STS tokens may linger until expiry, but the backend is already non-issuing and disabled, so cached capabilities remain invalid and no session resurrects.",
       "forbiddenActions": [
         "use real participant data",
         "reuse credentials from another project",
@@ -341,11 +387,16 @@
         "continue after stopCondition"
       ],
       "evidenceRequired": [
-        "kill-switch proof",
+        "kill-switch and advanced-epoch proof",
+        "issuance-disabled and safe function/origin readback",
+        "deploy identity revoked readback",
+        "WIF provider/pool disabled verification",
+        "receipt-bound rollback use proof",
+        "deleted-session tombstone and no-resurrection proof",
         "rollback receipt section"
       ],
-      "rollback": "Keep staging disabled and deploy the last safe revision.",
-      "stopCondition": "Rollback lowers controlEpoch or restores active state."
+      "rollback": "Keep control, issuance, safe functions and WIF disabled; never restore the active deployment.",
+      "stopCondition": "Rollback lowers controlEpoch, issuance or any function remains active, WIF is disabled before backend safety is proven, rollback evidence does not bind, a bypass/share link is created, or active state is restored."
     },
     {
       "taskId": "OP-15",
@@ -371,14 +422,20 @@
     },
     {
       "taskId": "OP-16",
-      "authorizationRequired": "STAGING_DESTRUCTION_AUTHORIZATION",
+      "authorizationRequired": "PHASE_SPECIFIC_AUTHORIZATIONS_FROM_EXPIRY_EXECUTION_CONTRACT",
       "prerequisites": [
-        "approved staging expiry reached or owner stop"
+        "owner stop or pre-expiry shutdown window has started",
+        "safe backend transition can finish before the staging term ends",
+        "separate exact bounded synthetic deletion authorization is present",
+        "synthetic deletion window is 5 to 30 minutes and ends no later than 2027-01-26T00:00:00.000Z",
+        "approved staging expiry is reached before irreversible Vercel or Google deletion",
+        "exact immutable synthetic-deletion and preview-absence human confirmation phrases will be recorded before their dependent phase"
       ],
       "commands": [
-        "Follow release/wp13-12b/activation-handoff/destruction-plan.json in order"
+        "node provider/firebase/tools/set-staging-control.mjs --project ludys-12b-stg-20260725 --google-account tryakim@gmail.com --region europe-north1 --enabled false --control-epoch <current-control-epoch-plus-one> --reason EXPIRY_DESTRUCTION --authorized \"AUTHORIZE_WP13_12B_DEACTIVATION_EXECUTION;ludys-12b-stg-20260725;expiry=2027-01-25\"",
+        "After recording the control-disable result, continue release/wp13-12b/activation-handoff/destruction-plan.json from ordered command 2"
       ],
-      "expectedResult": "Preview, functions, database, secret, IAM and isolated project are removed or expiration is evidenced.",
+      "expectedResult": "Control is disabled with an advanced epoch; the backend is made safe; deletion authority is downscoped, used and guaranteed-finally revoked; immutable intent, execution, zero-state and confirmation evidence is secured; WIF is disabled and verified; deactivation is materialized at or after expiry; Vercel absence is authenticated and confirmed; only then are approved Google resources destroyed and both scopes verified zero.",
       "forbiddenActions": [
         "use real participant data",
         "reuse credentials from another project",
@@ -386,11 +443,19 @@
         "continue after stopCondition"
       ],
       "evidenceRequired": [
-        "destruction transcript",
-        "final zero-resource confirmation"
+        "ordered backend-before-deletion-before-trust-before-Vercel-before-Google destruction transcript",
+        "release/wp13-12b/receipts/actual/synthetic-data-deletion-intent.json",
+        "release/wp13-12b/receipts/actual/synthetic-data-deletion-execution-receipt.json",
+        "release/wp13-12b/receipts/actual/synthetic-data-deletion-evidence.json",
+        "release/wp13-12b/receipts/actual/synthetic-data-deletion-confirmation.json",
+        "release/wp13-12b/receipts/actual/deactivation-execution-receipt.json",
+        "release/wp13-12b/receipts/actual/preview-destruction-evidence.json",
+        "release/wp13-12b/receipts/actual/preview-destruction-confirmation.json",
+        "fresh post-Vercel combined inventory with confirmed digest",
+        "final fresh combined zero-resource inventory"
       ],
       "rollback": "Not applicable; destruction is the exit path.",
-      "stopCondition": "Required evidence or minimum tombstone export is not secured."
+      "stopCondition": "Safe backend transition cannot complete before expiry; deletion authorization or the 5-to-30-minute window is invalid; ordinary deletion is attempted after the 2027-01-26 grace without separate exceptional recovery authorization; broad deploy or redeploy is attempted after expiry without separate exceptional recovery authorization; deletion-only identity revocation/readback is incomplete; WIF would be disabled before backend and synthetic-zero evidence are secured; Vercel would be deleted before WIF verification and deactivation; preview absence is not authenticated and confirmed; Google destruction would start before confirmed Vercel absence; or required immutable tombstone evidence is absent."
     }
   ]
 }

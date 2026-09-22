@@ -5,6 +5,9 @@ import { fileURLToPath } from "node:url";
 const repo = fileURLToPath(new URL("..", import.meta.url));
 const readJson = async (path) => JSON.parse(await readFile(new URL(`../${path}`, import.meta.url), "utf8"));
 const decision = await readJson("release/wp13-12a/decision-package/owner-decision.json");
+const externalAuthorization = await readJson(
+  "release/wp13-12b/external-activation/owner-authorization.json",
+);
 const contract = await readJson("release/wp13-12b/staging-activation/repository-contract.json");
 const handoff = await readJson("release/wp13-12b/staging-activation/cloud-preflight.json");
 const errors = [];
@@ -22,8 +25,21 @@ if (contract.firebaseAuthentication !== false || contract.directClientWrite !== 
 if (contract.backupAndPitrEnabled !== false) errors.push("backup/PITR must remain disabled");
 if (handoff.externalWrites !== 0 || handoff.deploymentAttempted !== false) errors.push("preflight must be non-mutating");
 for (const field of handoff.unresolvedOwnerFields ?? []) {
-  if (!String(decision[field]).startsWith("UNRESOLVED_")) errors.push(`owner field unexpectedly differs: ${field}`);
-  else warnings.push(`${field} must be resolved before provisioning`);
+  errors.push(`owner field remains unresolved after external authorization: ${field}`);
+}
+if (
+  externalAuthorization.authorization !== "AUTHORIZE_WP13_12B_EXTERNAL_ACTIVATION"
+  || externalAuthorization.authorizationStatus !== "AUTHORIZED_WITHIN_RECORDED_LIMITS"
+  || externalAuthorization.selectedRegion !== "europe-north1"
+  || externalAuthorization.monthlyAlertThreshold?.amount !== 400
+  || externalAuthorization.maximumMonthlyCost?.amount !== 500
+  || externalAuthorization.killSwitchOwner !== "PRODUCT_OWNER_SELF"
+  || externalAuthorization.billingReviewer !== "PRODUCT_OWNER_SELF"
+  || externalAuthorization.stagingExpiryDate !== "2027-01-25"
+  || externalAuthorization.automaticDeletionPolicy?.authorized !== true
+) errors.push("external owner authorization mismatch");
+for (const field of handoff.irreversibleFieldsStillRequiringApproval ?? []) {
+  warnings.push(`${field} must be shown and explicitly approved before provisioning`);
 }
 
 const output = {
@@ -36,9 +52,11 @@ const output = {
   browserLoginOpened: false,
   resourceCreationAttempted: false,
   deploymentAttempted: false,
-  providerActivation: "BLOCKED",
+  providerActivation: "BLOCKED_PENDING_EXPLICIT_IRREVERSIBLE_FIELD_APPROVAL",
   cloudResources: 0,
+  externalActivationAuthorized: true,
   externalActivationReady: false,
+  requiredUserAction: "APPROVE_PLANNED_PROJECT_AND_ACCOUNT_FIELDS",
 };
 console.log(JSON.stringify(output, null, 2));
 if (errors.length > 0) process.exit(1);

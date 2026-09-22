@@ -1,0 +1,139 @@
+{
+  "schemaVersion": "wp13.12b-preview-source-human-review-draft-v1",
+  "classification": "DRAFT_NOT_EVIDENCE",
+  "status": "OWNER_HASH_APPROVED_LOCALE_FIX_LOCALLY_VERIFIED_PENDING_COMMIT_S_BINDING",
+  "authenticReceipt": false,
+  "reviewDate": "2026-07-28",
+  "sourceSet": {
+    "algorithm": "For each file in the exact order below: SHA-256 the raw file bytes, encode preview-root-relative canonicalSource + NUL + lowercase file SHA-256, then join records with LF as UTF-8 without BOM or terminal LF.",
+    "manifestByteCount": 235,
+    "sha256": "bf3ecfc58ae713bf91dd53f27b6ad5b9750a65b76bf5b73261526cae7db21d80",
+    "files": [
+      {
+        "role": "FELLES",
+        "path": "provider/vercel/wp13-12b-preview/index.html",
+        "canonicalSource": "index.html",
+        "byteCount": 8754,
+        "sha256": "9be63c60ba3496f927ccf5ca2d592be1e49fb46a3e075b44cd9791e2cd69d16d",
+        "encoding": "UTF-8_NO_BOM",
+        "lineEndings": "LF_ONLY",
+        "terminalLf": true
+      },
+      {
+        "role": "BM",
+        "path": "provider/vercel/wp13-12b-preview/locales/nb.mjs",
+        "canonicalSource": "locales/nb.mjs",
+        "byteCount": 4094,
+        "sha256": "75d22bbee42f592e8d2ef0056f66f2d89363dcd566c02341d7932693fbf9a7da",
+        "encoding": "UTF-8_NO_BOM",
+        "lineEndings": "LF_ONLY",
+        "terminalLf": true
+      },
+      {
+        "role": "NN",
+        "path": "provider/vercel/wp13-12b-preview/locales/nn.mjs",
+        "canonicalSource": "locales/nn.mjs",
+        "byteCount": 4063,
+        "sha256": "87457e0128d5e7f1980c1376b0ae3765afaeb4509701d370d6979a5acc1c04f4",
+        "encoding": "UTF-8_NO_BOM",
+        "lineEndings": "LF_ONLY",
+        "terminalLf": true
+      }
+    ]
+  },
+  "runtimeValidation": {
+    "separateFromHumanCopyApproval": true,
+    "classification": "LOCAL_UNCOMMITTED_RUNTIME_OBSERVATION_NOT_EVIDENCE",
+    "livePreviewSourceSha256": "391bc280920933230c3c579d2d27c614f8f563bba8fb4f7b3499426fb3e190c0",
+    "staticArtifactSha256": "a4b02b4119642757c250b1358587f193daac90d0efdc450174f53f0512559805",
+    "staticArtifactFileCount": 6,
+    "committedPreviewSourceSha256": null,
+    "sourceCommit": null,
+    "sourceTree": null,
+    "commitBound": false,
+    "runtimeApproved": false,
+    "deploymentApproved": false
+  },
+  "changeBoundary": {
+    "onlyExplicitlyApprovedSourceTextValuesChanged": true,
+    "unapprovedSourceByteChangesDetected": false,
+    "localeRuntimeFixChangedApprovedCopySourceBytes": false,
+    "files": [
+      {
+        "path": "provider/vercel/wp13-12b-preview/index.html",
+        "lineCount": 174,
+        "changedLineCount": 12,
+        "changedLines": [49, 59, 67, 73, 74, 78, 84, 85, 101, 121, 122, 168]
+      },
+      {
+        "path": "provider/vercel/wp13-12b-preview/locales/nb.mjs",
+        "lineCount": 99,
+        "changedLineCount": 13,
+        "changedLines": [17, 19, 20, 22, 23, 24, 25, 30, 35, 36, 56, 65, 71],
+        "operatorCopyAlreadyMatchedR2BeforeChanges": true
+      },
+      {
+        "path": "provider/vercel/wp13-12b-preview/locales/nn.mjs",
+        "lineCount": 99,
+        "changedLineCount": 13,
+        "changedLines": [17, 19, 20, 22, 23, 24, 25, 30, 35, 36, 56, 65, 71],
+        "operatorCopyAlreadyMatchedR2BeforeChanges": true
+      }
+    ]
+  },
+  "verification": {
+    "independentHashImplementationsMatched": true,
+    "sourceContractTestsPassed": 13,
+    "sourceContractTestsFailed": 0,
+    "externalPreviewTestsPassed": 32,
+    "externalPreviewTestsFailed": 0,
+    "localeBrowserSubtestsPassed": 12,
+    "localeBrowserSubtestsFailed": 0,
+    "bmAndNnSeparateFirstClassBundles": true,
+    "declaredLocaleFallbackAllowed": false,
+    "hardcodedBmShellSurvivesNnBundleFailure": false,
+    "localeFallbackPresent": false,
+    "localeBundleShapeValidationPassed": true,
+    "localeGenerationStaleSuccessSideEffectFree": true,
+    "localeGenerationStaleFailureSideEffectFree": true,
+    "explicitCoordinatorRecoveryPassed": true,
+    "localeDomAtomicityPassed": true,
+    "localeFailureControlsFailClosed": true,
+    "localeFailureSensitiveStateCleared": true,
+    "localeRecoveryNoSensitiveStateResurrection": true,
+    "localeRuntimeAccessibilityPassed": true,
+    "documentLanguageBindingPresent": true,
+    "r2ControlTextAccessibilityContractPassed": true,
+    "syntheticOnlyLabelPresent": true,
+    "studentBetaProductionOrRealDataSuggested": false,
+    "piiSecretsProjectCredentialsOrCapabilityValuesPresent": false,
+    "publicOrProductionReadyClaimPresent": false
+  },
+  "functionalBlockers": [
+    {
+      "id": "HARD_CODED_BM_SHELL_SURVIVES_NN_BUNDLE_FAILURE",
+      "status": "LOCALLY_RESOLVED_TEST_VERIFIED_PENDING_COMMIT_S_BINDING",
+      "detail": "The preview now validates the complete locale bundle before an atomic DOM commit, hides prior localized surfaces on the current-generation failure path, gates operations, clears or remasks rendered capability values, preserves only an explicit language-agnostic STOP escape for an active session, rejects reuse of an expired connected capability after recovery, and supports explicit revalidated recovery. The actual loopback Chromium suite passed all 12 locale subtests.",
+      "blocksCommitS": false,
+      "commitBindingPending": true
+    }
+  ],
+  "repositoryBinding": {
+    "boundToCurrentCommit": false,
+    "reason": "R2_COPY_AND_LOCALE_RUNTIME_FIX_NOT_YET_COMMIT_S_BOUND",
+    "currentCommit": "fdb78846aae350c9418b8d50a1e46ec437f4ae2e",
+    "currentTree": "7180681e32435fb3ef5cbeb602b99ce9bc9b5313"
+  },
+  "humanReview": {
+    "status": "HUMAN_APPROVED_FOR_EXTERNAL_DEPLOYMENT",
+    "approvalRecorded": true,
+    "approvalStatementRecorded": true,
+    "secretAuthorizationTokenPresent": false,
+    "reviewedAt": "2026-07-28T17:45:43.075Z",
+    "sourceSetSha256": "bf3ecfc58ae713bf91dd53f27b6ad5b9750a65b76bf5b73261526cae7db21d80",
+    "copyReviewPreflightDeploymentAllowed": true,
+    "overallExternalDeploymentAuthorized": false,
+    "deploymentExecuted": false,
+    "requiredApprovalStatement": "GODKJENN_WP13_12B_PREVIEW_TEKST_R2; FELLES=godkjent; BM=godkjent; NN=godkjent; sourceSetSha256=bf3ecfc58ae713bf91dd53f27b6ad5b9750a65b76bf5b73261526cae7db21d80"
+  }
+}

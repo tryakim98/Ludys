@@ -2,12 +2,10 @@
   "valid": true,
   "errors": [],
   "warnings": [
-    "monthlyAlertThreshold unresolved; external activation remains blocked",
-    "maximumMonthlyCost unresolved; external activation remains blocked",
-    "killSwitchOwner unresolved; external activation remains blocked",
-    "billingReviewer unresolved; external activation remains blocked",
-    "stagingExpiryDate unresolved; external activation remains blocked",
-    "automaticDeletionPolicy unresolved; external activation remains blocked"
+    "plannedProjectId requires explicit display and approval before provisioning",
+    "projectDisplayName requires explicit display and approval before provisioning",
+    "approvedGoogleAccountOrOrganizationContext requires explicit display and approval before provisioning",
+    "approvedBillingAccount requires explicit display and approval before provisioning"
   ],
   "repositoryImplementation": "READY",
   "ownerDecision": "APPROVE_RECOMMENDED_SYNTHETIC_DEV",

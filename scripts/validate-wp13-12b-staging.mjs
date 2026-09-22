@@ -1,13 +1,30 @@
 import { createHash } from "node:crypto";
-import { execFileSync } from "node:child_process";
 import { readFile, readdir } from "node:fs/promises";
 import { join, relative } from "node:path";
 import { fileURLToPath } from "node:url";
 import {
+  derivePr3ProofFamiliesFromValidatedReceipts,
+  validateExternalActivationState,
+  validateExternalResourceInventory,
   validateOwnerDecisionForWp13_12b,
   validateReceipt,
   validateStagingRepositoryContract,
 } from "../dist/src/core/staging-validation.js";
+import {
+  externalActivationChecksumTargets,
+} from "./wp13-12b-external-activation-checksums.mjs";
+import {
+  RECEIPT_ARTIFACT_VERIFICATION_MODE,
+  verifyExternalResourceInventoryIntegrity,
+  verifyReceiptRepositoryIntegrity,
+} from "./wp13-12b-receipt-integrity.mjs";
+import {
+  createPinnedGitExecFile,
+} from "./wp13-12b-pinned-git-toolchain.mjs";
+import {
+  assertProviderRuntimeSecuritySourceContracts,
+  providerRuntimeSecuritySourcePaths,
+} from "./wp13-12b-provider-package-contract.mjs";
 
 const repo = fileURLToPath(new URL("..", import.meta.url));
 const release = join(repo, "release", "wp13-12b");
@@ -37,7 +54,7 @@ const ownerDecisionPath = "release/wp13-12a/decision-package/owner-decision.json
 const ownerDecisionBytes = await readFile(join(repo, ownerDecisionPath));
 const ownerDecision = JSON.parse(ownerDecisionBytes);
 const authorization = await json("release/wp13-12a/decision-package/authorization-status.json");
-const sourceChecksumBytes = execFileSync("git", [
+const sourceChecksumBytes = createPinnedGitExecFile()("git", [
   "-c",
   `safe.directory=${repo.replaceAll("\\", "/")}`,
   "show",
@@ -62,11 +79,35 @@ errors.push(...validateOwnerDecisionForWp13_12b({
 
 const contract = await json("release/wp13-12b/staging-activation/repository-contract.json");
 errors.push(...validateStagingRepositoryContract(contract));
+const externalActivationState = await json(
+  "release/wp13-12b/external-activation/external-activation-state.json",
+);
+const externalResourceInventory = await json(
+  "release/wp13-12b/external-activation/resource-inventory.json",
+);
+errors.push(...validateExternalResourceInventory(externalResourceInventory));
+if (
+  externalActivationState.cloudState?.inventoryStatus
+  !== externalResourceInventory.inventoryStatus
+  || externalActivationState.cloudState?.resourceCount
+  !== externalResourceInventory.resourceCount
+  || externalActivationState.cloudState?.zeroResourcesAsserted
+  !== externalResourceInventory.zeroResourcesAsserted
+) errors.push("external activation state and resource inventory disagree");
 
 const requiredFiles = [
   "docs/WP13_12B_SYNTHETIC_STAGING_REPOSITORY_AND_ACTIVATION_HANDOFF.md",
   "release/wp13-12b/validation.json",
   "release/wp13-12b/authorization-status.json",
+  "release/wp13-12b/external-activation/owner-authorization.json",
+  "release/wp13-12b/external-activation/cloud-field-approval.json",
+  "release/wp13-12b/external-activation/external-activation-state.json",
+  "release/wp13-12b/external-activation/external-activation-state.schema.json",
+  "release/wp13-12b/external-activation/resource-inventory.json",
+  "release/wp13-12b/external-activation/resource-inventory.schema.json",
+  "release/wp13-12b/external-activation/external-activation-provenance.json",
+  "release/wp13-12b/external-activation/artifact-checksums.sha256",
+  ...externalActivationChecksumTargets,
   "release/wp13-12b/provider-audit.json",
   "release/wp13-12b/provider-sbom.cdx.json",
   "release/wp13-12b/provider-license-inventory.json",
@@ -88,12 +129,16 @@ const requiredFiles = [
   "provider/firebase/firestore.indexes.json",
   "provider/firebase/staging.env.example",
   "provider/firebase/functions/index.mjs",
+  "provider/firebase/functions/functions.yaml",
   "provider/firebase/functions/package.json",
   "provider/firebase/functions/package-lock.json",
   "provider/firebase/functions/src/authoritative-handler.ts",
+  "provider/firebase/tools/operator-gate-contract.mjs",
   "provider/firebase/tools/seed-synthetic-fixtures.mjs",
   "provider/firebase/tools/set-staging-control.mjs",
   "scripts/validate-wp13-12b-receipt.mjs",
+  "scripts/validate-wp13-12b-external-activation.mjs",
+  "scripts/wp13-12b-receipt-integrity.mjs",
   "scripts/run-wp13-12b-emulator-proof.mjs",
   "artifacts/wp13-12b-reproducible-build-result.json",
   "web/staging-preview.html",
@@ -102,6 +147,184 @@ const requiredFiles = [
 const allFiles = new Set((await collect(repo)).map((path) => relative(repo, path).replaceAll("\\", "/")));
 for (const required of requiredFiles) {
   if (!allFiles.has(required)) errors.push(`missing required file: ${required}`);
+}
+
+const destructionLifecyclePlan = await json(
+  "release/wp13-12b/activation-handoff/destruction-plan.json",
+);
+const syntheticDataDeletionEvidencePath =
+  "release/wp13-12b/receipts/actual/"
+  + "synthetic-data-deletion-evidence.json";
+const syntheticDataDeletionEvidenceMarker =
+  `--synthetic-data-deletion-evidence ${syntheticDataDeletionEvidencePath}`;
+const syntheticDataDeletionAuthorization =
+  "AUTHORIZE_WP13_12B_SYNTHETIC_DATA_DELETION_EXECUTION;"
+  + "project=ludys-12b-stg-20260725;expiry=2027-01-25;"
+  + "scope=bounded-synthetic-session-delete";
+const deactivationExecutionPrefix =
+  "npm run provider:external:deactivation-plan -- "
+  + "--control-epoch <DEACTIVATED_CONTROL_EPOCH> ";
+const expectedDeactivationEvidenceSequence =
+  deactivationExecutionPrefix
+  + syntheticDataDeletionEvidenceMarker
+  + " --execute ";
+const orderedDeactivationCommands = (
+  Array.isArray(destructionLifecyclePlan.orderedCommands)
+    ? destructionLifecyclePlan.orderedCommands
+    : []
+).filter((command) => (
+  typeof command === "string"
+  && command.startsWith(deactivationExecutionPrefix)
+));
+if (
+  orderedDeactivationCommands.length !== 1
+  || !orderedDeactivationCommands[0].startsWith(
+    expectedDeactivationEvidenceSequence,
+  )
+  || orderedDeactivationCommands[0].split(
+    syntheticDataDeletionEvidenceMarker,
+  ).length !== 2
+) {
+  errors.push(
+    "destruction plan deactivation execution must require the exact "
+    + "synthetic-data-deletion evidence marker",
+  );
+}
+const destructionOrderedCommands = Array.isArray(
+  destructionLifecyclePlan.orderedCommands,
+)
+  ? destructionLifecyclePlan.orderedCommands
+  : [];
+const expectedDestructionCommandMarkers = [
+  [
+    "provider/firebase/tools/set-staging-control.mjs",
+    "--enabled false",
+    "--reason EXPIRY_DESTRUCTION",
+  ],
+  [
+    "scripts/provider-external-deploy-identity-control.mjs",
+    "--action plan",
+  ],
+  [
+    "scripts/provider-external-deploy-identity-control.mjs",
+    "--action provision",
+  ],
+  [
+    "scripts/provider-external-deploy-identity-control.mjs",
+    "--action verify",
+  ],
+  [
+    "scripts/provider-external-function-deploy.mjs",
+    "--action configure-preview-origin",
+    "--preview-origin <EXACT_RECEIPT_BOUND_ACTIVE_PREVIEW_ORIGIN>",
+  ],
+  [
+    "scripts/provider-external-function-deploy.mjs",
+    "--action deploy-disabled",
+  ],
+  [
+    "scripts/wp13-12b-external-resource-operator.mjs",
+    "--action delete-synthetic-data",
+    "--window-expires-at <UTC-ISO-WITHIN-30-MINUTES-AND-NO-LATER-THAN-2027-01-26T00:00:00.000Z>",
+    syntheticDataDeletionAuthorization,
+  ],
+  [
+    "scripts/wp13-12b-external-resource-operator.mjs",
+    "--action synthetic-data-deletion-evidence-plan",
+  ],
+  [
+    "scripts/wp13-12b-external-resource-operator.mjs",
+    "--action record-synthetic-data-deletion-confirmation",
+    "<EXACT_humanConfirmationText_FROM_SYNTHETIC_EVIDENCE>",
+  ],
+  [
+    "scripts/provider-external-wif-control.mjs",
+    "--action disable-workload-identity-provider",
+  ],
+  [
+    "scripts/provider-external-wif-control.mjs",
+    "--action disable-workload-identity-pool",
+  ],
+  [
+    "scripts/provider-external-wif-control.mjs",
+    "--action verify-disabled",
+  ],
+  [
+    deactivationExecutionPrefix,
+    syntheticDataDeletionEvidenceMarker,
+  ],
+  [
+    "--action vercel-destruction-plan",
+    "--confirm-vercel-team-id team_1Gnn3VSNrP3mbseXx6a92a4J",
+    "--confirm-vercel-project-id prj_nHs1hbdyfcMMMglNUTwoYRS43naN",
+  ],
+  [
+    "scripts/wp13-12b-external-resource-operator.mjs",
+    "--action record-preview-destruction-confirmation",
+    "<EXACT_humanConfirmationText_FROM_PREVIEW_EVIDENCE>",
+  ],
+  [
+    "provider:external:inventory",
+    "<POST_VERCEL_INVENTORY_PATH>",
+  ],
+  [
+    "provider:external:destruction-plan",
+    "<POST_VERCEL_INVENTORY_DIGEST>",
+  ],
+  [
+    "provider:external:inventory",
+    "<FINAL_ZERO_RESOURCE_INVENTORY_PATH>",
+  ],
+];
+if (
+  destructionLifecyclePlan.schemaVersion
+    !== "wp13.12b-staging-destruction-v3"
+  || destructionLifecyclePlan.executionContract
+    !== "release/wp13-12b/external-activation/"
+      + "expiry-destruction-execution-contract.json"
+  || destructionLifecyclePlan.syntheticDeletionWindow
+    ?.separateExactAuthorizationRequired !== true
+  || destructionLifecyclePlan.syntheticDeletionWindow?.minimumMinutes !== 5
+  || destructionLifecyclePlan.syntheticDeletionWindow?.maximumMinutes !== 30
+  || destructionLifecyclePlan.syntheticDeletionWindow?.ordinaryGraceEndsAt
+    !== "2027-01-26T00:00:00.000Z"
+  || destructionLifecyclePlan.syntheticDeletionWindow
+    ?.broadDeployOrRedeployAllowed !== false
+  || destructionLifecyclePlan.syntheticDeletionWindow
+    ?.executionAfterOrdinaryGrace
+    !== "SEPARATE_EXCEPTIONAL_RECOVERY_AUTHORIZATION_REQUIRED"
+  || destructionOrderedCommands.length
+    !== expectedDestructionCommandMarkers.length
+  || !expectedDestructionCommandMarkers.every((markers, index) => (
+    typeof destructionOrderedCommands[index] === "string"
+    && markers.every((marker) => (
+      destructionOrderedCommands[index].includes(marker)
+    ))
+  ))
+  || destructionOrderedCommands.some((command) => (
+    typeof command === "string"
+    && command.includes("Explicitly delete all synthetic payloads")
+  ))
+) {
+  errors.push(
+    "destruction plan must use the exact v3 18-command control, safe backend, "
+    + "bounded deletion, immutable evidence/confirmation, WIF, deactivation, "
+    + "Vercel confirmation, Google destruction and final-zero sequence",
+  );
+}
+if (
+  typeof destructionLifecyclePlan.expiryDeactivationPlanCommand !== "string"
+  || !destructionLifecyclePlan.expiryDeactivationPlanCommand.startsWith(
+    expectedDeactivationEvidenceSequence,
+  )
+  || destructionLifecyclePlan.expiryDeactivationPlanCommand.split(
+    syntheticDataDeletionEvidenceMarker,
+  ).length !== 2
+) {
+  errors.push(
+    "expiry deactivation command must require the exact "
+    + "synthetic-data-deletion evidence marker",
+  );
 }
 
 const rootPackage = await json("package.json");
@@ -154,17 +377,38 @@ const providerSources = (await collect(join(repo, "provider/firebase")))
 const providerText = (await Promise.all(providerSources
   .filter((path) => /\.(?:ts|mjs|json|rules|example)$/u.test(path))
   .map((path) => readFile(path, "utf8")))).join("\n");
-for (const forbiddenFeature of [
-  "firebase/auth",
-  "getAuth(",
-  "analytics",
-  "crashlytics",
-  "performance monitoring",
-  "remote config",
-  "cloud storage",
+for (const { feature, pattern } of [
+  {
+    feature: "firebase/auth",
+    pattern: /(?:["']firebase\/auth["']|\bgetAuth\s*\()/iu,
+  },
+  {
+    feature: "analytics",
+    pattern:
+      /(?:["'](?:@firebase\/analytics|firebase\/analytics)["']|\b(?:getAnalytics|initializeAnalytics|logEvent|setAnalyticsCollectionEnabled)\s*\(|["']?measurementId["']?\s*:)/iu,
+  },
+  {
+    feature: "crashlytics",
+    pattern:
+      /(?:["']firebase\/crashlytics["']|\b(?:getCrashlytics|recordCrashlyticsError)\s*\()/iu,
+  },
+  {
+    feature: "performance monitoring",
+    pattern:
+      /(?:["']firebase\/performance["']|\bgetPerformance\s*\()/iu,
+  },
+  {
+    feature: "remote config",
+    pattern:
+      /(?:["']firebase\/remote-config["']|\bgetRemoteConfig\s*\()/iu,
+  },
+  {
+    feature: "cloud storage",
+    pattern: /(?:["']firebase\/storage["']|\bgetStorage\s*\()/iu,
+  },
 ]) {
-  if (providerText.toLowerCase().includes(forbiddenFeature.toLowerCase())) {
-    errors.push(`forbidden provider feature found: ${forbiddenFeature}`);
+  if (pattern.test(providerText)) {
+    errors.push(`forbidden provider feature found: ${feature}`);
   }
 }
 const providerRuntimeText = (await Promise.all([
@@ -174,6 +418,22 @@ const providerRuntimeText = (await Promise.all([
 ].map((path) => readFile(path, "utf8")))).join("\n");
 if (/console\.(?:log|info|warn|error)\s*\(/u.test(providerRuntimeText)) {
   errors.push("provider runtime source contains application log call");
+}
+try {
+  const providerRuntimeSecuritySources = Object.fromEntries(
+    await Promise.all(providerRuntimeSecuritySourcePaths.map(async (path) => [
+      path,
+      await readFile(join(repo, path), "utf8"),
+    ])),
+  );
+  assertProviderRuntimeSecuritySourceContracts(
+    providerRuntimeSecuritySources,
+  );
+} catch (error) {
+  errors.push(
+    "provider runtime security source contract failed: "
+      + (error?.code ?? "UNKNOWN_SOURCE_CONTRACT_ERROR"),
+  );
 }
 
 const receiptTemplateDirectory = join(release, "receipts", "templates");
@@ -196,6 +456,43 @@ if (
 ) errors.push("BM and NN must be first-class without fallback");
 
 const auth12b = await json("release/wp13-12b/authorization-status.json");
+const externalAuthorization = await json(
+  "release/wp13-12b/external-activation/owner-authorization.json",
+);
+const cloudFieldApproval = await json(
+  "release/wp13-12b/external-activation/cloud-field-approval.json",
+);
+if (
+  externalAuthorization.authorization !== "AUTHORIZE_WP13_12B_EXTERNAL_ACTIVATION"
+  || externalAuthorization.authorizationStatus !== "AUTHORIZED_WITHIN_RECORDED_LIMITS"
+  || externalAuthorization.scope !== "ISOLATED_SYNTHETIC_DEV_STAGING_ONLY"
+  || externalAuthorization.selectedRegion !== "europe-north1"
+  || externalAuthorization.monthlyAlertThreshold?.amount !== 400
+  || externalAuthorization.monthlyAlertThreshold?.currency !== "NOK"
+  || externalAuthorization.maximumMonthlyCost?.amount !== 500
+  || externalAuthorization.maximumMonthlyCost?.currency !== "NOK"
+  || externalAuthorization.killSwitchOwner !== "PRODUCT_OWNER_SELF"
+  || externalAuthorization.billingReviewer !== "PRODUCT_OWNER_SELF"
+  || externalAuthorization.stagingExpiryDate !== "2027-01-25"
+  || externalAuthorization.automaticDeletionPolicy?.authorized !== true
+  || externalAuthorization.authorizationBoundaries?.syntheticDataOnly !== true
+  || externalAuthorization.authorizationBoundaries?.realParticipantData !== false
+  || externalAuthorization.authorizationBoundaries?.studentBeta !== false
+  || externalAuthorization.authorizationBoundaries?.production !== false
+  || externalAuthorization.authorizationBoundaries?.wp13_12c !== false
+  || externalAuthorization.humanSignatureOrExplicitConfirmation?.confirmed !== true
+  || externalAuthorization.humanSignatureOrExplicitConfirmation?.signaturePresent !== false
+  || externalAuthorization.cloudResourcesAtRecording !== 0
+) errors.push("external activation owner authorization record mismatch");
+if (
+  cloudFieldApproval.approvalStatus !== "EXPLICITLY_APPROVED_FOR_EXTERNAL_SYNTHETIC_STAGING"
+  || cloudFieldApproval.plannedProjectId !== "ludys-12b-stg-20260725"
+  || cloudFieldApproval.approvedGoogleAccount !== "tryakim@gmail.com"
+  || cloudFieldApproval.approvedOrganizationId !== "724335528970"
+  || cloudFieldApproval.approvedBillingAccount !== "01CD9D-0900DF-4FB36A"
+  || cloudFieldApproval.selectedRegion !== "europe-north1"
+  || cloudFieldApproval.humanSignatureOrExplicitConfirmation?.confirmed !== true
+) errors.push("external activation cloud field approval mismatch");
 for (const [field, expected] of Object.entries({
   providerActivation: "BLOCKED",
   cloudResources: 0,
@@ -208,6 +505,66 @@ for (const [field, expected] of Object.entries({
 })) {
   if (auth12b[field] !== expected) errors.push(`authorization ceiling mismatch: ${field}`);
 }
+if (
+  auth12b.wp13_12bExternalActivation
+  !== "AUTHORIZED_BY_EXPLICIT_PRODUCT_OWNER_CONFIRMATION"
+) errors.push("external activation authorization status mismatch");
+
+const externalDecisionChecksum = sha256(await readFile(
+  join(repo, "release/wp13-12b/external-activation/owner-authorization.json"),
+));
+const authenticValidatedReceiptTypes = [];
+const authenticValidatedReceipts = new Map();
+for (const receiptPath of externalActivationState.evidence?.validatedReceiptPaths ?? []) {
+  if (
+    typeof receiptPath !== "string"
+    || !receiptPath.startsWith("release/wp13-12b/receipts/actual/")
+    || receiptPath.includes("..")
+    || !allFiles.has(receiptPath)
+  ) {
+    errors.push(`external activation receipt path is invalid: ${String(receiptPath)}`);
+    continue;
+  }
+  const receipt = JSON.parse(await readFile(join(repo, receiptPath), "utf8"));
+  const repositoryIntegrity = await verifyReceiptRepositoryIntegrity(
+    receipt,
+    repo,
+    {
+      receiptPath,
+      artifactVerificationMode:
+        RECEIPT_ARTIFACT_VERIFICATION_MODE.DESCENDANT_EVIDENCE_COMMIT,
+    },
+  );
+  const receiptResult = validateReceipt(receipt, {
+    sourceTree: repositoryIntegrity.resolvedSourceTree,
+    decisionRecordChecksum: externalDecisionChecksum,
+  });
+  for (const error of [...receiptResult.errors, ...repositoryIntegrity.errors]) {
+    errors.push(`${receiptPath}: ${error}`);
+  }
+  if (!receiptResult.evidence) errors.push(`${receiptPath}: receipt is not authentic evidence`);
+  if (receiptResult.evidence && repositoryIntegrity.errors.length === 0) {
+    authenticValidatedReceiptTypes.push(receipt.receiptType);
+    authenticValidatedReceipts.set(receiptPath, receipt);
+  }
+}
+const externalInventoryIntegrity = await verifyExternalResourceInventoryIntegrity(
+  externalResourceInventory,
+  repo,
+  authenticValidatedReceipts,
+);
+for (const error of externalInventoryIntegrity.errors) {
+  errors.push(`external resource inventory: ${error}`);
+}
+const authenticValidatedPr3ProofFamilies =
+  derivePr3ProofFamiliesFromValidatedReceipts(
+    [...authenticValidatedReceipts.values()],
+  );
+errors.push(...validateExternalActivationState(
+  externalActivationState,
+  authenticValidatedReceiptTypes,
+  authenticValidatedPr3ProofFamilies,
+));
 
 const checksumLines = (await readFile(join(release, "artifact-checksums.sha256"), "utf8"))
   .trim().split(/\r?\n/u);
@@ -226,16 +583,33 @@ for (const line of checksumLines) {
   if (actual !== match[1]) errors.push(`checksum mismatch: ${path}`);
 }
 
-for (const field of [
-  "monthlyAlertThreshold",
-  "maximumMonthlyCost",
-  "killSwitchOwner",
-  "billingReviewer",
-  "stagingExpiryDate",
-  "automaticDeletionPolicy",
-]) {
-  if (String(ownerDecision[field]).startsWith("UNRESOLVED_")) {
-    warnings.push(`${field} unresolved; external activation remains blocked`);
+const externalChecksumLines = (await readFile(
+  join(release, "external-activation", "artifact-checksums.sha256"),
+  "utf8",
+)).trim().split(/\r?\n/u);
+const externalChecksummedPaths = new Set();
+for (const line of externalChecksumLines) {
+  const match = /^([a-f0-9]{64})  (.+)$/u.exec(line);
+  if (match === null) {
+    errors.push(`invalid external activation checksum line: ${line}`);
+    continue;
+  }
+  const path = match[2];
+  externalChecksummedPaths.add(path);
+  if (!externalActivationChecksumTargets.includes(path)) {
+    errors.push(`unexpected external activation checksum target: ${path}`);
+    continue;
+  }
+  if (!allFiles.has(path)) {
+    errors.push(`external activation checksummed file missing: ${path}`);
+    continue;
+  }
+  const actual = sha256(await readFile(join(repo, path)));
+  if (actual !== match[1]) errors.push(`external activation checksum mismatch: ${path}`);
+}
+for (const path of externalActivationChecksumTargets) {
+  if (!externalChecksummedPaths.has(path)) {
+    errors.push(`external activation checksum target missing from manifest: ${path}`);
   }
 }
 
@@ -251,6 +625,16 @@ const result = {
   physicalTwoDeviceProof: false,
   externalReceipts: 0,
   wp13_12c: "BLOCKED",
+  externalActivationOverlay: {
+    status: externalActivationState.overlayStatus,
+    validatedReceipts: externalActivationState.evidence?.validatedReceiptCount,
+    emulatorProof: externalActivationState.evidence?.emulatorProof,
+    cloudProviderReadback: externalActivationState.evidence?.cloudProviderReadback,
+    inventoryStatus: externalResourceInventory.inventoryStatus,
+    resourceCount: externalResourceInventory.resourceCount,
+    zeroResourcesAsserted: externalResourceInventory.zeroResourcesAsserted,
+    physicalTwoDeviceProof: externalActivationState.evidence?.physicalTwoDeviceProof,
+  },
 };
 console.log(JSON.stringify(result, null, 2));
 if (!result.valid) process.exit(1);

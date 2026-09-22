@@ -1,0 +1,89 @@
+{
+  "schemaVersion": "wp13.12b-vercel-cli-reaudit-draft-v1",
+  "classification": "DRAFT_NOT_EVIDENCE",
+  "authenticReceipt": false,
+  "observedDate": "2026-07-28",
+  "technicalStatus": "WP13_12B_VERCEL_CLI_58_REAUDIT_COMPLETE_BOUNDED_FLOW_ONLY",
+  "toolchain": {
+    "package": "vercel",
+    "requestedVersion": "58.0.0",
+    "resolvedVersion": "58.0.0",
+    "publishedAt": "2026-07-27T20:26:18.479Z",
+    "officialReleaseCommit": "e38f9af",
+    "tarball": "https://registry.npmjs.org/vercel/-/vercel-58.0.0.tgz",
+    "tarballBytes": 2048576,
+    "npmIntegrity": "sha512-Y9sPxy/oR5o8KcVLjxxJ1bsUvSKyigEOb26jBn9LDNgR3VW8iAVb0qm+824WZ5viqVuGMzxsj4wJedVH4ih4Mg==",
+    "npmShasum": "8e4aef52b3bc8ec151e71cb170a9b4a7df7329da",
+    "moduleRoot": "C:\\Users\\tryak\\AppData\\Local\\LUDYS\\toolchains\\vercel-cli-58.0.0\\node_modules",
+    "installScriptsExecuted": false,
+    "globalInstall": false,
+    "runtimeBundled": false,
+    "productionDependency": false,
+    "repositoryPackageManifestChangedByInstall": false,
+    "repositoryLockfileChangedByInstall": false,
+    "canonicalTreeAlgorithm": "ASCII_CODE_UNIT_SORTED_RELATIVE_PATH_NUL_SIZE_NUL_SHA256_LF_V2",
+    "canonicalTreeFileCount": 6731,
+    "canonicalTreeSha256": "4d97f7ef1a2631946dd5344d29db7ad9b931782e24bd478ea2a4241e2a0f57fc",
+    "packageJsonSha256": "c9e5cc5fd2f425b91679588dde3cd402f1845585dbd7bf6f243e7e9988fe2bb9",
+    "packageLockSha256": "fa85de4cf0b4d70dd29cdfb3b2a857ce04096297cdca37ea23d956e86a189c94",
+    "vercelPackageManifestSha256": "f984896365b2d5bb3fd5498918ca3fe982713171c49413ec55889306a85b2601",
+    "vercelEntrySha256": "56b16d6893212069398eb30e2d96943421cd8a5ba7ea3372a1dd5743ed23d363",
+    "forbiddenInstallLogsAbsent": true
+  },
+  "audit": {
+    "command": "npm audit --audit-level=moderate",
+    "totalVulnerablePackageNodes": 33,
+    "critical": 1,
+    "high": 23,
+    "moderate": 8,
+    "low": 1,
+    "distinctCriticalHighLeafAdvisories": 15,
+    "criticalLeafAdvisories": 1,
+    "highLeafAdvisories": 14,
+    "rawAuditSha256BeforeTemporaryCleanup": "6d49a6394c9f56f814ce2a46bf6751c91daf6fe8afaf6d80d0f427c521845583",
+    "rawAuditRetained": false,
+    "rawAuditRetentionReason": "Temporary isolated audit roots were removed after digesting and reporting."
+  },
+  "reachability": {
+    "authorityPathReachable": true,
+    "authorityPathReason": "The CLI handles credentials and authenticated provider responses.",
+    "criticalHighCodeLoaded": true,
+    "codeLoadedCriticalHighLeaves": [
+      "minimatch@10.1.1",
+      "js-yaml@4.1.1"
+    ],
+    "criticalHighVulnerableSinkReachable": false,
+    "criticalHighTriggerReachable": {
+      "login": false,
+      "deploy": false,
+      "cleanup": false
+    },
+    "unloadedCriticalHighLeaves": [
+      "tar@7.5.7",
+      "undici@5.29.0",
+      "undici@5.28.4",
+      "path-to-regexp",
+      "brace-expansion"
+    ],
+    "invalidatingChanges": [
+      "untrusted source or configuration",
+      "Python, YAML or TOML input",
+      "attacker-controlled glob or route input",
+      "proxy configuration or WebSockets",
+      "vercel dev, archive, builder or experimental-services paths"
+    ]
+  },
+  "scope": {
+    "boundedFlowOnly": true,
+    "doesNotAuthorizeLoginDeploymentOrCleanup": true,
+    "loginExecuted": false,
+    "deploymentExecuted": false,
+    "cleanupExecutedAgainstProvider": false,
+    "cloudChanges": 0
+  },
+  "removalProcedure": {
+    "executeNow": false,
+    "validationRequired": "Resolve and verify that the target is exactly the stable 58.0.0 toolchain directory under C:\\Users\\tryak\\AppData\\Local\\LUDYS\\toolchains.",
+    "powershellAfterValidation": "Remove-Item -LiteralPath 'C:\\Users\\tryak\\AppData\\Local\\LUDYS\\toolchains\\vercel-cli-58.0.0' -Recurse"
+  }
+}

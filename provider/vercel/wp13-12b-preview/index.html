@@ -1,0 +1,174 @@
+<!doctype html>
+<html lang="nb">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="color-scheme" content="light dark">
+    <meta name="robots" content="noindex, nofollow, noarchive">
+    <title>LUDYS · WP13.12B · Syntetisk staging</title>
+    <link rel="stylesheet" href="/styles.css">
+  </head>
+  <body>
+    <a id="skip-link" class="skip-link" href="#main-content">Hopp til innholdet</a>
+    <header class="page-header">
+      <div>
+        <p class="eyebrow">LUDYS · WP13.12B · SYNTHETIC ONLY</p>
+        <h1 id="page-title">Beskyttet syntetisk staging</h1>
+      </div>
+      <label class="field locale-field" for="locale">
+        <span id="locale-label">Målform</span>
+        <select id="locale">
+          <option id="locale-nb" value="nb-NO">Bokmål</option>
+          <option id="locale-nn" value="nn-NO">Nynorsk</option>
+        </select>
+      </label>
+    </header>
+
+    <main id="main-content" class="layout" tabindex="-1">
+      <section class="boundary" aria-labelledby="boundary-title">
+        <h2 id="boundary-title">Kun syntetisk teknisk staging</h2>
+        <p id="boundary-copy">Ingen elevdata. Ikke studentbeta eller produksjon.</p>
+        <ul>
+          <li>SYNTHETIC_ONLY_NO_PARTICIPANT_DATA</li>
+          <li>Studentbeta: NOT_AUTHORIZED</li>
+          <li>Produksjon: NOT_AUTHORIZED</li>
+          <li>WP13.12C: BLOCKED</li>
+          <li id="capability-memory-status">Kapabiliteter: MEMORY_ONLY</li>
+        </ul>
+      </section>
+
+      <p id="status" class="status" role="status" aria-live="polite">
+        Laster fail-closed previewkonfigurasjon.
+      </p>
+
+      <section class="panel operator-panel" aria-labelledby="operator-title">
+        <div>
+          <p id="operator-eyebrow" class="eyebrow">Beskyttet operatørflate</p>
+          <h2 id="operator-title">Utsted syntetisk økt</h2>
+          <p id="operator-copy">
+            Den syntetiske økten varer i høyst ti minutter og krever Vercel-innlogging.
+          </p>
+        </div>
+        <div class="button-row">
+          <button id="issue-session" type="button">Utsted syntetisk økt</button>
+        </div>
+
+        <div id="issued-session" class="sensitive-panel" hidden>
+          <h3 id="transfer-title">Midlertidig overføring til to enheter</h3>
+          <p id="transfer-copy">
+            Del bare kapabiliteten for riktig syntetisk rolle med den aktuelle test-enheten.
+          </p>
+          <label class="field" for="issued-session-id">
+            <span id="issued-session-label">Syntetisk økt-ID</span>
+            <input id="issued-session-id" type="text" readonly autocomplete="off" spellcheck="false">
+          </label>
+          <div class="transfer-grid">
+            <article>
+              <h4 id="child-transfer-title">Syntetisk barnerolle</h4>
+              <label class="field" for="child-capability">
+                <span id="child-capability-label">Midlertidig kapabilitet</span>
+                <input id="child-capability" type="password" readonly autocomplete="off" spellcheck="false">
+              </label>
+              <div class="button-row">
+                <button type="button" data-reveal-capability="CHILD" aria-pressed="false">Vis eller skjul kapabiliteten for barnerollen</button>
+                <button type="button" data-use-issued-role="CHILD">Bruk den syntetiske barnerollen her</button>
+              </div>
+            </article>
+            <article>
+              <h4 id="adult-transfer-title">Syntetisk voksenrolle</h4>
+              <label class="field" for="adult-capability">
+                <span id="adult-capability-label">Midlertidig kapabilitet</span>
+                <input id="adult-capability" type="password" readonly autocomplete="off" spellcheck="false">
+              </label>
+              <div class="button-row">
+                <button type="button" data-reveal-capability="ADULT" aria-pressed="false">Vis eller skjul kapabiliteten for voksenrollen</button>
+                <button type="button" data-use-issued-role="ADULT">Bruk den syntetiske voksenrollen her</button>
+              </div>
+            </article>
+          </div>
+          <p><span id="expires-label">Utløper</span>: <strong id="issued-expires-at">—</strong></p>
+          <div class="button-row">
+            <button id="clear-issued" type="button">Fjern kapabiliteter fra siden</button>
+          </div>
+        </div>
+
+        <div class="danger-zone">
+          <h3 id="delete-title">Operatørsletting</h3>
+          <label class="field" for="delete-session-id">
+            <span id="delete-session-label">Syntetisk økt-ID som skal slettes</span>
+            <input id="delete-session-id" type="text" autocomplete="off" spellcheck="false">
+          </label>
+          <button id="delete-session" class="danger" type="button">Slett den syntetiske økten</button>
+        </div>
+      </section>
+
+      <section class="panel" aria-labelledby="connect-title">
+        <div>
+          <p id="device-eyebrow" class="eyebrow">Enhet 1 eller enhet 2</p>
+          <h2 id="connect-title">Koble til med rollekapabilitet</h2>
+          <p id="connect-copy">
+            Skriv inn økt-ID og kapabilitet. Feltet tømmes straks tilkoblingen er forsøkt.
+          </p>
+        </div>
+        <div class="connect-grid">
+          <label class="field" for="connect-session-id">
+            <span id="connect-session-label">Syntetisk økt-ID</span>
+            <input id="connect-session-id" type="text" autocomplete="off" spellcheck="false">
+          </label>
+          <label class="field" for="connect-role">
+            <span id="connect-role-label">Rolle</span>
+            <select id="connect-role">
+              <option value="CHILD">Syntetisk barnerolle</option>
+              <option value="ADULT">Syntetisk voksenrolle</option>
+            </select>
+          </label>
+          <label class="field" for="connect-capability">
+            <span id="connect-capability-label">Midlertidig kapabilitet</span>
+            <input id="connect-capability" type="password" autocomplete="off" spellcheck="false">
+          </label>
+        </div>
+        <div class="button-row">
+          <button id="connect-session" type="button">Koble til</button>
+          <button id="disconnect-session" type="button" disabled>Koble fra og tøm minnet</button>
+        </div>
+      </section>
+
+      <section class="panel projection-panel" aria-labelledby="projection-title">
+        <h2 id="projection-title">Rolleavgrenset projeksjon</h2>
+        <dl id="projection">
+          <div><dt id="projection-role-label">Rolle</dt><dd id="projection-role">—</dd></div>
+          <div><dt id="projection-terminal-label">Terminalstatus</dt><dd id="projection-terminal">—</dd></div>
+          <div><dt id="projection-version-label">Tilstandsversjon</dt><dd id="projection-version">—</dd></div>
+          <div><dt id="projection-wait-label">Ventetilstand</dt><dd id="projection-wait">—</dd></div>
+          <div><dt id="projection-help-label">Hjelp venter</dt><dd id="projection-help">—</dd></div>
+          <div><dt id="projection-audio-label">Lydstatus</dt><dd id="projection-audio">SILENT</dd></div>
+        </dl>
+      </section>
+
+      <section class="panel" aria-labelledby="controls-title">
+        <h2 id="controls-title">Syntetiske kommandoer</h2>
+        <div class="button-row command-row">
+          <button type="button" data-command="ACTIVATE" data-role="ADULT" disabled>Start</button>
+          <button type="button" data-command="ENTER_WAIT" data-role="CHILD" disabled>Vent</button>
+          <button type="button" data-command="REQUEST_HELP" data-role="CHILD" disabled>Be om hjelp</button>
+          <button type="button" data-command="PAUSE" data-role="BOTH" disabled>Pause</button>
+          <button type="button" data-command="RESUME" data-role="ADULT" disabled>Fortsett</button>
+          <button type="button" data-command="RECONNECT" data-role="BOTH" disabled>Koble til på nytt</button>
+          <button type="button" data-command="STOP" data-role="BOTH" class="danger" disabled>STOPP</button>
+        </div>
+        <div class="button-row">
+          <button id="refresh-projection" type="button" disabled>Hent fersk projeksjon</button>
+          <button id="send-stale" type="button" disabled>Test gammel kommando</button>
+        </div>
+      </section>
+
+      <section class="terminal-note" aria-labelledby="terminal-title">
+        <h2 id="terminal-title">STOPP og sletting dominerer</h2>
+        <p id="terminal-copy">
+          En stoppet eller slettet økt skal ikke bli aktiv igjen ved ny tilkobling.
+        </p>
+      </section>
+    </main>
+    <script type="module" src="/app.mjs"></script>
+  </body>
+</html>

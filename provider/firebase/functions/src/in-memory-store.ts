@@ -103,7 +103,7 @@ export class InMemorySyntheticStagingStore implements SyntheticStagingStore {
     this.#tombstones.set(aggregate.syntheticSessionId, tombstone);
     for (const [nonce, grant] of this.#grants) {
       if (grant.syntheticSessionId === aggregate.syntheticSessionId) {
-        this.#grants.set(nonce, { ...grant, revoked: true });
+        this.#grants.delete(nonce);
       }
     }
     return true;

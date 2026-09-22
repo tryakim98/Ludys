@@ -1,0 +1,45 @@
+{
+  "schemaVersion": "wp13.12b-ea-provenance-v1",
+  "overlayPurpose": "Record post-repository external activation evidence without rewriting the historical repository-phase snapshot.",
+  "historicalBaselineReferences": [
+    "release/wp13-12b/authorization-status.json",
+    "release/wp13-12b/staging-activation/repository-contract.json",
+    "release/wp13-12b/staging-provenance.json"
+  ],
+  "overlayFiles": {
+    "state": "release/wp13-12b/external-activation/external-activation-state.json",
+    "stateSchema": "release/wp13-12b/external-activation/external-activation-state.schema.json",
+    "resourceInventory": "release/wp13-12b/external-activation/resource-inventory.json",
+    "resourceInventorySchema": "release/wp13-12b/external-activation/resource-inventory.schema.json",
+    "checksums": "release/wp13-12b/external-activation/artifact-checksums.sha256"
+  },
+  "receiptBindingPolicy": {
+    "headIndependent": true,
+    "sourceCommitMustExist": true,
+    "sourceTreeMustExist": true,
+    "sourceTreeMustMatchCommit": true,
+    "artifactHashKeysAreRepositoryRelativeFilePaths": true,
+    "artifactFilesMustExistAndMatchSha256": true
+  },
+  "pendingEvidencePolicy": {
+    "unknownResourceCountRepresentedAsNull": true,
+    "pendingEmptyInventoryDoesNotAssertZeroResources": true,
+    "cloudValuesRequireAuthenticProviderReadback": true,
+    "humanConfirmationMustNeverBeSynthesized": true
+  },
+  "providerReadbackInput": {
+    "operatorSnapshotContract": "release/wp13-12b/external-activation/resource-inventory-contract.json",
+    "operatorSnapshotMayAutomaticallyAttestOverlay": false,
+    "supportingBuildBucketIsNotAppCloudStorageProof": true,
+    "unclassifiedOrForbiddenBucketsBlockInventoryAcceptance": true,
+    "previewInventoryRequiresSeparateEvidence": true
+  },
+  "localAuthorityToolchains": {
+    "vercelCliModuleRoot": "C:\\Users\\tryak\\AppData\\Local\\LUDYS\\toolchains\\vercel-cli-58.0.0\\node_modules",
+    "vercelCliCanonicalTreeAlgorithm": "ASCII_CODE_UNIT_SORTED_RELATIVE_PATH_NUL_SIZE_NUL_SHA256_LF_V2",
+    "vercelCliCanonicalTreeFileCount": 6731,
+    "vercelCliCanonicalTreeSha256": "4d97f7ef1a2631946dd5344d29db7ad9b931782e24bd478ea2a4241e2a0f57fc",
+    "authenticationTokensIncluded": false,
+    "temporaryAuthenticationConfigurationsIncluded": false
+  }
+}

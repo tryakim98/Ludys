@@ -1,6 +1,6 @@
 {
   "schemaVersion": "wp13.12b-provider-fact-proof-v1",
-  "checkedAt": "2026-07-25",
+  "checkedAt": "2026-07-27",
   "selectedRegion": "europe-north1",
   "firestoreRegionalSupport": "VERIFIED",
   "functions2ndGenSupport": "VERIFIED",

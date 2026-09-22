@@ -1,4 +1,16 @@
 {
+  "functions": [
+    {
+      "source": "functions",
+      "codebase": "wp13-12b-synthetic-staging",
+      "ignore": [
+        "node_modules",
+        ".git",
+        "firebase-debug.log",
+        "firebase-debug.*.log"
+      ]
+    }
+  ],
   "firestore": {
     "rules": "firestore.rules",
     "indexes": "firestore.indexes.json"

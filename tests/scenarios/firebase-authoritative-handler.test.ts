@@ -5,6 +5,7 @@ import {
   type HandlerRequest,
   type IssueSyntheticSessionResult,
   type SessionCommandBody,
+  type SyntheticStagingRuntimePhase,
 } from "../../provider/firebase/functions/src/authoritative-handler.js";
 import { InMemorySyntheticStagingStore } from "../../provider/firebase/functions/src/in-memory-store.js";
 import {
@@ -23,10 +24,16 @@ const releaseIds = {
   schemaVersion: SYNTHETIC_STAGING_SCHEMA_VERSION,
 } as const;
 
-function harness(input?: { readonly enabled?: boolean }) {
+function harness(input?: {
+  readonly enabled?: boolean;
+  readonly controlEnabled?: boolean;
+  readonly issuanceEnabled?: boolean;
+  readonly runtimePhase?: SyntheticStagingRuntimePhase;
+  readonly previewIngressReady?: boolean;
+}) {
   let observedAt = "2026-07-25T10:00:00.000Z";
   const store = new InMemorySyntheticStagingStore({
-    stagingEnabled: input?.enabled ?? true,
+    stagingEnabled: input?.controlEnabled ?? input?.enabled ?? true,
     controlEpoch: 7,
     changedAt: observedAt,
   });
@@ -35,9 +42,11 @@ function harness(input?: { readonly enabled?: boolean }) {
     new TextEncoder().encode("0123456789abcdef0123456789abcdef"),
     releaseIds,
     {
-      sessionIssuanceEnabled: input?.enabled ?? true,
+      sessionIssuanceEnabled: input?.issuanceEnabled ?? input?.enabled ?? true,
       region: "europe-north1",
       projectId: "ludys-synthetic-dev",
+      runtimePhase: input?.runtimePhase ?? "LOCAL_EMULATOR_PROOF",
+      previewIngressReady: input?.previewIngressReady ?? true,
       now: () => observedAt,
     },
   );
@@ -89,6 +98,18 @@ function commandBody(
     command: { kind },
     ...input,
   };
+}
+
+function capabilityNonce(capability: string): string {
+  const encodedClaims = capability.split(".")[0];
+  assert.ok(encodedClaims);
+  const claims = JSON.parse(
+    Buffer.from(encodedClaims, "base64url").toString("utf8"),
+  ) as { readonly nonce?: unknown };
+  if (typeof claims.nonce !== "string") {
+    assert.fail("capability nonce must be a string");
+  }
+  return claims.nonce;
 }
 
 test("session issuance is IAM/operator protected and disabled by default", async () => {
@@ -209,6 +230,8 @@ test("STOP revokes both role capabilities and dominates delayed commands", async
 test("explicit deletion writes tombstone, removes active payload and prevents reconnect resurrection", async () => {
   const { handler, store } = harness();
   const session = await issue(handler);
+  const childGrantNonce = capabilityNonce(session.childCapability);
+  const adultGrantNonce = capabilityNonce(session.adultCapability);
   const deleted = await handler.deleteSyntheticSession({
     authorization: `Bearer ${session.adultCapability}`,
     body: { syntheticSessionId: session.syntheticSessionId },
@@ -217,6 +240,8 @@ test("explicit deletion writes tombstone, removes active payload and prevents re
   });
   assert.equal(deleted.value?.terminalStatus, "DELETED");
   assert.equal(await store.loadSession(session.syntheticSessionId), undefined);
+  assert.equal(await store.loadGrant(childGrantNonce), undefined);
+  assert.equal(await store.loadGrant(adultGrantNonce), undefined);
   assert.equal((await store.loadTombstone(session.syntheticSessionId))?.noResurrection, true);
   const reconnect = await handler.sessionProjection({
     authorization: `Bearer ${session.adultCapability}`,
@@ -268,6 +293,72 @@ test("expired capability is rejected", async () => {
   })).denialClass, "CAPABILITY_EXPIRED");
 });
 
+test("external runtime fails closed at the exact staging expiry while privileged deletion remains available", async () => {
+  const { handler, setNow, store } = harness({
+    runtimePhase: "EXTERNAL_SYNTHETIC_STAGING",
+  });
+  setNow("2027-01-24T23:59:00.000Z");
+  const session = await issue(handler);
+  assert.equal((await handler.sessionProjection({
+    authorization: `Bearer ${session.childCapability}`,
+    body: { syntheticSessionId: session.syntheticSessionId },
+    url: "/sessionProjection",
+    query: {},
+  })).ok, true);
+
+  setNow("2027-01-25T00:00:00.000Z");
+  assert.equal((await handler.issueSyntheticSession({
+    operatorAuthorized: true,
+    locale: "nb-NO",
+  })).denialClass, "STAGING_TERM_EXPIRED");
+  assert.equal((await handler.sessionCommand(request(
+    session.adultCapability,
+    commandBody(session, "ACTIVATE", "after-staging-expiry"),
+  ))).denialClass, "STAGING_TERM_EXPIRED");
+  assert.equal((await handler.sessionProjection({
+    authorization: `Bearer ${session.childCapability}`,
+    body: { syntheticSessionId: session.syntheticSessionId },
+    url: "/sessionProjection",
+    query: {},
+  })).denialClass, "STAGING_TERM_EXPIRED");
+  assert.equal((await handler.deleteSyntheticSession({
+    authorization: `Bearer ${session.adultCapability}`,
+    body: { syntheticSessionId: session.syntheticSessionId },
+    url: "/deleteSyntheticSession",
+    query: {},
+  })).denialClass, "STAGING_TERM_EXPIRED");
+  assert.equal((await handler.setKillSwitch({
+    operatorAuthorized: true,
+    stagingEnabled: true,
+    reasonCode: "EXPIRED_REOPEN_FORBIDDEN",
+  })).denialClass, "STAGING_TERM_EXPIRED");
+
+  const disabled = await handler.setKillSwitch({
+    operatorAuthorized: true,
+    stagingEnabled: false,
+    reasonCode: "EXPIRY_DESTRUCTION",
+  });
+  assert.equal(disabled.value?.stagingEnabled, false);
+  const operatorDeleted = await handler.deleteSyntheticSession({
+    authorization: undefined,
+    body: { syntheticSessionId: session.syntheticSessionId },
+    url: "/deleteSyntheticSession",
+    query: {},
+  }, { operatorAuthorized: true });
+  assert.equal(operatorDeleted.value?.terminalStatus, "DELETED");
+  assert.equal(await store.loadSession(session.syntheticSessionId), undefined);
+  assert.equal(
+    (await store.loadTombstone(session.syntheticSessionId))?.noResurrection,
+    true,
+  );
+  const health = await handler.health();
+  assert.equal(health.value?.serviceHealth, "READY_DISABLED_BY_DEFAULT");
+  assert.equal(
+    health.value?.providerActivation,
+    "EXTERNAL_SYNTHETIC_STAGING_DISABLED",
+  );
+});
+
 test("command budget is enforced without changing state after exhaustion", async () => {
   const { handler } = harness();
   const session = await issue(handler);
@@ -289,19 +380,63 @@ test("command budget is enforced without changing state after exhaustion", async
   assert.equal(exhausted.denialClass, "COMMAND_BUDGET_EXCEEDED");
 });
 
-test("health is coarse and contains no capability, payload or stable identity", async () => {
+test("health reports the runtime phase and preserves all external staging ceilings", async () => {
   const { handler } = harness({ enabled: false });
   const health = await handler.health();
   assert.deepEqual(health.value, {
     serviceHealth: "READY_DISABLED_BY_DEFAULT",
     region: "europe-north1",
-    providerActivation: "BLOCKED",
-    cloudResources: 0,
+    runtimePhase: "LOCAL_EMULATOR_PROOF",
+    providerActivation: "LOCAL_EMULATOR_ONLY",
+    dataScope: "SYNTHETIC_ONLY_NO_PARTICIPANT_DATA",
+    studentBeta: "NOT_AUTHORIZED",
+    production: "NOT_AUTHORIZED",
+    wp13_12c: "BLOCKED",
     controlEpoch: 7,
     stagingEnabled: false,
+    ingressReady: true,
   });
+  const external = await harness({
+    enabled: true,
+    runtimePhase: "EXTERNAL_SYNTHETIC_STAGING",
+  }).handler.health();
+  assert.equal(external.value?.runtimePhase, "EXTERNAL_SYNTHETIC_STAGING");
+  assert.equal(external.value?.providerActivation, "EXTERNAL_SYNTHETIC_STAGING_ACTIVE");
+  assert.equal(external.value?.ingressReady, true);
+  assert.equal(external.value?.studentBeta, "NOT_AUTHORIZED");
+  assert.equal(external.value?.production, "NOT_AUTHORIZED");
+  assert.equal(external.value?.wp13_12c, "BLOCKED");
   const serialized = JSON.stringify(health);
   assert.equal(serialized.includes("capability"), false);
   assert.equal(serialized.includes("requestBody"), false);
   assert.equal(serialized.includes("stableUID"), false);
+
+  const externalDisabled = await harness({
+    controlEnabled: false,
+    issuanceEnabled: true,
+    runtimePhase: "EXTERNAL_SYNTHETIC_STAGING",
+  }).handler.health();
+  assert.equal(externalDisabled.value?.serviceHealth, "READY_DISABLED_BY_DEFAULT");
+  assert.equal(
+    externalDisabled.value?.providerActivation,
+    "EXTERNAL_SYNTHETIC_STAGING_DISABLED",
+  );
+
+  const externalWithoutIngress = harness({
+    controlEnabled: true,
+    issuanceEnabled: true,
+    runtimePhase: "EXTERNAL_SYNTHETIC_STAGING",
+    previewIngressReady: false,
+  });
+  const missingIngressHealth = await externalWithoutIngress.handler.health();
+  assert.equal(missingIngressHealth.value?.serviceHealth, "READY_DISABLED_BY_DEFAULT");
+  assert.equal(
+    missingIngressHealth.value?.providerActivation,
+    "EXTERNAL_SYNTHETIC_STAGING_DISABLED",
+  );
+  assert.equal(missingIngressHealth.value?.ingressReady, false);
+  assert.equal((await externalWithoutIngress.handler.issueSyntheticSession({
+    operatorAuthorized: true,
+    locale: "nb-NO",
+  })).denialClass, "PREVIEW_INGRESS_NOT_READY");
 });

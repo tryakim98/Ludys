@@ -1,0 +1,11 @@
+{
+  "name": "@ludys/wp13-12b-emulator-proof-tools",
+  "version": "13.12.0-external-activation.1",
+  "private": true,
+  "description": "Pinned local-only Firebase emulator proof dependencies; never deployed.",
+  "license": "UNLICENSED",
+  "dependencies": {
+    "@firebase/rules-unit-testing": "5.0.1",
+    "firebase": "12.16.0"
+  }
+}

@@ -20,6 +20,11 @@ import {
 export const CAPABILITY_VERSION = "wp13.12b-capability-v1" as const;
 export const CAPABILITY_MAX_LIFETIME_MS = 15 * 60 * 1000;
 export const DEFAULT_COMMAND_BUDGET = 64;
+export const EXTERNAL_STAGING_EXPIRY_AT =
+  "2027-01-25T00:00:00.000Z" as const;
+export type SyntheticStagingRuntimePhase =
+  | "LOCAL_EMULATOR_PROOF"
+  | "EXTERNAL_SYNTHETIC_STAGING";
 
 export interface StagingControlState {
   readonly controlEpoch: number;
@@ -163,6 +168,8 @@ export class SyntheticStagingAuthoritativeHandler {
       readonly sessionIssuanceEnabled: boolean;
       readonly region: "europe-north1";
       readonly projectId: string;
+      readonly runtimePhase: SyntheticStagingRuntimePhase;
+      readonly previewIngressReady: boolean;
       readonly now?: () => string;
     },
   ) {
@@ -172,6 +179,15 @@ export class SyntheticStagingAuthoritativeHandler {
 
   #now(): string {
     return this.options.now?.() ?? new Date().toISOString();
+  }
+
+  #externalStagingTermExpired(now: string): boolean {
+    if (this.options.runtimePhase !== "EXTERNAL_SYNTHETIC_STAGING") {
+      return false;
+    }
+    const instant = parseIso(now);
+    return instant === undefined
+      || instant >= Date.parse(EXTERNAL_STAGING_EXPIRY_AT);
   }
 
   #sign(encodedClaims: string): string {
@@ -229,11 +245,14 @@ export class SyntheticStagingAuthoritativeHandler {
     readonly grant: CapabilityGrant;
     readonly aggregate: SyntheticStagingAggregate;
   } | HandlerResult<never>> {
+    const now = this.#now();
+    if (this.#externalStagingTermExpired(now)) {
+      return denied(503, "STAGING_TERM_EXPIRED");
+    }
     const token = this.#bearer(request);
     if (token === undefined) return denied(401, "BEARER_ONLY");
     const claims = this.#verifyCapability(token);
     if (claims === undefined) return denied(401, "CAPABILITY_INVALID");
-    const now = this.#now();
     if (
       parseIso(claims.expiresAt) === undefined
       || parseIso(claims.issuedAt) === undefined
@@ -269,7 +288,15 @@ export class SyntheticStagingAuthoritativeHandler {
     readonly locale: Locale;
     readonly lifetimeMs?: number;
   }): Promise<HandlerResult<IssueSyntheticSessionResult>> {
+    const issuedAt = this.#now();
+    if (this.#externalStagingTermExpired(issuedAt)) {
+      return denied(503, "STAGING_TERM_EXPIRED");
+    }
     if (!this.options.sessionIssuanceEnabled) return denied(503, "SESSION_ISSUANCE_DISABLED");
+    if (
+      this.options.runtimePhase === "EXTERNAL_SYNTHETIC_STAGING"
+      && !this.options.previewIngressReady
+    ) return denied(503, "PREVIEW_INGRESS_NOT_READY");
     if (!input.operatorAuthorized) return denied(403, "OPERATOR_AUTHORIZATION_REQUIRED");
     const control = await this.store.loadControl();
     if (!control.stagingEnabled) return denied(503, "KILL_SWITCH_ACTIVE");
@@ -277,7 +304,6 @@ export class SyntheticStagingAuthoritativeHandler {
     if (!Number.isInteger(lifetimeMs) || lifetimeMs < 1 || lifetimeMs > CAPABILITY_MAX_LIFETIME_MS) {
       return denied(400, "CAPABILITY_LIFETIME_INVALID");
     }
-    const issuedAt = this.#now();
     const expiresAt = new Date(Date.parse(issuedAt) + lifetimeMs).toISOString();
     const syntheticSessionId = `synthetic-wp13-12b-${randomBytes(16).toString("base64url")}`;
     const aggregate = createSyntheticStagingAggregate({
@@ -420,12 +446,17 @@ export class SyntheticStagingAuthoritativeHandler {
   }): Promise<HandlerResult<StagingControlState>> {
     if (!input.operatorAuthorized) return denied(403, "OPERATOR_AUTHORIZATION_REQUIRED");
     if (!/^[A-Z0-9_]{3,64}$/.test(input.reasonCode)) return denied(400, "REASON_CODE_INVALID");
+    const changedAt = this.#now();
+    if (
+      input.stagingEnabled
+      && this.#externalStagingTermExpired(changedAt)
+    ) return denied(503, "STAGING_TERM_EXPIRED");
     const current = await this.store.loadControl();
     const next: StagingControlState = {
       controlEpoch: current.controlEpoch + 1,
       stagingEnabled: input.stagingEnabled,
       reasonCode: input.reasonCode,
-      changedAt: this.#now(),
+      changedAt,
     };
     return await this.store.saveControl(next, current.controlEpoch)
       ? accepted(next)
@@ -435,19 +466,54 @@ export class SyntheticStagingAuthoritativeHandler {
   public async health(): Promise<HandlerResult<{
     readonly serviceHealth: "READY_DISABLED_BY_DEFAULT" | "READY";
     readonly region: "europe-north1";
-    readonly providerActivation: "BLOCKED";
-    readonly cloudResources: 0;
+    readonly runtimePhase: SyntheticStagingRuntimePhase;
+    readonly providerActivation:
+      | "LOCAL_EMULATOR_ONLY"
+      | "EXTERNAL_SYNTHETIC_STAGING_DISABLED"
+      | "EXTERNAL_SYNTHETIC_STAGING_ACTIVE";
+    readonly dataScope: "SYNTHETIC_ONLY_NO_PARTICIPANT_DATA";
+    readonly studentBeta: "NOT_AUTHORIZED";
+    readonly production: "NOT_AUTHORIZED";
+    readonly wp13_12c: "BLOCKED";
     readonly controlEpoch: number;
     readonly stagingEnabled: boolean;
+    readonly ingressReady: boolean;
   }>> {
     const control = await this.store.loadControl();
+    const stagingTermExpired =
+      this.#externalStagingTermExpired(this.#now());
+    const ingressReady = (
+      this.options.runtimePhase === "LOCAL_EMULATOR_PROOF"
+      || this.options.previewIngressReady
+    );
+    const externallyActive = (
+      this.options.runtimePhase === "EXTERNAL_SYNTHETIC_STAGING"
+      && !stagingTermExpired
+      && this.options.sessionIssuanceEnabled
+      && control.stagingEnabled
+      && ingressReady
+    );
     return accepted({
-      serviceHealth: this.options.sessionIssuanceEnabled ? "READY" : "READY_DISABLED_BY_DEFAULT",
+      serviceHealth: (
+        !stagingTermExpired
+        && this.options.sessionIssuanceEnabled
+        && control.stagingEnabled
+        && ingressReady
+      ) ? "READY" : "READY_DISABLED_BY_DEFAULT",
       region: this.options.region,
-      providerActivation: "BLOCKED",
-      cloudResources: 0,
+      runtimePhase: this.options.runtimePhase,
+      providerActivation: this.options.runtimePhase === "EXTERNAL_SYNTHETIC_STAGING"
+        ? externallyActive
+          ? "EXTERNAL_SYNTHETIC_STAGING_ACTIVE"
+          : "EXTERNAL_SYNTHETIC_STAGING_DISABLED"
+        : "LOCAL_EMULATOR_ONLY",
+      dataScope: "SYNTHETIC_ONLY_NO_PARTICIPANT_DATA",
+      studentBeta: "NOT_AUTHORIZED",
+      production: "NOT_AUTHORIZED",
+      wp13_12c: "BLOCKED",
       controlEpoch: control.controlEpoch,
       stagingEnabled: control.stagingEnabled,
+      ingressReady,
     });
   }
 }

@@ -6,14 +6,44 @@
   "status": "UNFILLED_TEMPLATE_NOT_EVIDENCE",
   "createdAt": "",
   "performedBy": "",
-  "environment": "",
+  "environment": "EXTERNAL_SYNTHETIC_STAGING",
   "sourceCommit": "",
   "sourceTree": "",
   "expectedSourceCommit": "",
   "decisionRecordChecksum": "a5085b3dd4351bb1e6f35718b46f882667bd2e2995bc0e501065e0de6eac8754",
   "commandsRun": [],
-  "providerResourceIds": {},
-  "proofResults": {},
+  "providerResourceIds": {
+    "googleProjectId": "ludys-12b-stg-20260725",
+    "googleProjectNumber": "134654966474",
+    "firestoreDatabase": "projects/ludys-12b-stg-20260725/databases/(default)",
+    "functionIds": [
+      "projects/ludys-12b-stg-20260725/locations/europe-north1/functions/deleteSyntheticSession",
+      "projects/ludys-12b-stg-20260725/locations/europe-north1/functions/health",
+      "projects/ludys-12b-stg-20260725/locations/europe-north1/functions/issueSyntheticSession",
+      "projects/ludys-12b-stg-20260725/locations/europe-north1/functions/sessionCommand",
+      "projects/ludys-12b-stg-20260725/locations/europe-north1/functions/sessionProjection"
+    ],
+    "resourceIds": [
+      "projects/ludys-12b-stg-20260725",
+      "projects/ludys-12b-stg-20260725/databases/(default)",
+      "projects/ludys-12b-stg-20260725/locations/europe-north1/functions/deleteSyntheticSession",
+      "projects/ludys-12b-stg-20260725/locations/europe-north1/functions/health",
+      "projects/ludys-12b-stg-20260725/locations/europe-north1/functions/issueSyntheticSession",
+      "projects/ludys-12b-stg-20260725/locations/europe-north1/functions/sessionCommand",
+      "projects/ludys-12b-stg-20260725/locations/europe-north1/functions/sessionProjection"
+    ]
+  },
+  "proofResults": {
+    "approved_project_id_exact": false,
+    "approved_region_exact": false,
+    "firestore_database_regional": false,
+    "firestore_rules_deny_all": false,
+    "five_gen2_functions_deployed": false,
+    "functions_disabled_first": false,
+    "logging_excludes_capability_and_payload": false,
+    "session_issuance_disabled": false,
+    "staging_control_absent_or_disabled": false
+  },
   "artifactHashes": {},
   "limitations": [],
   "humanSignatureOrExplicitConfirmation": {
@@ -27,5 +57,11 @@
   "realParticipantData": false,
   "syntheticOrFabricated": false,
   "physicalProof": false,
-  "devices": []
+  "devices": [],
+  "selectedProjectId": "ludys-12b-stg-20260725",
+  "selectedRegion": "europe-north1",
+  "deploymentMode": "DISABLED_FIRST",
+  "confirmationEvidencePath": "",
+  "confirmationBindingSha256": "",
+  "requiredHumanConfirmationFormat": "BEKREFT_WP13_12B_FIREBASE_PROJECT_AND_REGION_V1; receiptId=<receiptId>; sourceCommit=<sourceCommit>; sourceTree=<sourceTree>; projectId=ludys-12b-stg-20260725; region=europe-north1; evidenceSha256=<confirmationBindingSha256>"
 }
