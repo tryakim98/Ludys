@@ -9,7 +9,8 @@ permissions:
   contents: read
 
 jobs:
-  verify:
+  portable:
+    name: portable-linux
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -22,4 +23,22 @@ jobs:
       - run: npm ci
       - run: npm ci
         working-directory: provider/firebase/functions
-      - run: npm run check:release
+      - name: Portable static, build and compiled test gate
+        run: npm run lint && npm run architecture && npm run secret:scan && npm run build && npm run test:compiled
+
+  release:
+    name: release-windows-pinned-git
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm ci
+        working-directory: provider/firebase/functions
+      - name: Full release verification
+        run: npm run check:release
