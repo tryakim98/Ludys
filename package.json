@@ -96,7 +96,8 @@
     "test:readiness-browser": "node scripts/browser-readiness-test.mjs",
     "test:lifecycle-browser": "node scripts/browser-session-lifecycle-test.mjs",
     "test:app-browser": "node scripts/browser-full-app-navigation-test.mjs",
-    "reconstruction": "node scripts/reconstruction-check.mjs"
+    "reconstruction": "node scripts/reconstruction-check.mjs",
+    "build:installable": "npm run build && node scripts/build-installable-alpha.mjs"
   },
   "devDependencies": {
     "@types/node": "22.15.30",
