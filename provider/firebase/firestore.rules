@@ -1,0 +1,11 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // WP13.12B is server-authoritative. Privileged server clients bypass these
+    // rules and must be constrained separately by least-privilege IAM.
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "schemaVersion": "wp13.10-performance-budgets-v1",
+  "evidenceLevel": "HEADLESS_BROWSER_PROOF",
+  "budgets": {
+    "compiledRuntimeJavaScriptBytes": 600000,
+    "browserEntryJavaScriptBytes": 30000,
+    "cssBytes": 30000,
+    "htmlBytes": 3000,
+    "staticIllustrationBytes": 50000,
+    "technicalAudioBytes": 100000,
+    "initialShellRenderMs": 2000,
+    "centralInteractionResponseMs": 150,
+    "rollbackResponseMs": 50,
+    "cumulativeLayoutShift": 0.05
+  },
+  "limitation": "Timing is measured in local headless desktop Edge and is not a physical mobile benchmark."
+}

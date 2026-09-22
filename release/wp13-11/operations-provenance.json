@@ -1,0 +1,19 @@
+{
+  "schemaVersion": "wp13.11-operations-provenance-v1",
+  "baselineCommit": "c5e47fd1e25f67a38376d58321a6a409f2fed44d",
+  "baselineTree": "ca6d2825b5482930085d490205510fd8b9c09fab",
+  "candidateBranch": "feature/wp13-11-complete-beta-operations-measurement-kit",
+  "parentBranch": "feature/wp13-10-reliability-security-release-hardening",
+  "sourceClassification": "CURRENT_IMPLEMENTATION_FROM_AUTHENTIC_WP13_10_BASELINE",
+  "historicalSourcesImported": false,
+  "buildCommands": [
+    "npm ci",
+    "npm run build",
+    "npm run operations:generate",
+    "npm run check:release"
+  ],
+  "timestampPolicy": "FIXED_SCOPE_TIMESTAMP_AND_CONTENT_ONLY_DIGESTS",
+  "artifactChecksumPolicy": "SHA256_CANONICAL_LF_UTF8_TEXT_RAW_BINARY",
+  "candidateCommitBinding": "Bound by the final Git commit and draft PR after tracked artifacts are finalized.",
+  "productionDeployment": false
+}

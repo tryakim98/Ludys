@@ -1,0 +1,46 @@
+{
+  "schemaVersion": "wp13.12b-preview-build-v1",
+  "status": "LOCAL_PREVIEW_BUILD_COMPLETE_NOT_DEPLOYED",
+  "syntheticOnly": true,
+  "providerEnabled": false,
+  "cloudResources": 0,
+  "secrets": 0,
+  "providerCredentials": 0,
+  "externalProviderCalls": 0,
+  "vercelProjectCreated": false,
+  "vercelDeployment": false,
+  "protectionRequirement": "External preview must use separately authorized Vercel Deployment Protection.",
+  "digest": "5d33e9d679fd7c325679db5bb94dbdbccbe90a2528f0b90afa40d1ad559ceda5",
+  "files": [
+    {
+      "path": "web/staging-preview.html",
+      "sha256": "3a806612fbc1e43168b4a5e9cb77cd3e2aa8e2bbb5feef56cdc0801e65e2d1f9",
+      "bytes": 840
+    },
+    {
+      "path": "web/staging-runtime-config.json",
+      "sha256": "98fa21e9a4efc6e0937aafb0c1df80dc8350c45a6b7dfe1b39f8b97314927cf7",
+      "bytes": 174
+    },
+    {
+      "path": "web/styles.css",
+      "sha256": "29336861dc1179b69c8338617715dcf9bef8c071ced344ed8694ed91e8ed6f9a",
+      "bytes": 21588
+    },
+    {
+      "path": "dist/src/ui/browser/staging-preview.js",
+      "sha256": "e4adf2d49dc7b4739f4af759a8a1d61876f866b912b2d04daea98bb46bf41a3b",
+      "bytes": 9332
+    },
+    {
+      "path": "dist/src/application/synthetic-staging-preview-controller.js",
+      "sha256": "c671c8e9920e91a41f4cb9d094d07ac5d9be15babbbc5addda853267662008ae",
+      "bytes": 6291
+    },
+    {
+      "path": "dist/src/core/synthetic-staging.js",
+      "sha256": "91c1499a5099abf2c4418d0b17b83ec604bd2533a6d3951f1cb0b5e94692485d",
+      "bytes": 5399
+    }
+  ]
+}

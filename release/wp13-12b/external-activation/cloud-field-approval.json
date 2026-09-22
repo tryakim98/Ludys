@@ -1,0 +1,47 @@
+{
+  "schemaVersion": "wp13.12b-ea-cloud-field-approval-v1",
+  "approvalId": "wp13-12b-ea-cloud-field-approval-2026-07-27-r1",
+  "confirmedAt": "2026-07-26T23:37:20.4429661Z",
+  "ownerReference": "EXPLICIT_PRODUCT_OWNER_IN_CURRENT_CODEX_TASK",
+  "approvalStatus": "EXPLICITLY_APPROVED_FOR_EXTERNAL_SYNTHETIC_STAGING",
+  "plannedProjectId": "ludys-12b-stg-20260725",
+  "projectDisplayNameRequested": "LUDYS WP13.12B Synthetic Staging",
+  "projectDisplayName": "LUDYS WP13-12B Synthetic",
+  "projectDisplayNameNormalization": "PROVIDER_REJECTED_REQUESTED_NAME_AS_OVER_30_CHARACTERS_AND_CONTAINING_INVALID_PUNCTUATION; REVERSIBLE_DISPLAY_NAME_SHORTENED_WITHOUT_CHANGING_PROJECT_ID_OR_SCOPE",
+  "approvedGoogleAccount": "tryakim@gmail.com",
+  "approvedOrganizationId": "724335528970",
+  "approvedBillingAccount": "01CD9D-0900DF-4FB36A",
+  "selectedRegion": "europe-north1",
+  "monthlyAlertThreshold": {
+    "currency": "NOK",
+    "amount": 400
+  },
+  "maximumMonthlyCost": {
+    "currency": "NOK",
+    "amount": 500,
+    "effect": "OWNER_ACCEPTANCE_CEILING_AND_KILL_SWITCH_RESPONSE_NOT_A_HARD_PROVIDER_CAP"
+  },
+  "stagingExpiryDate": "2027-01-25",
+  "killSwitchOwner": "PRODUCT_OWNER_SELF",
+  "authorizationEffects": {
+    "projectCreationAuthorized": true,
+    "billingLinkAuthorized": true,
+    "budgetAndAlertsAuthorized": true,
+    "firestoreRegionalCreationAuthorized": true,
+    "functionsDeploymentAuthorized": true,
+    "secretManagerAuthorized": true,
+    "protectedPreviewAuthorized": true,
+    "syntheticFixturesOnly": true,
+    "realParticipantDataAuthorized": false,
+    "studentBetaAuthorized": false,
+    "productionAuthorized": false,
+    "wp13_12cOpened": false
+  },
+  "humanSignatureOrExplicitConfirmation": {
+    "kind": "EXPLICIT_OWNER_CONFIRMATION",
+    "confirmed": true,
+    "confirmationText": "BEKREFT_EMULATOR_PROOF; projectId=ludys-12b-stg-20260725; Google-konto=tryakim@gmail.com; organisasjon=724335528970; billingAccount=01CD9D-0900DF-4FB36A",
+    "confirmationReference": "CURRENT_CODEX_TASK_USER_MESSAGE_2026_07_27",
+    "signaturePresent": false
+  }
+}

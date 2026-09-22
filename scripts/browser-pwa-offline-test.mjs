@@ -21,6 +21,7 @@ class CdpClient {
   #socket;
   #id = 0;
   #pending = new Map();
+  #events = [];
   constructor(url) { this.#socket = new WebSocket(url); }
   async open() {
     await new Promise((resolve, reject) => {
@@ -29,7 +30,11 @@ class CdpClient {
     });
     this.#socket.addEventListener("message", (event) => {
       const message = JSON.parse(String(event.data));
-      if (message.id === undefined) return;
+      if (message.id === undefined) {
+        this.#events.push(message);
+        if (this.#events.length > 100) this.#events.shift();
+        return;
+      }
       const pending = this.#pending.get(message.id);
       if (!pending) return;
       this.#pending.delete(message.id);
@@ -37,6 +42,7 @@ class CdpClient {
       else pending.resolve(message.result ?? {});
     });
   }
+  events() { return [...this.#events]; }
   send(method, params = {}) {
     const id = ++this.#id;
     return new Promise((resolve, reject) => {
@@ -106,7 +112,16 @@ try {
       }
       await wait(50);
     }
-    throw new Error(`Timed out waiting for browser expression: ${expression}`);
+    const diagnostic = await evaluate(`JSON.stringify({
+      url: location.href,
+      ready: { ...document.documentElement.dataset },
+      recovery: document.querySelector('#runtime-recovery')?.textContent?.trim() ?? null,
+      body: document.body?.innerText?.slice(0, 400) ?? null
+    })`).catch((error) => String(error));
+    const browserEvents = client.events()
+      .filter((event) => ["Network.loadingFailed", "Network.responseReceived", "Runtime.exceptionThrown"].includes(event.method))
+      .slice(-10);
+    throw new Error(`Timed out waiting for browser expression: ${expression}\n${diagnostic}\n${JSON.stringify(browserEvents)}`);
   }
 
   async function press(selector) {
@@ -138,12 +153,12 @@ try {
 
   const cacheProof = await evaluate(`(async () => {
     const names = await caches.keys();
-    const name = names.find((candidate) => candidate === 'ludys-shell-0.14.0-reconstructed.5');
+    const name = names.find((candidate) => candidate === 'ludys-shell-0.14.0-reconstructed.9');
     if (!name) return { names, urls: [] };
     const cache = await caches.open(name);
     return { names, urls: (await cache.keys()).map((request) => new URL(request.url).pathname) };
   })()`);
-  assert.ok(cacheProof.names.includes("ludys-shell-0.14.0-reconstructed.5"));
+  assert.ok(cacheProof.names.includes("ludys-shell-0.14.0-reconstructed.9"));
   assert.ok(cacheProof.urls.length >= 20);
   assert.ok(cacheProof.urls.includes("/web/index.html"));
   assert.ok(cacheProof.urls.includes("/dist/src/ui/browser/app.js"));
@@ -169,7 +184,13 @@ try {
   });
   await evaluate("window.dispatchEvent(new Event('offline'))");
   await waitForExpression("document.querySelector('#pwa-status')?.dataset.network === 'OFFLINE'");
-  await client.send("Page.reload", { ignoreCache: true });
+  const offlineShell = await evaluate(`(async () => {
+    const response = await caches.match('/web/index.html');
+    return response ? { ok: response.ok, text: await response.text() } : null;
+  })()`);
+  assert.equal(offlineShell?.ok, true);
+  assert.match(offlineShell.text, /dist\/src\/ui\/browser\/app\.js/);
+  await client.send("Page.reload");
   await waitForExpression("document.documentElement?.dataset.wp13_7cReady === 'true'");
   await waitForExpression("document.documentElement?.dataset.wp13_8Ready === 'true'");
   await evaluate("window.dispatchEvent(new Event('offline'))");
@@ -222,9 +243,12 @@ try {
   })`);
   await waitForExpression("document.querySelector('#pwa-status')?.dataset.update === 'READY'");
   assert.equal(await evaluate("document.querySelector('#pwa-apply-update').disabled"), false);
+  const preUpdateTimeOrigin = await evaluate("performance.timeOrigin");
   await press("#pwa-apply-update");
+  await waitForExpression(`performance.timeOrigin !== ${JSON.stringify(preUpdateTimeOrigin)}`);
   await waitForExpression("document.documentElement?.dataset.wp13_7cReady === 'true'");
   await waitForExpression("document.documentElement?.dataset.wp13_8Ready === 'true'");
+  await waitForExpression("typeof window.__WP13_7B__?.getViewModel === 'function'");
   assert.equal(await evaluate("window.__WP13_7B__.getViewModel().screen"), "WELCOME");
   assert.notEqual(await evaluate("window.__WP13_7B__.getSessionId()"), offlineTerminalId);
 

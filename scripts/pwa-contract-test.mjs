@@ -79,19 +79,31 @@ function createWorkerRuntime(options = {}) {
         resurrectionAllowed: false,
       }), { status: 200, headers: { "content-type": "application/json" } });
     }
+    if (url.pathname === "/web/authoring-lifecycle-policy.json") {
+      return new Response(JSON.stringify({
+        policyRevision: 1,
+        restrictions: [],
+        containsPersonData: false,
+        resurrectionAllowed: false,
+        publishingAuthority: false,
+      }), { status: 200, headers: { "content-type": "application/json" } });
+    }
     return new Response(`shell:${url.pathname}`, {
       status: 200,
       headers: { "content-type": "text/plain" },
     });
   };
   vm.runInNewContext(workerSource, {
+    AbortController,
     Request: FakeRequest,
     Response,
     Set,
     URL,
     caches,
+    clearTimeout,
     fetch,
     self: workerSelf,
+    setTimeout,
   }, { filename: workerPath });
 
   async function dispatchLifecycle(type) {
@@ -155,11 +167,12 @@ test("service worker install caches the deterministic shell and fails on a missi
   await runtime.dispatchLifecycle("install");
   const cacheNames = await runtime.caches.keys();
   assert.deepEqual(cacheNames.sort(), [
+    "ludys-authoring-policy-1",
     "ludys-content-policy-1",
-    "ludys-shell-0.14.0-reconstructed.5",
+    "ludys-shell-0.14.0-reconstructed.9",
   ]);
-  const shellCache = runtime.cacheStore.get("ludys-shell-0.14.0-reconstructed.5");
-  assert.ok(shellCache.entries.size >= 20);
+  const shellCache = runtime.cacheStore.get("ludys-shell-0.14.0-reconstructed.9");
+  assert.ok(shellCache.entries.size >= 30);
   assert.ok(shellCache.entries.has(`${origin}/web/index.html`));
   assert.ok(shellCache.entries.has(`${origin}/dist/src/ui/browser/app.js`));
   assert.ok(shellCache.entries.has(`${origin}/dist/src/ui/browser/pwa-status.js`));
@@ -179,7 +192,7 @@ test("activate removes only obsolete LUDYS shell caches", async () => {
   await runtime.dispatchLifecycle("activate");
   assert.deepEqual(
     (await runtime.caches.keys()).sort(),
-    ["ludys-content-policy-1", "ludys-shell-0.14.0-reconstructed.5", "unrelated-application-cache"],
+    ["ludys-authoring-policy-1", "ludys-content-policy-1", "ludys-shell-0.14.0-reconstructed.9", "unrelated-application-cache"],
   );
   assert.equal(runtime.claimed(), 1);
 });
@@ -283,6 +296,37 @@ test("restrictive corpus policy survives offline reload and cannot be relaxed by
   }]);
 });
 
+test("restrictive authoring and audio policy survives offline reload without resurrection", async () => {
+  const runtime = createWorkerRuntime();
+  await runtime.dispatchLifecycle("install");
+  let reply;
+  await runtime.dispatchMessage({
+    type: "LUDYS_APPLY_RESTRICTIVE_AUTHORING_POLICY",
+    policy: {
+      policyRevision: 2,
+      restrictions: [
+        { scope: "AUTHORING_PACKAGE", scopeId: "authoring-package-activity-nor-single-final-ris-sil-001", lifecycleStatus: "WITHDRAWN" },
+        { scope: "AUDIO_SPEC", scopeId: "audio-draft-ris-nb-target", lifecycleStatus: "WITHDRAWN" },
+      ],
+      containsPersonData: false,
+      resurrectionAllowed: false,
+      publishingAuthority: false,
+    },
+  }, [{ postMessage: (value) => { reply = value; } }]);
+  assert.equal(reply?.ok, true);
+  await runtime.dispatchMessage({
+    type: "LUDYS_APPLY_RESTRICTIVE_AUTHORING_POLICY",
+    policy: { policyRevision: 3, restrictions: [], containsPersonData: false, resurrectionAllowed: false, publishingAuthority: false },
+  });
+  runtime.setOffline(true);
+  const response = await runtime.dispatchFetch({ method: "GET", mode: "same-origin", url: `${origin}/web/authoring-lifecycle-policy.json` });
+  const persisted = await response.json();
+  assert.equal(persisted.resurrectionAllowed, false);
+  assert.equal(persisted.publishingAuthority, false);
+  assert.equal(persisted.restrictions.length, 2);
+  assert.ok(persisted.restrictions.every((item) => item.lifecycleStatus === "WITHDRAWN"));
+});
+
 test("terminal offline fallback copy is explicitly human-reviewed in contract", () => {
   assert.match(workerSource, /LUDYS_OFFLINE_FAILURE_COPY/);
   assert.match(workerSource, /humanReviewed:\s*true/);
@@ -295,7 +339,7 @@ test("cache inventory contains no session, user, profile, API or external origin
   const urls = [...runtime.cacheStore.values()]
     .flatMap((cache) => [...cache.entries.keys()]);
   assert.ok(urls.every((url) => new URL(url).origin === origin));
-  assert.ok(urls.every((url) => /\.(?:html|css|js|json|svg|webmanifest)$/i.test(new URL(url).pathname)));
+  assert.ok(urls.every((url) => /\.(?:html|css|js|json|svg|webmanifest|wav)$/i.test(new URL(url).pathname)));
   assert.ok(urls.every((url) => !/\/(?:api|users?|students?|profiles?|sessions?)\//i.test(new URL(url).pathname)));
   assert.doesNotMatch(workerSource, /localStorage|indexedDB|\bsync\b|\bpush\b|Notification/);
 });

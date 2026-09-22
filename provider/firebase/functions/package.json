@@ -1,0 +1,23 @@
+{
+  "name": "@ludys/synthetic-staging-firebase-functions",
+  "version": "13.12.0-repository.1",
+  "private": true,
+  "type": "module",
+  "main": "index.mjs",
+  "engines": {
+    "node": "24"
+  },
+  "scripts": {
+    "audit:production": "npm audit --omit=dev",
+    "preflight": "node tools/package-preflight.mjs",
+    "start": "functions-framework --target=health"
+  },
+  "dependencies": {
+    "@google-cloud/functions-framework": "5.0.5"
+  },
+  "overrides": {
+    "cloudevents": {
+      "uuid": "11.1.1"
+    }
+  }
+}

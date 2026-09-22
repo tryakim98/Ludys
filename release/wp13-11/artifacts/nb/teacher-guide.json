@@ -1,0 +1,66 @@
+{
+  "artifactId": "wp13-11.teacher-guide.nb.v1",
+  "artifactType": "TEACHER_GUIDE",
+  "version": "1.0.0-draft",
+  "locale": "nb",
+  "title": "Voksenguide for syntetisk dry-run",
+  "audience": [
+    "ADULT_OPERATOR",
+    "ADULT_REVIEWER"
+  ],
+  "status": "DRAFT_FOR_ADULT_REVIEW",
+  "reviewStatus": "REVIEW_REQUIRED",
+  "authorizationStatus": "ADULT_ONLY_SYNTHETIC_DRY_RUN_ONLY",
+  "purpose": "Gi en ekstern voksen en selvforklarende og avgrenset operativ inngang.",
+  "allowedUse": [
+    "ADULT_ONLY_SYNTHETIC_DRY_RUN",
+    "LOCAL_INTERNAL_REVIEW",
+    "NO_REAL_PARTICIPANTS"
+  ],
+  "prohibitedUse": [
+    "STUDENT_USE",
+    "RECRUITMENT",
+    "REAL_PERSONAL_DATA",
+    "PROVIDER_ACTIVATION",
+    "PRODUCTION",
+    "B8_DECISION"
+  ],
+  "contentSections": [
+    {
+      "sectionId": "nb-section-01",
+      "heading": "Før du starter",
+      "paragraphs": [
+        "Bruk bare syntetiske roller og lokale data. Ingen barn, foresatte, lærere eller skoler skal registreres."
+      ]
+    },
+    {
+      "sectionId": "nb-section-02",
+      "heading": "Under dry-run",
+      "paragraphs": [
+        "Den voksne styrer. WAIT er en gyldig tilstand, STOP dominerer, og stillhet er tillatt."
+      ]
+    },
+    {
+      "sectionId": "nb-section-03",
+      "heading": "Etterpå",
+      "paragraphs": [
+        "Eksporter bare den lokale reviewpakken ved behov, slett registreringene og kontroller at de ikke kommer tilbake."
+      ]
+    }
+  ],
+  "sourceReferences": [
+    "INTERNAL-WP13-11-SCOPE",
+    "INTERNAL-WP13-10-BASELINE"
+  ],
+  "amendmentHistory": [
+    {
+      "revision": 1,
+      "at": "2026-07-22T00:00:00.000Z",
+      "reason": "Initial WP13.11 adult-only review draft",
+      "externalReceipt": false
+    }
+  ],
+  "withdrawalStatus": "CURRENT",
+  "createdAt": "2026-07-22T00:00:00.000Z",
+  "updatedAt": "2026-07-22T00:00:00.000Z"
+}

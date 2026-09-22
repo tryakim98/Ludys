@@ -1,0 +1,20 @@
+{
+  "schemaVersion": "wp13.12b-emulator-proof-status-v1",
+  "status": "FIREBASE_EMULATOR_PROOF_BLOCKED_BY_VERIFIED_ARTIFACT_UNAVAILABILITY",
+  "actualFirebaseEmulatorProof": false,
+  "v2NonceGenerated": false,
+  "v2NonceBlockers": [],
+  "emulatorContractProof": true,
+  "javaAvailable": false,
+  "firebaseCliAvailable": true,
+  "verifiedFirestoreEmulatorJarAvailable": false,
+  "exactJarFilenameRequired": true,
+  "publishedSha256Required": true,
+  "officialSetupCommandDocumented": "firebase setup:emulators:firestore",
+  "officialJarSha256Located": false,
+  "offlineImportContract": "release/wp13-12b/activation-handoff/emulator-import-contract.json",
+  "reason": "No local Java/CLI/verified JAR combination is available in this environment.",
+  "cloudResourcesCreated": 0,
+  "providerLoginAttempted": false,
+  "billingChanged": false
+}

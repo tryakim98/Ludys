@@ -1,0 +1,11 @@
+{
+  "valid": true,
+  "errors": [],
+  "warnings": [],
+  "packageStatus": "OWNER_DECISION_RECORDED",
+  "ownerDecision": "APPROVE_RECOMMENDED_SYNTHETIC_DEV",
+  "providerActivation": "BLOCKED",
+  "cloudResources": 0,
+  "externalReceipts": 0,
+  "studentBetaAuthorized": false
+}

@@ -125,8 +125,8 @@ try {
     await pressAction("submit");
   }
 
-  await waitForExpression("document.documentElement.dataset.wp13_7bReady === 'true'");
-  await waitForExpression("document.documentElement.dataset.wp13_8Ready === 'true'");
+  await waitForExpression("document.documentElement?.dataset.wp13_7bReady === 'true'");
+  await waitForExpression("document.documentElement?.dataset.wp13_8Ready === 'true'");
   assert.match(await evaluate("location.pathname"), /\/web\/index\.html$/);
   assert.equal(await evaluate("window.__WP13_7B__.getViewModel().screen"), "WELCOME");
   assert.equal(await evaluate("document.querySelector('[data-synthetic-marker]')?.dataset.syntheticMarker"), "SYNTHETIC_TECHNICAL_DRAFT");

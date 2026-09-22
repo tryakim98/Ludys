@@ -1,0 +1,59 @@
+{
+  "artifactId": "wp13-11.session-script.nb.v1",
+  "artifactType": "SESSION_SCRIPT",
+  "version": "1.0.0-draft",
+  "locale": "nb",
+  "title": "Manus for adult-only syntetisk dry-run",
+  "audience": [
+    "ADULT_OPERATOR",
+    "ADULT_REVIEWER"
+  ],
+  "status": "DRAFT_FOR_ADULT_REVIEW",
+  "reviewStatus": "REVIEW_REQUIRED",
+  "authorizationStatus": "ADULT_ONLY_SYNTHETIC_DRY_RUN_ONLY",
+  "purpose": "Lede den komplette 23-stegs dry-run-en uten muntlig prosjektforklaring.",
+  "allowedUse": [
+    "ADULT_ONLY_SYNTHETIC_DRY_RUN",
+    "LOCAL_INTERNAL_REVIEW",
+    "NO_REAL_PARTICIPANTS"
+  ],
+  "prohibitedUse": [
+    "STUDENT_USE",
+    "RECRUITMENT",
+    "REAL_PERSONAL_DATA",
+    "PROVIDER_ACTIVATION",
+    "PRODUCTION",
+    "B8_DECISION"
+  ],
+  "contentSections": [
+    {
+      "sectionId": "nb-section-01",
+      "heading": "Rekkefølge",
+      "paragraphs": [
+        "Følg alle 23 nummererte steg i Betaoperasjon. Ikke hopp over STOP, deletion/no-resurrection, rollback eller withdrawal."
+      ]
+    },
+    {
+      "sectionId": "nb-section-02",
+      "heading": "Stoppunkt",
+      "paragraphs": [
+        "Avslutt før enhver elevbruk, rekruttering, deltakerkontakt, ekte data, provider eller produksjon."
+      ]
+    }
+  ],
+  "sourceReferences": [
+    "INTERNAL-WP13-11-SCOPE",
+    "INTERNAL-WP13-10-BASELINE"
+  ],
+  "amendmentHistory": [
+    {
+      "revision": 1,
+      "at": "2026-07-22T00:00:00.000Z",
+      "reason": "Initial WP13.11 adult-only review draft",
+      "externalReceipt": false
+    }
+  ],
+  "withdrawalStatus": "CURRENT",
+  "createdAt": "2026-07-22T00:00:00.000Z",
+  "updatedAt": "2026-07-22T00:00:00.000Z"
+}

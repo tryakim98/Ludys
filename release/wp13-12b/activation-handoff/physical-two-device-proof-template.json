@@ -1,0 +1,190 @@
+{
+  "schemaVersion": "wp13.12b-physical-two-device-proof-v1",
+  "status": "UNFILLED_TEMPLATE_NOT_EVIDENCE",
+  "templateMarker": "UNFILLED_TEMPLATE_NOT_EVIDENCE",
+  "performed": false,
+  "sourceCommit": "",
+  "sourceTree": "",
+  "stagingUrl": "",
+  "sessionFixture": "synthetic-wp13-12b-only",
+  "syntheticSessionId": "",
+  "deletionSyntheticSessionId": "",
+  "deploymentId": "",
+  "rollbackDeploymentId": "",
+  "protectedPreviewReceiptBinding": {
+    "receiptId": "",
+    "deploymentId": "",
+    "stagingUrl": "",
+    "sourceCommit": "",
+    "sourceTree": "",
+    "confirmationEvidencePath": "",
+    "confirmationBindingSha256": ""
+  },
+  "rollbackDeploymentBinding": {
+    "deploymentId": "",
+    "stagingUrl": "",
+    "sourceCommit": "",
+    "sourceTree": "",
+    "safeDisabled": false,
+    "evidencePath": "",
+    "evidenceSha256": ""
+  },
+  "devices": [
+    {
+      "role": "CHILD",
+      "deviceEvidenceId": "",
+      "deviceType": "",
+      "operatingSystem": "",
+      "browser": "",
+      "observedAt": "",
+      "syntheticSessionId": "",
+      "deploymentId": "",
+      "stagingUrl": "",
+      "sourceCommit": "",
+      "sourceTree": "",
+      "capabilityPresent": false,
+      "capabilityValueRecorded": false,
+      "networkEvidence": ""
+    },
+    {
+      "role": "ADULT",
+      "deviceEvidenceId": "",
+      "deviceType": "",
+      "operatingSystem": "",
+      "browser": "",
+      "observedAt": "",
+      "syntheticSessionId": "",
+      "deploymentId": "",
+      "stagingUrl": "",
+      "sourceCommit": "",
+      "sourceTree": "",
+      "capabilityPresent": false,
+      "capabilityValueRecorded": false,
+      "networkEvidence": ""
+    }
+  ],
+  "adultOperatorsOnly": false,
+  "participantsPresent": false,
+  "physicallySeparateDevicesConfirmed": false,
+  "steps": [
+    {
+      "stepId": "create_primary_synthetic_session",
+      "instruction": "Create the primary synthetic session."
+    },
+    {
+      "stepId": "connect_child_device",
+      "instruction": "Connect the CHILD device to the shared synthetic session."
+    },
+    {
+      "stepId": "connect_adult_device",
+      "instruction": "Connect the ADULT device to the shared synthetic session."
+    },
+    {
+      "stepId": "verify_separate_role_projections",
+      "instruction": "Verify separate CHILD and ADULT role projections."
+    },
+    {
+      "stepId": "execute_wait",
+      "instruction": "Execute WAIT from the CHILD device."
+    },
+    {
+      "stepId": "execute_help",
+      "instruction": "Execute the help action."
+    },
+    {
+      "stepId": "execute_pause",
+      "instruction": "Execute PAUSE and verify the shared state version."
+    },
+    {
+      "stepId": "interrupt_one_device_network",
+      "instruction": "Break the network connection on one physical device."
+    },
+    {
+      "stepId": "execute_other_device_command",
+      "instruction": "Execute a command from the other physical device."
+    },
+    {
+      "stepId": "reconnect_interrupted_device",
+      "instruction": "Reconnect the interrupted physical device."
+    },
+    {
+      "stepId": "verify_state_version",
+      "instruction": "Verify the authoritative stateVersion."
+    },
+    {
+      "stepId": "send_stale_command",
+      "instruction": "Send and reject a stale-state command without mutation."
+    },
+    {
+      "stepId": "verify_stale_command_rejected",
+      "instruction": "Verify the stale command was rejected without mutation."
+    },
+    {
+      "stepId": "execute_stop",
+      "instruction": "Execute STOP on the primary synthetic session."
+    },
+    {
+      "stepId": "attempt_delayed_command",
+      "instruction": "Attempt the delayed command after STOP."
+    },
+    {
+      "stepId": "verify_delayed_command_rejected",
+      "instruction": "Verify the delayed command was rejected."
+    },
+    {
+      "stepId": "attempt_reconnect_after_stop",
+      "instruction": "Attempt reconnect after STOP."
+    },
+    {
+      "stepId": "verify_terminal_state",
+      "instruction": "Verify the primary session remains terminal after reconnect."
+    },
+    {
+      "stepId": "create_deletion_synthetic_session",
+      "instruction": "Create a second, distinct synthetic session for deletion proof."
+    },
+    {
+      "stepId": "execute_deletion",
+      "instruction": "Delete the second session's active payload and write its tombstone."
+    },
+    {
+      "stepId": "attempt_reconnect_and_cached_capability_after_deletion",
+      "instruction": "Attempt reconnect and cached-capability use after deletion."
+    },
+    {
+      "stepId": "verify_no_resurrection",
+      "instruction": "Verify the deleted session cannot be resurrected."
+    },
+    {
+      "stepId": "activate_kill_switch",
+      "instruction": "Activate the staging kill switch."
+    },
+    {
+      "stepId": "verify_new_sessions_blocked",
+      "instruction": "Verify the kill switch blocks new sessions."
+    },
+    {
+      "stepId": "rollback_to_known_valid_deployment",
+      "instruction": "Rollback to the receipt-bound known-valid safe-disabled deployment."
+    },
+    {
+      "stepId": "verify_deleted_session_not_resurrected_after_rollback",
+      "instruction": "Verify the deleted session remains deleted after rollback."
+    },
+    {
+      "stepId": "delete_all_synthetic_data",
+      "instruction": "End the proof and delete all remaining synthetic data."
+    }
+  ],
+  "stepResults": [],
+  "stepResultBinding": "Each stepResult must include its exact syntheticSessionId and deploymentId. Steps 1-18 bind the primary session; 19-27 bind deletionSyntheticSessionId. Steps 1-24 bind the active deployment; 25-27 bind rollbackDeploymentId.",
+  "screenshotsOrVideo": [],
+  "containsPersonData": false,
+  "physicalEvidencePath": "artifacts/wp13-12b-physical-two-device-proof.json",
+  "checksum": "",
+  "requiredHumanConfirmationFormat": "BEKREFT_WP13_12B_PHYSICAL_PROOF_V1; receiptId=<receiptId>; sourceCommit=<sourceCommit>; sourceTree=<sourceTree>; deploymentId=<deploymentId>; syntheticSessionId=<syntheticSessionId>; deletionSyntheticSessionId=<deletionSyntheticSessionId>; previewReceiptId=<protectedPreviewReceiptBinding.receiptId>; previewEvidenceSha256=<protectedPreviewReceiptBinding.confirmationBindingSha256>; rollbackDeploymentId=<rollbackDeploymentId>; rollbackStagingUrl=<rollbackDeploymentBinding.stagingUrl>; rollbackSourceCommit=<rollbackDeploymentBinding.sourceCommit>; rollbackSourceTree=<rollbackDeploymentBinding.sourceTree>; rollbackEvidenceSha256=<rollbackDeploymentBinding.evidenceSha256>; evidenceSha256=<checksum>; adultOperatorsOnly=true; participantsPresent=false; physicallySeparateDevicesConfirmed=true",
+  "humanSignatureOrExplicitConfirmation": {
+    "confirmed": false,
+    "confirmationText": ""
+  }
+}

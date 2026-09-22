@@ -1,0 +1,66 @@
+{
+  "artifactId": "wp13-11.five-minute-onboarding.nn.v1",
+  "artifactType": "FIVE_MINUTE_ONBOARDING",
+  "version": "1.0.0-draft",
+  "locale": "nn",
+  "title": "Fem minutt onboarding",
+  "audience": [
+    "ADULT_OPERATOR",
+    "ADULT_REVIEWER"
+  ],
+  "status": "DRAFT_FOR_ADULT_REVIEW",
+  "reviewStatus": "REVIEW_REQUIRED",
+  "authorizationStatus": "ADULT_ONLY_SYNTHETIC_DRY_RUN_ONLY",
+  "purpose": "Forklare grensene før ein vaksen startar dry-run.",
+  "allowedUse": [
+    "ADULT_ONLY_SYNTHETIC_DRY_RUN",
+    "LOCAL_INTERNAL_REVIEW",
+    "NO_REAL_PARTICIPANTS"
+  ],
+  "prohibitedUse": [
+    "STUDENT_USE",
+    "RECRUITMENT",
+    "REAL_PERSONAL_DATA",
+    "PROVIDER_ACTIVATION",
+    "PRODUCTION",
+    "B8_DECISION"
+  ],
+  "contentSections": [
+    {
+      "sectionId": "nn-section-01",
+      "heading": "Minutt 0–2",
+      "paragraphs": [
+        "Les statusane: berre vaksne, syntetisk, 0 receipts, B8 ikkje avgjerdsklar og elevbeta ikkje autorisert."
+      ]
+    },
+    {
+      "sectionId": "nn-section-02",
+      "heading": "Minutt 2–4",
+      "paragraphs": [
+        "Finn WAIT, hjelp, pause, STOPP, incidentkortet og sletting. STOPP skal alltid vere lett tilgjengeleg."
+      ]
+    },
+    {
+      "sectionId": "nn-section-03",
+      "heading": "Minutt 4–5",
+      "paragraphs": [
+        "Vel målform og stadfest at berre tekniske, operative, tilgjenge- og innhaldsreviewfunn er tillatne."
+      ]
+    }
+  ],
+  "sourceReferences": [
+    "INTERNAL-WP13-11-SCOPE",
+    "INTERNAL-WP13-10-BASELINE"
+  ],
+  "amendmentHistory": [
+    {
+      "revision": 1,
+      "at": "2026-07-22T00:00:00.000Z",
+      "reason": "Initial WP13.11 adult-only review draft",
+      "externalReceipt": false
+    }
+  ],
+  "withdrawalStatus": "CURRENT",
+  "createdAt": "2026-07-22T00:00:00.000Z",
+  "updatedAt": "2026-07-22T00:00:00.000Z"
+}

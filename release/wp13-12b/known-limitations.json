@@ -1,0 +1,15 @@
+{
+  "schemaVersion": "wp13.12b-known-limitations-v1",
+  "limitations": [
+    "The Commit-S/Commit-T provider package containing fast-uri@3.1.4 is SUPERSEDED_SECURITY_VULNERABILITY and prohibited for deployment; only the package bound by provider-security-remediation.json may be used after its introducing commit is verified.",
+    "Provider activation remains blocked and no cloud proof exists.",
+    "Cost ceiling, billing alert, kill-switch owner, staging expiry and automatic deletion policy remain unresolved.",
+    "Actual Firebase emulator proof requires a verified emulator artifact and is tracked separately.",
+    "Physical two-device proof has not been performed.",
+    "No external receipts exist.",
+    "Browser automation is Chromium/Edge based; manual screen-reader and broad physical-device review remain outstanding.",
+    "Application logging policy cannot control all Google Cloud or Vercel service logs.",
+    "TTL is not configured and would only be a delayed backstop, never explicit deletion."
+  ],
+  "blocksExternalActivation": true
+}

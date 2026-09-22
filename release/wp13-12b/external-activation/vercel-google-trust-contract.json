@@ -1,0 +1,78 @@
+{
+  "schemaVersion": "wp13.12b-ea-vercel-google-trust-contract-v2",
+  "status": "AUTHORIZED_CONFIGURATION_CONTRACT_NOT_LIVE_EVIDENCE",
+  "approvalReference": "release/wp13-12b/external-activation/cloud-field-approval.json",
+  "google": {
+    "projectId": "ludys-12b-stg-20260725",
+    "projectNumber": "134654966474",
+    "region": "europe-north1",
+    "workloadIdentityPoolId": "ludys-vercel-preview",
+    "workloadIdentityProviderId": "vercel-preview",
+    "previewServiceAccountId": "ludys-preview-invoker",
+    "previewServiceAccountEmail": "ludys-preview-invoker@ludys-12b-stg-20260725.iam.gserviceaccount.com",
+    "requiredApis": [
+      "iam.googleapis.com",
+      "iamcredentials.googleapis.com",
+      "sts.googleapis.com"
+    ],
+    "privateFunctionInvokerTargets": [
+      "deleteSyntheticSession",
+      "issueSyntheticSession"
+    ],
+    "previewInvokerRevocationTargets": [
+      "health"
+    ],
+    "projectRoles": [],
+    "userManagedKeys": 0
+  },
+  "vercel": {
+    "teamId": "team_1Gnn3VSNrP3mbseXx6a92a4J",
+    "teamSlug": "trym-s-projects",
+    "projectId": "prj_nHs1hbdyfcMMMglNUTwoYRS43naN",
+    "projectName": "ludys-wp13-12b-staging",
+    "environment": "preview",
+    "issuerMode": "team",
+    "issuer": "https://oidc.vercel.com/trym-s-projects",
+    "audience": "https://vercel.com/trym-s-projects",
+    "subject": "owner:trym-s-projects:project:ludys-wp13-12b-staging:environment:preview"
+  },
+  "provider": {
+    "attributeMapping": {
+      "attribute.environment": "assertion.environment",
+      "attribute.owner_id": "assertion.owner_id",
+      "attribute.project_id": "assertion.project_id",
+      "google.subject": "assertion.sub"
+    },
+    "attributeCondition": "attribute.owner_id == 'team_1Gnn3VSNrP3mbseXx6a92a4J' && attribute.project_id == 'prj_nHs1hbdyfcMMMglNUTwoYRS43naN' && attribute.environment == 'preview' && google.subject == 'owner:trym-s-projects:project:ludys-wp13-12b-staging:environment:preview'"
+  },
+  "oidcLimitation": {
+    "subjectGranularity": "PROJECT_AND_ENVIRONMENT_NOT_DEPLOYMENT",
+    "deploymentIdIncludedInSubject": false,
+    "allPreviewDeploymentsInProjectShareSubject": true,
+    "requiredOperationalGuard": "While trust is enabled, do not create another preview deployment and do not add a Git link. Before every trust-enable action, authenticate a fresh exact inventory of one active deployment plus one receipt-bound rollback deployment and verify both runtime roles through standard browser protection without a bypass or share link."
+  },
+  "securityBoundary": {
+    "poolAndProviderCreatedDisabled": true,
+    "enableOnlyAfterExactIamReadback": true,
+    "longLivedCredentials": false,
+    "serviceAccountKeys": false,
+    "productionSubjectAccepted": false,
+    "developmentSubjectAccepted": false,
+    "wholePoolImpersonationBinding": false,
+    "exactSubjectBindingOnly": true,
+    "oidcSubjectGranularity": "PROJECT_AND_ENVIRONMENT_NOT_DEPLOYMENT",
+    "deploymentSpecificOidcSubject": false,
+    "newPreviewDeploymentsWhileTrustEnabled": false,
+    "gitLinkWhileTrustEnabled": false,
+    "freshExactDeploymentInventoryRequiredBeforeEveryTrustEnable": true,
+    "authenticatedBrowserProofRequiredBeforeEveryTrustEnable": true,
+    "publicPrivateFunctionInvoker": false,
+    "syntheticStagingOnly": true
+  },
+  "officialReferences": [
+    "https://vercel.com/docs/oidc/reference",
+    "https://docs.cloud.google.com/iam/docs/reference/rest/v1/projects.locations.workloadIdentityPools/providers/create",
+    "https://docs.cloud.google.com/iam/docs/workload-identity-federation-with-other-providers",
+    "https://docs.cloud.google.com/run/docs/authenticating/service-to-service"
+  ]
+}

@@ -1,0 +1,456 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ludys.invalid/schemas/wp13.12b-ea-resource-inventory-v1",
+  "title": "LUDYS WP13.12B external resource inventory",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "inventoryId",
+    "inventoryStatus",
+    "approvedContextReference",
+    "observation",
+    "operatorEvidence",
+    "resourceCount",
+    "zeroResourcesAsserted",
+    "resources",
+    "pendingInventorySemantics",
+    "scopeCeilings"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "const": "wp13.12b-ea-resource-inventory-v1"
+    },
+    "inventoryId": {
+      "const": "wp13-12b-ea-current-resource-inventory"
+    },
+    "inventoryStatus": {
+      "enum": [
+        "PENDING_AUTHENTIC_PROVIDER_READBACK",
+        "AUTHENTIC_PROVIDER_SNAPSHOT",
+        "DESTRUCTION_VERIFIED_ZERO_RESOURCES"
+      ]
+    },
+    "approvedContextReference": {
+      "const": "release/wp13-12b/external-activation/cloud-field-approval.json"
+    },
+    "observation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "observedAt",
+        "performedBy",
+        "providerReadbackCommands",
+        "evidencePaths"
+      ],
+      "properties": {
+        "observedAt": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "date-time"
+        },
+        "performedBy": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "minLength": 1
+        },
+        "providerReadbackCommands": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "evidencePaths": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/repositoryRelativePath"
+          }
+        }
+      }
+    },
+    "operatorEvidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "path",
+        "artifactSha256",
+        "inventoryDigest",
+        "overlayResourcesDigest",
+        "schemaVersion",
+        "source",
+        "mode",
+        "authenticatedVercelReadback",
+        "blockerCount"
+      ],
+      "properties": {
+        "path": {
+          "const": "artifacts/wp13-12b-external-resource-inventory.json"
+        },
+        "artifactSha256": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "inventoryDigest": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "overlayResourcesDigest": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "schemaVersion": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "source": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "mode": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "authenticatedVercelReadback": {
+          "type": "boolean"
+        },
+        "blockerCount": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "minimum": 0
+        }
+      }
+    },
+    "resourceCount": {
+      "type": [
+        "integer",
+        "null"
+      ],
+      "minimum": 0
+    },
+    "zeroResourcesAsserted": {
+      "type": "boolean"
+    },
+    "resources": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/resource"
+      }
+    },
+    "pendingInventorySemantics": {
+      "type": "string",
+      "minLength": 1
+    },
+    "scopeCeilings": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "syntheticDataOnly",
+        "realParticipantData",
+        "firebaseAuthentication",
+        "production",
+        "wp13_12c"
+      ],
+      "properties": {
+        "syntheticDataOnly": {
+          "const": true
+        },
+        "realParticipantData": {
+          "const": false
+        },
+        "firebaseAuthentication": {
+          "const": false
+        },
+        "production": {
+          "const": false
+        },
+        "wp13_12c": {
+          "const": false
+        }
+      }
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "inventoryStatus": {
+            "const": "PENDING_AUTHENTIC_PROVIDER_READBACK"
+          }
+        },
+        "required": [
+          "inventoryStatus"
+        ]
+      },
+      "then": {
+        "properties": {
+          "observation": {
+            "properties": {
+              "observedAt": {
+                "const": null
+              },
+              "performedBy": {
+                "const": null
+              },
+              "providerReadbackCommands": {
+                "maxItems": 0
+              },
+              "evidencePaths": {
+                "maxItems": 0
+              }
+            }
+          },
+          "operatorEvidence": {
+            "properties": {
+              "artifactSha256": {
+                "const": null
+              },
+              "inventoryDigest": {
+                "const": null
+              },
+              "overlayResourcesDigest": {
+                "const": null
+              },
+              "schemaVersion": {
+                "const": null
+              },
+              "source": {
+                "const": null
+              },
+              "mode": {
+                "const": null
+              },
+              "authenticatedVercelReadback": {
+                "const": false
+              },
+              "blockerCount": {
+                "const": null
+              }
+            }
+          },
+          "resourceCount": {
+            "const": null
+          },
+          "zeroResourcesAsserted": {
+            "const": false
+          },
+          "resources": {
+            "maxItems": 0
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "inventoryStatus": {
+            "enum": [
+              "AUTHENTIC_PROVIDER_SNAPSHOT",
+              "DESTRUCTION_VERIFIED_ZERO_RESOURCES"
+            ]
+          }
+        },
+        "required": [
+          "inventoryStatus"
+        ]
+      },
+      "then": {
+        "properties": {
+          "observation": {
+            "properties": {
+              "observedAt": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "performedBy": {
+                "type": "string",
+                "minLength": 1
+              },
+              "providerReadbackCommands": {
+                "minItems": 1
+              },
+              "evidencePaths": {
+                "minItems": 1
+              }
+            }
+          },
+          "operatorEvidence": {
+            "properties": {
+              "artifactSha256": {
+                "type": "string",
+                "pattern": "^[a-f0-9]{64}$"
+              },
+              "inventoryDigest": {
+                "type": "string",
+                "pattern": "^[a-f0-9]{64}$"
+              },
+              "overlayResourcesDigest": {
+                "type": "string",
+                "pattern": "^[a-f0-9]{64}$"
+              },
+              "schemaVersion": {
+                "const": "wp13.12b-ea-operator-resource-inventory-v2"
+              },
+              "source": {
+                "const": "LIVE_READ_ONLY_PROVIDER_QUERIES"
+              },
+              "mode": {
+                "const": "READ_ONLY_IDEMPOTENT_EXTERNAL_OBSERVATION"
+              },
+              "authenticatedVercelReadback": {
+                "const": true
+              },
+              "blockerCount": {
+                "const": 0
+              }
+            }
+          },
+          "resourceCount": {
+            "type": "integer",
+            "minimum": 0
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "inventoryStatus": {
+            "const": "DESTRUCTION_VERIFIED_ZERO_RESOURCES"
+          }
+        },
+        "required": [
+          "inventoryStatus"
+        ]
+      },
+      "then": {
+        "properties": {
+          "resourceCount": {
+            "const": 0
+          },
+          "zeroResourcesAsserted": {
+            "const": true
+          },
+          "resources": {
+            "maxItems": 0
+          }
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "repositoryRelativePath": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^(?!/|\\\\|[A-Za-z]:|[A-Za-z][A-Za-z0-9+.-]*:)(?!.*\\\\)(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*(?:^|/)\\.git(?:/|$))(?!.*[?#]).+$"
+    },
+    "resource": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "resourceId",
+        "provider",
+        "region",
+        "purpose",
+        "createdAt",
+        "owner",
+        "retention",
+        "deletionMethod",
+        "costRisk",
+        "containsRealData",
+        "destructionDeadline",
+        "receiptReference",
+        "lifecycleStatus",
+        "evidencePath",
+        "syntheticOnly"
+      ],
+      "properties": {
+        "resourceId": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Canonical provider resource identifier; replaces the earlier providerResourceId field."
+        },
+        "provider": {
+          "type": "string",
+          "minLength": 1
+        },
+        "region": {
+          "type": "string",
+          "minLength": 1
+        },
+        "purpose": {
+          "type": "string",
+          "minLength": 1
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "owner": {
+          "type": "string",
+          "minLength": 1
+        },
+        "retention": {
+          "type": "string",
+          "minLength": 1
+        },
+        "deletionMethod": {
+          "type": "string",
+          "minLength": 1
+        },
+        "costRisk": {
+          "type": "string",
+          "minLength": 1
+        },
+        "containsRealData": {
+          "const": false
+        },
+        "destructionDeadline": {
+          "const": "2027-01-25"
+        },
+        "receiptReference": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/repositoryRelativePath"
+            },
+            {
+              "pattern": "^release/wp13-12b/receipts/actual/[^/]+\\.json$"
+            }
+          ]
+        },
+        "lifecycleStatus": {
+          "type": "string",
+          "minLength": 1
+        },
+        "evidencePath": {
+          "$ref": "#/$defs/repositoryRelativePath"
+        },
+        "syntheticOnly": {
+          "const": true
+        }
+      }
+    }
+  }
+}

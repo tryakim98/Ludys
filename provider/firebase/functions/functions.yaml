@@ -1,0 +1,96 @@
+# This Firebase endpoint manifest declares the approved secret identity only.
+# The authoritative external gcloud deploy pins secret version 1 and verifies
+# the numeric version readback in scripts/provider-external-function-deploy.mjs.
+specVersion: v1alpha1
+endpoints:
+  issueSyntheticSession:
+    platform: gcfv2
+    region:
+      - europe-north1
+    entryPoint: issueSyntheticSession
+    serviceAccountEmail: ludys-staging-runtime@ludys-12b-stg-20260725.iam.gserviceaccount.com
+    minInstances: 0
+    maxInstances: 1
+    concurrency: 1
+    timeoutSeconds: 60
+    environmentVariables:
+      LUDYS_STAGING_SESSION_ISSUANCE_ENABLED: "false"
+      LUDYS_STAGING_RUNTIME_PHASE: "EXTERNAL_SYNTHETIC_STAGING"
+    secretEnvironmentVariables:
+      - key: LUDYS_CAPABILITY_HMAC_KEY
+        secret: LUDYS_CAPABILITY_HMAC_KEY
+    httpsTrigger:
+      invoker:
+        - private
+  sessionCommand:
+    platform: gcfv2
+    region:
+      - europe-north1
+    entryPoint: sessionCommand
+    serviceAccountEmail: ludys-staging-runtime@ludys-12b-stg-20260725.iam.gserviceaccount.com
+    minInstances: 0
+    maxInstances: 1
+    concurrency: 1
+    timeoutSeconds: 60
+    environmentVariables:
+      LUDYS_STAGING_RUNTIME_PHASE: "EXTERNAL_SYNTHETIC_STAGING"
+    secretEnvironmentVariables:
+      - key: LUDYS_CAPABILITY_HMAC_KEY
+        secret: LUDYS_CAPABILITY_HMAC_KEY
+    httpsTrigger:
+      invoker:
+        - public
+  sessionProjection:
+    platform: gcfv2
+    region:
+      - europe-north1
+    entryPoint: sessionProjection
+    serviceAccountEmail: ludys-staging-runtime@ludys-12b-stg-20260725.iam.gserviceaccount.com
+    minInstances: 0
+    maxInstances: 1
+    concurrency: 1
+    timeoutSeconds: 60
+    environmentVariables:
+      LUDYS_STAGING_RUNTIME_PHASE: "EXTERNAL_SYNTHETIC_STAGING"
+    secretEnvironmentVariables:
+      - key: LUDYS_CAPABILITY_HMAC_KEY
+        secret: LUDYS_CAPABILITY_HMAC_KEY
+    httpsTrigger:
+      invoker:
+        - public
+  deleteSyntheticSession:
+    platform: gcfv2
+    region:
+      - europe-north1
+    entryPoint: deleteSyntheticSession
+    serviceAccountEmail: ludys-staging-runtime@ludys-12b-stg-20260725.iam.gserviceaccount.com
+    minInstances: 0
+    maxInstances: 1
+    concurrency: 1
+    timeoutSeconds: 60
+    environmentVariables:
+      LUDYS_STAGING_RUNTIME_PHASE: "EXTERNAL_SYNTHETIC_STAGING"
+    secretEnvironmentVariables:
+      - key: LUDYS_CAPABILITY_HMAC_KEY
+        secret: LUDYS_CAPABILITY_HMAC_KEY
+    httpsTrigger:
+      invoker:
+        - private
+  health:
+    platform: gcfv2
+    region:
+      - europe-north1
+    entryPoint: health
+    serviceAccountEmail: ludys-staging-runtime@ludys-12b-stg-20260725.iam.gserviceaccount.com
+    minInstances: 0
+    maxInstances: 1
+    concurrency: 1
+    timeoutSeconds: 60
+    environmentVariables:
+      LUDYS_STAGING_RUNTIME_PHASE: "EXTERNAL_SYNTHETIC_STAGING"
+    secretEnvironmentVariables:
+      - key: LUDYS_CAPABILITY_HMAC_KEY
+        secret: LUDYS_CAPABILITY_HMAC_KEY
+    httpsTrigger:
+      invoker:
+        - private

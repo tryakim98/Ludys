@@ -1,0 +1,66 @@
+{
+  "schemaVersion": "wp13.12b-provider-audit-v2",
+  "command": "npm audit --omit=dev --json",
+  "executed": true,
+  "auditExitCode": 0,
+  "packageCount": 132,
+  "vulnerabilities": {
+    "info": 0,
+    "low": 0,
+    "moderate": 0,
+    "high": 0,
+    "critical": 0,
+    "total": 0
+  },
+  "findings": [],
+  "moderateOrHigher": 0,
+  "blocksExternalActivation": false,
+  "rootRuntimeDependencies": 0,
+  "evidenceBindings": {
+    "providerLockSha256": "2bb3e7021ca055853ef34c80ca872a1eccb5f2e4d406c15d5e7b87ffb3c69249",
+    "providerPackageSha256": "8ce5655fd797a97c9d537f040e360fef6e3e05ba302769e2861aa1896e5dee0b",
+    "securityRemediationSha256": "fe4884c82d5c13b4209ae2d543a4c171dfed31d8fea4621cb606d08291bccded",
+    "fastUriVersion": "3.1.5",
+    "fastUriIntegrity": "sha512-gHwA1O9LDIcKunMKhObS/HimwtehO1nPUECKAu5TpKgaO19fcWEl4bliWe1jWxVFvIXztJjjQ4L8XQ1EU9f7Jw=="
+  },
+  "securityOverrides": {
+    "cloudevents>uuid": {
+      "pinnedVersion": "11.1.1",
+      "advisory": "GHSA-w5hq-g745-h8pq",
+      "compatibilitySurface": "cloudevents uses the retained uuid v4 API",
+      "verification": "local Functions Framework health endpoint proof"
+    }
+  },
+  "supersededAuditAttempts": [
+    {
+      "dependencySet": "firebase-admin@14.2.0 + firebase-functions@7.3.0",
+      "vulnerabilities": {
+        "moderate": 7,
+        "high": 5,
+        "critical": 0
+      },
+      "disposition": "REJECTED_NOT_USED",
+      "reason": "current SDK chain carried unresolved runtime advisories"
+    },
+    {
+      "dependencySet": "firebase-admin@10.3.0 + firebase-functions@4.9.0",
+      "vulnerabilities": {
+        "moderate": 4,
+        "high": 6,
+        "critical": 1
+      },
+      "disposition": "REJECTED_NOT_USED",
+      "reason": "older suggested remediation introduced critical and high advisories"
+    },
+    {
+      "dependencySet": "@google-cloud/functions-framework@5.0.5 without override",
+      "vulnerabilities": {
+        "moderate": 3,
+        "high": 0,
+        "critical": 0
+      },
+      "disposition": "REJECTED_SUPERSEDED_BY_SCOPED_OVERRIDE",
+      "reason": "cloudevents resolved vulnerable uuid@8.3.2"
+    }
+  ]
+}

@@ -1,0 +1,47 @@
+{
+  "schemaVersion": "wp13.12a-retention-deletion-v1",
+  "explicitDeletionDominatesTtl": true,
+  "stopDominatesAllPendingActions": true,
+  "deletedSessionCannotResurrect": true,
+  "ttlIsImmediateDeletion": false,
+  "activeSessionLifetime": "MAXIMUM 2 HOURS; PENDING OWNER CONFIRMATION BEFORE WP13.12B",
+  "capabilityLifetime": "MAXIMUM 15 MINUTES; NEVER LONGER THAN SESSION",
+  "explicitDeletion": [
+    "Authorize server handler only",
+    "atomically remove state and write minimum tombstone",
+    "revoke all capabilities"
+  ],
+  "expiryAndTtl": [
+    "handler rejects expired session synchronously",
+    "TTL is only a delayed backstop",
+    "expired documents can remain queryable until TTL deletion"
+  ],
+  "tombstone": [
+    "minimum session-scoped tombstone",
+    "authority generation increments",
+    "tombstone outlives any delayed command window"
+  ],
+  "delayedAndDuplicateCommands": [
+    "command nonce is idempotent",
+    "late or duplicate command is denied without mutation"
+  ],
+  "staleAuthorityAndRevision": [
+    "exact authority generation and revision required",
+    "STOP and DELETE always dominate"
+  ],
+  "reconnectAndCache": [
+    "client cache is non-authoritative",
+    "deleted or stopped projection cannot recreate state"
+  ],
+  "backupsAndPitr": [
+    "disabled in recommended baseline",
+    "any later enablement needs owner decision and resurrection proof",
+    "backup deletion is separate from database deletion"
+  ],
+  "projectClosure": [
+    "disable ingress",
+    "revoke identities",
+    "delete sessions and tombstones after verification",
+    "delete database, logs where configurable and dev project"
+  ]
+}

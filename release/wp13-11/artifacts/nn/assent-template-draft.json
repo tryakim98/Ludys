@@ -1,0 +1,67 @@
+{
+  "artifactId": "wp13-11.assent-template-draft.nn.v1",
+  "artifactType": "ASSENT_TEMPLATE_DRAFT",
+  "version": "1.0.0-draft",
+  "locale": "nn",
+  "title": "Assentmal – utkast utan gyldigheit",
+  "audience": [
+    "ADULT_INTERNAL_REVIEWER"
+  ],
+  "status": "DRAFT_NOT_AUTHORIZED_FOR_STUDENT_USE",
+  "reviewStatus": "REVIEW_REQUIRED",
+  "authorizationStatus": "NOT_AUTHORIZED_FOR_STUDENT_USE",
+  "purpose": "Strukturere seinare menneskeleg review utan å simulere medverknad frå barn.",
+  "allowedUse": [
+    "ADULT_INTERNAL_REVIEW_ONLY",
+    "LEGAL_ETHICS_OWNER_REVIEW_REQUIRED"
+  ],
+  "prohibitedUse": [
+    "NOT_RECRUITMENT_MATERIAL",
+    "NOT_FINAL_PARTICIPANT_INFORMATION",
+    "NOT_VALID_CONSENT",
+    "NOT_VALID_ASSENT",
+    "NOT_PROCESSING_BASIS",
+    "NOT_DPIA",
+    "NOT_LEGAL_REVIEW",
+    "NOT_ETHICS_APPROVAL",
+    "NOT_SCHOOL_OWNER_DECISION",
+    "NOT_B8_DECISION",
+    "NO_STUDENT_CONTACT_AUTHORITY",
+    "NO_PARENT_CONTACT_AUTHORITY",
+    "NO_PILOT_START_AUTHORITY"
+  ],
+  "contentSections": [
+    {
+      "sectionId": "nn-section-01",
+      "heading": "Ikkje gyldig",
+      "paragraphs": [
+        "Dette er ikkje gyldig assent, samtykke, behandlingsgrunnlag, etisk godkjenning, DPIA eller B8-vedtak."
+      ]
+    },
+    {
+      "sectionId": "nn-section-02",
+      "heading": "Inga simulering",
+      "paragraphs": [
+        "Dry-run skal ikkje late som eit barn har lese, forstått eller akseptert noko."
+      ]
+    }
+  ],
+  "sourceReferences": [
+    "INTERNAL-WP13-11-SCOPE",
+    "INTERNAL-WP13-10-BASELINE",
+    "OFFICIAL-DATATILSYNET-DPIA",
+    "OFFICIAL-UDIR-SCHOOL-PRIVACY",
+    "OFFICIAL-UDIR-STUDENT-RIGHTS"
+  ],
+  "amendmentHistory": [
+    {
+      "revision": 1,
+      "at": "2026-07-22T00:00:00.000Z",
+      "reason": "Initial WP13.11 adult-only review draft",
+      "externalReceipt": false
+    }
+  ],
+  "withdrawalStatus": "CURRENT",
+  "createdAt": "2026-07-22T00:00:00.000Z",
+  "updatedAt": "2026-07-22T00:00:00.000Z"
+}

@@ -1,0 +1,146 @@
+{
+  "schemaVersion": "wp13.12b-receipt-template-v1",
+  "templateMarker": "UNFILLED_TEMPLATE_NOT_EVIDENCE",
+  "receiptId": "",
+  "receiptType": "IAM_AND_BILLING_RECEIPT",
+  "status": "UNFILLED_TEMPLATE_NOT_EVIDENCE",
+  "createdAt": "",
+  "performedBy": "",
+  "environment": "EXTERNAL_SYNTHETIC_STAGING",
+  "sourceCommit": "",
+  "sourceTree": "",
+  "expectedSourceCommit": "",
+  "decisionRecordChecksum": "a5085b3dd4351bb1e6f35718b46f882667bd2e2995bc0e501065e0de6eac8754",
+  "commandsRun": [],
+  "providerResourceIds": {
+    "googleProjectId": "ludys-12b-stg-20260725",
+    "billingAccount": "01CD9D-0900DF-4FB36A",
+    "budgetId": "",
+    "runtimeServiceAccount": "ludys-staging-runtime@ludys-12b-stg-20260725.iam.gserviceaccount.com",
+    "previewServiceAccount": "ludys-preview-invoker@ludys-12b-stg-20260725.iam.gserviceaccount.com",
+    "deployServiceAccount": "ludys-staging-deployer@ludys-12b-stg-20260725.iam.gserviceaccount.com",
+    "capabilitySecret": "projects/134654966474/secrets/LUDYS_CAPABILITY_HMAC_KEY",
+    "resourceIds": [
+      "projects/ludys-12b-stg-20260725",
+      "ludys-staging-runtime@ludys-12b-stg-20260725.iam.gserviceaccount.com",
+      "ludys-preview-invoker@ludys-12b-stg-20260725.iam.gserviceaccount.com",
+      "ludys-staging-deployer@ludys-12b-stg-20260725.iam.gserviceaccount.com",
+      "projects/134654966474/secrets/LUDYS_CAPABILITY_HMAC_KEY"
+    ]
+  },
+  "proofResults": {
+    "billing_account_exact": false,
+    "budget_500_nok": false,
+    "billing_alert_400_nok": false,
+    "budget_thresholds_400_and_500_nok": false,
+    "billing_reviewer_product_owner": false,
+    "owner_one_hundred_percent": false,
+    "expiry_2027_01_25": false,
+    "function_quotas_bounded": false,
+    "deploy_identity_least_privilege": false,
+    "deploy_identity_keyless": false,
+    "deploy_identity_distinct": false,
+    "deploy_commands_impersonated": false,
+    "deploy_identity_revoked": false,
+    "owner_role_absent": false,
+    "runtime_roles_least_privilege": false,
+    "runtime_service_account_keyless": false,
+    "preview_service_account_keyless": false,
+    "capability_secret_regional": false,
+    "secret_value_not_printed_or_written": false,
+    "secret_absent_from_browser": false
+  },
+  "artifactHashes": {},
+  "limitations": [],
+  "humanSignatureOrExplicitConfirmation": {
+    "confirmed": false,
+    "confirmationText": "",
+    "confirmedAt": ""
+  },
+  "opensB8": false,
+  "authorizesStudentBeta": false,
+  "authorizesProduction": false,
+  "realParticipantData": false,
+  "syntheticOrFabricated": false,
+  "physicalProof": false,
+  "devices": [],
+  "billingAlertConfigured": false,
+  "monthlyAlertThreshold": {
+    "currency": "NOK",
+    "amount": 400
+  },
+  "maximumMonthlyCost": {
+    "currency": "NOK",
+    "amount": 500
+  },
+  "budgetThresholdsNok": [
+    "400",
+    "500"
+  ],
+  "billingReviewer": "PRODUCT_OWNER_SELF",
+  "ownerSelfAttestation": "ONE_HUNDRED_PERCENT_OWNER",
+  "stagingExpiryDate": "2027-01-25",
+  "stagingExpiryInstant": "2027-01-25T00:00:00.000Z",
+  "quotaConfiguration": {
+    "functionMinInstances": 0,
+    "functionMaxInstances": 1,
+    "functionConcurrency": 1,
+    "functionTimeoutSeconds": 60
+  },
+  "deployPrincipal": "ludys-staging-deployer@ludys-12b-stg-20260725.iam.gserviceaccount.com",
+  "operatorPrincipal": "user:tryakim@gmail.com",
+  "deployIdentityAuthenticationMode": "TIME_BOUND_HUMAN_IMPERSONATION",
+  "deployIdentityDistinctFromRuntimeAndPreview": true,
+  "deployIdentityRoles": [
+    "roles/cloudfunctions.developer",
+    "roles/firebaserules.admin",
+    "roles/run.admin",
+    "roles/serviceusage.serviceUsageConsumer"
+  ],
+  "deployIdentityUserManagedKeyCount": 0,
+  "deployIdentityKeyless": true,
+  "deployIdentityOwnerRole": false,
+  "deployProjectRolesConditioned": true,
+  "deployBindingWindowMaxSeconds": 3600,
+  "impersonationStartedAt": "",
+  "impersonationExpiresAt": "",
+  "deploymentObservedAt": "",
+  "serviceAccountUserBindings": {
+    "role": "roles/iam.serviceAccountUser",
+    "member": "serviceAccount:ludys-staging-deployer@ludys-12b-stg-20260725.iam.gserviceaccount.com",
+    "runtimeServiceAccount": "ludys-staging-runtime@ludys-12b-stg-20260725.iam.gserviceaccount.com",
+    "buildServiceAccount": "134654966474-compute@developer.gserviceaccount.com",
+    "conditioned": true,
+    "windowMaxSeconds": 3600,
+    "revoked": false
+  },
+  "conditionedTokenCreatorBinding": {
+    "role": "roles/iam.serviceAccountTokenCreator",
+    "member": "user:tryakim@gmail.com",
+    "resource": "ludys-staging-deployer@ludys-12b-stg-20260725.iam.gserviceaccount.com",
+    "conditioned": true,
+    "windowMaxSeconds": 3600,
+    "revoked": false
+  },
+  "deploymentCommands": [],
+  "callerIdentityReadback": "",
+  "postDeployImpersonationRevoked": false,
+  "postDeployProjectRolesRevoked": false,
+  "postDeployRevocationEvidencePath": "",
+  "runtimeProjectRoles": [
+    "roles/datastore.user",
+    "roles/logging.logWriter"
+  ],
+  "runtimeSecretRoles": [
+    "roles/secretmanager.secretAccessor"
+  ],
+  "runtimeUserManagedKeyCount": 0,
+  "previewUserManagedKeyCount": 0,
+  "capabilitySecretRegion": "europe-north1",
+  "secretValuePrinted": false,
+  "secretValueWrittenToDisk": false,
+  "secretValueExposedToBrowser": false,
+  "confirmationEvidencePath": "",
+  "confirmationBindingSha256": "",
+  "requiredHumanConfirmationFormat": "BEKREFT_WP13_12B_IAM_AND_BILLING_V1; receiptId=<receiptId>; sourceCommit=<sourceCommit>; sourceTree=<sourceTree>; projectId=ludys-12b-stg-20260725; billingAccount=01CD9D-0900DF-4FB36A; alertNok=400; maximumNok=500; expiry=2027-01-25; expiryInstant=2027-01-25T00:00:00.000Z; evidenceSha256=<confirmationBindingSha256>"
+}

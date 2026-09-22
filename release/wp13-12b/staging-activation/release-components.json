@@ -1,0 +1,10 @@
+{
+  "appVersion": "0.14.0-reconstructed.9",
+  "contentReleaseId": "wp13-8-authentic-draft-corpus-r1",
+  "knowledgeReleaseId": "release-knowledge-audio-prototype-001",
+  "audioReleaseId": "wp13-9-audio-specifications-r1",
+  "operationsReleaseId": "wp13-11-operations-kit-r1",
+  "providerDecisionReleaseId": "wp13-12a-provider-decision-r1",
+  "stagingProviderReleaseId": "wp13-12b-synthetic-staging-provider-r1",
+  "schemaVersion": "wp13.12b-synthetic-staging-v1"
+}

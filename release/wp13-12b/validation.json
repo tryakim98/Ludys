@@ -1,0 +1,22 @@
+{
+  "valid": true,
+  "errors": [],
+  "warnings": [
+    "plannedProjectId requires explicit display and approval before provisioning",
+    "projectDisplayName requires explicit display and approval before provisioning",
+    "approvedGoogleAccountOrOrganizationContext requires explicit display and approval before provisioning",
+    "approvedBillingAccount requires explicit display and approval before provisioning"
+  ],
+  "repositoryImplementation": "READY",
+  "ownerDecision": "APPROVE_RECOMMENDED_SYNTHETIC_DEV",
+  "ownerDecisionStatus": "OWNER_DECISION_RECORDED",
+  "providerActivation": "BLOCKED",
+  "cloudResources": 0,
+  "emulatorProof": "NOT_COMPLETED_OR_EXPLICITLY_CLASSIFIED",
+  "physicalTwoDeviceProof": false,
+  "externalReceipts": 0,
+  "b8": "NOT_DECISION_READY",
+  "studentBeta": "NOT_AUTHORIZED",
+  "production": "NOT_AUTHORIZED",
+  "wp13_12c": "BLOCKED"
+}

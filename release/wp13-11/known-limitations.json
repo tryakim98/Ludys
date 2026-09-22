@@ -1,0 +1,36 @@
+{
+  "schemaVersion": "wp13.11-known-limitations-v1",
+  "manualReviewRequired": [
+    "Separate human BM review",
+    "Separate human NN review",
+    "Manual screen-reader and assistive-technology review",
+    "Legal review of participant-directed drafts",
+    "Ethics and school-owner review",
+    "Physical-device review"
+  ],
+  "notTested": [
+    "Firefox",
+    "Safari/iOS",
+    "Physical Android",
+    "Production service worker",
+    "Production rollback"
+  ],
+  "externalReceiptRequired": [
+    "Language approval",
+    "Accessibility acceptance",
+    "Legal approval",
+    "Ethics approval",
+    "School-owner decision"
+  ],
+  "notAuthorized": [
+    "Student beta",
+    "Recruitment",
+    "Participant contact",
+    "Real data",
+    "Provider activation",
+    "Production",
+    "B8"
+  ],
+  "p0OpenInAutomatedScope": 0,
+  "p1OpenInAutomatedScope": 0
+}

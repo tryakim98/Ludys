@@ -55,6 +55,9 @@ export type LifecycleEvent =
 
 export type LifecycleErrorCode =
   | "INVALID_TRANSITION"
+  | "DUPLICATE_COMMAND"
+  | "STALE_AUTHORITY"
+  | "DELAYED_COMMAND"
   | "NO_RESURRECTION"
   | "TOMBSTONE"
   | "NOT_FOUND"

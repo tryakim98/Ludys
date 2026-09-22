@@ -1,0 +1,59 @@
+{
+  "artifactId": "wp13-11.role-allocation.nb.v1",
+  "artifactType": "ROLE_ALLOCATION",
+  "version": "1.0.0-draft",
+  "locale": "nb",
+  "title": "Syntetisk rollefordeling",
+  "audience": [
+    "ADULT_OPERATOR",
+    "ADULT_REVIEWER"
+  ],
+  "status": "DRAFT_FOR_ADULT_REVIEW",
+  "reviewStatus": "REVIEW_REQUIRED",
+  "authorizationStatus": "ADULT_ONLY_SYNTHETIC_DRY_RUN_ONLY",
+  "purpose": "Fordele tydelige voksenstyrte roller uten å opprette personidentitet.",
+  "allowedUse": [
+    "ADULT_ONLY_SYNTHETIC_DRY_RUN",
+    "LOCAL_INTERNAL_REVIEW",
+    "NO_REAL_PARTICIPANTS"
+  ],
+  "prohibitedUse": [
+    "STUDENT_USE",
+    "RECRUITMENT",
+    "REAL_PERSONAL_DATA",
+    "PROVIDER_ACTIVATION",
+    "PRODUCTION",
+    "B8_DECISION"
+  ],
+  "contentSections": [
+    {
+      "sectionId": "nb-section-01",
+      "heading": "Roller",
+      "paragraphs": [
+        "Bruk Operatør, Observatør og Sikkerhetsansvarlig som midlertidige funksjoner. Én voksen kan fylle alle."
+      ]
+    },
+    {
+      "sectionId": "nb-section-02",
+      "heading": "Ingen profil",
+      "paragraphs": [
+        "Ikke registrer navn, skole, kontaktinformasjon eller stabil rolle-ID."
+      ]
+    }
+  ],
+  "sourceReferences": [
+    "INTERNAL-WP13-11-SCOPE",
+    "INTERNAL-WP13-10-BASELINE"
+  ],
+  "amendmentHistory": [
+    {
+      "revision": 1,
+      "at": "2026-07-22T00:00:00.000Z",
+      "reason": "Initial WP13.11 adult-only review draft",
+      "externalReceipt": false
+    }
+  ],
+  "withdrawalStatus": "CURRENT",
+  "createdAt": "2026-07-22T00:00:00.000Z",
+  "updatedAt": "2026-07-22T00:00:00.000Z"
+}

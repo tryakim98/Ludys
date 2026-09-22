@@ -1,0 +1,59 @@
+{
+  "artifactId": "wp13-11.install-start-guide.nb.v1",
+  "artifactType": "INSTALL_START_GUIDE",
+  "version": "1.0.0-draft",
+  "locale": "nb",
+  "title": "Installer og start lokalt",
+  "audience": [
+    "ADULT_OPERATOR",
+    "ADULT_REVIEWER"
+  ],
+  "status": "DRAFT_FOR_ADULT_REVIEW",
+  "reviewStatus": "REVIEW_REQUIRED",
+  "authorizationStatus": "ADULT_ONLY_SYNTHETIC_DRY_RUN_ONLY",
+  "purpose": "Starte den eksisterende lokale PWA-flaten uten konto eller ekstern tjeneste.",
+  "allowedUse": [
+    "ADULT_ONLY_SYNTHETIC_DRY_RUN",
+    "LOCAL_INTERNAL_REVIEW",
+    "NO_REAL_PARTICIPANTS"
+  ],
+  "prohibitedUse": [
+    "STUDENT_USE",
+    "RECRUITMENT",
+    "REAL_PERSONAL_DATA",
+    "PROVIDER_ACTIVATION",
+    "PRODUCTION",
+    "B8_DECISION"
+  ],
+  "contentSections": [
+    {
+      "sectionId": "nb-section-01",
+      "heading": "Klargjøring",
+      "paragraphs": [
+        "Installer avhengigheter fra låsefilen, bygg lokalt og start repositoryets proof-server."
+      ]
+    },
+    {
+      "sectionId": "nb-section-02",
+      "heading": "Kontroll",
+      "paragraphs": [
+        "Åpne den lokale origin-en. Kamera, mikrofon, ekstern konto, cloud og ekstern logging skal ikke brukes."
+      ]
+    }
+  ],
+  "sourceReferences": [
+    "INTERNAL-WP13-11-SCOPE",
+    "INTERNAL-WP13-10-BASELINE"
+  ],
+  "amendmentHistory": [
+    {
+      "revision": 1,
+      "at": "2026-07-22T00:00:00.000Z",
+      "reason": "Initial WP13.11 adult-only review draft",
+      "externalReceipt": false
+    }
+  ],
+  "withdrawalStatus": "CURRENT",
+  "createdAt": "2026-07-22T00:00:00.000Z",
+  "updatedAt": "2026-07-22T00:00:00.000Z"
+}

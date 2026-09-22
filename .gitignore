@@ -7,4 +7,14 @@ coverage/
 .DS_Store
 *.log
 
-artifacts/
+artifacts/*
+!artifacts/wp13-10-*.json
+!artifacts/wp13-11-*.json
+!artifacts/wp13-11-*.png
+!artifacts/wp13-12b-*.json
+!artifacts/wp13-12b-*.png
+!artifacts/wp13-12b-external-resource-inventory.json.tmp-*
+
+provider/firebase/.emulator-cache/
+provider/vercel/wp13-12b-preview/.vercel/
+.tmp/

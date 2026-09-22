@@ -1,0 +1,35 @@
+{
+  "schemaVersion": "wp13.12b-official-sources-v1",
+  "checkedAt": "2026-07-27",
+  "sources": [
+    {
+      "sourceId": "FIRESTORE-LOCATIONS",
+      "url": "https://firebase.google.com/docs/firestore/locations",
+      "fact": "europe-north1 remains a regional Firestore location and location cannot be changed after provisioning."
+    },
+    {
+      "sourceId": "FUNCTIONS-LOCATIONS",
+      "url": "https://firebase.google.com/docs/functions/locations",
+      "fact": "europe-north1 supports Cloud Functions 2nd gen."
+    },
+    {
+      "sourceId": "FIRESTORE-INSECURE-RULES",
+      "url": "https://firebase.google.com/docs/firestore/security/insecure-rules",
+      "fact": "server client libraries bypass Security Rules and require separate IAM."
+    },
+    {
+      "sourceId": "FIRESTORE-TTL",
+      "url": "https://firebase.google.com/docs/firestore/ttl",
+      "fact": "TTL is not instantaneous and deletion is typically within 24 hours."
+    }
+  ],
+  "cannotAuthorize": [
+    "provider activation",
+    "billing",
+    "project creation",
+    "real participant data",
+    "B8",
+    "student beta",
+    "production"
+  ]
+}

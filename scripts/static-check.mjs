@@ -38,6 +38,10 @@ const forbiddenOutsideRegistry = [
   "RANK_ADULT",
   "SIMULATE_THINKING",
 ];
+const explicitProhibitionRegisters = new Set([
+  "src/core/provider-decision.ts",
+  "src/content/provider-decision/wp13-12a-decision-package.ts",
+]);
 
 for (const file of await collect(src)) {
   const rel = relative(repo, file).replaceAll("\\", "/");
@@ -51,7 +55,9 @@ for (const file of await collect(src)) {
     }
   }
   for (const field of ["childId", "studentId", "userId", "adultProfile", "childProfile", "engagementScore"]) {
-    if (new RegExp(`\\b${field}\\b`).test(text)) errors.push(`${rel}: forbidden stable/profile field ${field}`);
+    if (new RegExp(`\\b${field}\\b`).test(text) && !explicitProhibitionRegisters.has(rel)) {
+      errors.push(`${rel}: forbidden stable/profile field ${field}`);
+    }
   }
   if (/Vikingspill-main|src\/engine|@engine\//.test(text)) {
     errors.push(`${rel}: cross-product source reference`);

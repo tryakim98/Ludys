@@ -1,0 +1,85 @@
+{
+  "schemaVersion": "wp13.12a-cost-model-v1",
+  "currency": "NOK",
+  "rows": [
+    {
+      "optionId": "LOCAL_ONLY",
+      "providerPriceFacts": [
+        "No current provider selected or no provider cost"
+      ],
+      "estimate": "0 NOK provider cost",
+      "estimateIsGuarantee": false,
+      "billingAlertIsHardCap": false,
+      "hardCapAvailability": "No cloud spend",
+      "internalSafetyBoundary": "No activation until owner sets both alert and maximum accepted monthly cost",
+      "sourceIds": []
+    },
+    {
+      "optionId": "FIREBASE_CAPABILITY",
+      "providerPriceFacts": [
+        "Usage-priced services; verify current regional SKUs",
+        "Provider free allowances are not a billing guarantee"
+      ],
+      "estimate": "Likely low at bounded synthetic traffic, but cost limit remains unresolved before provisioning",
+      "estimateIsGuarantee": false,
+      "billingAlertIsHardCap": false,
+      "hardCapAvailability": "Google budgets are alerts; quotas and an explicit kill switch are separate controls",
+      "internalSafetyBoundary": "No activation until owner sets both alert and maximum accepted monthly cost",
+      "sourceIds": [
+        "FIRESTORE-QUOTAS",
+        "FIRESTORE-PRICING",
+        "GOOGLE-BUDGETS",
+        "VERCEL-PRICING",
+        "VERCEL-SPEND"
+      ]
+    },
+    {
+      "optionId": "FIREBASE_ANONYMOUS",
+      "providerPriceFacts": [
+        "Usage-priced services; verify current regional SKUs",
+        "Provider free allowances are not a billing guarantee"
+      ],
+      "estimate": "Likely low at bounded synthetic traffic, but cost limit remains unresolved before provisioning",
+      "estimateIsGuarantee": false,
+      "billingAlertIsHardCap": false,
+      "hardCapAvailability": "Provider-specific verification required",
+      "internalSafetyBoundary": "No activation until owner sets both alert and maximum accepted monthly cost",
+      "sourceIds": [
+        "FIRESTORE-QUOTAS",
+        "FIRESTORE-PRICING"
+      ]
+    },
+    {
+      "optionId": "SELF_HOSTED",
+      "providerPriceFacts": [
+        "No current provider selected or no provider cost"
+      ],
+      "estimate": "UNKNOWN; hosting and operations quote required",
+      "estimateIsGuarantee": false,
+      "billingAlertIsHardCap": false,
+      "hardCapAvailability": "Provider-specific verification required",
+      "internalSafetyBoundary": "No activation until owner sets both alert and maximum accepted monthly cost",
+      "sourceIds": []
+    },
+    {
+      "optionId": "LUDUS_REUSE",
+      "providerPriceFacts": [
+        "No current provider selected or no provider cost"
+      ],
+      "estimate": "NO_GO; no estimate",
+      "estimateIsGuarantee": false,
+      "billingAlertIsHardCap": false,
+      "hardCapAvailability": "Provider-specific verification required",
+      "internalSafetyBoundary": "No activation until owner sets both alert and maximum accepted monthly cost",
+      "sourceIds": []
+    }
+  ],
+  "ownerFields": {
+    "monthlyAlertThresholdNOK": "UNRESOLVED_MUST_BE_SET_BEFORE_PROVISIONING",
+    "maximumAcceptedMonthlyCostNOK": "UNRESOLVED_MUST_BE_SET_BEFORE_PROVISIONING",
+    "killSwitchOwner": "UNRESOLVED_MUST_BE_SET_BEFORE_PROVISIONING",
+    "billingReviewer": "UNRESOLVED_MUST_BE_SET_BEFORE_PROVISIONING",
+    "stagingExpiryDate": "UNRESOLVED_MUST_BE_SET_BEFORE_PROVISIONING",
+    "automaticDeletionPolicy": "UNRESOLVED_MUST_BE_SET_BEFORE_PROVISIONING"
+  }
+}

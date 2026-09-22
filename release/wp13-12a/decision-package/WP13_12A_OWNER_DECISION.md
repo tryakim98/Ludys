@@ -1,0 +1,53 @@
+# WP13.12A – registrert produkteierbeslutning
+
+> DECISION: APPROVE_RECOMMENDED_SYNTHETIC_DEV
+> DECISION_DATE: 2026-07-25
+> PROVIDER_ACTIVATION: BLOCKED
+> CLOUD_RESOURCES: 0
+> WP13.12B: BLOCKED
+
+Beslutningen er registrert fra en eksplisitt bekreftelse i den gjeldende Codex-oppgaven. Ingen navn eller signatur er konstruert.
+
+| Felt | Registrert verdi |
+|---|---|
+| decisionId | wp13-12a-owner-decision-2026-07-25-r1 |
+| productOwnerNameOrReference | EXPLICIT_USER_CONFIRMATION_IN_CURRENT_CODEX_TASK |
+| selectedOption | FIREBASE_CAPABILITY |
+| selectedRegion | europe-north1 (SELECTED_CANDIDATE_NOT_PROVISIONED_OR_LOCKED) |
+| selectedCapabilityModel | FUNCTION_ISSUED_SHORT_LIVED_SESSION_CAPABILITY |
+| monthlyAlertThreshold | UNRESOLVED_MUST_BE_SET_BEFORE_PROVISIONING |
+| maximumMonthlyCost | UNRESOLVED_MUST_BE_SET_BEFORE_PROVISIONING |
+| killSwitchOwner | UNRESOLVED_MUST_BE_SET_BEFORE_PROVISIONING |
+| billingReviewer | UNRESOLVED_MUST_BE_SET_BEFORE_PROVISIONING |
+| stagingExpiryDate | UNRESOLVED_MUST_BE_SET_BEFORE_PROVISIONING |
+| automaticDeletionPolicy | UNRESOLVED_MUST_BE_SET_BEFORE_PROVISIONING |
+| signatureOrExplicitOwnerConfirmation | EXPLICIT_OWNER_CONFIRMATION; signaturePresent=false |
+| sourcePackageVersion | 13.12A.1 |
+| sourcePackageChecksum | f3830a640fd901f193279ed99338d923848acaef662e79e8a831e870a7813de7 |
+| sourceCommit | 929674d8a159ebd9ac6026c066f5dd044ebcea62 |
+| sourceTree | b1630a612bf176ccb121aa3e7d50d545f6f72b60 |
+
+## Bindende grenser
+
+- `ISOLATED_AND_TIME_LIMITED_SYNTHETIC_STAGING_ONLY`
+- `FIREBASE_CAPABILITY_ONLY_NO_STABLE_ACCOUNT_OR_ANONYMOUS_AUTH`
+- `NO_REAL_PARTICIPANT_SCHOOL_HEALTH_AUDIO_OR_DIAGNOSIS_DATA`
+- `NO_DIRECT_CLIENT_WRITE_TO_AUTHORITATIVE_STATE`
+- `NO_ANALYTICS_CRASHLYTICS_REMOTE_CONFIG_OR_CLOUD_STORAGE`
+- `PROVIDER_ACTIVATION_ONLY_WITHIN_WP13_12B`
+- `WP13_12B_STOPS_AFTER_DOCUMENTED_TECHNICAL_STAGING_PROOF`
+- `STUDENT_BETA_B8_RECRUITMENT_AND_PRODUCTION_REMAIN_BLOCKED`
+- `SEPARATE_IMPLEMENTATION_PROMPT_REQUIRED_TO_OPEN_WP13_12B`
+
+## Åpne pre-provisioning-sperrer
+
+- `MONTHLY_ALERT_THRESHOLD_NOT_SET`
+- `MAXIMUM_MONTHLY_COST_NOT_SET`
+- `KILL_SWITCH_OWNER_NOT_SET`
+- `BILLING_REVIEWER_NOT_SET`
+- `STAGING_EXPIRY_DATE_NOT_SET`
+- `AUTOMATIC_DELETION_POLICY_NOT_SET`
+- `LEGAL_DPA_DPIA_AND_SCHOOL_OWNER_REVIEWS_NOT_RESOLVED`
+- `PROVIDER_FACTS_PRICING_AND_REGION_MUST_BE_REVERIFIED_BEFORE_PROVISIONING`
+
+Denne registreringen åpner ikke WP13.12B, aktiverer ingen provider, oppretter ingen skyressurs og autoriserer ikke B8, studentbeta, rekruttering, ekte data eller produksjon. WP13.12B krever en separat implementeringsprompt og skal stoppe etter dokumentert teknisk stagingproof.

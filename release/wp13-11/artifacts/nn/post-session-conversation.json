@@ -1,0 +1,59 @@
+{
+  "artifactId": "wp13-11.post-session-conversation.nn.v1",
+  "artifactType": "POST_SESSION_CONVERSATION",
+  "version": "1.0.0-draft",
+  "locale": "nn",
+  "title": "Samtale etter dry-run",
+  "audience": [
+    "ADULT_OPERATOR",
+    "ADULT_REVIEWER"
+  ],
+  "status": "DRAFT_FOR_ADULT_REVIEW",
+  "reviewStatus": "REVIEW_REQUIRED",
+  "authorizationStatus": "ADULT_ONLY_SYNTHETIC_DRY_RUN_ONLY",
+  "purpose": "Strukturere ein vaksenreview utan lærings- eller personpåstandar.",
+  "allowedUse": [
+    "ADULT_ONLY_SYNTHETIC_DRY_RUN",
+    "LOCAL_INTERNAL_REVIEW",
+    "NO_REAL_PARTICIPANTS"
+  ],
+  "prohibitedUse": [
+    "STUDENT_USE",
+    "RECRUITMENT",
+    "REAL_PERSONAL_DATA",
+    "PROVIDER_ACTIVATION",
+    "PRODUCTION",
+    "B8_DECISION"
+  ],
+  "contentSections": [
+    {
+      "sectionId": "nn-section-01",
+      "heading": "Spørsmål",
+      "paragraphs": [
+        "Var instruksjonen forståeleg? Var STOPP tydeleg? Verka sletting, rollback og withdrawal?"
+      ]
+    },
+    {
+      "sectionId": "nn-section-02",
+      "heading": "Grense",
+      "paragraphs": [
+        "Svara skildrar berre operasjonen og kan ikkje tolkast som lærar- eller elevprestasjon."
+      ]
+    }
+  ],
+  "sourceReferences": [
+    "INTERNAL-WP13-11-SCOPE",
+    "INTERNAL-WP13-10-BASELINE"
+  ],
+  "amendmentHistory": [
+    {
+      "revision": 1,
+      "at": "2026-07-22T00:00:00.000Z",
+      "reason": "Initial WP13.11 adult-only review draft",
+      "externalReceipt": false
+    }
+  ],
+  "withdrawalStatus": "CURRENT",
+  "createdAt": "2026-07-22T00:00:00.000Z",
+  "updatedAt": "2026-07-22T00:00:00.000Z"
+}

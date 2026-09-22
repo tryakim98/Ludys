@@ -1,0 +1,91 @@
+{
+  "schemaVersion": "wp13.12b-actual-emulator-proof-v1",
+  "status": "ACTUAL_FIREBASE_EMULATOR_PROOF_PASSED_AND_HUMAN_CONFIRMED",
+  "completedAt": "2026-07-26T15:45:46.578Z",
+  "sourceCommit": "aea01ab61f49e6fa56160cf748ec3d3e1f7ced5a",
+  "sourceTree": "e431ae11d4ad1fa1d4dae0a95a0da35bd212e613",
+  "workingTreeDirty": false,
+  "environment": {
+    "operatingSystem": "win32 10.0.26200 x64",
+    "node": "v24.18.0",
+    "java": "openjdk version \"21.0.12\" 2026-07-21 LTS",
+    "firebaseCli": "15.22.4",
+    "firestoreEmulator": "1.21.0",
+    "demoProjectId": "demo-ludys-wp13-12b"
+  },
+  "artifact": {
+    "filename": "cloud-firestore-emulator-v1.21.0.jar",
+    "archiveForm": "SELF_EXTRACTING_JAR",
+    "bytes": 138093843,
+    "sha256": "c3d3680a89d946a90a027365ea14c26c6472a162bcf37f099bbb1ebd66d25e8e",
+    "downloadMethod": "firebase setup:emulators:firestore",
+    "officialManifest": "firebase-tools@15.22.4 downloadableEmulatorInfo.json"
+  },
+  "repositoryHashes": {
+    "packageLock": "6df9843dee9bdf6701d7970067134f9fdffc193307a21594095e8e3777edeb00",
+    "providerPackageLock": "5f37255d76e52abcdd0667bcb359da79e9e82d19e4bd3c101de923db4566c0b7",
+    "firebaseConfig": "a16f0d1808f99cfa515711a1afad4ea2fda7d82f367420568dc085c6a9a10612",
+    "functionsManifest": "f3c14e52bb5c4ecf60100a53fa64b55b62ec5975b2771cba9c92112e18931c2b",
+    "firestoreRules": "969cbbfe7700475df57822176ebc229dfa1f819883058ce812577b814f7d46f4"
+  },
+  "commandsRun": [
+    "firebase setup:emulators:firestore",
+    "npm run provider:emulator:import -- --artifact <verified-official-jar> --sha256 <published-sha256>",
+    "npm run provider:emulator:proof -- --authorized-local-emulator-proof",
+    "firebase emulators:exec --only firestore,functions --project demo-ludys-wp13-12b"
+  ],
+  "proofResults": {
+    "firestore_emulator": true,
+    "functions_emulator": true,
+    "deny_by_default_rules": true,
+    "no_direct_client_write": true,
+    "capability_issuance": true,
+    "child_capability": true,
+    "adult_capability": true,
+    "expiry": true,
+    "wrong_role": true,
+    "wrong_session": true,
+    "stale_version": true,
+    "stale_authority_generation": true,
+    "duplicate_command": true,
+    "wait": true,
+    "help": true,
+    "pause": true,
+    "stop": true,
+    "delayed_command_after_stop": true,
+    "deletion": true,
+    "tombstone": true,
+    "reconnect_after_deletion": true,
+    "kill_switch": true,
+    "cached_capability_after_kill_switch": true,
+    "child_adult_projection_isolation": true,
+    "no_resurrection": true,
+    "rollback_to_safe_disabled_state": true,
+    "forbidden_data_classes_absent": true,
+    "capability_and_payload_absent_from_logs": true
+  },
+  "ruleCoverageSha256": "ff87758c4a867154c5e04268bd5c746b0b559221af015ef5931ffec40ab7627b",
+  "firestoreDocumentCountsBeforeCleanup": {
+    "syntheticStagingControl": 1,
+    "syntheticSessions": 0,
+    "syntheticCapabilityGrants": 10,
+    "syntheticSessionTombstones": 5
+  },
+  "syntheticDataDeleted": true,
+  "cloudResourcesCreated": 0,
+  "providerLoginAttempted": false,
+  "billingChanged": false,
+  "realParticipantData": false,
+  "humanConfirmation": {
+    "confirmed": true,
+    "status": "EXPLICITLY_CONFIRMED_BY_PRODUCT_OWNER",
+    "confirmationText": "BEKREFT_EMULATOR_PROOF; projectId=ludys-12b-stg-20260725; Google-konto=tryakim@gmail.com; organisasjon=724335528970; billingAccount=01CD9D-0900DF-4FB36A",
+    "confirmedAt": "2026-07-26T23:37:20.4429661Z"
+  },
+  "limitations": [
+    "Local emulator proof is not physical two-device proof.",
+    "Local emulator proof does not prove cloud IAM, billing, deployment protection or production readiness.",
+    "The Functions Emulator reports its SDK compatibility warning because this narrow provider package uses Functions Framework entry points without firebase-functions or firebase-admin; the named ESM handlers were nevertheless invoked by the emulator.",
+    "B8, student beta, recruitment, real data, production and WP13.12C remain blocked."
+  ]
+}

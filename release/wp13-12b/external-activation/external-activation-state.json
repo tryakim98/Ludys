@@ -1,0 +1,58 @@
+{
+  "schemaVersion": "wp13.12b-ea-state-v1",
+  "overlayId": "wp13-12b-ea-current-state",
+  "overlayStatus": "IN_PROGRESS_AUTHENTIC_EVIDENCE_PENDING",
+  "pr3": "NOT_ACHIEVED",
+  "pr3ProofFamilies": {
+    "EMULATOR": "NOT_RECORDED",
+    "IAM_AND_BILLING": "NOT_RECORDED",
+    "FIREBASE_DISABLED_FIRST_DEPLOYMENT": "NOT_RECORDED",
+    "PROTECTED_PREVIEW": "NOT_RECORDED",
+    "PHYSICAL_TWO_DEVICE": "NOT_RECORDED",
+    "STOP_DELETION_NO_RESURRECTION": "NOT_RECORDED",
+    "KILL_SWITCH": "NOT_RECORDED",
+    "ROLLBACK_TO_SAFE_DISABLED_STATE": "NOT_RECORDED"
+  },
+  "historicalRepositoryBaseline": {
+    "authorizationStatusPath": "release/wp13-12b/authorization-status.json",
+    "repositoryContractPath": "release/wp13-12b/staging-activation/repository-contract.json",
+    "preservedWithoutMutation": true,
+    "providerActivationAtRepositoryPhase": "BLOCKED",
+    "cloudResourcesAtRepositoryPhase": 0,
+    "externalReceiptsAtRepositoryPhase": 0
+  },
+  "authorizationEvidence": [
+    "release/wp13-12b/external-activation/owner-authorization.json",
+    "release/wp13-12b/external-activation/cloud-field-approval.json"
+  ],
+  "evidence": {
+    "historicalReceiptPaths": [
+      "release/wp13-12b/receipts/actual/emulator-proof-receipt-2026-07-26.json"
+    ],
+    "historicalReceiptCount": 1,
+    "historicalEmulatorProof": "PRESERVED_NOT_FRESH_V2_NONCE_EVIDENCE",
+    "validatedReceiptPaths": [],
+    "validatedReceiptCount": 0,
+    "emulatorProof": "NOT_RECORDED",
+    "cloudProviderReadback": "PENDING_AUTHENTIC_RECEIPTS",
+    "physicalTwoDeviceProof": "NOT_PERFORMED"
+  },
+  "cloudState": {
+    "inventoryPath": "release/wp13-12b/external-activation/resource-inventory.json",
+    "inventoryStatus": "PENDING_AUTHENTIC_PROVIDER_READBACK",
+    "resourceCount": null,
+    "zeroResourcesAsserted": false,
+    "providerActivation": "IN_PROGRESS_NOT_YET_RECEIPT_COMPLETE"
+  },
+  "safetyCeilings": {
+    "syntheticDataOnly": true,
+    "realParticipantData": false,
+    "stableParticipantIdentity": false,
+    "firebaseAuthentication": false,
+    "studentBeta": "NOT_AUTHORIZED",
+    "recruitment": "NOT_AUTHORIZED",
+    "production": "NOT_AUTHORIZED",
+    "b8": "NOT_DECISION_READY",
+    "wp13_12c": "BLOCKED"
+  }
+}

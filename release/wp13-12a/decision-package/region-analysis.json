@@ -1,0 +1,73 @@
+{
+  "schemaVersion": "wp13.12a-region-analysis-v1",
+  "recommendation": "europe-north1",
+  "regionLockNotExecuted": true,
+  "rows": [
+    {
+      "regionId": "europe-north1",
+      "databaseLocation": "europe-north1 (Finland)",
+      "functionLocation": "europe-north1 (2nd gen)",
+      "colocated": true,
+      "locationType": "REGIONAL",
+      "availability": "Firestore regional SLA target 99.99%",
+      "latencyAssessment": "Closest verified co-located Google candidate to Norway",
+      "costAssessment": "Regional lower-cost direction; exact SKU quote must be rechecked",
+      "migration": "Firestore location is immutable; new database migration required",
+      "immutableAfterProvisioning": true,
+      "serviceSupport": [
+        "Cloud Firestore Standard",
+        "Cloud Functions 2nd gen"
+      ],
+      "legalResidualQuestion": "Finland storage does not settle support, service data, transfer, DPA or school-owner review.",
+      "sourceIds": [
+        "FIREBASE-FIRESTORE-LOCATIONS",
+        "FIREBASE-FUNCTIONS-LOCATIONS",
+        "FIREBASE-PRIVACY"
+      ],
+      "status": "RECOMMENDED"
+    },
+    {
+      "regionId": "europe-north2",
+      "databaseLocation": "europe-north2 (Stockholm)",
+      "functionLocation": "No same-region Functions support verified in cited Firebase table",
+      "colocated": false,
+      "locationType": "REGIONAL",
+      "availability": "Firestore regional SLA target 99.99%",
+      "latencyAssessment": "Geographically relevant but cross-region handler required",
+      "costAssessment": "Potential cross-region latency and egress",
+      "migration": "Firestore location is immutable",
+      "immutableAfterProvisioning": true,
+      "serviceSupport": [
+        "Cloud Firestore Standard"
+      ],
+      "legalResidualQuestion": "Same unresolved contract and transfer questions.",
+      "sourceIds": [
+        "FIREBASE-FIRESTORE-LOCATIONS",
+        "FIREBASE-FUNCTIONS-LOCATIONS"
+      ],
+      "status": "NOT_RECOMMENDED"
+    },
+    {
+      "regionId": "eur3",
+      "databaseLocation": "eur3 (Belgium/Netherlands with Finland witness)",
+      "functionLocation": "europe-west1 nearest documented",
+      "colocated": false,
+      "locationType": "MULTI_REGION",
+      "availability": "Firestore multi-region SLA target 99.999%",
+      "latencyAssessment": "Higher availability but not a same-region Functions pair",
+      "costAssessment": "Higher availability and cost direction",
+      "migration": "Firestore location is immutable",
+      "immutableAfterProvisioning": true,
+      "serviceSupport": [
+        "Cloud Firestore multi-region",
+        "Cloud Functions 2nd gen in nearest region"
+      ],
+      "legalResidualQuestion": "Multiple regions expand the factual data-location description and do not settle legal acceptance.",
+      "sourceIds": [
+        "FIREBASE-FIRESTORE-LOCATIONS",
+        "FIREBASE-FUNCTIONS-LOCATIONS"
+      ],
+      "status": "ACCEPTABLE_FALLBACK"
+    }
+  ]
+}

@@ -1,0 +1,91 @@
+{
+  "schemaVersion": "wp13.12b-ea-owner-authorization-v1",
+  "authorizationId": "wp13-12b-ea-owner-authorization-2026-07-25-r1",
+  "recordedAt": "2026-07-25",
+  "ownerReference": "EXPLICIT_PRODUCT_OWNER_IN_CURRENT_CODEX_TASK",
+  "ownerSelfAttestation": "ONE_HUNDRED_PERCENT_OWNER",
+  "authorization": "AUTHORIZE_WP13_12B_EXTERNAL_ACTIVATION",
+  "authorizationStatus": "AUTHORIZED_WITHIN_RECORDED_LIMITS",
+  "scope": "ISOLATED_SYNTHETIC_DEV_STAGING_ONLY",
+  "selectedOption": "FIREBASE_CAPABILITY",
+  "selectedRegion": "europe-north1",
+  "selectedCapabilityModel": "FUNCTION_ISSUED_SHORT_LIVED_SESSION_CAPABILITY",
+  "monthlyAlertThreshold": {
+    "currency": "NOK",
+    "amount": 400,
+    "effect": "MONITORING_ALERT_NOT_A_HARD_SPEND_CAP"
+  },
+  "maximumMonthlyCost": {
+    "currency": "NOK",
+    "amount": 500,
+    "effect": "OWNER_ACCEPTANCE_CEILING_REQUIRES_KILL_SWITCH_RESPONSE"
+  },
+  "killSwitchOwner": "PRODUCT_OWNER_SELF",
+  "billingReviewer": "PRODUCT_OWNER_SELF",
+  "stagingExpiryDate": "2027-01-25",
+  "initialTerm": "SIX_MONTHS",
+  "extensionPolicy": "NEW_EXPLICIT_PRODUCT_OWNER_DECISION_REQUIRED",
+  "automaticDeletionPolicy": {
+    "authorized": true,
+    "atExpiry": [
+      "DISABLE_STAGING_AND_ADVANCE_CONTROL_EPOCH",
+      "DELETE_ALL_EXTERNAL_RESOURCES_PER_DESTRUCTION_PLAN"
+    ],
+    "destructionPlan": "release/wp13-12b/activation-handoff/destruction-plan.json"
+  },
+  "authorizedServices": [
+    "Cloud Firestore Standard regional",
+    "Cloud Functions 2nd gen",
+    "Secret Manager for one server-only capability key",
+    "Cloud Billing budget and alerts",
+    "Vercel protected preview"
+  ],
+  "servicesRequiredToRemainOff": [
+    "Firebase Authentication",
+    "Anonymous Authentication",
+    "Analytics",
+    "Crashlytics",
+    "Performance Monitoring",
+    "Remote Config",
+    "Cloud Storage",
+    "backup and PITR",
+    "runtime AI",
+    "production domain"
+  ],
+  "authorizationBoundaries": {
+    "syntheticDataOnly": true,
+    "realParticipantData": false,
+    "stableParticipantIdentity": false,
+    "studentBeta": false,
+    "recruitment": false,
+    "production": false,
+    "wp13_12c": false
+  },
+  "completedAuthorizationGates": [
+    "EXTERNAL_SYNTHETIC_ACTIVATION",
+    "LOCAL_EMULATOR_DOWNLOAD_AND_PROOF",
+    "LOCAL_PROVIDER_REAUDIT",
+    "BILLING_LIMITS_AND_REVIEWER",
+    "REGION",
+    "KILL_SWITCH_OWNER",
+    "STAGING_EXPIRY_AND_DESTRUCTION_POLICY"
+  ],
+  "irreversibleFieldsStillRequiringExplicitDisplayAndApproval": [
+    "plannedProjectId",
+    "projectDisplayName",
+    "approvedGoogleAccountOrOrganizationContext",
+    "approvedBillingAccount"
+  ],
+  "projectCreationStatus": "BLOCKED_PENDING_EXPLICIT_IRREVERSIBLE_FIELD_APPROVAL",
+  "cloudResourcesAtRecording": 0,
+  "providerLoginAttemptedAtRecording": false,
+  "sourceBaselineCommit": "01a2537f4e0c0458473820a5d7427fc22cb999c8",
+  "sourceBaselineTree": "cbc93e23a3dd4d422eb969c5ef1d0dafa691dd4c",
+  "humanSignatureOrExplicitConfirmation": {
+    "kind": "EXPLICIT_OWNER_CONFIRMATION",
+    "confirmed": true,
+    "confirmationText": "AUTHORIZE_WP13_12B_EXTERNAL_ACTIVATION; varselgrense=400 NOK; billing reviewer=meg; ved utløp deaktiveres staging og alle eksterne ressurser slettes etter destruction-planen.",
+    "confirmationReference": "CURRENT_CODEX_TASK_USER_MESSAGE_2026_07_25",
+    "signaturePresent": false
+  }
+}

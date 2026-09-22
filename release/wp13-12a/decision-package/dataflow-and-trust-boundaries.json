@@ -1,0 +1,665 @@
+{
+  "schemaVersion": "wp13.12a-dataflow-trust-v1",
+  "dataflow": [
+    {
+      "stepId": "PROTECTED_PREVIEW",
+      "dataIn": [
+        "releaseId"
+      ],
+      "dataOut": [
+        "static application shell"
+      ],
+      "authority": "Vercel deployment protection",
+      "validation": [
+        "authenticated preview access"
+      ],
+      "trustBoundary": "TB-CLIENT-PREVIEW",
+      "allowedFields": [
+        "syntheticSessionId",
+        "syntheticRole",
+        "stateVersion",
+        "authorityGeneration",
+        "closedCommandType",
+        "syntheticSessionState",
+        "minimumRoleProjection",
+        "expiryTimestamp",
+        "tombstone",
+        "releaseId",
+        "coarseTechnicalEventCode"
+      ],
+      "prohibitedFields": [
+        "participant data",
+        "free text",
+        "capability",
+        "pedagogical payload"
+      ],
+      "failureMode": "FAIL_CLOSED_WITH_TYPED_DENIAL; STOP_REMAINS_DOMINANT",
+      "deletionBehavior": "No deleted payload is retained or reconstructed",
+      "loggingBehavior": "No request or response body"
+    },
+    {
+      "stepId": "CLIENT",
+      "dataIn": [
+        "synthetic user action"
+      ],
+      "dataOut": [
+        "closed command envelope"
+      ],
+      "authority": "no authoritative state",
+      "validation": [
+        "closed command type",
+        "local schema"
+      ],
+      "trustBoundary": "TB-CLIENT-AUTHORITY",
+      "allowedFields": [
+        "syntheticSessionId",
+        "syntheticRole",
+        "stateVersion",
+        "authorityGeneration",
+        "closedCommandType",
+        "syntheticSessionState",
+        "minimumRoleProjection",
+        "expiryTimestamp",
+        "tombstone",
+        "releaseId",
+        "coarseTechnicalEventCode"
+      ],
+      "prohibitedFields": [
+        "participant data",
+        "free text",
+        "capability",
+        "pedagogical payload"
+      ],
+      "failureMode": "FAIL_CLOSED_WITH_TYPED_DENIAL; STOP_REMAINS_DOMINANT",
+      "deletionBehavior": "No deleted payload is retained or reconstructed",
+      "loggingBehavior": "No request or response body"
+    },
+    {
+      "stepId": "TRANSPORT_PORT",
+      "dataIn": [
+        "command envelope",
+        "capability"
+      ],
+      "dataOut": [
+        "validated request"
+      ],
+      "authority": "transport only",
+      "validation": [
+        "HTTPS",
+        "size",
+        "content type",
+        "CORS"
+      ],
+      "trustBoundary": "TB-CLIENT-AUTHORITY",
+      "allowedFields": [
+        "syntheticSessionId",
+        "syntheticRole",
+        "stateVersion",
+        "authorityGeneration",
+        "closedCommandType",
+        "syntheticSessionState",
+        "minimumRoleProjection",
+        "expiryTimestamp",
+        "tombstone",
+        "releaseId",
+        "coarseTechnicalEventCode"
+      ],
+      "prohibitedFields": [
+        "participant data",
+        "free text",
+        "capability",
+        "pedagogical payload"
+      ],
+      "failureMode": "FAIL_CLOSED_WITH_TYPED_DENIAL; STOP_REMAINS_DOMINANT",
+      "deletionBehavior": "No deleted payload is retained or reconstructed",
+      "loggingBehavior": "No request or response body"
+    },
+    {
+      "stepId": "AUTHORITATIVE_HANDLER",
+      "dataIn": [
+        "validated request"
+      ],
+      "dataOut": [
+        "accepted or typed denial"
+      ],
+      "authority": "sole command authority",
+      "validation": [
+        "capability",
+        "role",
+        "session",
+        "authority generation",
+        "expected revision",
+        "rate limit"
+      ],
+      "trustBoundary": "TB-AUTHORITY-PURE-CORE",
+      "allowedFields": [
+        "syntheticSessionId",
+        "syntheticRole",
+        "stateVersion",
+        "authorityGeneration",
+        "closedCommandType",
+        "syntheticSessionState",
+        "minimumRoleProjection",
+        "expiryTimestamp",
+        "tombstone",
+        "releaseId",
+        "coarseTechnicalEventCode"
+      ],
+      "prohibitedFields": [
+        "participant data",
+        "free text",
+        "capability",
+        "pedagogical payload"
+      ],
+      "failureMode": "FAIL_CLOSED_WITH_TYPED_DENIAL; STOP_REMAINS_DOMINANT",
+      "deletionBehavior": "No deleted payload is retained or reconstructed",
+      "loggingBehavior": "No request or response body"
+    },
+    {
+      "stepId": "PURE_CORE",
+      "dataIn": [
+        "current state",
+        "closed command"
+      ],
+      "dataOut": [
+        "deterministic transition"
+      ],
+      "authority": "provider-free transition authority",
+      "validation": [
+        "invariants",
+        "STOP dominance",
+        "WAIT",
+        "no-resurrection"
+      ],
+      "trustBoundary": "TB-AUTHORITY-PURE-CORE",
+      "allowedFields": [
+        "syntheticSessionId",
+        "syntheticRole",
+        "stateVersion",
+        "authorityGeneration",
+        "closedCommandType",
+        "syntheticSessionState",
+        "minimumRoleProjection",
+        "expiryTimestamp",
+        "tombstone",
+        "releaseId",
+        "coarseTechnicalEventCode"
+      ],
+      "prohibitedFields": [
+        "participant data",
+        "free text",
+        "capability",
+        "pedagogical payload"
+      ],
+      "failureMode": "FAIL_CLOSED_WITH_TYPED_DENIAL; STOP_REMAINS_DOMINANT",
+      "deletionBehavior": "No deleted payload is retained or reconstructed",
+      "loggingBehavior": "No request or response body"
+    },
+    {
+      "stepId": "AUTHORITATIVE_STORE",
+      "dataIn": [
+        "accepted transition"
+      ],
+      "dataOut": [
+        "versioned synthetic state or tombstone"
+      ],
+      "authority": "authoritative persistence",
+      "validation": [
+        "compare-and-set revision",
+        "tombstone dominance"
+      ],
+      "trustBoundary": "TB-AUTHORITY-STORE",
+      "allowedFields": [
+        "syntheticSessionId",
+        "syntheticRole",
+        "stateVersion",
+        "authorityGeneration",
+        "closedCommandType",
+        "syntheticSessionState",
+        "minimumRoleProjection",
+        "expiryTimestamp",
+        "tombstone",
+        "releaseId",
+        "coarseTechnicalEventCode"
+      ],
+      "prohibitedFields": [
+        "participant data",
+        "free text",
+        "capability",
+        "pedagogical payload"
+      ],
+      "failureMode": "FAIL_CLOSED_WITH_TYPED_DENIAL; STOP_REMAINS_DOMINANT",
+      "deletionBehavior": "Explicit delete writes minimal tombstone atomically",
+      "loggingBehavior": "No request or response body"
+    },
+    {
+      "stepId": "ROLE_PROJECTION",
+      "dataIn": [
+        "authoritative state",
+        "bound role"
+      ],
+      "dataOut": [
+        "minimum role projection"
+      ],
+      "authority": "handler-selected projection",
+      "validation": [
+        "role allowlist",
+        "no cross-role fields"
+      ],
+      "trustBoundary": "TB-CLIENT-AUTHORITY",
+      "allowedFields": [
+        "syntheticSessionId",
+        "syntheticRole",
+        "stateVersion",
+        "authorityGeneration",
+        "closedCommandType",
+        "syntheticSessionState",
+        "minimumRoleProjection",
+        "expiryTimestamp",
+        "tombstone",
+        "releaseId",
+        "coarseTechnicalEventCode"
+      ],
+      "prohibitedFields": [
+        "participant data",
+        "free text",
+        "capability",
+        "pedagogical payload"
+      ],
+      "failureMode": "FAIL_CLOSED_WITH_TYPED_DENIAL; STOP_REMAINS_DOMINANT",
+      "deletionBehavior": "No deleted payload is retained or reconstructed",
+      "loggingBehavior": "No request or response body"
+    },
+    {
+      "stepId": "TECHNICAL_OBSERVABILITY",
+      "dataIn": [
+        "coarse event code",
+        "release",
+        "region"
+      ],
+      "dataOut": [
+        "health and denial counters"
+      ],
+      "authority": "operations only",
+      "validation": [
+        "allowlist",
+        "redaction",
+        "no payload"
+      ],
+      "trustBoundary": "TB-OPS-LOGGING",
+      "allowedFields": [
+        "syntheticSessionId",
+        "syntheticRole",
+        "stateVersion",
+        "authorityGeneration",
+        "closedCommandType",
+        "syntheticSessionState",
+        "minimumRoleProjection",
+        "expiryTimestamp",
+        "tombstone",
+        "releaseId",
+        "coarseTechnicalEventCode"
+      ],
+      "prohibitedFields": [
+        "participant data",
+        "free text",
+        "capability",
+        "pedagogical payload"
+      ],
+      "failureMode": "FAIL_CLOSED_WITH_TYPED_DENIAL; STOP_REMAINS_DOMINANT",
+      "deletionBehavior": "No deleted payload is retained or reconstructed",
+      "loggingBehavior": "Coarse allowlist only"
+    }
+  ],
+  "trustBoundaries": [
+    {
+      "boundaryId": "TB-CLIENT-PREVIEW",
+      "from": "Browser",
+      "to": "Protected preview",
+      "allowedData": [
+        "syntheticSessionId",
+        "syntheticRole",
+        "stateVersion",
+        "authorityGeneration",
+        "closedCommandType",
+        "syntheticSessionState",
+        "minimumRoleProjection",
+        "expiryTimestamp",
+        "tombstone",
+        "releaseId",
+        "coarseTechnicalEventCode"
+      ],
+      "prohibitedData": [
+        "real participant data",
+        "capability logs",
+        "request body",
+        "pedagogical response",
+        "stable identity"
+      ],
+      "authenticationOrCapability": "WORKLOAD_OR_OPERATOR_IDENTITY_AS_APPLICABLE",
+      "authorization": "LEAST_PRIVILEGE_ALLOWLIST; DENY_BY_DEFAULT",
+      "validation": [
+        "schema",
+        "role",
+        "revision",
+        "authority generation",
+        "scope"
+      ],
+      "encryption": "TLS_IN_TRANSIT; PROVIDER_ENCRYPTION_AT_REST; CONTRACT_REVIEW_OPEN",
+      "logging": "COARSE_TECHNICAL_ALLOWLIST_WITH_REDACTION",
+      "failureBehavior": "DENY; DO_NOT MUTATE; DO NOT RESURRECT",
+      "threats": [
+        "credential theft",
+        "payload leakage",
+        "overbroad authority",
+        "stale command"
+      ],
+      "controls": [
+        "short lifetime",
+        "rate limiting",
+        "least privilege",
+        "tombstone",
+        "kill switch"
+      ],
+      "residualRisk": "Provider metadata, operator error and configuration drift remain open until environment proof and human review."
+    },
+    {
+      "boundaryId": "TB-CLIENT-AUTHORITY",
+      "from": "Browser client",
+      "to": "Authoritative handler",
+      "allowedData": [
+        "syntheticSessionId",
+        "syntheticRole",
+        "stateVersion",
+        "authorityGeneration",
+        "closedCommandType",
+        "syntheticSessionState",
+        "minimumRoleProjection",
+        "expiryTimestamp",
+        "tombstone",
+        "releaseId",
+        "coarseTechnicalEventCode"
+      ],
+      "prohibitedData": [
+        "real participant data",
+        "capability logs",
+        "request body",
+        "pedagogical response",
+        "stable identity"
+      ],
+      "authenticationOrCapability": "SHORT_LIVED_SESSION_CAPABILITY",
+      "authorization": "LEAST_PRIVILEGE_ALLOWLIST; DENY_BY_DEFAULT",
+      "validation": [
+        "schema",
+        "role",
+        "revision",
+        "authority generation",
+        "scope"
+      ],
+      "encryption": "TLS_IN_TRANSIT; PROVIDER_ENCRYPTION_AT_REST; CONTRACT_REVIEW_OPEN",
+      "logging": "COARSE_TECHNICAL_ALLOWLIST_WITH_REDACTION",
+      "failureBehavior": "DENY; DO_NOT MUTATE; DO NOT RESURRECT",
+      "threats": [
+        "credential theft",
+        "payload leakage",
+        "overbroad authority",
+        "stale command"
+      ],
+      "controls": [
+        "short lifetime",
+        "rate limiting",
+        "least privilege",
+        "tombstone",
+        "kill switch"
+      ],
+      "residualRisk": "Provider metadata, operator error and configuration drift remain open until environment proof and human review."
+    },
+    {
+      "boundaryId": "TB-AUTHORITY-STORE",
+      "from": "Authoritative handler",
+      "to": "Authoritative store",
+      "allowedData": [
+        "syntheticSessionId",
+        "syntheticRole",
+        "stateVersion",
+        "authorityGeneration",
+        "closedCommandType",
+        "syntheticSessionState",
+        "minimumRoleProjection",
+        "expiryTimestamp",
+        "tombstone",
+        "releaseId",
+        "coarseTechnicalEventCode"
+      ],
+      "prohibitedData": [
+        "real participant data",
+        "capability logs",
+        "request body",
+        "pedagogical response",
+        "stable identity"
+      ],
+      "authenticationOrCapability": "WORKLOAD_OR_OPERATOR_IDENTITY_AS_APPLICABLE",
+      "authorization": "LEAST_PRIVILEGE_ALLOWLIST; DENY_BY_DEFAULT",
+      "validation": [
+        "schema",
+        "role",
+        "revision",
+        "authority generation",
+        "scope"
+      ],
+      "encryption": "TLS_IN_TRANSIT; PROVIDER_ENCRYPTION_AT_REST; CONTRACT_REVIEW_OPEN",
+      "logging": "COARSE_TECHNICAL_ALLOWLIST_WITH_REDACTION",
+      "failureBehavior": "DENY; DO_NOT MUTATE; DO NOT RESURRECT",
+      "threats": [
+        "credential theft",
+        "payload leakage",
+        "overbroad authority",
+        "stale command"
+      ],
+      "controls": [
+        "short lifetime",
+        "rate limiting",
+        "least privilege",
+        "tombstone",
+        "kill switch"
+      ],
+      "residualRisk": "Provider metadata, operator error and configuration drift remain open until environment proof and human review."
+    },
+    {
+      "boundaryId": "TB-AUTHORITY-PURE-CORE",
+      "from": "Authoritative handler",
+      "to": "Provider-free pure core",
+      "allowedData": [
+        "syntheticSessionId",
+        "syntheticRole",
+        "stateVersion",
+        "authorityGeneration",
+        "closedCommandType",
+        "syntheticSessionState",
+        "minimumRoleProjection",
+        "expiryTimestamp",
+        "tombstone",
+        "releaseId",
+        "coarseTechnicalEventCode"
+      ],
+      "prohibitedData": [
+        "real participant data",
+        "capability logs",
+        "request body",
+        "pedagogical response",
+        "stable identity"
+      ],
+      "authenticationOrCapability": "WORKLOAD_OR_OPERATOR_IDENTITY_AS_APPLICABLE",
+      "authorization": "LEAST_PRIVILEGE_ALLOWLIST; DENY_BY_DEFAULT",
+      "validation": [
+        "schema",
+        "role",
+        "revision",
+        "authority generation",
+        "scope"
+      ],
+      "encryption": "TLS_IN_TRANSIT; PROVIDER_ENCRYPTION_AT_REST; CONTRACT_REVIEW_OPEN",
+      "logging": "COARSE_TECHNICAL_ALLOWLIST_WITH_REDACTION",
+      "failureBehavior": "DENY; DO_NOT MUTATE; DO NOT RESURRECT",
+      "threats": [
+        "credential theft",
+        "payload leakage",
+        "overbroad authority",
+        "stale command"
+      ],
+      "controls": [
+        "short lifetime",
+        "rate limiting",
+        "least privilege",
+        "tombstone",
+        "kill switch"
+      ],
+      "residualRisk": "Provider metadata, operator error and configuration drift remain open until environment proof and human review."
+    },
+    {
+      "boundaryId": "TB-OPS-LOGGING",
+      "from": "Runtime",
+      "to": "Technical observability",
+      "allowedData": [
+        "releaseId",
+        "coarseTechnicalEventCode",
+        "region"
+      ],
+      "prohibitedData": [
+        "real participant data",
+        "capability logs",
+        "request body",
+        "pedagogical response",
+        "stable identity"
+      ],
+      "authenticationOrCapability": "WORKLOAD_OR_OPERATOR_IDENTITY_AS_APPLICABLE",
+      "authorization": "LEAST_PRIVILEGE_ALLOWLIST; DENY_BY_DEFAULT",
+      "validation": [
+        "schema",
+        "role",
+        "revision",
+        "authority generation",
+        "scope"
+      ],
+      "encryption": "TLS_IN_TRANSIT; PROVIDER_ENCRYPTION_AT_REST; CONTRACT_REVIEW_OPEN",
+      "logging": "COARSE_TECHNICAL_ALLOWLIST_WITH_REDACTION",
+      "failureBehavior": "DENY; DO_NOT MUTATE; DO NOT RESURRECT",
+      "threats": [
+        "credential theft",
+        "payload leakage",
+        "overbroad authority",
+        "stale command"
+      ],
+      "controls": [
+        "short lifetime",
+        "rate limiting",
+        "least privilege",
+        "tombstone",
+        "kill switch"
+      ],
+      "residualRisk": "Provider metadata, operator error and configuration drift remain open until environment proof and human review."
+    },
+    {
+      "boundaryId": "TB-CI-DEPLOY",
+      "from": "CI/deployer",
+      "to": "Isolated dev project",
+      "allowedData": [
+        "syntheticSessionId",
+        "syntheticRole",
+        "stateVersion",
+        "authorityGeneration",
+        "closedCommandType",
+        "syntheticSessionState",
+        "minimumRoleProjection",
+        "expiryTimestamp",
+        "tombstone",
+        "releaseId",
+        "coarseTechnicalEventCode"
+      ],
+      "prohibitedData": [
+        "real participant data",
+        "capability logs",
+        "request body",
+        "pedagogical response",
+        "stable identity"
+      ],
+      "authenticationOrCapability": "WORKLOAD_OR_OPERATOR_IDENTITY_AS_APPLICABLE",
+      "authorization": "LEAST_PRIVILEGE_ALLOWLIST; DENY_BY_DEFAULT",
+      "validation": [
+        "schema",
+        "role",
+        "revision",
+        "authority generation",
+        "scope"
+      ],
+      "encryption": "TLS_IN_TRANSIT; PROVIDER_ENCRYPTION_AT_REST; CONTRACT_REVIEW_OPEN",
+      "logging": "COARSE_TECHNICAL_ALLOWLIST_WITH_REDACTION",
+      "failureBehavior": "DENY; DO_NOT MUTATE; DO NOT RESURRECT",
+      "threats": [
+        "credential theft",
+        "payload leakage",
+        "overbroad authority",
+        "stale command"
+      ],
+      "controls": [
+        "short lifetime",
+        "rate limiting",
+        "least privilege",
+        "tombstone",
+        "kill switch"
+      ],
+      "residualRisk": "Provider metadata, operator error and configuration drift remain open until environment proof and human review."
+    },
+    {
+      "boundaryId": "TB-SUPPORT",
+      "from": "Authorized operator",
+      "to": "Provider support",
+      "allowedData": [
+        "syntheticSessionId",
+        "syntheticRole",
+        "stateVersion",
+        "authorityGeneration",
+        "closedCommandType",
+        "syntheticSessionState",
+        "minimumRoleProjection",
+        "expiryTimestamp",
+        "tombstone",
+        "releaseId",
+        "coarseTechnicalEventCode"
+      ],
+      "prohibitedData": [
+        "real participant data",
+        "capability logs",
+        "request body",
+        "pedagogical response",
+        "stable identity"
+      ],
+      "authenticationOrCapability": "WORKLOAD_OR_OPERATOR_IDENTITY_AS_APPLICABLE",
+      "authorization": "LEAST_PRIVILEGE_ALLOWLIST; DENY_BY_DEFAULT",
+      "validation": [
+        "schema",
+        "role",
+        "revision",
+        "authority generation",
+        "scope"
+      ],
+      "encryption": "TLS_IN_TRANSIT; PROVIDER_ENCRYPTION_AT_REST; CONTRACT_REVIEW_OPEN",
+      "logging": "COARSE_TECHNICAL_ALLOWLIST_WITH_REDACTION",
+      "failureBehavior": "DENY; DO_NOT MUTATE; DO NOT RESURRECT",
+      "threats": [
+        "credential theft",
+        "payload leakage",
+        "overbroad authority",
+        "stale command"
+      ],
+      "controls": [
+        "short lifetime",
+        "rate limiting",
+        "least privilege",
+        "tombstone",
+        "kill switch"
+      ],
+      "residualRisk": "Provider metadata, operator error and configuration drift remain open until environment proof and human review."
+    }
+  ]
+}

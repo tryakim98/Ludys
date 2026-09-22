@@ -1,0 +1,20 @@
+{
+  "schemaVersion": "wp13.11-authorization-status-v1",
+  "operationsKit": "READY_FOR_ADULT_ONLY_DRY_RUN",
+  "externalReceipts": 0,
+  "b8": "NOT_DECISION_READY",
+  "studentBetaAuthorized": false,
+  "recruitmentAuthorized": false,
+  "parentContactForParticipationAuthorized": false,
+  "realStudentDataAuthorized": false,
+  "realParentDataAuthorized": false,
+  "realTeacherDataAuthorized": false,
+  "realSchoolDataAuthorized": false,
+  "providerActivation": false,
+  "productionAuthorized": false,
+  "runtimeAiPresent": false,
+  "participantDraftsAuthorized": false,
+  "legalApprovalPresent": false,
+  "ethicsApprovalPresent": false,
+  "schoolOwnerDecisionPresent": false
+}

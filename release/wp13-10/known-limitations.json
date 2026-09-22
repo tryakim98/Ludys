@@ -1,0 +1,27 @@
+{
+  "schemaVersion": "wp13.10-known-limitations-v1",
+  "manualReviewRequired": [
+    "Norwegian reading-specialist review",
+    "Separate BM and NN review",
+    "Construct, pronunciation and naturalness review",
+    "Rights and voice-consent review",
+    "Manual accessibility and physical-device review"
+  ],
+  "notTested": [
+    "Firefox locally",
+    "Safari/iOS",
+    "Physical Android",
+    "Production service worker",
+    "Production rollback"
+  ],
+  "notAuthorized": [
+    "Real student data",
+    "Provider activation",
+    "Production deployment",
+    "Runtime AI",
+    "B8 decision",
+    "Student beta"
+  ],
+  "p0Open": 0,
+  "p1Open": 0
+}

@@ -1,0 +1,38 @@
+{
+  "schemaVersion": "wp13.12b-external-preview-copy-review-v2",
+  "status": "HUMAN_APPROVED_FOR_EXTERNAL_DEPLOYMENT",
+  "fallbackAllowed": false,
+  "audio": "NOT_PRESENT",
+  "requiredHumanApprovalStatement": "GODKJENN_WP13_12B_PREVIEW_TEKST_R2; FELLES=godkjent; BM=godkjent; NN=godkjent; sourceSetSha256=bf3ecfc58ae713bf91dd53f27b6ad5b9750a65b76bf5b73261526cae7db21d80",
+  "approvalMetadata": {
+    "confirmationChannel": "CODEX_EXPLICIT_HUMAN_CONFIRMATION",
+    "humanApprovalStatement": "GODKJENN_WP13_12B_PREVIEW_TEKST_R2; FELLES=godkjent; BM=godkjent; NN=godkjent; sourceSetSha256=bf3ecfc58ae713bf91dd53f27b6ad5b9750a65b76bf5b73261526cae7db21d80",
+    "reviewerIdentity": "tryakim@gmail.com",
+    "reviewerRole": "PRODUCT_OWNER",
+    "reviewedAt": "2026-07-28T17:45:43.075Z",
+    "sourceSetSha256": "bf3ecfc58ae713bf91dd53f27b6ad5b9750a65b76bf5b73261526cae7db21d80"
+  },
+  "sharedSources": [
+    {
+      "source": "index.html",
+      "scope": "neutral technical boundary values and the initial BM shell before the locale module loads",
+      "sourceSha256": "9be63c60ba3496f927ccf5ca2d592be1e49fb46a3e075b44cd9791e2cd69d16d",
+      "reviewStatus": "HUMAN_APPROVED_FOR_EXTERNAL_DEPLOYMENT"
+    }
+  ],
+  "bundles": [
+    {
+      "locale": "nb",
+      "source": "locales/nb.mjs",
+      "sourceSha256": "75d22bbee42f592e8d2ef0056f66f2d89363dcd566c02341d7932693fbf9a7da",
+      "reviewStatus": "HUMAN_APPROVED_FOR_EXTERNAL_DEPLOYMENT"
+    },
+    {
+      "locale": "nn",
+      "source": "locales/nn.mjs",
+      "sourceSha256": "87457e0128d5e7f1980c1376b0ae3765afaeb4509701d370d6979a5acc1c04f4",
+      "reviewStatus": "HUMAN_APPROVED_FOR_EXTERNAL_DEPLOYMENT"
+    }
+  ],
+  "boundary": "The Vercel build and deployment preflight fail until the shared shell and both bundles have authentic human approval metadata bound to their exact SHA-256 checksums."
+}

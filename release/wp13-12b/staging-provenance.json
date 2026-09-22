@@ -1,0 +1,21 @@
+{
+  "schemaVersion": "wp13.12b-staging-provenance-v1",
+  "baselineCommit": "e5846735a3744a07febd93d5f75e776700c1013d",
+  "baselineTree": "85a618cf567131be9f36fecfc038ab5f45c6732d",
+  "ownerDecisionSourceCommit": "929674d8a159ebd9ac6026c066f5dd044ebcea62",
+  "ownerDecisionRegistrationCommit": "e5846735a3744a07febd93d5f75e776700c1013d",
+  "ownerDecisionRecordChecksum": "a5085b3dd4351bb1e6f35718b46f882667bd2e2995bc0e501065e0de6eac8754",
+  "sourcePackageChecksum": "f3830a640fd901f193279ed99338d923848acaef662e79e8a831e870a7813de7",
+  "branch": "feature/wp13-12b-synthetic-staging-repository-and-handoff",
+  "parentBranch": "feature/wp13-12a-provider-region-capability-decision-package",
+  "prBasePolicy": "STACKED_ON_WP13_12A_WHILE_PR_9_IS_UNMERGED",
+  "historicalReferenceClassification": "HISTORICAL_REQUIREMENTS_AND_IMPLEMENTATION_REFERENCE",
+  "historicalFilesFound": false,
+  "historicalCodeImported": false,
+  "historicalTestsImported": false,
+  "providerPackage": "provider/firebase",
+  "stagingProviderReleaseId": "wp13-12b-synthetic-staging-provider-r1",
+  "externalCloudWrites": 0,
+  "providerAccountsAccessed": false,
+  "candidateCommitBinding": "Final Git commit and tree are reported after all checks; receipt templates require the final full SHA."
+}

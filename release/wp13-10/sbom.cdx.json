@@ -1,0 +1,101 @@
+{
+  "bomFormat": "CycloneDX",
+  "specVersion": "1.5",
+  "serialNumber": "urn:uuid:13100000-2026-4000-8000-000000000010",
+  "version": 1,
+  "metadata": {
+    "timestamp": "2026-07-22T00:00:00.000Z",
+    "component": {
+      "type": "application",
+      "name": "ludys-app-reconstructed",
+      "version": "0.14.0-reconstructed.7"
+    },
+    "properties": [
+      {
+        "name": "ludys:runtimeDependencyCount",
+        "value": "0"
+      },
+      {
+        "name": "ludys:dataClassification",
+        "value": "SYNTHETIC_ONLY"
+      }
+    ]
+  },
+  "components": [
+    {
+      "type": "library",
+      "name": "@types/node",
+      "version": "22.15.30",
+      "scope": "excluded",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "6Q7lr06bEHdlfplU6YRbgG1SFBdlsfNC4/lX+SkhiTs0cpJkOElmWls8PxDFv4yY/xKb8Y6SO0OmSX4wgqTZbA=="
+        }
+      ],
+      "properties": [
+        {
+          "name": "ludys:runtimeDependency",
+          "value": "false"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "typescript",
+      "version": "5.8.3",
+      "scope": "excluded",
+      "licenses": [
+        {
+          "license": {
+            "id": "Apache-2.0"
+          }
+        }
+      ],
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "p1diW6TqL9L07nNxvRMM7hMMw4c5XOo/1ibL4aAIGmSAt9slTE1Xgw5KWuof2uTOvCg9BY7ZRi+GaF+7sfgPeQ=="
+        }
+      ],
+      "properties": [
+        {
+          "name": "ludys:runtimeDependency",
+          "value": "false"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "undici-types",
+      "version": "6.21.0",
+      "scope": "excluded",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "iwDZqg0QAGrg9Rav5H4n0M64c3mkR59cJ6wQp+7C4nI0gsmExaedaYLNO44eT4AtBBwjbTiGPMlt2Md0T9H9JQ=="
+        }
+      ],
+      "properties": [
+        {
+          "name": "ludys:runtimeDependency",
+          "value": "false"
+        }
+      ]
+    }
+  ]
+}

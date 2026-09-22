@@ -1,0 +1,132 @@
+{
+  "schemaVersion": "wp13.12b-ea-resource-inventory-contract-v2",
+  "status": "LOCAL_OPERATOR_CONTRACT_NO_EXTERNAL_ACTION_EXECUTED",
+  "approvalBinding": {
+    "approval": "release/wp13-12b/external-activation/cloud-field-approval.json",
+    "trustContract": "release/wp13-12b/external-activation/vercel-google-trust-contract.json",
+    "projectId": "ludys-12b-stg-20260725",
+    "projectNumber": "134654966474",
+    "approvedGoogleAccount": "tryakim@gmail.com",
+    "organizationId": "724335528970",
+    "billingAccount": "01CD9D-0900DF-4FB36A",
+    "region": "europe-north1",
+    "stagingExpiryDate": "2027-01-25"
+  },
+  "inventoryMode": "READ_ONLY_IDEMPOTENT_MULTI_PROVIDER_OBSERVATION",
+  "authenticationMode": {
+    "google": "EXISTING_APPROVED_FIREBASE_CLI_SESSION_TOKEN_USED_IN_MEMORY_ONLY",
+    "vercel": "EXISTING_VERCEL_CLI_OS_CREDENTIAL_STORE_TOKEN_USED_IN_MEMORY_ONLY",
+    "tokenOutputAllowed": false,
+    "oidcTokenOutputAllowed": false
+  },
+  "operatorSnapshotSchema": "wp13.12b-ea-operator-resource-inventory-v2",
+  "overlayInventoryBoundary": {
+    "path": "release/wp13-12b/external-activation/resource-inventory.json",
+    "rule": "THE OPERATOR SNAPSHOT IS EVIDENCE INPUT; IT MUST NOT SILENTLY OVERWRITE THE HUMAN-AND-PROVIDER-ATTESTED OVERLAY INVENTORY"
+  },
+  "evidenceMaterialization": {
+    "default": "STDOUT_ONLY_NO_LOCAL_WRITE",
+    "explicitCommand": "npm run provider:external:inventory -- --output artifacts/wp13-12b-external-resource-inventory.json",
+    "onlyAllowedOutputPath": "artifacts/wp13-12b-external-resource-inventory.json",
+    "overwriteSemantics": "DETERMINISTIC_REPLACEMENT_OF_THE_EXACT_EVIDENCE_FILE",
+    "providerExternalWrites": 0,
+    "credentialOrTokenFieldsAllowed": false
+  },
+  "externalWrites": 0,
+  "credentialsInRepository": false,
+  "stableOutputRule": "THE_SAME_NORMALIZED_GOOGLE_AND_VERCEL_PROVIDER_STATE_PRODUCES_THE_SAME_SHA256_DIGEST",
+  "overlayAuthenticityRules": [
+    "PENDING_AUTHENTIC_PROVIDER_READBACK REMAINS VALID WITHOUT CLAIMING AN ARTIFACT OR ZERO RESOURCES",
+    "AUTHENTIC_PROVIDER_SNAPSHOT AND DESTRUCTION_VERIFIED_ZERO_RESOURCES MUST BIND THE EXACT OPERATOR V2 ARTIFACT PATH, FILE SHA-256 AND RECOMPUTED INVENTORY DIGEST",
+    "THE OPERATOR ARTIFACT SOURCE MUST BE LIVE READ-only provider queries with authenticated exact-team Vercel readback, zero blockers and zero provider writes",
+    "OVERLAY RESOURCE IDENTITIES MUST DEEP-EQUAL THE DETERMINISTIC OPERATOR-REPORT TRANSFORM; OMISSIONS AND EXTRA RESOURCES ARE FORBIDDEN",
+    "EVERY OVERLAY RESOURCE MUST REFERENCE AN AUTHENTICALLY VALIDATED RECEIPT OF THE REQUIRED TYPE AND THAT RECEIPT MUST BIND THE EXACT RESOURCE ID",
+    "RECEIPT RESOURCE IDS MAY CONTAIN ONLY CANONICAL RESOURCE IDS OR EXPLICIT APPROVED PROVIDER CONTEXT IDS; ARBITRARY STRINGS ARE FORBIDDEN"
+  ],
+  "requiredGoogleInventory": [
+    "isolated project and organization parent",
+    "billing link and project-scoped budget",
+    "enabled service APIs",
+    "Firestore database",
+    "Cloud Functions 2nd gen",
+    "Cloud Run services backing the Functions",
+    "Secret Manager secret and versions",
+    "service accounts, user-managed keys and project IAM bindings",
+    "all global Workload Identity pools and every provider in those pools",
+    "preview service-account IAM policy with exact-subject workloadIdentityUser binding",
+    "service-level run.invoker policies for issueSyntheticSession, deleteSyntheticSession and health, including proof that health has no preview invoker",
+    "Cloud Storage buckets",
+    "Artifact Registry repositories",
+    "Firebase Hosting sites"
+  ],
+  "googlePreviewTrustBoundary": {
+    "workloadIdentityPool": "projects/134654966474/locations/global/workloadIdentityPools/ludys-vercel-preview",
+    "workloadIdentityProvider": "projects/134654966474/locations/global/workloadIdentityPools/ludys-vercel-preview/providers/vercel-preview",
+    "previewServiceAccount": "ludys-preview-invoker@ludys-12b-stg-20260725.iam.gserviceaccount.com",
+    "currentReadbackAtContractUpdate": {
+      "poolCreated": true,
+      "poolDisabled": true,
+      "providerCreated": true,
+      "providerDisabled": true,
+      "userManagedKeys": 0,
+      "projectRoles": []
+    },
+    "exactSubjectOnly": true,
+    "wholePoolImpersonationForbidden": true,
+    "privateRunInvokerTargets": [
+      "issueSyntheticSession",
+      "deleteSyntheticSession"
+    ],
+    "healthPreviewInvokerAllowed": false,
+    "publicInvokerOnPrivateTargetsForbidden": true
+  },
+  "previewBoundary": {
+    "provider": "VERCEL_PROTECTED_PREVIEW",
+    "inventoryStatus": "REQUIRED_IN_SAME_OPERATOR_SNAPSHOT",
+    "teamId": "team_1Gnn3VSNrP3mbseXx6a92a4J",
+    "teamSlug": "trym-s-projects",
+    "projectId": "prj_nHs1hbdyfcMMMglNUTwoYRS43naN",
+    "projectName": "ludys-wp13-12b-staging",
+    "requiredProtection": "prod_deployment_urls_and_all_previews",
+    "requiredOidc": {
+      "enabled": true,
+      "issuerMode": "team"
+    },
+    "currentDeploymentState": "NO_DEPLOYMENT_CREATED_YET_REQUIRES_AUTHENTIC_LIVE_READBACK",
+    "productionDeploymentsAllowed": false,
+    "customDomainsAllowed": false,
+    "gitLinkAllowed": false,
+    "webAnalyticsAllowed": false,
+    "speedInsightsAllowed": false,
+    "implicitAbsenceClaimAllowed": false
+  },
+  "storagePolicy": {
+    "appCloudStorage": "MUST_REMAIN_OFF",
+    "storageApiEnabled": "DOES_NOT_BY_ITSELF_ENABLE_APP_CLOUD_STORAGE",
+    "forbiddenAppBucketNames": [
+      "ludys-12b-stg-20260725.firebasestorage.app",
+      "ludys-12b-stg-20260725.appspot.com"
+    ],
+    "supportingBuildArtifactExamples": [
+      "gcf-v2-sources-<project-number>-europe-north1",
+      "gcf-v2-uploads-<project-number>.europe-north1.cloudfunctions.appspot.com",
+      "artifacts.ludys-12b-stg-20260725.appspot.com",
+      "staging.ludys-12b-stg-20260725.appspot.com",
+      "<project-number>.cloudbuild-logs.googleusercontent.com"
+    ],
+    "supportingBuildArtifactsAreAppStorage": false,
+    "unknownBucketPolicy": "FAIL_CLOSED_AND_REQUIRE_HUMAN_CLASSIFICATION"
+  },
+  "forbiddenRuntimeServices": [
+    "identitytoolkit.googleapis.com",
+    "firebaseauth.googleapis.com",
+    "firebaseanalytics.googleapis.com",
+    "firebasecrashlytics.googleapis.com",
+    "firebaseperformance.googleapis.com",
+    "firebaseremoteconfig.googleapis.com",
+    "aiplatform.googleapis.com",
+    "generativelanguage.googleapis.com"
+  ],
+  "zeroResourceClaimRule": "ZERO MAY ONLY BE CLAIMED AFTER BOTH AUTHENTICATED PROVIDER INVENTORIES ARE COMPLETE AND GOOGLE PROJECT, PROJECT-SCOPED BUDGETS AND EXACT VERCEL PROJECT ARE VERIFIED ABSENT",
+  "externalActionsExecuted": false
+}

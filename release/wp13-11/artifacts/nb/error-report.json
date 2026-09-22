@@ -1,0 +1,60 @@
+{
+  "artifactId": "wp13-11.error-report.nb.v1",
+  "artifactType": "ERROR_REPORT",
+  "version": "1.0.0-draft",
+  "locale": "nb",
+  "title": "Teknisk feilrapport",
+  "audience": [
+    "ADULT_OPERATOR",
+    "ADULT_REVIEWER"
+  ],
+  "status": "DRAFT_FOR_ADULT_REVIEW",
+  "reviewStatus": "REVIEW_REQUIRED",
+  "authorizationStatus": "ADULT_ONLY_SYNTHETIC_DRY_RUN_ONLY",
+  "purpose": "Registrere minimal, ikke-personlig teknisk evidens.",
+  "allowedUse": [
+    "ADULT_ONLY_SYNTHETIC_DRY_RUN",
+    "LOCAL_INTERNAL_REVIEW",
+    "NO_REAL_PARTICIPANTS"
+  ],
+  "prohibitedUse": [
+    "STUDENT_USE",
+    "RECRUITMENT",
+    "REAL_PERSONAL_DATA",
+    "PROVIDER_ACTIVATION",
+    "PRODUCTION",
+    "B8_DECISION"
+  ],
+  "contentSections": [
+    {
+      "sectionId": "nb-section-01",
+      "heading": "Ta med",
+      "paragraphs": [
+        "Feilkode, berørt komponent, lokal versjon og om STOP/containment fungerte."
+      ]
+    },
+    {
+      "sectionId": "nb-section-02",
+      "heading": "Ikke ta med",
+      "paragraphs": [
+        "Ikke legg ved full sessionpayload, navn, skole, kontaktdata eller fritekst om barn."
+      ]
+    }
+  ],
+  "sourceReferences": [
+    "INTERNAL-WP13-11-SCOPE",
+    "INTERNAL-WP13-10-BASELINE",
+    "OFFICIAL-NIST-SP800-61R3"
+  ],
+  "amendmentHistory": [
+    {
+      "revision": 1,
+      "at": "2026-07-22T00:00:00.000Z",
+      "reason": "Initial WP13.11 adult-only review draft",
+      "externalReceipt": false
+    }
+  ],
+  "withdrawalStatus": "CURRENT",
+  "createdAt": "2026-07-22T00:00:00.000Z",
+  "updatedAt": "2026-07-22T00:00:00.000Z"
+}

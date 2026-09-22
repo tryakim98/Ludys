@@ -1,0 +1,33 @@
+{
+  "schemaVersion": "wp13.12a-rollback-v1",
+  "appendOnly": true,
+  "activeProviderDecisionRevision": "wp13-12a-provider-decision-r1",
+  "revisions": [
+    {
+      "component": "PROVIDER_DECISION",
+      "revisionId": "wp13-12a-provider-decision-r0",
+      "lifecycle": "AVAILABLE",
+      "compatibility": "COMPATIBLE"
+    },
+    {
+      "component": "PROVIDER_DECISION",
+      "revisionId": "wp13-12a-provider-decision-r1",
+      "lifecycle": "AVAILABLE",
+      "compatibility": "COMPATIBLE"
+    },
+    {
+      "component": "PROVIDER_DECISION",
+      "revisionId": "wp13-12a-provider-decision-withdrawn-proof",
+      "lifecycle": "WITHDRAWN",
+      "compatibility": "COMPATIBLE"
+    },
+    {
+      "component": "PROVIDER_DECISION",
+      "revisionId": "wp13-12a-provider-decision-incompatible-proof",
+      "lifecycle": "AVAILABLE",
+      "compatibility": "INCOMPATIBLE"
+    }
+  ],
+  "rollbackActivatesProvider": false,
+  "productionRollbackTested": false
+}
