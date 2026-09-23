@@ -2,6 +2,9 @@ import { createSyntheticAppNavigation } from "../../composition/create-synthetic
 import { createAuthoringPipeline } from "../../composition/create-authoring-pipeline.js";
 import { createBetaOperations } from "../../composition/create-beta-operations.js";
 import { createProviderDecision } from "../../composition/create-provider-decision.js";
+import { createExerciseRoom } from "../../composition/create-exercise-room.js";
+import type { ExerciseKind } from "../../core/skynja/exercise-room.js";
+import { partitionExercisePolicy } from "../../core/skynja/exercise-room-policy.js";
 import type { AuthoringLocaleTextField } from "../../application/authoring-pipeline-controller.js";
 import type { FindingClassification, OperationsArtifactType, OperationsLocale } from "../../core/beta-operations.js";
 import type { DecisionLocale, ProviderOptionId } from "../../core/provider-decision.js";
@@ -13,6 +16,7 @@ import { renderSyntheticAppNavigation } from "./synthetic-app-navigation-templat
 import { renderAuthoringWorkspace } from "./authoring-workspace-templates.js";
 import { renderBetaOperations } from "./beta-operations-templates.js";
 import { renderProviderDecision } from "./provider-decision-templates.js";
+import { renderExerciseRoom } from "./exercise-room-templates.js";
 import { createLocalPwaCoordinator, type LocalPwaCoordinator } from "./pwa-status.js";
 import { installRuntimeSafetyBoundary } from "./runtime-safety.js";
 import { rollbackComponent, type LocalReleaseState, type ReleaseComponent } from "../../core/release-hardening.js";
@@ -27,6 +31,9 @@ const { controller } = createSyntheticAppNavigation("nb-NO", pageInstance);
 const authoringController = createAuthoringPipeline();
 const operationsController = createBetaOperations();
 const providerDecisionController = createProviderDecision();
+const exerciseController = createExerciseRoom();
+let exerciseOpen = false;
+let exercisePoliciesReady = false;
 let authoringOpen = false;
 let operationsOpen = false;
 let providerDecisionOpen = false;
@@ -37,25 +44,31 @@ let providerDossierObjectUrl: string | undefined;
 let providerOwnerTemplateObjectUrl: string | undefined;
 
 function render(focus = false): void {
+  exerciseController.restrict(authoringController.view.packages.filter((item) => item.lifecycle !== "CURRENT").map((item) => item.activityId));
+  const focusedElement = document.activeElement as HTMLElement | null;
+  const restoreExerciseFocus = exerciseOpen && !focus && focusedElement !== null && root.contains(focusedElement)
+    ? focusedElement.id : "";
   if (exportObjectUrl !== undefined) URL.revokeObjectURL(exportObjectUrl);
   if (providerDossierObjectUrl !== undefined) URL.revokeObjectURL(providerDossierObjectUrl);
   if (providerOwnerTemplateObjectUrl !== undefined) URL.revokeObjectURL(providerOwnerTemplateObjectUrl);
   exportObjectUrl = undefined;
   providerDossierObjectUrl = undefined;
   providerOwnerTemplateObjectUrl = undefined;
-  root.innerHTML = providerDecisionOpen
+  root.innerHTML = exerciseOpen ? renderExerciseRoom(exerciseController.view) : providerDecisionOpen
     ? renderProviderDecision(providerDecisionController.view)
     : operationsOpen
     ? renderBetaOperations(operationsController.view)
     : authoringOpen
       ? renderAuthoringWorkspace(authoringController.view)
       : renderSyntheticAppNavigation(controller.view);
-  const locale = providerDecisionOpen
+  const locale = exerciseOpen ? exerciseController.view.locale : providerDecisionOpen
     ? providerDecisionController.view.locale
     : operationsOpen ? operationsController.view.locale : authoringOpen ? authoringController.view.locale : controller.view.locale;
   document.documentElement.lang = locale === "nb-NO" || locale === "nb" ? "nb" : "nn";
   document.documentElement.dataset.wp13_7bReady = "true";
   document.documentElement.dataset.wp13_7cReady = "true";
+  const exerciseEntry = root.querySelector<HTMLButtonElement>("[data-exercise-action=open]");
+  if (exerciseEntry !== null) exerciseEntry.disabled = !exercisePoliciesReady;
   pwaCoordinator?.refresh();
   const download = root.querySelector<HTMLAnchorElement>("#operations-export-download");
   if (download !== null && operationsController.view.exportPreview !== "") {
@@ -74,15 +87,17 @@ function render(focus = false): void {
   }
   if (focus) {
     queueMicrotask(() => {
-      root.querySelector<HTMLElement>(providerDecisionOpen
+      root.querySelector<HTMLElement>(exerciseOpen ? "#exercise-title" : providerDecisionOpen
         ? "#provider-decision-title"
         : operationsOpen ? "#operations-integrity-title" : authoringOpen ? "#authoring-title" : "#screen-title")?.focus();
     });
+  } else if (restoreExerciseFocus) {
+    root.querySelector<HTMLElement>(`#${CSS.escape(restoreExerciseFocus)}`)?.focus({ preventScroll: true });
   }
 }
 
 function announce(message: string, urgent = false): void {
-  const target = root.querySelector<HTMLElement>(providerDecisionOpen
+  const target = root.querySelector<HTMLElement>(exerciseOpen ? urgent ? "#exercise-alert" : "#exercise-status" : providerDecisionOpen
     ? urgent ? "#provider-decision-alert" : "#provider-decision-status"
     : operationsOpen
     ? urgent ? "#operations-alert" : "#operations-status"
@@ -98,8 +113,70 @@ function controlValue(selector: string): string {
   return root.querySelector<HTMLInputElement | HTMLTextAreaElement>(selector)?.value ?? "";
 }
 
+function applyAllCorpusPolicy(policy: CorpusLifecyclePolicy): void {
+  const partition = partitionExercisePolicy(policy, exerciseController.view.catalog);
+  controller.applyRestrictiveCorpusPolicy(partition.legacyPolicy);
+  exerciseController.restrict(partition.blockedIds);
+}
+
 root.addEventListener("click", async (event) => {
   const element = event.target as Element;
+  const exerciseButton = element.closest<HTMLButtonElement>("button[data-exercise-action]");
+  if (exerciseButton !== null && !exerciseButton.disabled) {
+    const action = exerciseButton.dataset.exerciseAction;
+    let focusTarget = "#exercise-title";
+    let focusAnnouncement = "";
+    switch (action) {
+      case "open":
+        if (!exercisePoliciesReady) return;
+        if (["ACTIVE", "WAITING"].includes(controller.view.lifecycleState)) controller.pause();
+        authoringController.stopAudio();
+        exerciseController.backToCatalog();
+        exerciseController.setLocale(controller.view.locale);
+        authoringOpen = false; operationsOpen = false; providerDecisionOpen = false; exerciseOpen = true;
+        break;
+      case "close":
+        exerciseController.stop(); exerciseController.backToCatalog(); exerciseOpen = false;
+        render(true); return;
+      case "filter":
+        exerciseController.setFilter(exerciseButton.dataset.filter as ExerciseKind | "ALL");
+        focusTarget = `[data-exercise-action=filter][data-filter="${exerciseButton.dataset.filter}"]`;
+        focusAnnouncement = exerciseController.view.locale === "nb-NO" ? "Utvalget er oppdatert." : "Utvalet er oppdatert.";
+        break;
+      case "select": exerciseController.select(exerciseButton.dataset.exerciseId ?? ""); break;
+      case "catalog": exerciseController.backToCatalog(); break;
+      case "repeat": exerciseController.select(exerciseController.view.exercise?.id ?? ""); break;
+      case "start": exerciseController.start(); break;
+      case "tile": {
+        const id = exerciseButton.dataset.tileId ?? "";
+        exerciseController.tile(id);
+        focusTarget = `#exercise-${exerciseController.view.selectedTiles.includes(id) ? "picked" : "bank"}-${id}`;
+        const count = exerciseController.view.selectedTiles.length;
+        focusAnnouncement = exerciseController.view.locale === "nb-NO" ? `${count} brikker i forslaget.` : `${count} brikker i forslaget.`;
+        break;
+      }
+      case "clear": exerciseController.clearTiles(); focusTarget = ".exercise-tiles button:not(:disabled)"; break;
+      case "option":
+        exerciseController.option(exerciseButton.dataset.optionId ?? "");
+        focusTarget = `#exercise-option-${exerciseButton.dataset.optionId}`; break;
+      case "evidence":
+        exerciseController.evidence(exerciseButton.dataset.evidenceId ?? "");
+        focusTarget = `#exercise-evidence-${exerciseButton.dataset.evidenceId}`; break;
+      case "check": exerciseController.check(); focusTarget = "#exercise-feedback"; break;
+      case "hint": exerciseController.hint(); focusTarget = "#exercise-hint"; break;
+      case "model": exerciseController.model(); focusTarget = "#exercise-model"; break;
+      case "next": exerciseController.next(); break;
+      case "skip": exerciseController.next(true); break;
+      case "pause": exerciseController.pause(); break;
+      case "resume": exerciseController.resume(); break;
+      case "stop": exerciseController.stop(); break;
+      default: return;
+    }
+    render();
+    root.querySelector<HTMLElement>(focusTarget)?.focus({ preventScroll: action === "tile" || action === "option" || action === "evidence" || action === "filter" });
+    if (focusAnnouncement) announce(focusAnnouncement);
+    return;
+  }
   const providerDecisionButton = element.closest<HTMLButtonElement>("button[data-provider-decision-action]");
   if (providerDecisionButton !== null && !providerDecisionButton.disabled) {
     const action = providerDecisionButton.dataset.providerDecisionAction;
@@ -314,6 +391,11 @@ root.addEventListener("click", async (event) => {
 });
 
 root.addEventListener("change", (event) => {
+  const exerciseLocale = (event.target as Element).closest<HTMLSelectElement>("#exercise-locale");
+  if (exerciseLocale !== null) {
+    exerciseController.setLocale(exerciseLocale.value as Locale);
+    render(); root.querySelector<HTMLElement>("#exercise-locale")?.focus(); return;
+  }
   const providerDecisionLocale = (event.target as Element).closest<HTMLSelectElement>("#provider-decision-locale");
   if (providerDecisionLocale !== null) {
     providerDecisionController.setLocale(providerDecisionLocale.value as DecisionLocale);
@@ -370,20 +452,22 @@ root.addEventListener("change", (event) => {
 
 render();
 pwaCoordinator = createLocalPwaCoordinator({
-  getLifecycleState: () => controller.view.lifecycleState,
-  getLocale: () => controller.view.locale,
+  getLifecycleState: () => exerciseController.view.sessionOpen ? "ACTIVE" : controller.view.lifecycleState,
+  getLocale: () => exerciseOpen ? exerciseController.view.locale : controller.view.locale,
 });
 pwaCoordinator.refresh();
 
 const runtimeSafetyBoundary = installRuntimeSafetyBoundary({
-  getLocale: () => controller.view.locale,
+  getLocale: () => exerciseOpen ? exerciseController.view.locale : controller.view.locale,
   onStop: () => {
+    exerciseController.stop();
     authoringController.stopAudio();
     operationsController.stop();
     controller.stop();
     render(true);
   },
   onSafeStart: () => {
+    exerciseController.stop(); exerciseOpen = false;
     authoringController.stopAudio();
     if (!["STOPPED", "DELETED", "COMPLETED"].includes(controller.view.lifecycleState)) controller.stop();
     controller.startNewSession();
@@ -402,9 +486,11 @@ async function loadCorpusPolicy(): Promise<void> {
       credentials: "same-origin",
     });
     if (!response.ok) throw new Error(`corpus policy HTTP ${response.status}`);
-    controller.applyRestrictiveCorpusPolicy(await response.json() as CorpusLifecyclePolicy);
+    const policy = await response.json() as CorpusLifecyclePolicy;
+    applyAllCorpusPolicy(policy);
     document.documentElement.dataset.corpusPolicy = "READY";
   } catch {
+    exerciseController.restrict(exerciseController.view.catalog.map((item) => item.id));
     controller.applyRestrictiveCorpusPolicy({
       policyRevision: 1,
       restrictions: controller.view.corpus.patternClasses.map((patternClass) => ({
@@ -484,8 +570,16 @@ async function persistRestrictiveAuthoringPolicy(
 }
 
 const authoringPolicyReady = loadAuthoringPolicy();
+const exerciseReady = Promise.all([corpusPolicyReady, authoringPolicyReady]).then(() => {
+  exercisePoliciesReady = true;
+  render();
+});
 
 Object.assign(window, {
+  __SKYNJA_EXERCISES__: {
+    ready: exerciseReady,
+    getView: () => exerciseController.view,
+  },
   __WP13_7B__: {
     getViewModel: () => controller.view,
     getSessionId: () => controller.sessionId,
@@ -499,7 +593,7 @@ Object.assign(window, {
     getCorpusView: () => controller.view.corpus,
     applyRestrictivePolicy: async (policy: CorpusLifecyclePolicy) => {
       const persisted = await persistRestrictiveCorpusPolicy(policy);
-      controller.applyRestrictiveCorpusPolicy(persisted);
+      applyAllCorpusPolicy(persisted);
       render(true);
       return controller.view.corpus;
     },
@@ -507,7 +601,7 @@ Object.assign(window, {
   __WP13_9__: {
     ready: Promise.all([corpusPolicyReady, authoringPolicyReady]),
     getAuthoringView: () => authoringController.view,
-    openWorkspace: () => { authoringOpen = true; render(true); return authoringController.view; },
+    openWorkspace: () => { exerciseController.stop(); exerciseOpen = false; authoringOpen = true; render(true); return authoringController.view; },
     closeWorkspace: () => { authoringOpen = false; render(true); },
     exportSelected: () => authoringController.exportSelectedJson(),
     importPackage: (json: string) => { const view = authoringController.importJson(json); render(); return view; },
@@ -531,7 +625,7 @@ Object.assign(window, {
   __WP13_11__: {
     ready: Promise.resolve(true),
     getOperationsView: () => operationsController.view,
-    openOperations: () => { authoringOpen = false; operationsOpen = true; render(true); return operationsController.view; },
+    openOperations: () => { exerciseController.stop(); exerciseOpen = false; authoringOpen = false; operationsOpen = true; render(true); return operationsController.view; },
     closeOperations: () => { operationsOpen = false; render(true); },
     setLocale: (locale: OperationsLocale) => { operationsController.setLocale(locale); render(true); return operationsController.view; },
     selectArtifact: (artifactType: OperationsArtifactType) => { operationsController.selectArtifact(artifactType); render(true); return operationsController.view; },
@@ -549,6 +643,7 @@ Object.assign(window, {
     ready: Promise.resolve(true),
     getDecisionView: () => providerDecisionController.view,
     openDecision: () => {
+      exerciseController.stop(); exerciseOpen = false;
       authoringOpen = false;
       operationsOpen = false;
       providerDecisionOpen = true;

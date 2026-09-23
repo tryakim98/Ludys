@@ -24,7 +24,7 @@ jobs:
       - run: npm ci
         working-directory: provider/firebase/functions
       - name: Portable static, build and compiled test gate
-        run: npm run lint && npm run architecture && npm run secret:scan && npm run build:installable && npm run test:compiled
+        run: npm run canon:check && npm run test:canon && npm run lint && npm run architecture && npm run secret:scan && npm run build:installable && npm run test:compiled
 
   release:
     name: release-windows-pinned-git
@@ -38,14 +38,17 @@ jobs:
           node-version: 22
           cache: npm
       - name: Install approved Git for Windows runtime
+        timeout-minutes: 15
         shell: pwsh
         run: |
           $ErrorActionPreference = 'Stop'
           $url = 'https://github.com/git-for-windows/git/releases/download/v2.55.0.windows.2/Git-2.55.0.2-64-bit.exe'
           $installer = Join-Path $env:RUNNER_TEMP 'Git-2.55.0.2-64-bit.exe'
+          $installerLog = Join-Path $env:RUNNER_TEMP 'pinned-git-install.log'
           $expectedSha256 = '74300da8dfe0d844c5449ffb809662f8eeac47916f83730c879c4084890c6c0e'
 
-          Invoke-WebRequest -Uri $url -OutFile $installer
+          Write-Host 'Downloading the approved Git installer'
+          Invoke-WebRequest -Uri $url -OutFile $installer -TimeoutSec 180
           $actualSha256 = (Get-FileHash -LiteralPath $installer -Algorithm SHA256).Hash.ToLowerInvariant()
           if ($actualSha256 -ne $expectedSha256) {
             throw "PINNED_GIT_INSTALLER_SHA256_MISMATCH actual=$actualSha256"
@@ -58,22 +61,44 @@ jobs:
 
           $arguments = @(
             '/VERYSILENT',
+            '/SUPPRESSMSGBOXES',
+            # Hosted runners may have a newer Git registered even after its files are removed.
+            # Match Git for Windows' own unattended installer CI; the pinned hash stays mandatory.
+            '/ALLOWDOWNGRADE=1',
             '/NORESTART',
             '/NOCANCEL',
             '/SP-',
             '/CLOSEAPPLICATIONS',
-            '/DIR="C:\Program Files\Git"'
+            # Do not inherit the hosted image's gitlfs-only component selection.
+            # Scalar is part of the approved default runtime closure.
+            '/COMPONENTS="gitlfs,scalar"',
+            '/DIR="C:\Program Files\Git"',
+            ('/LOG="{0}"' -f $installerLog)
           )
-          $process = Start-Process -FilePath $installer -ArgumentList $arguments -Wait -PassThru
-          if ($process.ExitCode -ne 0) {
-            throw "PINNED_GIT_INSTALL_FAILED exit=$($process.ExitCode)"
+          Write-Host 'Installing the approved Git runtime without interactive prompts'
+          try {
+            $process = Start-Process -FilePath $installer -ArgumentList $arguments -Wait -PassThru
+            if ($process.ExitCode -ne 0) {
+              throw "PINNED_GIT_INSTALL_FAILED exit=$($process.ExitCode)"
+            }
+          } finally {
+            if (Test-Path -LiteralPath $installerLog) {
+              Get-Content -LiteralPath $installerLog -Tail 60
+            }
           }
       - name: Verify approved Git runtime tree
         shell: pwsh
         run: |
-          node --input-type=module -e "import('./scripts/wp13-12b-pinned-git-toolchain.mjs').then(({ inspectPinnedGitRuntime }) => console.log(JSON.stringify(inspectPinnedGitRuntime(), null, 2)))"
+          node --input-type=module -e "import('./scripts/wp13-12b-pinned-git-toolchain.mjs').then(({ approvedGitRuntime, canonicalGitRuntimeTreeSnapshotForTesting, inspectPinnedGitRuntime }) => { console.log(JSON.stringify({ expected: approvedGitRuntime, actual: canonicalGitRuntimeTreeSnapshotForTesting(approvedGitRuntime.runtimeRoot) }, null, 2)); console.log(JSON.stringify(inspectPinnedGitRuntime(), null, 2)); })"
       - run: npm ci
       - run: npm ci
         working-directory: provider/firebase/functions
       - name: Full release verification
-        run: npm run check:release
+        # Runner context is available at step scope. Avoid the user's 8.3 TEMP alias.
+        env:
+          TEMP: ${{ runner.temp }}
+          TMP: ${{ runner.temp }}
+        run: |
+          node --input-type=module -e "import { tmpdir } from 'node:os'; import { realpathSync } from 'node:fs'; import { resolve } from 'node:path'; const temporary = resolve(tmpdir()); const canonical = realpathSync(temporary); console.log(JSON.stringify({ temporary, canonical })); if (temporary.toLowerCase() !== canonical.toLowerCase()) throw new Error('CI_CANONICAL_TEMP_REQUIRED');"
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          npm run check:release

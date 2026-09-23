@@ -1,0 +1,487 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> ludys-app-reconstructed@0.14.0-reconstructed.9 check
+> npm run canon:check && npm run test:canon && npm run reconstruction && npm run lint && npm run architecture && npm run secret:scan && npm run build && npm run provider:package:check && npm run test:provider-runtime && npm run staging:generate:check && npm run external-activation:checksums:check && npm run test:compiled && npm run operations:validate:compiled && npm run provider:decision:validate:compiled && npm run staging:validate:compiled && npm run external-activation:validate:compiled && npm run test:provider-staging-operator-gates && npm run test:external-resource-operator && npm run test:external-cloud-control && npm run test:external-wif-control && npm run test:external-vercel-control && npm run test:external-vercel-risk-decision && npm run test:external-deploy-identity && npm run test:external-activation-gate && npm run test:external-activation-orchestrator && npm run test:emulator-proof-state && npm run test:emulator-confirmation && npm run test:receipt-integrity && npm run test:pinned-git-toolchain && npm run test:external-process-boundary && npm run test:external-preview && npm run test:browser-resolver && npm run test:browser-cleanup && npm run test:pwa-contract && npm run test:browser && npm run test:knowledge-browser && npm run test:readiness-browser && npm run test:lifecycle-browser && npm run test:app-browser && npm run test:pwa-browser && npm run test:corpus-browser && npm run test:authoring-browser && npm run test:provider-decision-browser && npm run test:exercises-browser
+
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> ludys-app-reconstructed@0.14.0-reconstructed.9 canon:check
+> node scripts/canon-check.mjs
+
+Skynja canon verified: 9 source hashes, 50 principles, 20 retained rules, 9 migration workstreams; no runtime activation.
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> ludys-app-reconstructed@0.14.0-reconstructed.9 test:canon
+> node --test scripts/canon-check-test.mjs
+
+✔ canon source alteration or a rewritten manifest is caught before rules can silently change (18.035609ms)
+✔ dropping a principle or pretending adoption grants real-use activation is rejected (4.37174ms)
+✔ dropping historical modules does not silently remove their proof constraints (2.835575ms)
+✔ historical action/profile/multimodal restrictions stay scoped and do not resurrect as global product rules (0.813859ms)
+✔ new modules still cannot grant pilot access, rank users or add unreviewed providers (0.436864ms)
+ℹ tests 5
+ℹ suites 0
+ℹ pass 5
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 108.879116
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> ludys-app-reconstructed@0.14.0-reconstructed.9 reconstruction
+> node scripts/reconstruction-check.mjs
+
+Reconstruction identity and boundary check passed.
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> ludys-app-reconstructed@0.14.0-reconstructed.9 lint
+> node scripts/static-check.mjs
+
+Static check passed: scoped historical proof and retained Skynja protections.
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> ludys-app-reconstructed@0.14.0-reconstructed.9 architecture
+> node scripts/architecture-check.mjs
+
+Architecture boundary check passed.
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> ludys-app-reconstructed@0.14.0-reconstructed.9 secret:scan
+> node scripts/secret-scan.mjs
+
+Secret scan passed.
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> ludys-app-reconstructed@0.14.0-reconstructed.9 build
+> npm run clean && tsc -p tsconfig.json
+
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> ludys-app-reconstructed@0.14.0-reconstructed.9 clean
+> node scripts/clean.mjs
+
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> ludys-app-reconstructed@0.14.0-reconstructed.9 provider:package:check
+> node scripts/build-wp13-12b-provider-package.mjs --check
+
+WP13.12B provider package verified read-only (12 bound files); no filesystem or provider mutation executed.
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> ludys-app-reconstructed@0.14.0-reconstructed.9 test:provider-runtime
+> node scripts/provider-functions-runtime-test.mjs
+
+WP13.12B Functions Framework runtime compatibility passed with uuid security override and zero external calls.
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> ludys-app-reconstructed@0.14.0-reconstructed.9 staging:generate:check
+> node scripts/generate-wp13-12b-staging.mjs --check
+
+WP13.12B staging repository generation is deterministic and current (160 checksummed files).
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> ludys-app-reconstructed@0.14.0-reconstructed.9 external-activation:checksums:check
+> node scripts/wp13-12b-external-activation-checksums.mjs --check
+
+WP13.12B external activation checksum coverage is deterministic and current (122 files).
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> ludys-app-reconstructed@0.14.0-reconstructed.9 test:compiled
+> node scripts/run-tests.mjs
+
+✔ child projection never exposes adult card (1.005546ms)
+✔ technical fixture registry is capped and explicitly non-production (1.977681ms)
+✔ tracked WAV fixtures have deterministic PCM mono headers and checksums (8.044353ms)
+✔ all eight WP13.8 activities become complete authoring packages (5.797979ms)
+✔ BM and NN are mandatory explicit copies without fallback (0.544876ms)
+✔ reference chains are complete and each package has six audio specifications (0.355362ms)
+✔ learning dimensions describe tasks and never child types (0.549333ms)
+✔ publication, external receipts, real data and runtime AI remain permanently closed (4.650022ms)
+✔ authoring JSON is deterministic, versioned and path-free (3.357737ms)
+✔ pure SHA-256 implementation matches a fixed official vector (0.20693ms)
+✔ every B8 gate has evidence requirements (0.87472ms)
+✔ candidate pilot envelope is small, session-bound and explicitly unauthorized (0.307881ms)
+✔ critical stop rules cover control, privacy and false relational belief (0.314091ms)
+✔ measurement plan requires no application logging (0.124646ms)
+✔ current assessment exposes post-decision conditions separately (0.738726ms)
+✔ official source register covers school ownership, DPIA, ethics and AI watch (0.145899ms)
+✔ WP13.11 has exactly 27 semantic artifacts and 54 first-class language artifacts (4.846165ms)
+✔ every artifact exposes the complete review and withdrawal contract (0.515612ms)
+✔ participant-directed drafts are permanently explicit and unauthorized (0.323184ms)
+✔ measurement and data boundaries are exhaustive and non-personal (0.322402ms)
+✔ authorization remains at the adult-only maximum (0.218607ms)
+✔ two new proposals extend the workshop without changing historical packages or learner corpus (20.344232ms)
+✔ new BM/NN text, model-only scripts and references form four separate locale variants (0.692336ms)
+✔ new proposals reject fabricated review, missing rationale and mixed-locale references (2.786933ms)
+✔ new workshop proposals survive export, edit, import and withdrawal without approval (36.138633ms)
+✔ BM and NN bundles are reference-closed and valid (2.071391ms)
+✔ generic praise and relational claims are rejected (0.261642ms)
+✔ audio contract rejects direct file-path extensions (0.146138ms)
+✔ stimulus audio must require a human voice (0.123485ms)
+✔ WP13.2 word proof definitions and content bundles are reference-closed (0.433119ms)
+✔ WP13.8 corpus has exactly four classes, eight activities and two per class (1.178414ms)
+✔ all activity IDs and fixed stimulus pairs remain unchanged (0.986327ms)
+✔ BM and NN are exact editorial pairs without silent locale fallback (0.32063ms)
+✔ every corpus object is draft, synthetic, externally review-gated and not student beta (1.855438ms)
+✔ reference closure has no orphaned knowledge, context or audio objects (1.17565ms)
+✔ all audio remains unrecorded, user-started, stoppable and silent-capable (0.284396ms)
+✔ review decisions preserve larger-change and review-only boundaries (0.344676ms)
+✔ three progression edges remain adult-controlled draft hypotheses (0.169834ms)
+✔ the draft catalog contains 13 exercises, seven kinds and 56 complete rounds in each language (7.699737ms)
+✔ both earlier content proposals have five rounds and explicit source identities (0.47457ms)
+✔ text evidence preserves meaning across languages and rejects every unsupported answer/evidence pair (1.552464ms)
+✔ unknown, missing or misleading evidence links fail draft validation (0.791054ms)
+✔ nynorsk has its own word, sentence and reading realizations with common semantic round ids (0.416133ms)
+✔ judgment has multiple defensible choices and reading distinguishes unknown from false (0.288022ms)
+✔ equivalent k tiles are interchangeable but the same tile cannot be reused (0.286809ms)
+✔ missing locale, fake review, duplicate options and impossible compound answers fail validation (1.753505ms)
+✔ WP13.3 release is reference-closed and within prototype size (1.82331ms)
+✔ knowledge filters cover role, age, topic, need and time (0.60756ms)
+✔ BM and NN variants share stable semantic IDs (0.46767ms)
+✔ context card resolves to the same knowledge graph (0.318146ms)
+✔ synthetic audio is explicitly internal review only (0.602822ms)
+✔ spec-only audio uses reviewed text fallback (0.150405ms)
+✔ vertical proof card points into the prototype graph (0.151296ms)
+✔ withdrawn or stale audio cannot be previewed (0.456624ms)
+✔ WP13.12A evaluates exactly the five mandatory provider options (1.882578ms)
+✔ source-grounded recommendation is explicitly selected without opening provider activation (0.283654ms)
+✔ region analysis re-verifies a co-located europe-north1 candidate without locking it (0.20014ms)
+✔ owner decision is bound to the source package and preserves every approved scope ceiling (0.271587ms)
+✔ all capability models are explicit and the recommendation creates no account identity (0.204977ms)
+✔ dataflow and trust boundaries are complete and provider-free pure core remains explicit (0.224326ms)
+✔ all prohibited data classes are NOT_COLLECTED and NOT_AUTHORIZED (0.257165ms)
+✔ threat and no-go registers are exhaustive (0.212498ms)
+✔ BM and NN are separate complete review-required bundles without fallback (2.52529ms)
+✔ all official sources are current primary URLs with explicit decision limits (0.40687ms)
+✔ STOP, explicit deletion and no-resurrection dominate TTL and backup (0.786057ms)
+✔ current WP13.4 dossier is not decision-ready and authorizes nothing (1.533526ms)
+✔ all decision requirements can only make dossier decision-ready for owner (0.661621ms)
+✔ triggered reopen signal dominates otherwise satisfied evidence (1.065225ms)
+✔ duplicate requirement ids are rejected (0.549042ms)
+✔ duplicate artifact type and missing artifact fail closed (8.921697ms)
+✔ missing NB, missing NN and locale parity mismatch fail closed (3.660179ms)
+✔ student-approved draft and fabricated receipt fail closed (3.554892ms)
+✔ student beta, recruitment, provider and production authorization fail closed (11.305695ms)
+✔ student, engagement-like and readiness-like metrics cannot enter the allowed dictionary (3.919397ms)
+✔ identifierguard rejects likely identifiers before storage (1.791152ms)
+✔ provider decision validator rejects missing provider option (6.858858ms)
+✔ provider decision validator rejects duplicate optionId (1.424953ms)
+✔ provider decision validator rejects missing recommendation (1.11557ms)
+✔ provider decision validator rejects multiple recommendations (1.074969ms)
+✔ provider decision validator rejects recommendation without source (3.644967ms)
+✔ provider decision validator rejects source without reverification marker (2.150359ms)
+✔ provider decision validator rejects missing region analysis (0.577034ms)
+✔ provider decision validator rejects executed region lock (0.576673ms)
+✔ provider decision validator rejects missing capability option (0.895371ms)
+✔ provider decision validator rejects stable identity in recommended option (0.84177ms)
+✔ provider decision validator rejects direct client write (0.643593ms)
+✔ provider decision validator rejects client-selected authority generation (0.597584ms)
+✔ provider decision validator rejects real data in model (1.338194ms)
+✔ provider decision validator rejects analytics activated (0.771145ms)
+✔ provider decision validator rejects Cloud Storage activated (0.542883ms)
+✔ provider decision validator rejects browser secret (0.54135ms)
+✔ provider decision validator rejects request body logging (0.584325ms)
+✔ provider decision validator rejects capability logging (0.614279ms)
+✔ provider decision validator rejects TTL as immediate deletion (0.582282ms)
+✔ provider decision validator rejects missing explicit deletion (0.548771ms)
+✔ provider decision validator rejects missing tombstone (2.21824ms)
+✔ provider decision validator rejects no-resurrection broken (0.736042ms)
+✔ provider decision validator rejects overbroad service account (1.31612ms)
+✔ provider decision validator rejects cost estimate as guarantee (0.790083ms)
+✔ provider decision validator rejects billing alert as hard cap (0.648631ms)
+✔ provider decision validator rejects missing kill switch owner field (0.867629ms)
+✔ provider decision validator rejects missing exit plan (0.465396ms)
+✔ provider decision validator rejects missing no-go (0.668842ms)
+✔ provider decision validator rejects missing BM (0.875411ms)
+✔ provider decision validator rejects missing NN (0.875441ms)
+✔ provider decision validator rejects BM/NN status mismatch (0.84176ms)
+✔ provider decision validator rejects missing explicit owner confirmation (0.839357ms)
+✔ provider decision validator rejects wrong selected provider (0.899577ms)
+✔ provider decision validator rejects missing approved boundary (0.832767ms)
+✔ provider decision validator rejects WP13.12B opened by decision record (1.062481ms)
+✔ provider decision validator rejects fabricated signature (0.957233ms)
+✔ provider decision validator rejects provider activated (1.508868ms)
+✔ provider decision validator rejects cloud resources greater than zero (1.025645ms)
+✔ provider decision validator rejects B8 approved (0.770233ms)
+✔ provider decision validator rejects student beta authorized (1.029061ms)
+✔ provider decision validator rejects production authorized (0.782261ms)
+✔ provider decision validator rejects WP13.12B opened (0.749001ms)
+✔ valid package returns the exact machine-readable authorization ceiling (1.268409ms)
+✔ app, content, knowledge, audio, operations and provider decision rollback independently (3.194803ms)
+✔ withdrawn, unknown, incompatible and no-op rollback fail closed (0.232728ms)
+✔ command envelope rejects duplicate, stale version, stale authority and delay without state mutation (2.695526ms)
+✔ central state invariants reject corrupt terminal, pause, quiet, audio and support combinations (1.352605ms)
+✔ valid Human-First sequence preserves WAIT, adult authority, quiet audio and STOP dominance (3.516275ms)
+✔ seeded deterministic chaos validates invariants after 4096 command attempts (34.550229ms)
+✔ lifecycle transition is deterministic for every state and event pair (5.323961ms)
+✔ all required lifecycle states are reachable through explicit events (0.42064ms)
+✔ rejected events return a typed visible error and never mutate state (0.613038ms)
+✔ STOPPED cannot become ACTIVE again (0.243755ms)
+✔ DELETED rejects every event and can never be revived (0.336894ms)
+✔ recovery cannot bypass terminal dominance (0.204697ms)
+✔ pause and WAIT retain explicit deterministic resume semantics (0.208512ms)
+✔ valid owner decision authorizes repository work without provider activation (3.989804ms)
+✔ missing owner-decision record fails closed (0.321321ms)
+✔ wrong owner-decision checksum and source package checksum fail closed (0.234201ms)
+✔ DEFER cannot authorize WP13.12B repository implementation (0.301621ms)
+✔ REJECT cannot authorize WP13.12B repository implementation (0.18729ms)
+✔ UNKNOWN cannot authorize WP13.12B repository implementation (0.192428ms)
+✔ incomplete decision, fabricated signature and wrong release binding fail closed (1.23554ms)
+✔ missing or contradictory owner conditions and automatic activation fail closed (0.170525ms)
+✔ provider activation, cloud resources, B8, student beta and production fail closed (0.411846ms)
+✔ valid staging repository contract preserves every scope ceiling (0.715381ms)
+✔ staging validator rejects providerActivation=ACTIVE (0.253059ms)
+✔ staging validator rejects cloudResources=1 (0.117215ms)
+✔ staging validator rejects firebaseAuthentication=true (0.084046ms)
+✔ staging validator rejects stableUid=true (0.076665ms)
+✔ staging validator rejects directClientWrite=true (0.074071ms)
+✔ staging validator rejects providerIsolation=false (0.076285ms)
+✔ staging validator rejects pureCoreProviderFree=false (0.087451ms)
+✔ staging validator rejects firestoreRulesDenyByDefault=false (0.076024ms)
+✔ staging validator rejects serverAuthoritativeHandler=false (0.088582ms)
+✔ staging validator rejects capabilityBearerOnly=false (0.077235ms)
+✔ staging validator rejects explicitDeletion=false (0.079138ms)
+✔ staging validator rejects tombstone=false (0.075573ms)
+✔ staging validator rejects ttlBackstopOnly=false (0.12001ms)
+✔ staging validator rejects backupAndPitrEnabled=true (3.717284ms)
+✔ staging validator rejects killSwitch=false (0.112258ms)
+✔ staging validator rejects noResurrection=false (0.06005ms)
+✔ staging validator rejects roleProjectionIsolation=false (0.058507ms)
+✔ staging validator rejects syntheticDataOnly=false (0.074481ms)
+✔ staging validator rejects runtimeAi=true (0.062674ms)
+✔ staging validator rejects externalReceipts=1 (0.070506ms)
+✔ staging validator rejects physicalTwoDeviceProof=true (0.049644ms)
+✔ staging validator rejects b8=APPROVED (0.043194ms)
+✔ staging validator rejects studentBeta=AUTHORIZED (0.041562ms)
+✔ staging validator rejects production=AUTHORIZED (0.040802ms)
+✔ staging validator rejects wp13_12c=OPEN (0.0871ms)
+✔ staging validator rejects missing no-go rules (0.145908ms)
+✔ unfilled receipt template is valid structure but never evidence (1.006467ms)
+✔ authentic receipt is bound to its explicit source commit and tree rather than current HEAD (0.719878ms)
+✔ receipt rejects a wrong source tree and non-path artifact aliases (0.791555ms)
+✔ filled receipt without signature, commands, hashes or provider ID is rejected (0.483013ms)
+✔ filled receipts require nonempty proofResults whose values are true (0.837634ms)
+✔ Firebase receipt binds exact project, region, functions and disabled-first safety proof (0.913677ms)
+✔ IAM and billing receipt binds 400/500 NOK, owner, expiry, quotas, roles, keys and secret (3.073848ms)
+✔ protected preview receipt binds exact protected non-production deployment and rollback (1.451563ms)
+✔ provider receipt confirmation cannot be generic, reused or detached from evidence (0.268391ms)
+✔ only exact v2 emulator challenge confirmation qualifies as challenge-bound (13.184818ms)
+✔ receipt bound to wrong commit or claiming physical proof without devices is rejected (0.712367ms)
+✔ complete physical receipt requires two distinct CHILD and ADULT devices and safety proof (0.799477ms)
+✔ physical proof binds a distinct deletion session and each exact step scope (1.108349ms)
+✔ physical proof binds a distinct known-valid rollback deployment and evidence (0.626107ms)
+✔ physical PR3 families require exact protected-preview receipt and evidence binding (3.994074ms)
+✔ physical handoff template documents the exact 27-step proof sequence (0.30689ms)
+✔ physical receipt rejects empty device shells, duplicate roles and indistinguishable records (0.937734ms)
+✔ physical device distinctness uses ephemeral evidence IDs, never timestamps (0.329333ms)
+✔ physical devices bind one session/deployment and never record capability values (1.023442ms)
+✔ physical receipt rejects a hollow checksum, fixture, preview, steps or confirmation (0.944884ms)
+✔ physical proof requires adult operators, no participants and physically separate devices (0.590574ms)
+✔ physical proof rejects missing, duplicate and unknown documented steps (0.631686ms)
+✔ physical proof checksum and confirmation bind the exact evidence artifact (0.269153ms)
+✔ physical receipt requires every role, lifecycle and safety result to be true (2.367895ms)
+✔ physicalProof=true and expected physical proof both require the physical receipt type (0.245507ms)
+✔ receipt cannot open B8, authorize beta/production or claim fabricated status (0.345087ms)
+✔ external activation overlay preserves the historical repository snapshot (0.6142ms)
+✔ historical emulator evidence cannot substitute for fresh v2 receipt evidence (0.278687ms)
+✔ active external overlay requires all four authentic validated receipt types (1.060247ms)
+✔ recorded physical overlay proof requires an authentically validated physical receipt (0.289413ms)
+✔ PR3 remains not achieved until every exact proof family is receipt-derived (0.282783ms)
+✔ PR3 is achieved iff the complete exact proof-family set validates (0.253329ms)
+✔ external activation overlay cannot rewrite baseline or turn unknown inventory into zero (0.197266ms)
+✔ pending external resource inventory is valid without claiming zero resources (0.423514ms)
+✔ resource inventory schema allowlists the exact authenticated resource fields (0.10645ms)
+✔ pending inventory rejects invented resources and provider observation claims (0.371406ms)
+✔ authenticated inventory accepts only the complete synthetic resource contract (0.336464ms)
+✔ authenticated inventory requires every exact resource field (1.575268ms)
+✔ authenticated inventory rejects legacy, extra and secret-bearing fields (0.260139ms)
+✔ authenticated inventory rejects duplicate resource IDs and unsafe paths (7.370554ms)
+✔ authenticated inventory requires real ISO timestamps and immutable safety declarations (0.315912ms)
+✔ same state and command produce identical transition (2.711699ms)
+✔ one command creates at most one pedagogical intervention (0.371556ms)
+✔ state contains no stable person identity (0.238937ms)
+✔ synthetic multi-client uses one authoritative session with separate role projections (2.166263ms)
+✔ WAIT is first-class and produces no adult card (0.294451ms)
+✔ help creates an adult-only card without leaking it to child projection (0.305277ms)
+✔ stale version, stale authority, duplicate and delayed commands never mutate stateversion (0.432728ms)
+✔ STOP dominates delayed commands, clears help/audio and prevents resurrection (0.322292ms)
+✔ explicit deletion creates terminal state and reconnect cannot resurrect (0.737304ms)
+✔ synthetic aggregate contains no stable person identity or forbidden participant data (0.553579ms)
+✔ wrong build resets tiles without inferring cause or emotion (1.465073ms)
+✔ correct target requires adult confirmation before transfer (0.190055ms)
+✔ independent target and transfer preserve evidence distinction (0.321772ms)
+✔ support in current task prevents independent evidence (0.15384ms)
+✔ stop clears selected material and is terminal (0.196374ms)
+✔ controller starts with eight selectable source packages and no session mutation (8.604983ms)
+✔ complete draft can be cloned to a new semantic activity ID (6.995182ms)
+✔ BM and NN edits remain separate and mark only relevant audio stale (7.212878ms)
+✔ audio script revision creates stale audio with a new script checksum (9.142768ms)
+✔ clone, edit, deterministic export and validated import round-trip (14.657784ms)
+✔ invalid imports cannot bypass schema, publishing, receipt or provider boundaries (33.223879ms)
+✔ local signature is traceable but never an external receipt (2.790317ms)
+✔ REVIEW_PENDING means handoff readiness and never approval (4.585064ms)
+✔ technical take attachment and replacement stay non-production and unreviewed (5.065765ms)
+✔ STOP interrupts audio and withdrawal removes every active take (6.868042ms)
+✔ restrictive policy survives weaker updates and cannot resurrect package or audio (4.328189ms)
+✔ B8 readiness view starts with all gates and no implicit authorization (1.520015ms)
+✔ gate selection changes projection without changing the dossier (0.843864ms)
+✔ adult-only local finding is accepted while likely PII is never stored (3.481351ms)
+✔ STOP dominates pending help and a new explicit dry-run is required (2.115407ms)
+✔ SEV0 contains the run, removes findings and blocks continuation (0.717804ms)
+✔ deletion and reconnect preserve no-resurrection and remove records from new export (7.564415ms)
+✔ identical input produces identical local review exports (0.847318ms)
+✔ operations rollback is independent and withdrawn operations fail closed (0.375182ms)
+✔ withdrawn artifact cannot be selected and NB/NN render independently (9.116738ms)
+✔ CHANGES_REQUIRED is blocked in normal mode and selectable in review mode (6.444607ms)
+✔ target, modelled practice, supported retry and transfer are separate evidence events (1.605473ms)
+✔ withdrawn, stale and superseded activities cannot run (1.802208ms)
+✔ class lifecycle dominates activity lifecycle and restrictions cannot resurrect content (0.475812ms)
+✔ STOP interrupts requested audio specification and pending feedback (0.418046ms)
+✔ every normal-mode eligible activity completes in both BM and NN (1.931612ms)
+✔ every eligible activity completes through the authoritative app session in BM and NN (16.230118ms)
+✔ a matching answer needs its own evidence, and changing either choice invalidates feedback (5.914744ms)
+✔ missing information is an explicit evidence choice in both languages (3.376706ms)
+✔ evidence pauses unchanged and cannot return after STOP or withdrawal (2.006073ms)
+✔ a learner can retry a choice, use support, skip and complete without an ability score (4.207238ms)
+✔ pause freezes the task, choices and language until an explicit resume (3.431658ms)
+✔ STOP clears the attempt and late answers, resume and next cannot resurrect it (1.691161ms)
+✔ restrictions follow a proposal into this room, stop active work and cannot be undone by an empty policy (0.605817ms)
+✔ a reasonable choice and an explicit lack of information both permit reflection and progress (4.061661ms)
+✔ catalog filters, keyboard controls, draft status and explicit nynorsk copy are rendered (3.597797ms)
+✔ a shared policy routes new IDs without admitting unknown IDs or weakening legacy scope validation (1.216781ms)
+✔ session issuance is IAM/operator protected and disabled by default (1.962789ms)
+✔ issued CHILD and ADULT capabilities are short-lived, separate, opaque and session-bound (2.712541ms)
+✔ capability is accepted only in Authorization Bearer and rejected in URL or body (1.718402ms)
+✔ wrong role, wrong session, stale version and stale authority fail without mutation (1.008771ms)
+✔ duplicate command and delayed command are rejected (2.717358ms)
+✔ STOP revokes both role capabilities and dominates delayed commands (1.388959ms)
+✔ explicit deletion writes tombstone, removes active payload and prevents reconnect resurrection (1.006737ms)
+✔ kill switch blocks active session, delayed command, reconnect, cached capability and new session (1.567127ms)
+✔ expired capability is rejected (0.420279ms)
+✔ external runtime fails closed at the exact staging expiry while privileged deletion remains available (0.71411ms)
+✔ command budget is enforced without changing state after exhaustion (9.245371ms)
+✔ health reports the runtime phase and preserves all external staging ceilings (1.533846ms)
+✔ HF-S01 WAIT produces no intervention (2.92286ms)
+✔ HF-S02 REQUEST_QUIET suppresses audio without profiling (0.378867ms)
+✔ HF-S03 adult can reject a card (0.285357ms)
+✔ HF-S04 context correction stays session-bound (0.354781ms)
+✔ HF-S05 stop dominates cards and audio (0.333019ms)
+✔ HF-S06 support provenance cannot become independent evidence (0.248652ms)
+✔ HF-S07 pause or timing never creates emotion inference (0.516103ms)
+✔ HF-S08 human voice is a reviewed asset, not a persona (0.321091ms)
+✔ HF-S09 BM and NN require exact locale resolution (1.328609ms)
+✔ HF-S10 deleted session cannot be resurrected (0.464125ms)
+✔ HF-S11 pause and stop remain explicit accessible commands (0.297545ms)
+✔ HF-S12 repository has no runtime AI or provider dependency (11.100297ms)
+✔ knowledge library defaults to twelve bilingual prototype units (1.108209ms)
+✔ knowledge library filtering does not create a profile (0.547579ms)
+✔ locale switch preserves semantic inventory and resets selection (0.670334ms)
+✔ decision controller starts with the recorded decision and five visible options (2.430168ms)
+✔ BM and NN switch explicitly and reject missing locale without fallback (0.893148ms)
+✔ selected option comparison does not alter recommendation or authorization (0.686307ms)
+✔ dossier export is deterministic and retains the authorization ceiling (18.018345ms)
+✔ owner template export remains blank and contains no fabricated decision or signature (0.48738ms)
+✔ BM and NN PWA status bundles are complete, reviewed and never claim sync (1.861967ms)
+✔ updates are available only before start or in terminal session states (0.551375ms)
+✔ offline shell policy cannot resurrect terminal state or reuse a new session id (6.114784ms)
+✔ empty, malformed, invalid-shape and stale-schema storage fail closed (2.576547ms)
+✔ content, reference and BM/NN mismatches invalidate without fallback (0.626418ms)
+✔ missing, stale, withdrawn and invalid audio use explicit text-and-silence fallback (0.932626ms)
+✔ broken invariants invalidate and terminal snapshots never resurrect on refresh (0.361882ms)
+✔ runtime boundary stops audio and pending actions for every critical browser failure (0.397134ms)
+✔ authoritative lifecycle controller enforces envelope idempotency, version, authority and time (2.102327ms)
+✔ stale authority cannot cross STOP and delayed commands cannot resurrect (0.555792ms)
+✔ full synthetic create, active, WAIT, pause, resume and completion scenario (1.662098ms)
+✔ reconnect after STOP keeps the stopped projection (0.433909ms)
+✔ reconnect after delete returns tombstone and no session content (0.314741ms)
+✔ child and adult projections expose only role-authorized fields (0.164366ms)
+✔ invalid controller transition is visible, typed and state-preserving (0.15385ms)
+✔ stale snapshots cannot overwrite newer STOP or DELETE (1.011584ms)
+✔ deterministic reconnect adapter simulates latency and every required outcome (0.302013ms)
+✔ invalid payload and recovery success or failure remain explicit (0.22691ms)
+✔ transport invalid payload creates visible INVALID view without network (0.602142ms)
+✔ all lifecycle demo data and BM/NN markup are explicitly synthetic drafts (0.732637ms)
+✔ limited evidence may be authorized within scope without becoming product validation; counterevidence stays visible (1.899093ms)
+✔ strong evidence, a reviewed text, or a fabricated flag cannot replace a scoped runtime use decision (0.354371ms)
+✔ missing, withdrawn, ambiguous and mismatched revisions fail closed throughout the evidence chain (0.464395ms)
+✔ model memory, open-web fallback, user data and situational data cannot masquerade as domain library sources (0.27382ms)
+✔ claim withdrawal, revocation, stale verification and malformed time prevent knowledge use (0.365156ms)
+✔ UI language and dialect do not choose the written variant; missing NN review never falls back to BM (0.342083ms)
+✔ selector gets a copy; the only delivered prose comes from the controlled library (1.246036ms)
+✔ invented citations, prose, duplicate selections and extra model fields are rejected (1.597511ms)
+✔ a knowledge gap abstains before selection; no fallback provider or web search is called (1.267147ms)
+✔ stop before or during selection prevents a late answer even when the selector ignores cancellation (0.963392ms)
+✔ revocation or changed library content while selection runs prevents stale or resurrected output (3.761171ms)
+✔ stop immediately releases the caller even when selection never settles (0.417034ms)
+✔ library or selector failure returns abstention without leaking errors or activating another source (0.350675ms)
+✔ normal journey exposes welcome, explicit creation, role loading and orientation (8.924025ms)
+✔ child and adult are restricted projections of one authoritative session (43.849537ms)
+✔ WAIT, help, dismissible adult card, visible provenance, quiet, pause and resume work (1.599574ms)
+✔ full word journey completes with a neutral summary (1.881707ms)
+✔ STOP and delete dominate reconnect while a new session has no leaked state (1.661838ms)
+✔ stale recovery returns to the same active local session (0.846007ms)
+✔ BM and NN are explicit complete bundles without fallback (1.832904ms)
+✔ child and adult projections share one authoritative snapshot (1.55646ms)
+✔ adult WAIT dismisses card without creating support provenance (0.229293ms)
+✔ adult model is recorded and target cannot become independent (0.278898ms)
+✔ independent target followed by independent new word becomes near transfer (0.309523ms)
+✔ quiet mode blocks audio while reviewed text remains (36.113736ms)
+✔ stop dominates both session and learning proof (0.236694ms)
+ℹ tests 338
+ℹ suites 0
+ℹ pass 338
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 790.105845
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> ludys-app-reconstructed@0.14.0-reconstructed.9 operations:validate:compiled
+> node scripts/validate-wp13-11-operations.mjs
+
+{
+  "valid": true,
+  "errors": [],
+  "warnings": [],
+  "readiness": "READY_FOR_ADULT_ONLY_DRY_RUN",
+  "studentBetaAuthorized": false,
+  "externalReceipts": 0,
+  "semanticArtifactCount": 27,
+  "languageArtifactCount": 54
+}
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> ludys-app-reconstructed@0.14.0-reconstructed.9 provider:decision:validate:compiled
+> node scripts/validate-wp13-12a-decision.mjs
+
+{
+  "valid": true,
+  "errors": [],
+  "warnings": [],
+  "packageStatus": "OWNER_DECISION_RECORDED",
+  "ownerDecision": "APPROVE_RECOMMENDED_SYNTHETIC_DEV",
+  "providerActivation": "BLOCKED",
+  "cloudResources": 0,
+  "externalReceipts": 0,
+  "studentBetaAuthorized": false
+}
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> ludys-app-reconstructed@0.14.0-reconstructed.9 staging:validate:compiled
+> node scripts/validate-wp13-12b-staging.mjs
+
+file:///workspace/scratch/7893748eab4e/Ludys/scripts/wp13-12b-pinned-git-toolchain.mjs:61
+  const error = new Error(code);
+                ^
+
+Error: PINNED_GIT_WINDOWS_RUNTIME_REQUIRED
+    at gitToolchainError (file:///workspace/scratch/7893748eab4e/Ludys/scripts/wp13-12b-pinned-git-toolchain.mjs:61:17)
+    at inspectPinnedGitRuntime (file:///workspace/scratch/7893748eab4e/Ludys/scripts/wp13-12b-pinned-git-toolchain.mjs:340:11)
+    at adapter (file:///workspace/scratch/7893748eab4e/Ludys/scripts/wp13-12b-pinned-git-toolchain.mjs:726:5)
+    at file:///workspace/scratch/7893748eab4e/Ludys/scripts/validate-wp13-12b-staging.mjs:57:54 {
+  code: 'PINNED_GIT_WINDOWS_RUNTIME_REQUIRED'
+}
+
+Node.js v24.19.0

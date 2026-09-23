@@ -1,0 +1,51 @@
+{
+  "scope": "LOCAL_AUTOMATED_DRAFT_VERIFICATION",
+  "sourceBaseCommit": "85ac22f",
+  "branch": "content/exercise-room",
+  "exercises": 12,
+  "semanticRounds": 50,
+  "types": 6,
+  "locales": [
+    "nb-NO",
+    "nn-NO"
+  ],
+  "compiledTests": {
+    "passed": 333,
+    "failed": 0
+  },
+  "canonTests": {
+    "passed": 5,
+    "failed": 0
+  },
+  "pwaContractTests": {
+    "passed": 11,
+    "failed": 0
+  },
+  "browser": {
+    "engine": "Chromium 153.0.8010.0",
+    "automation": "repository CDP",
+    "exerciseRoom": "PASS",
+    "authoring": "PASS",
+    "pwa": "PASS",
+    "offline": "ordinary reload",
+    "viewportWidths": [
+      320,
+      640,
+      1280
+    ],
+    "pageScaleFactor": 2
+  },
+  "fullCheck": {
+    "status": "BLOCKED_AT_EXISTING_ENVIRONMENT_GATE",
+    "gate": "staging:validate:compiled",
+    "reason": "PINNED_GIT_WINDOWS_RUNTIME_REQUIRED",
+    "skippedLaterGatesNotClaimed": true
+  },
+  "build": "INSTALLABLE_ALPHA_OUTPUT_READY",
+  "humanContentReview": false,
+  "manualScreenReaderReview": false,
+  "physicalDeviceReview": false,
+  "githubPushPerformed": false,
+  "deploymentPerformed": false,
+  "externalReceiptsCreated": false
+}

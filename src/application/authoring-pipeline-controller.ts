@@ -1,5 +1,6 @@
 import {
   AUTHORING_SCHEMA_VERSION,
+  AUTHORING_DRAFT_SCHEMA_VERSION,
   deterministicAuthoringJson,
   sha256Hex,
   validateAudioProductionCandidate,
@@ -366,7 +367,7 @@ export class AuthoringPipelineController {
       const parsed: unknown = JSON.parse(json);
       if (parsed === null || typeof parsed !== "object" || Array.isArray(parsed)) throw new Error("authoring import must be an object");
       const candidate = parsed as AuthoringPackage;
-      if (candidate.schemaVersion !== AUTHORING_SCHEMA_VERSION) throw new Error("unknown authoring schema");
+      if (candidate.schemaVersion !== AUTHORING_SCHEMA_VERSION && candidate.schemaVersion !== AUTHORING_DRAFT_SCHEMA_VERSION) throw new Error("unknown authoring schema");
       if (!this.#knownSourceActivityIds.has(candidate.sourceActivityId)) throw new Error("unknown source activity");
       if (!this.#knownPatternClassIds.has(candidate.patternClassId)) throw new Error("invalid pattern class");
       const knownChecksums = new Set([...this.#technicalTakes.values()].map((item) => item.assetSha256));

@@ -1,0 +1,24 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> ludys-app-reconstructed@0.14.0-reconstructed.9 test:pwa-contract
+> node --test scripts/pwa-contract-test.mjs
+
+✔ manifest is installable, local, scoped and project-specific (7.140915ms)
+✔ service worker install caches the deterministic shell and fails on a missing critical file (19.73597ms)
+✔ a missing exercise catalog fails shell installation instead of leaving a half-working app (2.27932ms)
+✔ activate removes only obsolete LUDYS shell caches (10.672943ms)
+✔ offline navigation falls back to cached shell without caching unknown requests (6.696493ms)
+✔ mutating and external requests are never intercepted or cached (5.0926ms)
+✔ update activation is message-controlled and never automatic (2.661627ms)
+✔ restrictive corpus policy survives offline reload and cannot be relaxed by cache (3.988729ms)
+✔ restrictive authoring and audio policy survives offline reload without resurrection (6.192057ms)
+✔ terminal offline fallback copy is explicitly human-reviewed in contract (0.394473ms)
+✔ cache inventory contains no session, user, profile, API or external origin (4.416972ms)
+ℹ tests 11
+ℹ suites 0
+ℹ pass 11
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 167.947347

@@ -2,11 +2,13 @@ import type { Locale } from "./content-contracts.js";
 import type {
   DraftConstruct,
   DraftLifecycleStatus,
+  DraftPatternClassLocaleReview,
   DraftSupportLevel,
   DraftTransferClassification,
 } from "./draft-learning-corpus.js";
 
 export const AUTHORING_SCHEMA_VERSION = "WP13.9-AUTHORING-1" as const;
+export const AUTHORING_DRAFT_SCHEMA_VERSION = "LUDYS-AUTHORING-DRAFT-2" as const;
 export const AUTHORING_PIPELINE_STATUS = "AUTHORING_PIPELINE_READY" as const;
 export const AUDIO_PIPELINE_STATUS = "AUDIO_PRODUCTION_PIPELINE_READY" as const;
 export const AUTHORING_LOCALES = ["nb-NO", "nn-NO"] as const;
@@ -121,8 +123,8 @@ export interface AuthoringAudioSpecification {
   readonly textAlternative: true;
   readonly silenceAlternative: true;
   readonly runtimeMicrophone: false;
-  readonly specificationHumanReviewed: true;
-  readonly specificationReviewSource: "WP13.9_SCOPE_2026-07-22";
+  readonly specificationHumanReviewed: boolean;
+  readonly specificationReviewSource: "WP13.9_SCOPE_2026-07-22" | null;
 }
 
 export interface AuthoringAudioTake {
@@ -167,12 +169,21 @@ export interface LocalAuthoringReviewNote {
 }
 
 export interface AuthoringProvenance {
-  readonly source: "WP13.8_AUTHENTIC_DRAFT_CORPUS";
+  readonly source: "WP13.8_AUTHENTIC_DRAFT_CORPUS" | "AI_ASSISTED_CONTENT_DRAFT";
   readonly sourceRevision: number;
   readonly clonedFromPackageId: string | null;
   readonly localMachinePathIncluded: false;
   readonly personDataIncluded: false;
   readonly runtimeAiUsed: false;
+}
+
+/** Editorial proposals only. This metadata cannot authorize learner runtime. */
+export interface PendingPatternReview {
+  readonly patternClassId: string;
+  readonly humanReviewed: false;
+  readonly ageBand: "6-9";
+  readonly locales: Readonly<Record<Locale, Omit<DraftPatternClassLocaleReview, "humanReviewed" | "reviewSource">>>;
+  readonly dictionarySources: readonly string[];
 }
 
 export interface AuthoringNullAuthorizations {
@@ -208,7 +219,7 @@ export interface AuthoringAdultPreview {
 }
 
 export interface AuthoringPackage {
-  readonly schemaVersion: typeof AUTHORING_SCHEMA_VERSION;
+  readonly schemaVersion: typeof AUTHORING_SCHEMA_VERSION | typeof AUTHORING_DRAFT_SCHEMA_VERSION;
   readonly packageId: string;
   readonly packageRevision: number;
   readonly sourceCorpusId: string;
@@ -223,6 +234,7 @@ export interface AuthoringPackage {
   readonly audioSpecifications: readonly AuthoringAudioSpecification[];
   readonly audioTakes: readonly AuthoringAudioTake[];
   readonly provenance: AuthoringProvenance;
+  readonly pendingPatternReview?: PendingPatternReview;
   readonly localReviewNotes: readonly LocalAuthoringReviewNote[];
   readonly externalReceipts: readonly [];
   readonly reviewStatus: AuthoringReviewStatus;
@@ -283,7 +295,7 @@ const PACKAGE_KEYS = [
   "externalReceipts", "reviewStatus", "lifecycle", "stale", "supersedesPackageId",
   "supersededByPackageId", "withdrawnAt", "pipelineStatus", "audioPipelineStatus",
   "evidenceStatus", "externalReviewRequirement", "betaStatus", "publishingStatus",
-  "nullAuthorizations", "childPreview", "adultPreview",
+  "nullAuthorizations", "childPreview", "adultPreview", "pendingPatternReview",
 ] as const;
 
 function rotateRight(value: number, amount: number): number {
@@ -406,7 +418,33 @@ export function validateAuthoringPackage(authoringPackage: AuthoringPackage): Au
   const errors: string[] = [];
   const extras = exactKeys(authoringPackage as unknown as Record<string, unknown>, PACKAGE_KEYS);
   if (extras.length > 0) errors.push(`unknown package fields: ${extras.join(", ")}`);
-  if (authoringPackage.schemaVersion !== AUTHORING_SCHEMA_VERSION) errors.push("unknown authoring schema");
+  const unreviewedProposal = authoringPackage.provenance.source === "AI_ASSISTED_CONTENT_DRAFT";
+  const expectedSchema = unreviewedProposal ? AUTHORING_DRAFT_SCHEMA_VERSION : AUTHORING_SCHEMA_VERSION;
+  if (authoringPackage.schemaVersion !== expectedSchema) errors.push("unknown authoring schema or provenance/schema mismatch");
+  if (!unreviewedProposal && authoringPackage.provenance.source !== "WP13.8_AUTHENTIC_DRAFT_CORPUS") {
+    errors.push("unknown content provenance");
+  }
+  if (unreviewedProposal) {
+    const review = authoringPackage.pendingPatternReview;
+    if (review === undefined || review.humanReviewed !== false || review.patternClassId !== authoringPackage.patternClassId || review.ageBand !== "6-9") {
+      errors.push("new content requires an explicit unreviewed pattern proposal");
+    } else {
+      for (const locale of AUTHORING_LOCALES) {
+        const variant = review.locales[locale];
+        if (variant === undefined || variant.locale !== locale) {
+          errors.push(`${locale}: explicit pending pattern review is required`);
+          continue;
+        }
+        for (const field of ["title", "norwegianGraphemePhonemeSuitability", "writtenStandard", "pronunciationAndDialectLimits", "vowelLength", "consonantDoubling", "orthographicComplexity", "morphologicalComplexity", "investigates", "cannotProve", "stimulusRationale"] as const) {
+          requiredText(errors, variant[field], `${locale}.pendingPatternReview.${field}`);
+        }
+        if (variant.openReviewerQuestions.length === 0) errors.push(`${locale}: open review questions are required`);
+      }
+      if (review.dictionarySources.length === 0) errors.push("dictionary source references are required");
+    }
+  } else if (authoringPackage.pendingPatternReview !== undefined) {
+    errors.push("pending pattern review cannot be relabelled as historical reviewed content");
+  }
   for (const [path, value] of [
     ["packageId", authoringPackage.packageId], ["sourceCorpusId", authoringPackage.sourceCorpusId],
     ["sourceActivityId", authoringPackage.sourceActivityId], ["activityId", authoringPackage.activityId],
@@ -451,8 +489,8 @@ export function validateAuthoringPackage(authoringPackage: AuthoringPackage): Au
     ] as const) requiredText(errors, value, `${locale}.${field}`);
     if (copy.contextCard.knowledgeId !== copy.knowledgeUnit.knowledgeId) errors.push(`${locale}: orphaned knowledge ID`);
     if (copy.contextCard.activityId !== authoringPackage.activityId) errors.push(`${locale}: orphaned context activity ID`);
-    if (new Set(copy.audioScriptIds).size !== copy.audioScriptIds.length || copy.audioScriptIds.some((id) => !audioIds.has(id))) {
-      errors.push(`${locale}: orphaned audio ID`);
+    if (new Set(copy.audioScriptIds).size !== copy.audioScriptIds.length || copy.audioScriptIds.some((id) => !audioIds.has(id) || !authoringPackage.audioSpecifications.some((spec) => spec.semanticAudioId === id && spec.locale === locale))) {
+      errors.push(`${locale}: orphaned or mixed-locale audio ID`);
     }
     if (copy.audioScriptIds.length !== 3) errors.push(`${locale}: three explicit audio scripts are required`);
     const localeAudio = authoringPackage.audioSpecifications.filter((item) => item.locale === locale);
@@ -475,7 +513,13 @@ export function validateAuthoringPackage(authoringPackage: AuthoringPackage): Au
     if (spec.pronunciationReview !== "NOT_REVIEWED" || spec.naturalnessReview !== "NOT_REVIEWED" || spec.constructIntegrityReview !== "NOT_REVIEWED") {
       errors.push(`${spec.semanticAudioId}: external audio review cannot be claimed`);
     }
-    if (!spec.specificationHumanReviewed || spec.specificationReviewSource !== "WP13.9_SCOPE_2026-07-22") errors.push(`${spec.semanticAudioId}: audio specification contract review is missing`);
+    if (unreviewedProposal) {
+      if (spec.specificationHumanReviewed !== false || spec.specificationReviewSource !== null) {
+        errors.push(`${spec.semanticAudioId}: new draft cannot claim human specification review`);
+      }
+    } else if (!spec.specificationHumanReviewed || spec.specificationReviewSource !== "WP13.9_SCOPE_2026-07-22") {
+      errors.push(`${spec.semanticAudioId}: audio specification contract review is missing`);
+    }
     if (spec.stale !== (spec.lifecycle === "STALE")) errors.push(`${spec.semanticAudioId}: stale lifecycle mismatch`);
     if (spec.lifecycle === "WITHDRAWN" && spec.activeTakeId !== null) errors.push(`${spec.semanticAudioId}: withdrawn audio cannot retain active take`);
     if (spec.activeTakeId !== null && !takeIds.has(spec.activeTakeId)) errors.push(`${spec.semanticAudioId}: active take is unknown`);

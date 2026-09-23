@@ -1,0 +1,9 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> ludys-app-reconstructed@0.14.0-reconstructed.9 test:exercises-browser
+> node scripts/browser-exercise-room-test.mjs
+
+Browser: all 13 exercises / seven types work in Bokmål and Nynorsk using keyboard controls.
+Browser: six evidence rounds in both languages require answer + source; wrong source, missing information, pause, keyboard focus and mobile layout passed.
+Browser: retries, hints, model, pause/resume, stop, summaries, multiple valid choices, 320px reflow, zoom, accessibility tree and persisted restrictions passed.
+Browser: offline reload retains restrictions; Nynorsk reading and text evidence exercises are fully interactive.
