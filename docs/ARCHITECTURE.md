@@ -1,5 +1,7 @@
 # Arkitektur etter WP13.3
 
+**Scope:** Arkitekturen under beskriver den eksisterende syntetiske proofen. [Skynja-kanon 1.0](canon/skynja-v1.0/README_FIRST.md) styrer videre utvikling. Nye rene kontrakter ligger i `src/core/skynja`, porter i `src/ports/skynja` og orkestrering i `src/application/skynja`; de følger samme dependencyretning. [Integrasjonsrapporten](SKYNJA_CANON_INTEGRATION.md) beskriver den første bibliotekgrensen og migrasjonsarbeidet som gjenstår.
+
 ## Dependencyretning
 
 ```text
@@ -71,7 +73,9 @@ Kunnskapsbanken er en utskiftbar browservisning med:
 - 320-pikslers reflow
 - tilgjengelige navn og kontroller
 
-## Fortsatte grenser
+## Avgrensning av denne historiske proofen
+
+Dette er ikke forbud mot å designe kapabilitetene i SKP-026/028/029/031. Den kjørbare proofen har fortsatt:
 
 - ingen provider
 - ingen auth eller datastore

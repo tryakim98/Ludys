@@ -1,0 +1,44 @@
+{
+  "date": "2026-09-23",
+  "baseCommit": "458b2cc",
+  "exercises": 13,
+  "semanticRounds": 56,
+  "localizedRounds": 112,
+  "exerciseTypes": 7,
+  "newExercise": {
+    "id": "skynja-find-evidence",
+    "rounds": 6,
+    "locales": [
+      "nb-NO",
+      "nn-NO"
+    ],
+    "humanReviewed": false
+  },
+  "compiledTests": {
+    "passed": 338,
+    "failed": 0
+  },
+  "canonTests": {
+    "passed": 5,
+    "failed": 0
+  },
+  "pwaContractTests": {
+    "passed": 11,
+    "failed": 0
+  },
+  "browser": {
+    "version": "Chromium 153.0.8010.0",
+    "exerciseRoom": "PASSED",
+    "pwaOfflineAndUpdates": "PASSED",
+    "sixEvidenceRoundsInEachLocale": "PASSED",
+    "offlineEvidenceNynorsk": "PASSED"
+  },
+  "installableBuild": "INSTALLABLE_ALPHA_OUTPUT_READY",
+  "fullCheck": {
+    "passed": false,
+    "stoppedAt": "staging:validate:compiled",
+    "reason": "PINNED_GIT_WINDOWS_RUNTIME_REQUIRED",
+    "host": "Linux"
+  },
+  "productionDeployment": false
+}

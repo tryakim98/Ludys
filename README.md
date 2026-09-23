@@ -1,4 +1,14 @@
-# LUDYS — rekonstruert R1-baseline
+# Skynja — produktkanon og eksisterende LUDYS-proof
+
+**Gjeldende produktretning:** [Skynja-kanon 1.0](docs/canon/skynja-v1.0/README_FIRST.md), integrert 23. september 2026. Se [integrasjonsrapport og migrasjonskart](docs/SKYNJA_CANON_INTEGRATION.md) og [nåstatus](docs/CURRENT_STATUS.md). Alle 50 prinsipper er akseptert som arbeidsretning; dette betyr ikke at alle kapabilitetene er bygget.
+
+Den første kodeintegrasjonen omfatter versjonert kunnskapsgrunnlag, avgrenset bruksautoritet, tilbakekalling, avståelse ved manglende dekning og separate språkdimensjoner. AI-provider, personlig minne og ekte data er ikke koblet til. Repositorynavn, pakkeversjon og historiske ID-er beholdes for kompatibilitet.
+
+Beskrivelsen under dokumenterer den eksisterende syntetiske proofen. Dens lokale fravær av AI/profil eller voksenstyrte aktiviteter er ikke generelle forbud i den nye kanonen.
+
+**Nytt øvelsesrom:** [12 interaktive øvelser, 50 runder og seks typer på bokmål og nynorsk](docs/SKYNJA_EXERCISE_ROOM_2026-09-23.md). Åpnes med **Åpne øvelsesrom** på startsiden. Innholdet har hint, løsningsforslag og begrunnede tilbakemeldinger, og er merket som utkast for faglig og språklig gjennomgang.
+
+Tidligere innholdsarbeid: [to nye BM/NN-utkast i Innholdsverksted, 22. september 2026](docs/CONTENT_EXPANSION_2026-09-22.md) – måne → såpe og kake → bake, med voksenkort, kunnskap, situasjonskort og lydmanus for fagreview.
 
 **Versjon:** `0.14.0-reconstructed.9`
 
@@ -19,7 +29,7 @@ Den er **ikke** den tapte historiske versjonen `0.13.1`, og den påstår ikke å
 - review-gated WP13.8-corpus med fire norske draftklasser, åtte aktiviteter og eksplisitte BM-/NN-varianter
 - støtteproveniens, voksenkort, knowledge/context og 48 ikke-innspilte lydspesifikasjoner
 - restriktiv content-lifecycle for `CURRENT / STALE / SUPERSEDED / WITHDRAWN` uten session- eller persondata i PWA-cache
-- providerfri WP13.9-authoringpipeline med åtte komplette BM-/NN-pakker, deterministisk import/eksport, lokal non-receipt-review og permanent publiseringsblokk
+- providerfri WP13.9-authoringpipeline med åtte historiske BM-/NN-pakker og to nyere utkast, deterministisk import/eksport, lokal non-receipt-review og publiseringsblokk i denne proofen
 - teknisk audio production pipeline med seks specs per aktivitet, stale/replacement/withdrawal og to deterministiske, ikke-menneskelige WAV-fixtures
 - fail-closed kommandokonvolutt, sentrale sessioninvarianter, seedet kaostest og eksplisitt recovery uten gjenoppliving
 - lokal crash boundary som stopper lyd, kansellerer pending handlinger og bevarer STOP ved tekniske feil
@@ -29,16 +39,16 @@ Den er **ikke** den tapte historiske versjonen `0.13.1`, og den påstår ikke å
 - integrert `Betaoperasjon` for adult-only syntetisk dry-run, identifierguard, SEV0, STOP, deletion/no-resurrection, rollback, withdrawal og lokal deterministisk eksport
 - maskinlesbar måleordbok og datainventar som teknisk blokkerer elevmål, profilering, inferens og score
 - komplett WP13.12A-beslutningspakke med fem provideralternativer, region- og capabilityanalyse, dataflyt, trust boundaries, trusselmodell, kost/exit/no-go, blank mal og checksum-bundet produkteierbeslutning
-- integrert providerbeslutningsflate i separate BM-/NN-bundles; `APPROVE_RECOMMENDED_SYNTHETIC_DEV` er registrert, mens provideraktivering og WP13.12B forblir blokkert
+- integrert providerbeslutningsflate i BM-/NN-varianter; `APPROVE_RECOMMENDED_SYNTHETIC_DEV` er historisk registrert, mens faktisk aktivering må dokumenteres med egne porter og receipts i WP13.12B-sporet
 - lite Audio Content System og Knowledge Content System
 - tilgjengelig browserproof og 320 px reflow
 - B8-evidensmotor som ikke kan autorisere pilot
-- 207 kompilerte tester, service-worker-kontrakt og elleve Chromium/Edge-bevis
+- kompilerte kontrakt-/scenariotester, service-worker-kontrakt og historiske Chromium/Edge-bevis; faktisk resultat for denne leveransen står i nåstatus
 - maskinell rekonstruksjonsvakt
 
 ## Det som ikke er rekonstruert ennå
 
-WP13.12B-implementering, kostgrenser, navngitte driftsansvar, stagingutløp, ekstern språk-/målform-/uttale-/co-design-review, juridisk/etisk/skoleeier-review, manuell tilgjengelighetsreview, validert progresjon, faktisk menneskelig lydproduksjon, provideraktivering, produksjonsdeployment, betaautorisasjon og ekstern evidens står fortsatt i `docs/RECONSTRUCTION_GAP_REGISTER.md`.
+WP13.12B har kode og historiske eksterne artefakter i repositoryet; det er ikke grunnlag for å lese eldre «cloud resources 0»-status som fersk inventarstatus. Gjenværende ekstern review, cloudreceipts, staging-/releaseporter, produksjonslyd og betaautorisasjon er beskrevet i `docs/RECONSTRUCTION_GAP_REGISTER.md`. Den nye Skynja-migrasjonen spores separat i integrasjonskartet.
 
 ## Kjøring
 
@@ -58,8 +68,8 @@ npm run serve:proof
 
 Les først:
 
-1. `RECONSTRUCTION.md`
-2. `docs/CURRENT_STATUS.md`
-3. `docs/RECONSTRUCTION_GAP_REGISTER.md`
-4. `docs/ROLE_AND_AGENT_BOUNDARIES.md`
-5. `AGENTS.md`
+1. `docs/canon/skynja-v1.0/AGENT_BOOTSTRAP.md` og leserekkefølgen der
+2. `docs/SKYNJA_CANON_INTEGRATION.md`
+3. `AGENTS.md`
+4. `docs/CURRENT_STATUS.md` og `docs/RECONSTRUCTION_GAP_REGISTER.md`
+5. `RECONSTRUCTION.md` og `docs/ROLE_AND_AGENT_BOUNDARIES.md`

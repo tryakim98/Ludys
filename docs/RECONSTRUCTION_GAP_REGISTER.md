@@ -1,5 +1,20 @@
 # Rekonstruksjons-gapregister
 
+## Gjeldende tolkning fra 23. september 2026
+
+[Skynja-kanon 1.0](canon/skynja-v1.0/README_FIRST.md) styrer videre produktdesign. Tabellen under er historikk og gap i den rekonstruerte proofen, ikke en uttømmende Skynja-backlog. Forbud og ontologi i gamle arbeidspakker er ikke automatisk gjeldende produktregler. [Integrasjonskartet](SKYNJA_CANON_INTEGRATION.md) og `config/skynja-canon-integration.json` dekker alle 50 nye prinsipper.
+
+| Nytt gap | Nåstatus | Videre arbeid |
+|---|---|---|
+| SKYNJA-GAP-001 Kanon og autoritet | INTEGRATED_LOCAL | Originalpakke, 50-prinsippkart, kontroll av kilder og avgrensning av historisk lint er lagt til. |
+| SKYNJA-GAP-002 Bibliotek og AI-grense | PARTIAL_CONTRACT | Kontrollerte utdrag og versjonert evidenskjede finnes. Godkjent fagbibliotek, promoterings-/reviewadapter, fri generering og providerkobling gjenstår. |
+| SKYNJA-GAP-003 Semantisk forfatterskjema | PARTIAL_CONTRACT | Øvelsesrommet har felles semantiske ID-er og eksplisitte BM/NN-realiseringer for 50 runder. Redigerbar authoring-/reviewflyt og migrering av de ti verkstedpakkene gjenstår. |
+| SKYNJA-GAP-004 Kontinuitet, samarbeid og multimodalitet | DESIGN_ACCEPTED | Videre arbeid er tillatt produktretning. Konkret modell, dataformål, tilgang og livsløp må implementeres; ingen ekte databehandling er aktivert. |
+| SKYNJA-GAP-005 Verifikasjon i dagens miljø | OPEN | Full kontroll krever prosjektets Windows-/Git-miljø. Øvelsesrommet består separat nettlesertest og vanlig offline-omlasting; `ignoreCache`-omlasting ble isolert som worker-bypass i Chromium 153. Fysisk enhet og manuell AT-review gjenstår. |
+| SKYNJA-GAP-006 Øvelsesutvalg og prøverom | IMPLEMENTED_LOCAL_DRAFT | 12 øvelser / 50 runder / seks typer er interaktive med valgfri støtte og flere forsvarlige situasjonsvalg. Menneskelig fag-/språk-/målgruppereview, lydopptak og evaluering av faktisk bruk gjenstår. |
+
+## Historisk proof og gjenstående eksterne porter
+
 | ID | Område | Status | Kilde | Notat |
 |---|---|---|---|---|
 | GAP-001 | Full syntetisk ende-til-ende-appflyt | VERIFIED_PRESENT_IN_R1 | WP13.7 | WP13.7B beviser den komplette lokale syntetiske reisen fra normal startside til terminaltilstand og ny separat økt. Dette er ikke produksjonsflyt. |

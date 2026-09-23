@@ -24,7 +24,7 @@ jobs:
       - run: npm ci
         working-directory: provider/firebase/functions
       - name: Portable static, build and compiled test gate
-        run: npm run lint && npm run architecture && npm run secret:scan && npm run build:installable && npm run test:compiled
+        run: npm run canon:check && npm run test:canon && npm run lint && npm run architecture && npm run secret:scan && npm run build:installable && npm run test:compiled
 
   release:
     name: release-windows-pinned-git
