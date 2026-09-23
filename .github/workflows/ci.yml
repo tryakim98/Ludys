@@ -69,6 +69,9 @@ jobs:
             '/NOCANCEL',
             '/SP-',
             '/CLOSEAPPLICATIONS',
+            # Do not inherit the hosted image's gitlfs-only component selection.
+            # Scalar is part of the approved default runtime closure.
+            '/COMPONENTS="gitlfs,scalar"',
             '/DIR="C:\Program Files\Git"',
             ('/LOG="{0}"' -f $installerLog)
           )
@@ -86,7 +89,7 @@ jobs:
       - name: Verify approved Git runtime tree
         shell: pwsh
         run: |
-          node --input-type=module -e "import('./scripts/wp13-12b-pinned-git-toolchain.mjs').then(({ inspectPinnedGitRuntime }) => console.log(JSON.stringify(inspectPinnedGitRuntime(), null, 2)))"
+          node --input-type=module -e "import('./scripts/wp13-12b-pinned-git-toolchain.mjs').then(({ approvedGitRuntime, canonicalGitRuntimeTreeSnapshotForTesting, inspectPinnedGitRuntime }) => { console.log(JSON.stringify({ expected: approvedGitRuntime, actual: canonicalGitRuntimeTreeSnapshotForTesting(approvedGitRuntime.runtimeRoot) }, null, 2)); console.log(JSON.stringify(inspectPinnedGitRuntime(), null, 2)); })"
       - run: npm ci
       - run: npm ci
         working-directory: provider/firebase/functions

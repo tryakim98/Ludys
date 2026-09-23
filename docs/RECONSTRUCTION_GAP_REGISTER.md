@@ -8,10 +8,10 @@
 |---|---|---|
 | SKYNJA-GAP-001 Kanon og autoritet | INTEGRATED_LOCAL | Originalpakke, 50-prinsippkart, kontroll av kilder og avgrensning av historisk lint er lagt til. |
 | SKYNJA-GAP-002 Bibliotek og AI-grense | PARTIAL_CONTRACT | Kontrollerte utdrag og versjonert evidenskjede finnes. Godkjent fagbibliotek, promoterings-/reviewadapter, fri generering og providerkobling gjenstår. |
-| SKYNJA-GAP-003 Semantisk forfatterskjema | PARTIAL_CONTRACT | Øvelsesrommet har felles semantiske ID-er og eksplisitte BM/NN-realiseringer for 50 runder. Redigerbar authoring-/reviewflyt og migrering av de ti verkstedpakkene gjenstår. |
+| SKYNJA-GAP-003 Semantisk forfatterskjema | PARTIAL_CONTRACT | Øvelsesrommet har felles semantiske ID-er og eksplisitte BM/NN-realiseringer for 56 runder. Redigerbar authoring-/reviewflyt og migrering av de ti verkstedpakkene gjenstår. |
 | SKYNJA-GAP-004 Kontinuitet, samarbeid og multimodalitet | DESIGN_ACCEPTED | Videre arbeid er tillatt produktretning. Konkret modell, dataformål, tilgang og livsløp må implementeres; ingen ekte databehandling er aktivert. |
 | SKYNJA-GAP-005 Verifikasjon i dagens miljø | OPEN | Full kontroll krever prosjektets Windows-/Git-miljø. Øvelsesrommet består separat nettlesertest og vanlig offline-omlasting; `ignoreCache`-omlasting ble isolert som worker-bypass i Chromium 153. Fysisk enhet og manuell AT-review gjenstår. |
-| SKYNJA-GAP-006 Øvelsesutvalg og prøverom | IMPLEMENTED_LOCAL_DRAFT | 12 øvelser / 50 runder / seks typer er interaktive med valgfri støtte og flere forsvarlige situasjonsvalg. Menneskelig fag-/språk-/målgruppereview, lydopptak og evaluering av faktisk bruk gjenstår. |
+| SKYNJA-GAP-006 Øvelsesutvalg og prøverom | IMPLEMENTED_LOCAL_DRAFT | 13 øvelser / 56 runder / sju typer er interaktive med valgfri støtte og flere forsvarlige situasjonsvalg. Finn tekstbeviset krever eksplisitt svar og tekstgrunnlag. Menneskelig fag-/språk-/målgruppereview, lydopptak og evaluering av faktisk bruk gjenstår. |
 
 ## Historisk proof og gjenstående eksterne porter
 

@@ -4,7 +4,7 @@
 
 Produktet heter **Skynja**. [Kanon 1.0](canon/skynja-v1.0/README_FIRST.md) er gjeldende arbeidsretning. Alle 50 prinsipper er registrert i `config/skynja-canon-integration.json`; designadopsjon og implementasjon er separate statuser. Se [integrasjonsrapporten](SKYNJA_CANON_INTEGRATION.md).
 
-Repositoryet er fortsatt `tryakim98/Ludys`, med teknisk pakkeidentitet `ludys-app-reconstructed` og versjon `0.14.0-reconstructed.9`. Kanonintegrasjonen er committet som `85ac22f`. Arbeidet samles på `content/exercise-room` for integrasjon i `integration/installable-alpha`. GitHub- og CI-utfallet føres i pull requesten; dette er ingen produksjonsdeployment.
+Repositoryet er fortsatt `tryakim98/Ludys`, med teknisk pakkeidentitet `ludys-app-reconstructed` og versjon `0.14.0-reconstructed.9`. Kanonintegrasjonen er committet som `85ac22f`. Arbeidet samles på `content/exercise-room` for integrasjon i `integration/installable-alpha`. Arbeidet er lastet opp i [PR #13](https://github.com/tryakim98/Ludys/pull/13), med identisk filinnhold som lokalt testet innhold. Første Linux-kontroll på GitHub består. Windows-installasjonen er rettet for en bekreftelsesdialog ved installasjon av fastlåst Git-versjon, med eksplisitt komponentvalg og bevart integritetskontroll; gjeldende CI-/mergestatus står i PR-en. Dette er ingen produksjonsdeployment.
 
 ## Hva som finnes nå
 

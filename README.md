@@ -6,7 +6,7 @@ Den første kodeintegrasjonen omfatter versjonert kunnskapsgrunnlag, avgrenset b
 
 Beskrivelsen under dokumenterer den eksisterende syntetiske proofen. Dens lokale fravær av AI/profil eller voksenstyrte aktiviteter er ikke generelle forbud i den nye kanonen.
 
-**Nytt øvelsesrom:** [12 interaktive øvelser, 50 runder og seks typer på bokmål og nynorsk](docs/SKYNJA_EXERCISE_ROOM_2026-09-23.md). Åpnes med **Åpne øvelsesrom** på startsiden. Innholdet har hint, løsningsforslag og begrunnede tilbakemeldinger, og er merket som utkast for faglig og språklig gjennomgang.
+**Nytt øvelsesrom:** [13 interaktive øvelser, 56 runder og sju typer på bokmål og nynorsk](docs/SKYNJA_TEXT_EVIDENCE_2026-09-23.md). **Finn tekstbeviset** kobler et valgt svar til teksten som støtter det, med et eget valg når informasjonen mangler. Åpnes med **Åpne øvelsesrom** på startsiden. Innholdet har hint, løsningsforslag og begrunnede tilbakemeldinger, og er merket som utkast for faglig og språklig gjennomgang.
 
 Tidligere innholdsarbeid: [to nye BM/NN-utkast i Innholdsverksted, 22. september 2026](docs/CONTENT_EXPANSION_2026-09-22.md) – måne → såpe og kake → bake, med voksenkort, kunnskap, situasjonskort og lydmanus for fagreview.
 
