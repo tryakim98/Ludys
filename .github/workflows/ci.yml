@@ -29,6 +29,11 @@ jobs:
   release:
     name: release-windows-pinned-git
     runs-on: windows-latest
+    # Windows' user TEMP can contain an 8.3 alias (RUNNER~1). Source-binding
+    # checks intentionally reject aliases; give fixtures the runner's real path.
+    env:
+      TEMP: ${{ runner.temp }}
+      TMP: ${{ runner.temp }}
     steps:
       - uses: actions/checkout@v4
         with:
@@ -94,4 +99,7 @@ jobs:
       - run: npm ci
         working-directory: provider/firebase/functions
       - name: Full release verification
-        run: npm run check:release
+        run: |
+          node --input-type=module -e "import { tmpdir } from 'node:os'; import { realpathSync } from 'node:fs'; import { resolve } from 'node:path'; const temporary = resolve(tmpdir()); const canonical = realpathSync(temporary); console.log(JSON.stringify({ temporary, canonical })); if (temporary.toLowerCase() !== canonical.toLowerCase()) throw new Error('CI_CANONICAL_TEMP_REQUIRED');"
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          npm run check:release
