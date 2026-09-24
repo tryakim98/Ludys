@@ -171,6 +171,9 @@ try {
   const initialPackageId = await evaluate("window.__WP13_9__.getAuthoringView().packages[0].packageId");
   await change("#authoring-package-select", initialPackageId);
   await press("[data-authoring-action=withdraw]");
+  // Withdrawal awaits a service-worker cache write; a fixed keypress delay is
+  // not its completion signal, particularly on shared CI runners.
+  await waitForExpression("window.__WP13_9__.getAuthoringView().lastAction === 'PACKAGE_AND_AUDIO_WITHDRAWN'");
   assert.equal(await evaluate("window.__WP13_9__.getAuthoringView().selectedPackage.lifecycle"), "WITHDRAWN");
   assert.equal(await evaluate("window.__WP13_9__.getAuthoringView().selectedPackage.audioSpecifications.every((item) => item.lifecycle === 'WITHDRAWN' && item.activeTakeId === null)"), true);
   assert.equal(await evaluate("window.__WP13_7B__.getViewModel().lifecycleState"), "NOT_CREATED");
