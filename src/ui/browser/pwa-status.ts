@@ -127,8 +127,14 @@ export function createLocalPwaCoordinator(
     const state = snapshot();
     const copy = pwaStatusCopy[state.locale];
     heading.textContent = copy.heading;
-    networkStatus.textContent = state.network === "ONLINE" ? copy.online : copy.offline;
-    localStatus.textContent = copy.localOnly;
+    // Product-facing wording is new draft copy; historical reviewed copy stays above.
+    networkStatus.textContent = state.network === "ONLINE"
+      ? state.locale === "nb-NO" ? "Tilkoblet · arbeidet ditt blir på denne enheten." : "Tilkopla · arbeidet ditt blir på denne eininga."
+      : state.locale === "nb-NO" ? "Uten nett · du kan fortsette å øve." : "Utan nett · du kan halde fram med å øve.";
+    if (state.worker === "FAILED") networkStatus.textContent = state.locale === "nb-NO" ? "Offlinefunksjonen er ikke klar. Behold nettilkoblingen." : "Offlinefunksjonen er ikkje klar. Hald på nettilkoplinga.";
+    localStatus.textContent = state.locale === "nb-NO"
+      ? "Økter og arbeidsnotater finnes bare i nettleserminnet mens siden er åpen. Last ned notatene før du lukker siden."
+      : "Økter og arbeidsnotat finst berre i nettlesarminnet medan sida er open. Last ned notata før du lukkar sida.";
     workerStatus.textContent = {
       UNSUPPORTED: copy.unsupported,
       REGISTERING: copy.registering,

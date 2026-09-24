@@ -4,9 +4,9 @@ Oppdatert 24. september 2026. Arbeidsgrunnlag etter Skynja-kanon 1.0. **Pilot er
 
 ## Klar leveranse for gjennomgang
 
-Øvelsesrommet inneholder 13 utkast, 56 semantiske runder og 112 eksplisitte bokmåls-/nynorskrealiseringer. Åpne **Øvelsesrom → Gjennomgå innhold** nederst i katalogen. Her vises introduksjon, formål, støtte, alle svaralternativer, hint, tilbakemeldinger, løsningsforslag, refleksjon og tekstgrunnlag. Begge målformer vises sammen. Gjennomgangen fungerer også offline etter at appen er lastet inn.
+Øvelsesrommet inneholder 13 utkast, 56 semantiske runder og 112 eksplisitte bokmåls-/nynorskrealiseringer. Åpne **Øvelsesrom → Gå gjennom innhold** nederst i katalogen. Her vises introduksjon, formål, støtte, alle svaralternativer, hint, tilbakemeldinger, løsningsforslag, refleksjon og tekstgrunnlag. Begge målformer vises sammen. Gjennomgangen fungerer også offline etter at appen er lastet inn.
 
-Tre filer kan lastes ned fra appen eller hentes fra den genererte pakken:
+Åpne **Last ned gjennomgangspakken** for å hente tre filer fra appen. De finnes også i den genererte pakken:
 
 | Fil | Bruk |
 |---|---|
@@ -67,7 +67,7 @@ npm ci --prefix provider/firebase/functions
 npm run check:pilot:technical
 ```
 
-Krever en lokal Chromium-basert nettleser; sett `LUDYS_BROWSER_PATH` ved behov. Ingen runtimeavhengighet er lagt til. Kontrollen bygger `deploy/` og serverer nettlesertestene fra dette faktiske bygget. Den kjører kanon, statiske kontroller, kompilerte tester, oppdatert gjennomgangspakke, PWA-kontrakter og faktisk navigasjon, øvelser, eksport, forfatterverktøy og offlineoppførsel. Alle 112 målformsrealiserte runder gjennomføres med tastatur i øvelsestesten. Logger og resultat med commit, miljø og eventuell urent arbeidsområde ligger i `artifacts/skynja-pilot-technical/`.
+Krever en lokal Chromium-basert nettleser; sett `LUDYS_BROWSER_PATH` ved behov. Ingen runtimeavhengighet er lagt til. Kontrollen bygger `deploy/` og serverer nettlesertestene fra dette faktiske bygget. De 14 stegene dekker kanon, statiske kontroller, kompilerte tester, oppdatert gjennomgangspakke, PWA-kontrakter og faktisk navigasjon, øvelser, eksport, forfatterverktøy og offlineoppførsel. Alle 112 målformsrealiserte runder gjennomføres med tastatur i øvelsestesten. Visuell kontroll dekker mobilbredde, mørk modus, primærknappens kontrast, animasjoner og redusert bevegelse. Logger og resultat med commit, miljø og eventuelt urent arbeidsområde ligger i `artifacts/skynja-pilot-technical/`.
 
 GitHub-jobben `skynja-app-browser-and-offline` kjører på pull requests og ved oppdatering av integrasjonsgrenen. Den lagrer bygget, gjennomgangspakken, skjermbilder og testlogger som en nedlastbar Actions-artifact i 14 dager. Dette er en teknisk arbeidsleveranse; jobben publiserer ikke appen og autoriserer ikke pilot.
 

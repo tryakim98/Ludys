@@ -1,14 +1,14 @@
 {
   "id": "/web/",
-  "name": "LUDYS – lokal syntetisk demonstrasjon",
-  "short_name": "LUDYS",
-  "description": "Et lokalt og syntetisk appbevis uten innlogging, ekstern lagring eller synkronisering.",
+  "name": "Skynja — lesing og språk",
+  "short_name": "Skynja",
+  "description": "Øvelser med ord, setninger og tekst. Prøveversjon med valgfri støtte og pauser.",
   "lang": "nb",
   "start_url": "/web/index.html",
   "scope": "/web/",
   "display": "standalone",
-  "background_color": "#fbfaf6",
-  "theme_color": "#174a5b",
+  "background_color": "#f6f7fa",
+  "theme_color": "#2448c8",
   "icons": [
     {
       "src": "/web/icons/ludys-192.svg",

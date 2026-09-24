@@ -1,7 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="192" height="192" viewBox="0 0 192 192" role="img" aria-labelledby="title">
-  <title id="title">LUDYS</title>
-  <rect width="192" height="192" rx="36" fill="#174a5b"/>
-  <path d="M42 48h24v72h54v24H42z" fill="#fbfaf6"/>
-  <circle cx="132" cy="60" r="18" fill="#f1b24a"/>
-  <path d="M108 96h42v18h-42z" fill="#f1b24a"/>
+  <title id="title">Skynja</title>
+  <rect width="192" height="192" rx="42" fill="#2448c8"/>
+  <text x="96" y="145" text-anchor="middle" font-family="Georgia, serif" font-size="172" font-weight="700" fill="#ffffff">s</text>
 </svg>

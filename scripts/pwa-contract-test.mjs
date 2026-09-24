@@ -145,8 +145,8 @@ function createWorkerRuntime(options = {}) {
 
 test("manifest is installable, local, scoped and project-specific", async () => {
   assert.equal(manifest.id, "/web/");
-  assert.equal(manifest.name, "LUDYS – lokal syntetisk demonstrasjon");
-  assert.equal(manifest.short_name, "LUDYS");
+  assert.equal(manifest.name, "Skynja — lesing og språk");
+  assert.equal(manifest.short_name, "Skynja");
   assert.equal(manifest.start_url, "/web/index.html");
   assert.equal(manifest.scope, "/web/");
   assert.equal(manifest.display, "standalone");
@@ -169,12 +169,13 @@ test("service worker install caches the deterministic shell and fails on a missi
   assert.deepEqual(cacheNames.sort(), [
     "ludys-authoring-policy-1",
     "ludys-content-policy-1",
-    "ludys-shell-0.14.0-reconstructed.9-skynja-review-notes-2026-09-24",
+    "ludys-shell-0.14.0-reconstructed.9-skynja-design-2026-09-24",
   ]);
-  const shellCache = runtime.cacheStore.get("ludys-shell-0.14.0-reconstructed.9-skynja-review-notes-2026-09-24");
+  const shellCache = runtime.cacheStore.get("ludys-shell-0.14.0-reconstructed.9-skynja-design-2026-09-24");
   assert.ok(shellCache.entries.size >= 30);
   assert.ok(shellCache.entries.has(`${origin}/web/index.html`));
   assert.ok(shellCache.entries.has(`${origin}/dist/src/ui/browser/app.js`));
+  for (const path of ["/web/skynja.css", "/dist/src/ui/browser/skynja-home-templates.js", "/dist/src/ui/browser/skynja-motion.js"]) assert.ok(shellCache.entries.has(`${origin}${path}`));
   assert.ok(shellCache.entries.has(`${origin}/dist/src/ui/browser/pwa-status.js`));
   assert.ok(shellCache.entries.has(`${origin}/dist/src/ui/browser/exercise-review-templates.js`));
   assert.ok(shellCache.entries.has(`${origin}/dist/src/application/skynja/exercise-review.js`));
@@ -205,7 +206,7 @@ test("activate removes only obsolete LUDYS shell caches", async () => {
   await runtime.dispatchLifecycle("activate");
   assert.deepEqual(
     (await runtime.caches.keys()).sort(),
-    ["ludys-authoring-policy-1", "ludys-content-policy-1", "ludys-shell-0.14.0-reconstructed.9-skynja-review-notes-2026-09-24", "unrelated-application-cache"],
+    ["ludys-authoring-policy-1", "ludys-content-policy-1", "ludys-shell-0.14.0-reconstructed.9-skynja-design-2026-09-24", "unrelated-application-cache"],
   );
   assert.equal(runtime.claimed(), 1);
 });
