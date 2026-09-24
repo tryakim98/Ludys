@@ -898,3 +898,18 @@ summary { cursor: pointer; font-weight: 700; min-height: 2.75rem; display: flex;
   .exercise-room .exercise-primary, .exercise-filters button[aria-pressed=true], .exercise-option[aria-pressed=true] { border: 3px solid Highlight; }
 }
 .exercise-room [data-exercise-kind=WORD] .exercise-stimulus p:first-child { font-size: 2rem; font-weight: 650; letter-spacing: .05em; }
+
+.exercise-review { overflow-wrap: anywhere; }
+.exercise-review-columns { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.5rem; }
+.exercise-review-fields { margin: 0; }
+.exercise-review-fields div { padding-block: .65rem; border-bottom: 1px solid var(--exercise-border); }
+.exercise-review-fields dt { font-weight: 650; }
+.exercise-review-fields dd { margin: .3rem 0 0; white-space: pre-wrap; line-height: 1.65; overflow-wrap: anywhere; }
+.exercise-review-export, .exercise-review-round { margin-block: 1.5rem; border: 1px solid var(--exercise-border); padding: 1.2rem; border-radius: .65rem; }
+.exercise-review-export { background: var(--exercise-surface); }
+.exercise-review-round summary, .exercise-review-version summary { padding-block: .65rem; min-height: 48px; cursor: pointer; font-weight: 650; }
+.exercise-review .exercise-actions a { display: inline-flex; align-items: center; min-height: 48px; padding: .5rem .8rem; color: var(--exercise-ink); border: 1px solid var(--exercise-border); border-radius: .4rem; overflow-wrap: anywhere; }
+.exercise-review code { overflow-wrap: anywhere; }
+.exercise-review select { width: 100%; max-width: 36rem; }
+@media (max-width: 700px) { .exercise-review-columns { grid-template-columns: 1fr; } }
+@media print { .exercise-review .site-header, .exercise-review-export, .exercise-review select, .exercise-review .skip-link { display: none; } }

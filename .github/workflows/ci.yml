@@ -3,12 +3,39 @@ name: human-first-ci
 on:
   pull_request:
   push:
-    branches: [main]
+    branches: [main, integration/installable-alpha]
 
 permissions:
   contents: read
 
 jobs:
+  skynja-browser:
+    name: skynja-app-browser-and-offline
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm ci
+        working-directory: provider/firebase/functions
+      - name: Verify built app, review packet and offline behavior
+        run: npm run check:pilot:technical
+      - name: Preserve technical evidence and review handoff
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: skynja-pilot-technical-${{ github.sha }}
+          retention-days: 14
+          path: |
+            artifacts/skynja-pilot-technical/
+            artifacts/skynja-*.png
+            release/skynja-pilot-review/
+            deploy/
+
   portable:
     name: portable-linux
     runs-on: ubuntu-latest

@@ -1,0 +1,111 @@
+{
+  "schemaVersion": "skynja-pilot-technical.v1",
+  "scope": "LOCAL_APP_AND_EXERCISE_REVIEW",
+  "sourceCommit": "d840894c1235edfdeda396776afc3e2a039b16d9",
+  "worktreeDirty": true,
+  "startedAt": "2026-09-24T05:52:47.095Z",
+  "nodeVersion": "v24.19.0",
+  "platform": "linux",
+  "browser": "/workspace/scratch/7893748eab4e/browser-tools/skynja-extracted/launch.sh",
+  "browserVersion": "Chromium 153.0.8010.0",
+  "servedRoot": "deploy",
+  "fullReleaseVerification": "SEPARATE_GATE_REQUIRED",
+  "humanReview": "NOT_PROVEN_BY_TECHNICAL_TESTS",
+  "pilotAuthorization": "NOT_GRANTED",
+  "steps": [
+    {
+      "command": "npm run canon:check",
+      "exitCode": 0,
+      "signal": null,
+      "durationMs": 255,
+      "log": "01-canon-check.log"
+    },
+    {
+      "command": "npm run test:canon",
+      "exitCode": 0,
+      "signal": null,
+      "durationMs": 376,
+      "log": "02-test-canon.log"
+    },
+    {
+      "command": "npm run lint",
+      "exitCode": 0,
+      "signal": null,
+      "durationMs": 296,
+      "log": "03-lint.log"
+    },
+    {
+      "command": "npm run architecture",
+      "exitCode": 0,
+      "signal": null,
+      "durationMs": 264,
+      "log": "04-architecture.log"
+    },
+    {
+      "command": "npm run secret:scan",
+      "exitCode": 0,
+      "signal": null,
+      "durationMs": 486,
+      "log": "05-secret-scan.log"
+    },
+    {
+      "command": "npm run build:installable",
+      "exitCode": 0,
+      "signal": null,
+      "durationMs": 9079,
+      "log": "06-build-installable.log"
+    },
+    {
+      "command": "npm run pilot:review:check",
+      "exitCode": 0,
+      "signal": null,
+      "durationMs": 367,
+      "log": "07-pilot-review-check.log"
+    },
+    {
+      "command": "npm run test:compiled",
+      "exitCode": 0,
+      "signal": null,
+      "durationMs": 1484,
+      "log": "08-test-compiled.log"
+    },
+    {
+      "command": "npm run test:pwa-contract",
+      "exitCode": 0,
+      "signal": null,
+      "durationMs": 453,
+      "log": "09-test-pwa-contract.log"
+    },
+    {
+      "command": "npm run test:app-browser",
+      "exitCode": 0,
+      "signal": null,
+      "durationMs": 5416,
+      "log": "10-test-app-browser.log"
+    },
+    {
+      "command": "npm run test:exercises-browser",
+      "exitCode": 0,
+      "signal": null,
+      "durationMs": 50744,
+      "log": "11-test-exercises-browser.log"
+    },
+    {
+      "command": "npm run test:authoring-browser",
+      "exitCode": 0,
+      "signal": null,
+      "durationMs": 6991,
+      "log": "12-test-authoring-browser.log"
+    },
+    {
+      "command": "npm run test:pwa-browser",
+      "exitCode": 0,
+      "signal": null,
+      "durationMs": 5728,
+      "log": "13-test-pwa-browser.log"
+    }
+  ],
+  "status": "TECHNICAL_CHECKS_PASSED",
+  "contentSetSha256": "05abc9fb68c9b2c0eb16751cec463b9b7a793464a86bdb49392218553b6f3923",
+  "finishedAt": "2026-09-24T05:54:09.050Z"
+}

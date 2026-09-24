@@ -1,5 +1,5 @@
 const LUDYS_CACHE_PREFIX = "ludys-shell-";
-const LUDYS_CACHE_VERSION = "0.14.0-reconstructed.9-skynja-evidence-2026-09-23";
+const LUDYS_CACHE_VERSION = "0.14.0-reconstructed.9-skynja-review-2026-09-24";
 const LUDYS_SHELL_CACHE = `${LUDYS_CACHE_PREFIX}${LUDYS_CACHE_VERSION}`;
 const LUDYS_CONTENT_POLICY_CACHE = "ludys-content-policy-1";
 const LUDYS_CONTENT_POLICY_PATH = "/web/corpus-lifecycle-policy.json";
@@ -21,6 +21,8 @@ const LUDYS_APP_SHELL = Object.freeze([
   "/web/icons/ludys-maskable.svg",
   "/dist/src/ui/browser/app.js",
   "/dist/src/ui/browser/exercise-room-templates.js",
+  "/dist/src/ui/browser/exercise-review-templates.js",
+  "/dist/src/application/skynja/exercise-review.js",
   "/dist/src/core/skynja/exercise-room.js",
   "/dist/src/core/skynja/exercise-room-policy.js",
   "/dist/src/application/skynja/exercise-room-controller.js",

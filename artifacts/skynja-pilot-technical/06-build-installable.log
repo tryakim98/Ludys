@@ -1,0 +1,25 @@
+
+> ludys-app-reconstructed@0.14.0-reconstructed.9 build:installable
+> npm run build && node scripts/build-installable-alpha.mjs
+
+
+> ludys-app-reconstructed@0.14.0-reconstructed.9 build
+> npm run clean && tsc -p tsconfig.json
+
+
+> ludys-app-reconstructed@0.14.0-reconstructed.9 clean
+> node scripts/clean.mjs
+
+{
+  "status": "INSTALLABLE_ALPHA_OUTPUT_READY",
+  "output": "deploy",
+  "appEntry": "/web/index.html",
+  "manifest": "/web/manifest.webmanifest",
+  "serviceWorker": "/web/service-worker.js",
+  "containsPersonData": false,
+  "providerActivation": false,
+  "studentBetaAuthorized": false
+}
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.

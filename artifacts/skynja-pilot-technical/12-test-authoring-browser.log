@@ -1,0 +1,7 @@
+
+> ludys-app-reconstructed@0.14.0-reconstructed.9 test:authoring-browser
+> node scripts/browser-authoring-pipeline-test.mjs
+
+Content expansion online browser checks passed: both proposals, BM/NN, preview, unreviewed provenance, JSON export/import and 320px reflow.
+Chromium WP13.9 authoring, BM/NN, review, import/export, audio lifecycle, offline withdrawal and accessibility proof passed.
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
