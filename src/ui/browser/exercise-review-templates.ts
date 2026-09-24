@@ -1,6 +1,8 @@
 import type { ExerciseReviewPacket } from "../../application/skynja/exercise-review.js";
 import type { Locale } from "../../core/content-contracts.js";
 import type { ExerciseRound } from "../../core/skynja/exercise-room.js";
+import type { ExerciseReviewNote, ReviewNoteDraft } from "../../application/skynja/exercise-review-notes.js";
+import { emptyReviewDraft, renderReviewNoteEditor } from "./exercise-review-notes-templates.js";
 
 const escape = (value: string): string => value.replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;").replaceAll('"', "&quot;").replaceAll("'", "&#39;");
 const field = (label: string, value: string): string => `<div><dt>${escape(label)}</dt><dd>${escape(value)}</dd></div>`;
@@ -29,7 +31,7 @@ function roundView(round: ExerciseRound, locale: Locale): string {
   return `<dl class="exercise-review-fields">${content}${field("Hint", round.hint)}${field("Forklaring", round.explanation)}${field(t("Valgfri refleksjon", "Valfri refleksjon"), round.reflection)}</dl>`;
 }
 
-export function renderExerciseReview(packet: ExerciseReviewPacket, locale: Locale, selectedId: string): string {
+export function renderExerciseReview(packet: ExerciseReviewPacket, locale: Locale, selectedId: string, notes: readonly ExerciseReviewNote[] = [], drafts: ReadonlyMap<string, ReviewNoteDraft> = new Map()): string {
   const t = (nb: string, nn: string): string => locale === "nb-NO" ? nb : nn;
   const selected = packet.exercises.find((entry) => entry.exerciseId === selectedId) ?? packet.exercises[0];
   return `<div class="exercise-room exercise-review"><a class="skip-link" href="#exercise-main">${t("Hopp til innhold", "Hopp til innhald")}</a>
@@ -41,11 +43,16 @@ export function renderExerciseReview(packet: ExerciseReviewPacket, locale: Local
       <p>${packet.exerciseCount} ${t("øvelser", "øvingar")} · ${packet.semanticRoundCount} ${t("runder", "rundar")} · ${packet.localizedRoundCount} ${t("målformsvarianter", "målformsvariantar")}</p>
       <div class="exercise-actions"><a id="exercise-review-markdown" download="skynja-innholdsgjennomgang.md">${t("Last ned lesepakke", "Last ned lesepakke")}</a><a id="exercise-review-json" download="skynja-innhold.json">${t("Last ned innhold (JSON)", "Last ned innhald (JSON)")}</a><a id="exercise-review-form" download="skynja-vurderingsmal.json">${t("Last ned tom vurderingsmal", "Last ned tom vurderingsmal")}</a></div>
       <p class="exercise-quiet">${t("Inneholder øvelsestekster og versjonsreferanser. Vurderingsmalen fylles ut uten elevopplysninger og leveres gjennom avtalt kanal. Det finnes foreløpig ingen innspilt opplesning for disse utkastene.", "Inneheld øvingstekstar og versjonsreferansar. Vurderingsmalen blir fylt ut utan elevopplysningar og levert gjennom avtalt kanal. Det finst førebels inga innspelt opplesing for desse utkasta.")}</p>
+      <h3>${t("Dine arbeidsnotater", "Arbeidsnotata dine")}</h3><p>${t("Notater er forslag og observasjoner. De endrer ikke innholdet eller godkjenningsstatusen. Lagre filen i avtalt kanal.", "Notat er forslag og observasjonar. Dei endrar ikkje innhaldet eller godkjenningsstatusen. Lagre fila i avtalt kanal.")}</p>
+      <div class="exercise-actions"><a id="review-notes-download" download="skynja-arbeidsnotater.json">${t("Last ned arbeidsnotater", "Last ned arbeidsnotat")} (${notes.length})</a><button type="button" data-review-note-action="clear">${t("Tøm notater og skjema", "Tøm notat og skjema")}</button></div>
+      <label for="review-notes-file">${t("Legg til notater fra fil", "Legg til notat frå fil")}<input id="review-notes-file" type="file" accept=".json,application/json" aria-describedby="review-notes-import-help"></label><p id="review-notes-import-help" class="exercise-quiet">${t("Velg en tidligere nedlastet notatfil, inntil 1 MiB. Ugyldige filer avvises uten å erstatte notatene dine. Legg til uferdige notater, last ned filen og tøm notater og skjema før appoppdatering.", "Vel ei tidlegare nedlasta notatfil, inntil 1 MiB. Ugyldige filer blir avviste utan å erstatte notata dine. Legg til uferdige notat, last ned fila og tøm notat og skjema før appoppdatering.")}</p>
+      <p id="review-notes-message" role="status" tabindex="-1"></p>
     </section>
     ${packet.excludedExerciseIds.length ? `<p role="status">${packet.excludedExerciseIds.length} ${t("sperrede øvelser er utelatt fra visning og eksport.", "sperra øvingar er utelatne frå vising og eksport.")}</p>` : ""}
     ${selected === undefined ? `<p>${t("Ingen øvelser er tilgjengelige for gjennomgang.", "Ingen øvingar er tilgjengelege for gjennomgang.")}</p>` : `
       <label for="exercise-review-select">${t("Velg øvelse", "Vel øving")}<select id="exercise-review-select">${packet.exercises.map((entry) => `<option value="${escape(entry.exerciseId)}" ${entry === selected ? "selected" : ""}>${escape(entry.content.locales[locale].title)}</option>`).join("")}</select></label>
       <section data-review-exercise="${escape(selected.exerciseId)}"><h2 id="exercise-review-heading" tabindex="-1">${escape(selected.content.locales[locale].title)}</h2>
+      ${renderReviewNoteEditor(selected, notes, locale, drafts.get(selected.exerciseId) ?? emptyReviewDraft(locale))}
       <details class="exercise-review-version"><summary>${t("Versjon og referanser", "Versjon og referansar")}</summary><p>${escape(selected.exerciseId)} · ${t("revisjon", "revisjon")} ${selected.revision}</p><p>SHA-256: <code>${selected.contentSha256}</code></p><p>${t("Denne referansen endres når innholdet endres, også hvis revisjonstallet er uendret.", "Denne referansen endrar seg når innhaldet endrar seg, òg om revisjonstalet er uendra.")}</p></details>
       <div class="exercise-review-columns">${(["nb-NO", "nn-NO"] as const).map((language) => {
         const variant = selected.content.locales[language];

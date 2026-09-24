@@ -18,7 +18,8 @@ import { renderBetaOperations } from "./beta-operations-templates.js";
 import { renderProviderDecision } from "./provider-decision-templates.js";
 import { renderExerciseRoom } from "./exercise-room-templates.js";
 import { renderExerciseReview } from "./exercise-review-templates.js";
-import { createExerciseReviewPacket, createExerciseReviewForm, exerciseReviewJson, exerciseReviewMarkdown } from "../../application/skynja/exercise-review.js";
+import { createExerciseReviewForm, exerciseReviewJson, exerciseReviewMarkdown } from "../../application/skynja/exercise-review.js";
+import { ExerciseReviewNotesController, NOTE_FILE_LIMIT, type ReviewNoteDraft } from "../../application/skynja/exercise-review-notes.js";
 import { createLocalPwaCoordinator, type LocalPwaCoordinator } from "./pwa-status.js";
 import { installRuntimeSafetyBoundary } from "./runtime-safety.js";
 import { rollbackComponent, type LocalReleaseState, type ReleaseComponent } from "../../core/release-hardening.js";
@@ -38,6 +39,8 @@ let exerciseOpen = false;
 let exerciseReviewOpen = false;
 let exerciseReviewSelectedId = "";
 let exerciseReviewUrls: string[] = [];
+let exerciseReviewNotes: ExerciseReviewNotesController | undefined;
+const exerciseReviewDrafts = new Map<string, ReviewNoteDraft>();
 let exercisePoliciesReady = false;
 let authoringOpen = false;
 let operationsOpen = false;
@@ -49,12 +52,16 @@ let providerDossierObjectUrl: string | undefined;
 let providerOwnerTemplateObjectUrl: string | undefined;
 
 function render(focus = false): void {
+  captureReviewNoteDraft();
   exerciseController.restrict(authoringController.view.packages.filter((item) => item.lifecycle !== "CURRENT").map((item) => item.activityId));
+  exerciseReviewNotes?.restrict(exerciseController.view.blockedIds);
+  for (const id of exerciseController.view.blockedIds) exerciseReviewDrafts.delete(id);
   // Review is reachable only outside an exercise session. Restriction updates also rebuild exports.
-  if (!exerciseOpen || exerciseController.view.stage !== "CATALOG") exerciseReviewOpen = false;
+  if (!exerciseOpen || exerciseController.view.stage !== "CATALOG") { exerciseReviewNotes?.cancelPendingImports(); exerciseReviewOpen = false; }
   exerciseReviewUrls.forEach((url) => URL.revokeObjectURL(url));
   exerciseReviewUrls = [];
-  const reviewPacket = exerciseReviewOpen ? createExerciseReviewPacket(exerciseController.view.catalog, exerciseController.view.blockedIds) : undefined;
+  if (exerciseReviewOpen && exerciseReviewNotes === undefined) exerciseReviewNotes = new ExerciseReviewNotesController(exerciseController.view.catalog, exerciseController.view.blockedIds);
+  const reviewPacket = exerciseReviewOpen ? exerciseReviewNotes?.packet : undefined;
   const focusedElement = document.activeElement as HTMLElement | null;
   const restoreExerciseFocus = exerciseOpen && !focus && focusedElement !== null && root.contains(focusedElement)
     ? focusedElement.id : "";
@@ -64,7 +71,7 @@ function render(focus = false): void {
   exportObjectUrl = undefined;
   providerDossierObjectUrl = undefined;
   providerOwnerTemplateObjectUrl = undefined;
-  root.innerHTML = reviewPacket !== undefined ? renderExerciseReview(reviewPacket, exerciseController.view.locale, exerciseReviewSelectedId)
+  root.innerHTML = reviewPacket !== undefined ? renderExerciseReview(reviewPacket, exerciseController.view.locale, exerciseReviewSelectedId, exerciseReviewNotes?.notes, exerciseReviewDrafts)
     : exerciseOpen ? renderExerciseRoom(exerciseController.view) : providerDecisionOpen
     ? renderProviderDecision(providerDecisionController.view)
     : operationsOpen
@@ -86,6 +93,7 @@ function render(focus = false): void {
       ["#exercise-review-markdown", exerciseReviewMarkdown(reviewPacket), "text/markdown;charset=utf-8"],
       ["#exercise-review-json", exerciseReviewJson(reviewPacket), "application/json"],
       ["#exercise-review-form", exerciseReviewJson(createExerciseReviewForm(reviewPacket)), "application/json"],
+      ["#review-notes-download", exerciseReviewNotes!.exportJson(), "application/json"],
     ];
     for (const [selector, text, type] of exports) {
       const link = root.querySelector<HTMLAnchorElement>(selector!);
@@ -135,8 +143,60 @@ function announce(message: string, urgent = false): void {
 }
 
 function controlValue(selector: string): string {
-  return root.querySelector<HTMLInputElement | HTMLTextAreaElement>(selector)?.value ?? "";
+  return root.querySelector<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>(selector)?.value ?? "";
 }
+
+function captureReviewNoteDraft(): void {
+  const form = root.querySelector<HTMLFormElement>("#review-note-form");
+  if (!form?.dataset.reviewExerciseId) return;
+  exerciseReviewDrafts.set(form.dataset.reviewExerciseId, {
+    locale: controlValue("#review-note-locale") as Locale, roundId: controlValue("#review-note-round"),
+    category: controlValue("#review-note-category") as ReviewNoteDraft["category"],
+    severity: controlValue("#review-note-severity") as ReviewNoteDraft["severity"],
+    observation: controlValue("#review-note-observation"), suggestion: controlValue("#review-note-suggestion"),
+  });
+}
+
+function clearReviewNoteText(): void {
+  for (const selector of ["#review-note-observation", "#review-note-suggestion"]) {
+    const field = root.querySelector<HTMLTextAreaElement>(selector);
+    if (field !== null) field.value = "";
+  }
+}
+
+function hasReviewWork(): boolean {
+  return (exerciseReviewNotes?.count ?? 0) > 0 || [...exerciseReviewDrafts.values()].some((draft) => draft.observation.length > 0 || draft.suggestion.length > 0)
+    || controlValue("#review-note-observation").length > 0 || controlValue("#review-note-suggestion").length > 0;
+}
+
+function reviewMessage(nb: string, nn: string): void {
+  const target = root.querySelector<HTMLElement>("#review-notes-message");
+  if (target === null) return;
+  target.textContent = exerciseController.view.locale === "nb-NO" ? nb : nn;
+  target.focus();
+}
+
+root.addEventListener("submit", (event) => {
+  if (!(event.target instanceof HTMLFormElement) || event.target.id !== "review-note-form") return;
+  event.preventDefault();
+  captureReviewNoteDraft();
+  const id = event.target.dataset.reviewExerciseId ?? "";
+  const draft = exerciseReviewDrafts.get(id);
+  if (draft === undefined || !exerciseReviewNotes?.add(crypto.randomUUID(), id, draft)) {
+    reviewMessage("Notatet kunne ikke legges til. Kontroller tekst og runde. Maksimum er 200 notater og 1 MiB samlet.", "Notatet kunne ikkje leggjast til. Kontroller tekst og runde. Maksimum er 200 notat og 1 MiB samla.");
+    return;
+  }
+  clearReviewNoteText(); render();
+  reviewMessage("Notatet er lagt til på denne siden. Last ned filen for å beholde det.", "Notatet er lagt til på denne sida. Last ned fila for å halde på det.");
+});
+
+root.addEventListener("input", (event) => {
+  if ((event.target as Element).closest("#review-note-form") !== null) { captureReviewNoteDraft(); pwaCoordinator?.refresh(); }
+});
+
+window.addEventListener("beforeunload", (event) => {
+  if (hasReviewWork()) { event.preventDefault(); event.returnValue = ""; }
+});
 
 function applyAllCorpusPolicy(policy: CorpusLifecyclePolicy): void {
   const partition = partitionExercisePolicy(policy, exerciseController.view.catalog);
@@ -146,6 +206,14 @@ function applyAllCorpusPolicy(policy: CorpusLifecyclePolicy): void {
 
 root.addEventListener("click", async (event) => {
   const element = event.target as Element;
+  const noteButton = element.closest<HTMLButtonElement>("button[data-review-note-action]");
+  if (noteButton !== null) {
+    if (noteButton.dataset.reviewNoteAction === "clear") { exerciseReviewNotes?.clear(); exerciseReviewDrafts.clear(); clearReviewNoteText(); }
+    else if (noteButton.dataset.reviewNoteAction === "remove") exerciseReviewNotes?.remove(noteButton.dataset.reviewNoteId ?? "");
+    render();
+    reviewMessage("Notatene på siden er oppdatert. Tidligere nedlastede filer finnes fortsatt på enheten din.", "Notata på sida er oppdaterte. Tidlegare nedlasta filer finst framleis på eininga di.");
+    return;
+  }
   const exerciseButton = element.closest<HTMLButtonElement>("button[data-exercise-action]");
   if (exerciseButton !== null && !exerciseButton.disabled) {
     const action = exerciseButton.dataset.exerciseAction;
@@ -168,7 +236,7 @@ root.addEventListener("click", async (event) => {
         if (exerciseController.view.stage !== "CATALOG") return;
         exerciseReviewOpen = true;
         break;
-      case "review-close": exerciseReviewOpen = false; break;
+      case "review-close": exerciseReviewNotes?.cancelPendingImports(); exerciseReviewOpen = false; break;
       case "filter":
         exerciseController.setFilter(exerciseButton.dataset.filter as ExerciseKind | "ALL");
         focusTarget = `[data-exercise-action=filter][data-filter="${exerciseButton.dataset.filter}"]`;
@@ -421,7 +489,24 @@ root.addEventListener("click", async (event) => {
   announce(`Tilstand: ${controller.view.lifecycleState}`, urgent);
 });
 
-root.addEventListener("change", (event) => {
+root.addEventListener("change", async (event) => {
+  const noteFile = (event.target as Element).closest<HTMLInputElement>("#review-notes-file");
+  if (noteFile !== null && exerciseReviewNotes !== undefined) {
+    const file = noteFile.files?.[0];
+    if (file === undefined) return;
+    const generation = exerciseReviewNotes.importGeneration;
+    if (file.size > NOTE_FILE_LIMIT) { reviewMessage("Filen er for stor. Maksimum er 1 MiB.", "Fila er for stor. Maksimum er 1 MiB."); return; }
+    let result: ReturnType<ExerciseReviewNotesController["importJson"]>;
+    try { result = exerciseReviewNotes.importJson(await file.text(), generation); }
+    catch { result = "INVALID_FILE"; }
+    if (result === "CANCELLED" || !exerciseReviewOpen) return;
+    render();
+    if (result === "IMPORTED") reviewMessage("Notatene er lagt til. Identiske notater er ikke duplisert.", "Notata er lagde til. Identiske notat er ikkje dupliserte.");
+    else if (result === "VERSION_MISMATCH") reviewMessage("Filen gjelder en annen innholdsversjon eller sperret innhold. Notatene dine er beholdt.", "Fila gjeld ein annan innhaldsversjon eller sperra innhald. Notata dine er haldne på.");
+    else if (result === "CONFLICT") reviewMessage("Et notat i filen har samme ID, men annet innhold. Ingen notater er erstattet.", "Eit notat i fila har same ID, men anna innhald. Ingen notat er erstatta.");
+    else reviewMessage("Ugyldig notatfil. Notatene dine er beholdt.", "Ugyldig notatfil. Notata dine er haldne på.");
+    return;
+  }
   const reviewSelect = (event.target as Element).closest<HTMLSelectElement>("#exercise-review-select");
   if (reviewSelect !== null) {
     exerciseReviewSelectedId = reviewSelect.value;
@@ -492,6 +577,7 @@ render();
 pwaCoordinator = createLocalPwaCoordinator({
   getLifecycleState: () => exerciseController.view.sessionOpen ? "ACTIVE" : controller.view.lifecycleState,
   getLocale: () => exerciseOpen ? exerciseController.view.locale : controller.view.locale,
+  getLocalWorkPending: hasReviewWork,
 });
 pwaCoordinator.refresh();
 

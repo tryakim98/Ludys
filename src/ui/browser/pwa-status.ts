@@ -78,6 +78,7 @@ export function isSafePwaUpdateState(state: LifecycleState): boolean {
 interface LocalPwaCoordinatorOptions {
   readonly getLifecycleState: () => LifecycleState;
   readonly getLocale: () => Locale;
+  readonly getLocalWorkPending?: () => boolean;
 }
 
 export interface LocalPwaCoordinator {
@@ -106,6 +107,7 @@ export function createLocalPwaCoordinator(
   let updateState: PwaUpdateState = "NONE";
   let waitingWorker: ServiceWorker | undefined;
   let activationRequested = false;
+  let activatedWorkerWaitingForReload = false;
   let networkState: LocalPwaStatusSnapshot["network"] = navigator.onLine
     ? "ONLINE"
     : "OFFLINE";
@@ -117,7 +119,7 @@ export function createLocalPwaCoordinator(
       worker: workerState,
       update: updateState,
       canApplyUpdate: updateState === "READY"
-        && isSafePwaUpdateState(options.getLifecycleState()),
+        && isSafePwaUpdateState(options.getLifecycleState()) && !options.getLocalWorkPending?.(),
     };
   }
 
@@ -141,10 +143,17 @@ export function createLocalPwaCoordinator(
     updateButton.textContent = copy.updateAction;
     updateButton.hidden = state.update === "NONE";
     updateButton.disabled = !state.canApplyUpdate || state.update === "ACTIVATING";
+    // New draft copy is separate from the historically reviewed session copy above.
+    if (state.update !== "NONE" && options.getLocalWorkPending?.()) {
+      updateStatus.textContent = state.locale === "nb-NO"
+        ? "En appoppdatering venter. Last ned arbeidsnotatene og tøm notater og skjema før oppdatering."
+        : "Ei appoppdatering ventar. Last ned arbeidsnotata og tøm notat og skjema før oppdatering.";
+    }
     host.dataset.network = state.network;
     host.dataset.worker = state.worker;
     host.dataset.update = state.update;
     host.dataset.canApplyUpdate = String(state.canApplyUpdate);
+    if (activatedWorkerWaitingForReload && !options.getLocalWorkPending?.() && isSafePwaUpdateState(options.getLifecycleState())) window.location.reload();
   }
 
   function exposeWaitingWorker(registration: ServiceWorkerRegistration): void {
@@ -202,10 +211,10 @@ export function createLocalPwaCoordinator(
     render();
   });
   navigator.serviceWorker?.addEventListener("controllerchange", () => {
-    if (activationRequested) window.location.reload();
+    if (activationRequested) { activatedWorkerWaitingForReload = true; render(); }
   });
   updateButton.addEventListener("click", () => {
-    if (waitingWorker === undefined || !isSafePwaUpdateState(options.getLifecycleState())) return;
+    if (waitingWorker === undefined || !snapshot().canApplyUpdate) return;
     activationRequested = true;
     updateState = "ACTIVATING";
     render();

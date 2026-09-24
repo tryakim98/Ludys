@@ -189,7 +189,9 @@ try {
   await client.send("Network.overrideNetworkState", { offline: true, latency: 0, downloadThroughput: 0, uploadThroughput: 0, connectionType: "none" });
   // Verify ordinary offline navigation. In Chromium 153, ignoreCache also
   // bypasses the controlling worker, so a hard refresh requires the network.
+  const beforeReload = await evaluate("performance.timeOrigin");
   await client.send("Page.reload");
+  await waitForExpression(`performance.timeOrigin !== ${JSON.stringify(beforeReload)}`);
   await waitForExpression("document.documentElement?.dataset.wp13_9Ready === 'true'");
   assert.equal(await evaluate("document.documentElement.dataset.authoringPolicy"), "READY");
   assert.equal(await evaluate(`window.__WP13_9__.getAuthoringView().packages.find((item) => item.packageId === ${JSON.stringify(initialPackageId)}).lifecycle`), "WITHDRAWN");
