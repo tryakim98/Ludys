@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import { mkdir, mkdtemp, writeFile } from "node:fs/promises";
+import { mkdir, mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
@@ -96,6 +96,19 @@ try {
     await evaluate(`(() => { const node = document.querySelector(${JSON.stringify(selector)}); node.value = ${JSON.stringify(value)}; node.dispatchEvent(new Event('change', { bubbles: true })); })()`);
     await wait(40);
   }
+  const downloads = join(profile, "downloads");
+  await mkdir(downloads, { recursive: true });
+  await client.send("Browser.setDownloadBehavior", { behavior: "allow", downloadPath: downloads });
+  async function download(selector, name) {
+    await rm(join(downloads, name), { force: true });
+    await evaluate(`document.querySelector(${JSON.stringify(selector)}).click()`);
+    for (let attempt = 0; attempt < 100; attempt += 1) {
+      const content = await readFile(join(downloads, name), "utf8").catch(() => undefined);
+      if (content !== undefined && content.length > 0) return content;
+      await wait(50);
+    }
+    throw new Error(`Review download did not complete: ${name}`);
+  }
 
   const view = () => evaluate('window.__SKYNJA_EXERCISES__.getView()');
   async function ready() {
@@ -160,6 +173,34 @@ try {
   assert.equal(await evaluate('document.querySelectorAll("[data-exercise-card]").length'), 2);
   await press('[data-exercise-action=filter][data-filter=ALL]');
 
+  // A reviewer can inspect both languages and download the actual complete handoff.
+  await press('[data-exercise-action=review-open]');
+  assert.equal(await evaluate('document.activeElement.id'), 'exercise-title');
+  assert.equal(await evaluate('document.querySelectorAll("#exercise-review-select option").length'), 13);
+  await change('#exercise-review-select', 'skynja-find-evidence');
+  assert.equal(await evaluate('document.activeElement.id'), 'exercise-review-heading');
+  assert.equal(await evaluate('document.querySelectorAll(".exercise-review-round").length'), 6);
+  assert.equal(await evaluate('document.querySelectorAll(".exercise-review-columns > [lang=nn]").length'), 7);
+  const packet = JSON.parse(await download('#exercise-review-json', 'skynja-innhold.json'));
+  assert.equal(packet.exerciseCount, 13);
+  assert.equal(packet.localizedRoundCount, 112);
+  assert.equal(packet.status, 'AWAITING_HUMAN_REVIEW');
+  assert.equal(packet.pilotAuthorization, 'NOT_GRANTED');
+  const form = JSON.parse(await download('#exercise-review-form', 'skynja-vurderingsmal.json'));
+  assert.equal(form.contentSetSha256, packet.contentSetSha256);
+  assert.equal(form.reviews.length, 26);
+  assert.ok(form.reviews.every(review => review.conclusion === 'NOT_REVIEWED' && review.reviewerReference === ''));
+  const markdown = await download('#exercise-review-markdown', 'skynja-innholdsgjennomgang.md');
+  assert.equal((markdown.match(/#### Runde /gu) ?? []).length, 112);
+  assert.ok(markdown.includes(packet.contentSetSha256));
+  await screenshot('skynja-review-desktop.png');
+  await client.send('Emulation.setDeviceMetricsOverride', { width: 320, height: 900, deviceScaleFactor: 1, mobile: false });
+  await screenshot('skynja-review-mobile.png');
+  assert.equal(await evaluate('document.documentElement.scrollWidth <= innerWidth'), true, 'review reflows at 320px');
+  await press('[data-exercise-action=review-close]');
+  await client.send('Emulation.setDeviceMetricsOverride', { width: 1280, height: 950, deviceScaleFactor: 1, mobile: false });
+  console.log('Browser: bilingual review, all 112 localized rounds, real Markdown/JSON/form downloads, empty review status and 320px layout passed.');
+
   // Every exercise is reachable, interactive and explicitly localized in both variants.
   for (const locale of ['nb-NO', 'nn-NO']) {
     await change('#exercise-locale', locale);
@@ -169,14 +210,17 @@ try {
       await start(exercise.id);
       assert.equal((await view()).variant.title, exercise.locales[locale].title);
       assert.equal(await evaluate('document.querySelector("#exercise-locale").disabled'), true);
-      await answer();
-      await press('[data-exercise-action=stop]');
-      assert.equal((await view()).stage, 'STOPPED');
-      assert.equal((await view()).records.length, 0);
+      for (const round of exercise.locales[locale].rounds) {
+        assert.equal((await view()).round.id, round.id);
+        await answer();
+        await press('[data-exercise-action=next]');
+      }
+      assert.equal((await view()).stage, 'COMPLETED');
+      assert.equal((await view()).records.length, exercise.locales[locale].rounds.length);
       await press('[data-exercise-action=catalog]');
     }
   }
-  console.log('Browser: all 13 exercises / seven types work in Bokmål and Nynorsk using keyboard controls.');
+  console.log('Browser: all 112 localized rounds across 13 exercises / seven types complete using keyboard controls.');
 
   // A correct answer cannot advance until the learner explicitly selects its source.
   for (const locale of ['nb-NO', 'nn-NO']) {
@@ -286,6 +330,14 @@ try {
   assert.equal(await evaluate('document.querySelector("[data-exercise-id=skynja-maane-saape]").disabled'), true);
   await evaluate(`window.__WP13_9__.applyRestrictivePolicy({policyRevision: 2, restrictions: [{scope: 'AUTHORING_PACKAGE', scopeId: 'authoring-package-activity-nor-two-syllable-kake-bake-002', lifecycleStatus: 'WITHDRAWN'}], containsPersonData: false, resurrectionAllowed: false, publishingAuthority: false})`);
   assert.equal(await evaluate('document.querySelector("[data-exercise-id=skynja-kake-bake]").disabled'), true);
+  await press('[data-exercise-action=review-open]');
+  assert.equal(await evaluate('document.querySelectorAll("#exercise-review-select option").length'), 11);
+  assert.equal(await evaluate('document.querySelector("#exercise-review-select option[value=skynja-maane-saape]") === null'), true);
+  await change('#exercise-review-select', 'skynja-find-evidence');
+  await evaluate(`window.__WP13_8__.applyRestrictivePolicy({policyRevision: 3, restrictions: [{scope: 'ACTIVITY', scopeId: 'skynja-find-evidence', lifecycleStatus: 'WITHDRAWN'}], containsPersonData: false, resurrectionAllowed: false})`);
+  assert.equal(await evaluate('document.querySelectorAll("#exercise-review-select option").length'), 10);
+  assert.equal(await evaluate('document.querySelector("[data-review-exercise=skynja-find-evidence]") === null'), true);
+  await press('[data-exercise-action=review-close]');
   await client.send('Page.reload');
   await ready();
   assert.equal((await view()).stage, 'CATALOG');
@@ -301,13 +353,21 @@ try {
   await press('[data-exercise-action=open]');
   assert.equal(await evaluate('document.querySelector("[data-exercise-id=skynja-maane-saape]").disabled'), true);
   await change('#exercise-locale', 'nn-NO');
+  await press('[data-exercise-action=review-open]');
+  assert.equal(await evaluate('document.querySelectorAll("#exercise-review-select option").length'), 10);
+  assert.equal(await evaluate('document.querySelector("#exercise-review-select option[value=skynja-find-evidence]") === null'), true);
+  const offlinePacket = JSON.parse(await download('#exercise-review-json', 'skynja-innhold.json'));
+  assert.equal(offlinePacket.exerciseCount, 10);
+  assert.equal(offlinePacket.exercises.some(entry => entry.exerciseId === 'skynja-find-evidence'), false);
+  assert.notEqual(offlinePacket.contentSetSha256, packet.contentSetSha256);
+  await press('[data-exercise-action=review-close]');
   await start('skynja-reading-notice');
   await answer();
   await press('[data-exercise-action=stop]');
   await press('[data-exercise-action=catalog]');
-  await start('skynja-find-evidence');
+  await start('skynja-judgment-support');
   await answer();
-  console.log('Browser: offline reload retains restrictions; Nynorsk reading and text evidence exercises are fully interactive.');
+  console.log('Browser: offline reload retains restrictions in review and downloaded packets; Nynorsk reading and judgment exercises remain interactive.');
   assert.deepEqual(browserErrors, []);
 } finally {
   await cleanupBrowserProof({

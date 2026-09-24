@@ -1,0 +1,6 @@
+
+> ludys-app-reconstructed@0.14.0-reconstructed.9 canon:check
+> node scripts/canon-check.mjs
+
+Skynja canon verified: 9 source hashes, 50 principles, 20 retained rules, 9 migration workstreams; no runtime activation.
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.

@@ -1,0 +1,10 @@
+
+> ludys-app-reconstructed@0.14.0-reconstructed.9 test:exercises-browser
+> node scripts/browser-exercise-room-test.mjs
+
+Browser: bilingual review, all 112 localized rounds, real Markdown/JSON/form downloads, empty review status and 320px layout passed.
+Browser: all 112 localized rounds across 13 exercises / seven types complete using keyboard controls.
+Browser: six evidence rounds in both languages require answer + source; wrong source, missing information, pause, keyboard focus and mobile layout passed.
+Browser: retries, hints, model, pause/resume, stop, summaries, multiple valid choices, 320px reflow, zoom, accessibility tree and persisted restrictions passed.
+Browser: offline reload retains restrictions in review and downloaded packets; Nynorsk reading and judgment exercises remain interactive.
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.

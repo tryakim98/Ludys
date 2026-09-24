@@ -17,6 +17,8 @@ import { renderAuthoringWorkspace } from "./authoring-workspace-templates.js";
 import { renderBetaOperations } from "./beta-operations-templates.js";
 import { renderProviderDecision } from "./provider-decision-templates.js";
 import { renderExerciseRoom } from "./exercise-room-templates.js";
+import { renderExerciseReview } from "./exercise-review-templates.js";
+import { createExerciseReviewPacket, createExerciseReviewForm, exerciseReviewJson, exerciseReviewMarkdown } from "../../application/skynja/exercise-review.js";
 import { createLocalPwaCoordinator, type LocalPwaCoordinator } from "./pwa-status.js";
 import { installRuntimeSafetyBoundary } from "./runtime-safety.js";
 import { rollbackComponent, type LocalReleaseState, type ReleaseComponent } from "../../core/release-hardening.js";
@@ -33,6 +35,9 @@ const operationsController = createBetaOperations();
 const providerDecisionController = createProviderDecision();
 const exerciseController = createExerciseRoom();
 let exerciseOpen = false;
+let exerciseReviewOpen = false;
+let exerciseReviewSelectedId = "";
+let exerciseReviewUrls: string[] = [];
 let exercisePoliciesReady = false;
 let authoringOpen = false;
 let operationsOpen = false;
@@ -45,6 +50,11 @@ let providerOwnerTemplateObjectUrl: string | undefined;
 
 function render(focus = false): void {
   exerciseController.restrict(authoringController.view.packages.filter((item) => item.lifecycle !== "CURRENT").map((item) => item.activityId));
+  // Review is reachable only outside an exercise session. Restriction updates also rebuild exports.
+  if (!exerciseOpen || exerciseController.view.stage !== "CATALOG") exerciseReviewOpen = false;
+  exerciseReviewUrls.forEach((url) => URL.revokeObjectURL(url));
+  exerciseReviewUrls = [];
+  const reviewPacket = exerciseReviewOpen ? createExerciseReviewPacket(exerciseController.view.catalog, exerciseController.view.blockedIds) : undefined;
   const focusedElement = document.activeElement as HTMLElement | null;
   const restoreExerciseFocus = exerciseOpen && !focus && focusedElement !== null && root.contains(focusedElement)
     ? focusedElement.id : "";
@@ -54,7 +64,8 @@ function render(focus = false): void {
   exportObjectUrl = undefined;
   providerDossierObjectUrl = undefined;
   providerOwnerTemplateObjectUrl = undefined;
-  root.innerHTML = exerciseOpen ? renderExerciseRoom(exerciseController.view) : providerDecisionOpen
+  root.innerHTML = reviewPacket !== undefined ? renderExerciseReview(reviewPacket, exerciseController.view.locale, exerciseReviewSelectedId)
+    : exerciseOpen ? renderExerciseRoom(exerciseController.view) : providerDecisionOpen
     ? renderProviderDecision(providerDecisionController.view)
     : operationsOpen
     ? renderBetaOperations(operationsController.view)
@@ -70,6 +81,20 @@ function render(focus = false): void {
   const exerciseEntry = root.querySelector<HTMLButtonElement>("[data-exercise-action=open]");
   if (exerciseEntry !== null) exerciseEntry.disabled = !exercisePoliciesReady;
   pwaCoordinator?.refresh();
+  if (reviewPacket !== undefined) {
+    const exports = [
+      ["#exercise-review-markdown", exerciseReviewMarkdown(reviewPacket), "text/markdown;charset=utf-8"],
+      ["#exercise-review-json", exerciseReviewJson(reviewPacket), "application/json"],
+      ["#exercise-review-form", exerciseReviewJson(createExerciseReviewForm(reviewPacket)), "application/json"],
+    ];
+    for (const [selector, text, type] of exports) {
+      const link = root.querySelector<HTMLAnchorElement>(selector!);
+      if (link !== null) {
+        link.href = URL.createObjectURL(new Blob([text!], { type: type! }));
+        exerciseReviewUrls.push(link.href);
+      }
+    }
+  }
   const download = root.querySelector<HTMLAnchorElement>("#operations-export-download");
   if (download !== null && operationsController.view.exportPreview !== "") {
     exportObjectUrl = URL.createObjectURL(new Blob([operationsController.view.exportPreview], { type: "application/json" }));
@@ -132,12 +157,18 @@ root.addEventListener("click", async (event) => {
         if (["ACTIVE", "WAITING"].includes(controller.view.lifecycleState)) controller.pause();
         authoringController.stopAudio();
         exerciseController.backToCatalog();
+        exerciseReviewOpen = false;
         exerciseController.setLocale(controller.view.locale);
         authoringOpen = false; operationsOpen = false; providerDecisionOpen = false; exerciseOpen = true;
         break;
       case "close":
         exerciseController.stop(); exerciseController.backToCatalog(); exerciseOpen = false;
         render(true); return;
+      case "review-open":
+        if (exerciseController.view.stage !== "CATALOG") return;
+        exerciseReviewOpen = true;
+        break;
+      case "review-close": exerciseReviewOpen = false; break;
       case "filter":
         exerciseController.setFilter(exerciseButton.dataset.filter as ExerciseKind | "ALL");
         focusTarget = `[data-exercise-action=filter][data-filter="${exerciseButton.dataset.filter}"]`;
@@ -391,6 +422,13 @@ root.addEventListener("click", async (event) => {
 });
 
 root.addEventListener("change", (event) => {
+  const reviewSelect = (event.target as Element).closest<HTMLSelectElement>("#exercise-review-select");
+  if (reviewSelect !== null) {
+    exerciseReviewSelectedId = reviewSelect.value;
+    render();
+    root.querySelector<HTMLElement>("#exercise-review-heading")?.focus();
+    return;
+  }
   const exerciseLocale = (event.target as Element).closest<HTMLSelectElement>("#exercise-locale");
   if (exerciseLocale !== null) {
     exerciseController.setLocale(exerciseLocale.value as Locale);

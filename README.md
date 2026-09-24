@@ -8,6 +8,8 @@ Beskrivelsen under dokumenterer den eksisterende syntetiske proofen. Dens lokale
 
 **Nytt øvelsesrom:** [13 interaktive øvelser, 56 runder og sju typer på bokmål og nynorsk](docs/SKYNJA_TEXT_EVIDENCE_2026-09-23.md). **Finn tekstbeviset** kobler et valgt svar til teksten som støtter det, med et eget valg når informasjonen mangler. Åpnes med **Åpne øvelsesrom** på startsiden. Innholdet har hint, løsningsforslag og begrunnede tilbakemeldinger, og er merket som utkast for faglig og språklig gjennomgang.
 
+**Pilotforberedelse:** [Gjennomgangspakke og neste konkrete trinn](docs/SKYNJA_PILOT_PREPARATION.md). Hele øvelsesinnholdet kan sammenlignes og lastes ned fra **Øvelsesrom → Gjennomgå innhold**. `npm run check:pilot:technical` kontrollerer det bygde appskallet, alle 112 målformsrealiserte runder, eksport og offlineflyt. Full releasekontroll og faktisk menneskelig review er egne porter.
+
 Tidligere innholdsarbeid: [to nye BM/NN-utkast i Innholdsverksted, 22. september 2026](docs/CONTENT_EXPANSION_2026-09-22.md) – måne → såpe og kake → bake, med voksenkort, kunnskap, situasjonskort og lydmanus for fagreview.
 
 **Versjon:** `0.14.0-reconstructed.9`
