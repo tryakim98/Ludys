@@ -60,7 +60,7 @@ export class ExerciseReviewNotesController {
   #validNote(value: unknown): value is ExerciseReviewNote {
     if (!record(value) || !exactKeys(value, NOTE_KEYS)) return false;
     const entry = this.#packet.exercises.find((item) => item.exerciseId === value.exerciseId);
-    if (entry === undefined || !["nb-NO", "nn-NO"].includes(String(value.locale))) return false;
+    if (entry === undefined || (value.locale !== "nb-NO" && value.locale !== "nn-NO")) return false;
     const locale = value.locale as Locale;
     return typeof value.id === "string" && /^[a-zA-Z0-9-]{1,80}$/u.test(value.id)
       && value.revision === entry.revision && value.contentSha256 === entry.contentSha256

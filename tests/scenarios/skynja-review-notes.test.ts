@@ -87,6 +87,7 @@ test("malformed, oversized and approval-shaped files are rejected without consum
   invalid.push(JSON.stringify({ ...file, humanReviewed: true }));
   invalid.push(JSON.stringify({ ...file, classification: "APPROVED" }));
   invalid.push(JSON.stringify({ ...file, notes: [file.notes[0], file.notes[0]] }));
+  invalid.push(JSON.stringify({ ...file, notes: [{ ...file.notes[0], locale: ["nn-NO"] }] }));
   for (const json of invalid) {
     assert.equal(notes.importJson(json, notes.importGeneration), "INVALID_FILE");
     assert.equal(notes.exportJson(), before);

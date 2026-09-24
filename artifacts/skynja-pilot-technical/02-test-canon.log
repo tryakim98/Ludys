@@ -2,11 +2,11 @@
 > ludys-app-reconstructed@0.14.0-reconstructed.9 test:canon
 > node --test scripts/canon-check-test.mjs
 
-✔ canon source alteration or a rewritten manifest is caught before rules can silently change (11.247083ms)
-✔ dropping a principle or pretending adoption grants real-use activation is rejected (4.73111ms)
-✔ dropping historical modules does not silently remove their proof constraints (5.57818ms)
-✔ historical action/profile/multimodal restrictions stay scoped and do not resurrect as global product rules (0.811218ms)
-✔ new modules still cannot grant pilot access, rank users or add unreviewed providers (0.501905ms)
+✔ canon source alteration or a rewritten manifest is caught before rules can silently change (13.184326ms)
+✔ dropping a principle or pretending adoption grants real-use activation is rejected (4.44635ms)
+✔ dropping historical modules does not silently remove their proof constraints (2.528444ms)
+✔ historical action/profile/multimodal restrictions stay scoped and do not resurrect as global product rules (0.712403ms)
+✔ new modules still cannot grant pilot access, rank users or add unreviewed providers (0.499412ms)
 ℹ tests 5
 ℹ suites 0
 ℹ pass 5
@@ -14,5 +14,5 @@
 ℹ cancelled 0
 ℹ skipped 0
 ℹ todo 0
-ℹ duration_ms 102.488283
+ℹ duration_ms 111.381639
 npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.

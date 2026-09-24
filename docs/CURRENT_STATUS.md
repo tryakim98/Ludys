@@ -4,7 +4,7 @@
 
 Produktet heter **Skynja**. [Kanon 1.0](canon/skynja-v1.0/README_FIRST.md) er gjeldende arbeidsretning. Alle 50 prinsipper er registrert i `config/skynja-canon-integration.json`; designadopsjon og implementasjon er separate statuser. Se [integrasjonsrapporten](SKYNJA_CANON_INTEGRATION.md).
 
-Repositoryet er fortsatt `tryakim98/Ludys`, med teknisk pakkeidentitet `ludys-app-reconstructed` og versjon `0.14.0-reconstructed.9`. Øvelsesrommet og gjennomgangspakken er integrert i `integration/installable-alpha` via [PR #13](https://github.com/tryakim98/Ludys/pull/13) og [PR #14](https://github.com/tryakim98/Ludys/pull/14), siste merge `86b18a7`. Nytt arbeid på `feature/review-notes` gir praktisk registrering og gjenåpning av gjennomgangsnotater. Endelig GitHub-status står i pull requesten. Ingen pilot-/produksjonsbeslutning inngår.
+Repositoryet er fortsatt `tryakim98/Ludys`, med teknisk pakkeidentitet `ludys-app-reconstructed` og versjon `0.14.0-reconstructed.9`. Øvelsesrommet og gjennomgangspakken er integrert i `integration/installable-alpha` via [PR #13](https://github.com/tryakim98/Ludys/pull/13) og [PR #14](https://github.com/tryakim98/Ludys/pull/14), siste merge `86b18a7`. [PR #15](https://github.com/tryakim98/Ludys/pull/15) på `feature/review-notes` gir praktisk registrering og gjenåpning av gjennomgangsnotater. Endelig GitHub-status står i pull requesten. Ingen pilot-/produksjonsbeslutning inngår.
 
 ## Hva som finnes nå
 
@@ -45,7 +45,7 @@ WP13.12B-kode og historiske eksterne aktiveringsartefakter finnes i repositoryet
 | Providerpakke, lokal runtimekompatibilitet og genererte kontrollsummer | Bestått; ingen ekstern aktivering |
 | `npm run check` | Ikke bestått: stopper i `staging:validate:compiled` med `PINNED_GIT_WINDOWS_RUNTIME_REQUIRED` på Linux |
 
-Fullkontrollens Windows-port er beholdt. Windows-kjøringen etter PR #14 bestod installasjon og verifikasjon av fastlåst Git-runtime, men stoppet i `test:pinned-git-toolchain` fordi det autentiske T-objektet for T→U-proofen mangler (`568d9f9e306075a81f6e4b243d3812507f97b230`). Ny appkontroll er separat fra denne historiske releaseporten. Senere steg i kjeden er bare erklært bestått når de er kjørt separat og står i tabellen. Øvelsesrommets vanlige offline-omlasting fungerer i Chromium 153. En målrettet probe viste at tvungen oppfriskning med `ignoreCache` omgår kontrollerende service worker i dette miljøet; testene for vanlig PWA-omlasting bruker derfor normal reload. Nettlesertesten venter nå eksplisitt på et nytt dokument før den kontrollerer tilstand etter omlasting, slik at den ikke leser status fra forrige side. Fysisk enhet og manuell skjermleser er ikke gjennomgått.
+Fullkontrollens Windows-port er beholdt. Windows-kjøringen for PR #15 bestod installasjon og verifikasjon av fastlåst Git-runtime, men stoppet i `test:pinned-git-toolchain` fordi det autentiske T-objektet for T→U-proofen mangler (`568d9f9e306075a81f6e4b243d3812507f97b230`). Ny appkontroll er separat fra denne historiske releaseporten. Senere steg i kjeden er bare erklært bestått når de er kjørt separat og står i tabellen. Øvelsesrommets vanlige offline-omlasting fungerer i Chromium 153. En målrettet probe viste at tvungen oppfriskning med `ignoreCache` omgår kontrollerende service worker i dette miljøet; testene for vanlig PWA-omlasting bruker derfor normal reload. Nettlesertesten venter nå eksplisitt på et nytt dokument før den kontrollerer tilstand etter omlasting, slik at den ikke leser status fra forrige side. Fysisk enhet og manuell skjermleser er ikke gjennomgått.
 
 ## Historikk
 
