@@ -109,12 +109,31 @@ try {
     }
     throw new Error(`Review download did not complete: ${name}`);
   }
+  async function importNotes(path) {
+    await evaluate('document.querySelector("#review-notes-message").textContent = ""');
+    const document = await client.send('DOM.getDocument');
+    const input = await client.send('DOM.querySelector', { nodeId: document.root.nodeId, selector: '#review-notes-file' });
+    await client.send('DOM.setFileInputFiles', { nodeId: input.nodeId, files: [path] });
+    await waitForExpression('document.querySelector("#review-notes-message")?.textContent.length > 0');
+  }
+  async function writeNote(text) {
+    await change('#review-note-locale', 'nn-NO');
+    await change('#review-note-round', 'evidence-price');
+    await evaluate(`(() => { const field = document.querySelector('#review-note-observation'); field.value = ${JSON.stringify(text)}; field.dispatchEvent(new Event('input', { bubbles: true })); document.querySelector('#review-note-form').requestSubmit(); })()`);
+    await waitForExpression('document.querySelectorAll("li[data-review-note-id]").length > 0');
+  }
 
   const view = () => evaluate('window.__SKYNJA_EXERCISES__.getView()');
   async function ready() {
     await waitForExpression('window.__SKYNJA_EXERCISES__ !== undefined');
     await evaluate('window.__SKYNJA_EXERCISES__.ready');
     await waitForExpression('navigator.serviceWorker.controller !== null');
+  }
+  async function reload() {
+    const previousOrigin = await evaluate('performance.timeOrigin');
+    await client.send('Page.reload');
+    await waitForExpression(`performance.timeOrigin !== ${JSON.stringify(previousOrigin)}`);
+    await ready();
   }
   async function screenshot(name) {
     await mkdir(join(repo, 'artifacts'), { recursive: true });
@@ -193,6 +212,32 @@ try {
   const markdown = await download('#exercise-review-markdown', 'skynja-innholdsgjennomgang.md');
   assert.equal((markdown.match(/#### Runde /gu) ?? []).length, 112);
   assert.ok(markdown.includes(packet.contentSetSha256));
+  await writeNote('Syntetisk funn: spørsmålet bør vurderast på nynorsk.');
+  const noteJson = await download('#review-notes-download', 'skynja-arbeidsnotater.json');
+  const noteFile = JSON.parse(noteJson);
+  assert.equal(noteFile.classification, 'EDITORIAL_NOTES_NOT_APPROVAL');
+  assert.equal(noteFile.notes[0].roundId, 'evidence-price');
+  assert.equal(noteFile.notes[0].locale, 'nn-NO');
+  const validNotePath = join(downloads, 'saved-notes.json');
+  await writeFile(validNotePath, noteJson);
+  await press('[data-review-note-action=clear]');
+  assert.equal(await evaluate('document.querySelectorAll("li[data-review-note-id]").length'), 0);
+  await importNotes(validNotePath);
+  assert.equal(await evaluate('document.querySelectorAll("li[data-review-note-id]").length'), 1);
+  await evaluate(`(() => { const field = document.querySelector('#review-note-observation'); field.value = 'Uferdig notat skal bli verande.'; field.dispatchEvent(new Event('input', { bubbles: true })); })()`);
+  await change('#exercise-review-select', 'skynja-reading-notice');
+  await change('#exercise-review-select', 'skynja-find-evidence');
+  assert.equal(await evaluate('document.querySelector("#review-note-observation").value'), 'Uferdig notat skal bli verande.');
+  const invalidNotePath = join(downloads, 'stale-notes.json');
+  await writeFile(invalidNotePath, JSON.stringify({ ...noteFile, contentSetSha256: '0'.repeat(64) }));
+  await importNotes(invalidNotePath);
+  assert.equal(await evaluate('document.querySelectorAll("li[data-review-note-id]").length'), 1);
+  assert.equal(await evaluate('document.querySelector("#review-note-observation").value'), 'Uferdig notat skal bli verande.');
+  assert.match(await evaluate('document.querySelector("#review-notes-message").textContent'), /annen innholdsversjon/);
+  await screenshot('skynja-review-notes.png');
+  await press('[data-review-note-action=clear]');
+  assert.equal(await evaluate('document.querySelector("#review-note-observation").value'), '');
+  console.log('Browser: real note file round-trip, explicit Nynorsk/round binding, stale-file rejection and preservation of unfinished notes passed.');
   await screenshot('skynja-review-desktop.png');
   await client.send('Emulation.setDeviceMetricsOverride', { width: 320, height: 900, deviceScaleFactor: 1, mobile: false });
   await screenshot('skynja-review-mobile.png');
@@ -334,12 +379,13 @@ try {
   assert.equal(await evaluate('document.querySelectorAll("#exercise-review-select option").length'), 11);
   assert.equal(await evaluate('document.querySelector("#exercise-review-select option[value=skynja-maane-saape]") === null'), true);
   await change('#exercise-review-select', 'skynja-find-evidence');
+  await writeNote('Syntetisk notat som skal fjernast ved sperring.');
   await evaluate(`window.__WP13_8__.applyRestrictivePolicy({policyRevision: 3, restrictions: [{scope: 'ACTIVITY', scopeId: 'skynja-find-evidence', lifecycleStatus: 'WITHDRAWN'}], containsPersonData: false, resurrectionAllowed: false})`);
   assert.equal(await evaluate('document.querySelectorAll("#exercise-review-select option").length'), 10);
   assert.equal(await evaluate('document.querySelector("[data-review-exercise=skynja-find-evidence]") === null'), true);
+  assert.match(await evaluate('document.querySelector("#review-notes-download").textContent'), /\(0\)/);
   await press('[data-exercise-action=review-close]');
-  await client.send('Page.reload');
-  await ready();
+  await reload();
   assert.equal((await view()).stage, 'CATALOG');
   await press('[data-exercise-action=open]');
   assert.equal(await evaluate('document.querySelector("[data-exercise-id=skynja-maane-saape]").disabled'), true);
@@ -348,8 +394,7 @@ try {
 
   // Normal reload exercises the PWA. Chromium 153's ignoreCache reload bypasses the worker.
   await client.send('Network.emulateNetworkConditions', { offline: true, latency: 0, downloadThroughput: 0, uploadThroughput: 0, connectionType: 'none' });
-  await client.send('Page.reload');
-  await ready();
+  await reload();
   await press('[data-exercise-action=open]');
   assert.equal(await evaluate('document.querySelector("[data-exercise-id=skynja-maane-saape]").disabled'), true);
   await change('#exercise-locale', 'nn-NO');
@@ -360,6 +405,18 @@ try {
   assert.equal(offlinePacket.exerciseCount, 10);
   assert.equal(offlinePacket.exercises.some(entry => entry.exerciseId === 'skynja-find-evidence'), false);
   assert.notEqual(offlinePacket.contentSetSha256, packet.contentSetSha256);
+  await importNotes(validNotePath);
+  assert.match(await evaluate('document.querySelector("#review-notes-message").textContent'), /annan innhaldsversjon/);
+  assert.match(await evaluate('document.querySelector("#review-notes-download").textContent'), /\(0\)/);
+  await change('#exercise-review-select', 'skynja-reading-notice');
+  await evaluate(`(() => { const field = document.querySelector('#review-note-observation'); field.value = 'Syntetisk notat skrive utan nett.'; field.dispatchEvent(new Event('input', { bubbles: true })); document.querySelector('#review-note-form').requestSubmit(); })()`);
+  const offlineNotes = JSON.parse(await download('#review-notes-download', 'skynja-arbeidsnotater.json'));
+  assert.equal(offlineNotes.notes[0].locale, 'nn-NO');
+  assert.equal(offlineNotes.notes[0].exerciseId, 'skynja-reading-notice');
+  await press('[data-review-note-action=clear]');
+  await importNotes(join(downloads, 'skynja-arbeidsnotater.json'));
+  assert.equal(await evaluate('document.querySelectorAll("li[data-review-note-id]").length'), 1);
+  await press('[data-review-note-action=clear]');
   await press('[data-exercise-action=review-close]');
   await start('skynja-reading-notice');
   await answer();
@@ -367,7 +424,7 @@ try {
   await press('[data-exercise-action=catalog]');
   await start('skynja-judgment-support');
   await answer();
-  console.log('Browser: offline reload retains restrictions in review and downloaded packets; Nynorsk reading and judgment exercises remain interactive.');
+  console.log('Browser: offline reload retains restrictions in review and downloaded packets; real note export/import and Nynorsk reading and judgment exercises work offline.');
   assert.deepEqual(browserErrors, []);
 } finally {
   await cleanupBrowserProof({

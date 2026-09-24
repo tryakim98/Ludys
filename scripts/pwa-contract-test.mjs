@@ -169,15 +169,17 @@ test("service worker install caches the deterministic shell and fails on a missi
   assert.deepEqual(cacheNames.sort(), [
     "ludys-authoring-policy-1",
     "ludys-content-policy-1",
-    "ludys-shell-0.14.0-reconstructed.9-skynja-review-2026-09-24",
+    "ludys-shell-0.14.0-reconstructed.9-skynja-review-notes-2026-09-24",
   ]);
-  const shellCache = runtime.cacheStore.get("ludys-shell-0.14.0-reconstructed.9-skynja-review-2026-09-24");
+  const shellCache = runtime.cacheStore.get("ludys-shell-0.14.0-reconstructed.9-skynja-review-notes-2026-09-24");
   assert.ok(shellCache.entries.size >= 30);
   assert.ok(shellCache.entries.has(`${origin}/web/index.html`));
   assert.ok(shellCache.entries.has(`${origin}/dist/src/ui/browser/app.js`));
   assert.ok(shellCache.entries.has(`${origin}/dist/src/ui/browser/pwa-status.js`));
   assert.ok(shellCache.entries.has(`${origin}/dist/src/ui/browser/exercise-review-templates.js`));
   assert.ok(shellCache.entries.has(`${origin}/dist/src/application/skynja/exercise-review.js`));
+  assert.ok(shellCache.entries.has(`${origin}/dist/src/ui/browser/exercise-review-notes-templates.js`));
+  assert.ok(shellCache.entries.has(`${origin}/dist/src/application/skynja/exercise-review-notes.js`));
   for (const module of ["ui/browser/exercise-room-templates", "application/skynja/exercise-room-controller", "core/skynja/exercise-room", "core/skynja/exercise-room-policy", "composition/create-exercise-room", "content/skynja/exercise-authoring", "content/skynja/exercise-catalog", "content/skynja/building-exercises", "content/skynja/reading-exercises", "content/skynja/judgment-exercises", "content/skynja/evidence-exercise"]) {
     assert.ok(shellCache.entries.has(`${origin}/dist/src/${module}.js`), `${module} must work offline`);
     await stat(join(repo, `src/${module}.ts`));
@@ -203,7 +205,7 @@ test("activate removes only obsolete LUDYS shell caches", async () => {
   await runtime.dispatchLifecycle("activate");
   assert.deepEqual(
     (await runtime.caches.keys()).sort(),
-    ["ludys-authoring-policy-1", "ludys-content-policy-1", "ludys-shell-0.14.0-reconstructed.9-skynja-review-2026-09-24", "unrelated-application-cache"],
+    ["ludys-authoring-policy-1", "ludys-content-policy-1", "ludys-shell-0.14.0-reconstructed.9-skynja-review-notes-2026-09-24", "unrelated-application-cache"],
   );
   assert.equal(runtime.claimed(), 1);
 });

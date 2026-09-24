@@ -1,9 +1,9 @@
 {
   "schemaVersion": "skynja-pilot-technical.v1",
   "scope": "LOCAL_APP_AND_EXERCISE_REVIEW",
-  "sourceCommit": "d840894c1235edfdeda396776afc3e2a039b16d9",
+  "sourceCommit": "86b18a75bfe42d0e90ac41f4967f107182122c9e",
   "worktreeDirty": true,
-  "startedAt": "2026-09-24T05:52:47.095Z",
+  "startedAt": "2026-09-24T12:00:55.730Z",
   "nodeVersion": "v24.19.0",
   "platform": "linux",
   "browser": "/workspace/scratch/7893748eab4e/browser-tools/skynja-extracted/launch.sh",
@@ -17,95 +17,95 @@
       "command": "npm run canon:check",
       "exitCode": 0,
       "signal": null,
-      "durationMs": 255,
+      "durationMs": 205,
       "log": "01-canon-check.log"
     },
     {
       "command": "npm run test:canon",
       "exitCode": 0,
       "signal": null,
-      "durationMs": 376,
+      "durationMs": 300,
       "log": "02-test-canon.log"
     },
     {
       "command": "npm run lint",
       "exitCode": 0,
       "signal": null,
-      "durationMs": 296,
+      "durationMs": 231,
       "log": "03-lint.log"
     },
     {
       "command": "npm run architecture",
       "exitCode": 0,
       "signal": null,
-      "durationMs": 264,
+      "durationMs": 222,
       "log": "04-architecture.log"
     },
     {
       "command": "npm run secret:scan",
       "exitCode": 0,
       "signal": null,
-      "durationMs": 486,
+      "durationMs": 354,
       "log": "05-secret-scan.log"
     },
     {
       "command": "npm run build:installable",
       "exitCode": 0,
       "signal": null,
-      "durationMs": 9079,
+      "durationMs": 6584,
       "log": "06-build-installable.log"
     },
     {
       "command": "npm run pilot:review:check",
       "exitCode": 0,
       "signal": null,
-      "durationMs": 367,
+      "durationMs": 308,
       "log": "07-pilot-review-check.log"
     },
     {
       "command": "npm run test:compiled",
       "exitCode": 0,
       "signal": null,
-      "durationMs": 1484,
+      "durationMs": 1515,
       "log": "08-test-compiled.log"
     },
     {
       "command": "npm run test:pwa-contract",
       "exitCode": 0,
       "signal": null,
-      "durationMs": 453,
+      "durationMs": 332,
       "log": "09-test-pwa-contract.log"
     },
     {
       "command": "npm run test:app-browser",
       "exitCode": 0,
       "signal": null,
-      "durationMs": 5416,
+      "durationMs": 4525,
       "log": "10-test-app-browser.log"
     },
     {
       "command": "npm run test:exercises-browser",
       "exitCode": 0,
       "signal": null,
-      "durationMs": 50744,
+      "durationMs": 45527,
       "log": "11-test-exercises-browser.log"
     },
     {
       "command": "npm run test:authoring-browser",
       "exitCode": 0,
       "signal": null,
-      "durationMs": 6991,
+      "durationMs": 6702,
       "log": "12-test-authoring-browser.log"
     },
     {
       "command": "npm run test:pwa-browser",
       "exitCode": 0,
       "signal": null,
-      "durationMs": 5728,
+      "durationMs": 5458,
       "log": "13-test-pwa-browser.log"
     }
   ],
   "status": "TECHNICAL_CHECKS_PASSED",
   "contentSetSha256": "05abc9fb68c9b2c0eb16751cec463b9b7a793464a86bdb49392218553b6f3923",
-  "finishedAt": "2026-09-24T05:54:09.050Z"
+  "finishedAt": "2026-09-24T12:02:08.007Z"
 }

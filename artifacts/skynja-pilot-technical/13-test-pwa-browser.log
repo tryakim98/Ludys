@@ -2,5 +2,6 @@
 > ludys-app-reconstructed@0.14.0-reconstructed.9 test:pwa-browser
 > node scripts/browser-pwa-offline-test.mjs
 
+App update waits for unfinished review drafts and collected notes; clearing permits activation.
 Chromium WP13.7C installable PWA, offline shell, controlled update and no-resurrection proof passed.
 npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.

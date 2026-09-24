@@ -14,15 +14,29 @@ Tre filer kan lastes ned fra appen eller hentes fra den genererte pakken:
 | [content-snapshot.json](../release/skynja-pilot-review/content-snapshot.json) | Eksakte tekster, revisjoner og SHA-256 for sett, øvelse og målform |
 | [review-form-template.json](../release/skynja-pilot-review/review-form-template.json) | 26 tomme vurderingsoppføringer, én per øvelse og målform |
 
-Hashreferansene endres også når noen endrer tekst uten å øke revisjonstallet. Ingen reviewer, beslutning eller ekstern kvittering er forhåndsutfylt. En hash beviser innholdsbinding, ikke hvem som har vurdert materialet. Malen har ingen automatisk godkjennings-/publiseringsfunksjon. Faktisk reviewer, relevant kompetanse, mandat og underlag må kontrolleres av ansvarlig for gjennomgangen. Utfylte skjemaer leveres gjennom avtalt reviewkanal; det offentlige repositoryet skal bare inneholde tomme maler og ikke elevopplysninger.
+Hashreferansene endres også når noen endrer tekst uten å øke revisjonstallet. Ingen reviewer, beslutning eller ekstern kvittering er forhåndsutfylt. En hash beviser innholdsbinding, ikke hvem som har vurdert materialet. Malen har ingen automatisk godkjennings-/publiseringsfunksjon. Faktisk reviewer, relevant kompetanse, mandat og underlag må kontrolleres av ansvarlig for gjennomgangen. Utfylte skjemaer leveres gjennom avtalt kanal; det offentlige repositoryet skal bare inneholde tomme maler og ikke elevopplysninger.
 
 Appens eksport utelater sperrede øvelser og bygges på nytt når restriksjoner endres. Den genererte Git-pakken følger de innsjekkede innholdspolicyene. Allerede nedlastede filer kan ikke trekkes tilbake fra mottakerens enhet; mottaker må kontrollere gjeldende versjon og restriksjoner før videre bruk.
+
+## Registrer og ta med funn
+
+På gjennomgangssiden kan du skrive arbeidsnotater direkte ved øvelsen:
+
+1. Velg øvelse, bokmål eller nynorsk, og enten en bestemt runde eller hele øvelsen.
+2. Velg område (språk, oppgave, støtte, tilgjengelighet eller verdighet) og behov for oppfølging. Skriv observasjonen og eventuelt et endringsforslag, uten elevopplysninger.
+3. Trykk **Legg til notat**. Uferdig tekst beholdes ved bytte av øvelse, men bare tillagte notater kommer med i filen.
+4. Velg **Last ned arbeidsnotater** før du lukker eller laster siden på nytt. Filen kan åpnes igjen med **Legg til notater fra fil**, også offline etter første innlasting. Identiske notater legges ikke til flere ganger.
+5. Før appoppdatering: legg til uferdige notater, last ned filen og velg **Tøm notater og skjema**. Oppdateringen venter mens notater eller uferdig tekst finnes. Nettleseren blir også bedt om å varsle ved lukking/omlasting; dette er ingen automatisk sikkerhetskopi.
+
+Hvert notat bindes til innholdsversjon, øvelse, målform og eventuell runde. Filer med annet innhold, ukjente felt, ugyldige referanser eller motstridende notat-ID avvises samlet; eksisterende notater og uferdig tekst beholdes. Maksimum er 200 notater, 2000 tegn per tekstfelt og 1 MiB samlet. Appen lagrer bare i minnet mens siden er åpen; den sender ingen notater videre.
+
+Arbeidsnotatfilen er merket `EDITORIAL_NOTES_NOT_APPROVAL`. Den er ikke en utfylt fagvurdering, verifisert revieweridentitet eller godkjenningskvittering. Ansvarlig må fortsatt behandle funnene og gjennomføre faktisk review. Sperring fjerner tilhørende lokale notater; gamle filer kan ikke gjenåpne sperret innhold. Tømming, lukking av gjennomgangen og stopp avbryter ventende filinnlesing, slik at et sent svar ikke gjenoppretter arbeidet. Allerede nedlastede filer må håndteres separat.
 
 ## Arbeidsrekkefølge
 
 | Prioritet | Ansvarlig rolle som må utpekes | Konkret leveranse | Nåstatus |
 |---|---|---|---|
-| 1 | Fagansvarlig og målformskompetente reviewere | Gjennomgå alle inkluderte runder i begge målformer; bind funn og konklusjon til pakken | Materiale og tomme skjemaer klare; menneskelig review gjenstår |
+| 1 | Fagansvarlig og målformskompetente reviewere | Gjennomgå alle inkluderte runder i begge målformer; bind funn og konklusjon til pakken | Materiale, tomme skjemaer og notatverktøy klare; menneskelig review gjenstår |
 | 2 | Utviklingsansvarlig / eier av kildearkivet | Gjenfinne autentiske historiske Git-objekter T/U eller avklare en dokumentert migrasjon av den avgrensede proofen | Full releasekontroll er blokkert; ingen proof er omskrevet |
 | 3 | Tilgjengelighetsansvarlig og representativ støtteperson | Praktisk gjennomgang på planlagt fysisk enhet med faktisk hjelpemiddel; logg kontroll, forståelse og belastning | Automatiske nettlesertester finnes; manuell gjennomgang gjenstår |
 | 4 | Pilotansvarlig og relevante beslutningstakere | Avgrense målgruppe, arena, øvelser, støtte/lyd, evalueringsdata, ansvar, stoppregler og kriterier før pilotbeslutning | Må besluttes for den konkrete piloten |
@@ -41,7 +55,7 @@ Dette er et forslag til en forberedende gjennomgang med fiktive eksempler. Det e
 4. Ta pause midt i et forslag. Vent, fortsett og kontroller at forslaget er bevart. Stopp deretter: forslaget og rundeoversikten skal fjernes. Tilbake, omlasting og gjenåpning skal ikke gjenopprette forsøket.
 5. Etter første innlasting: koble fra nettet, last normalt på nytt og gjennomfør en ny øvelse. Test installasjon/oppstart fra hjemskjerm på den faktiske enheten, ikke bare en emulert mobilbredde.
 6. Bruk kun tastatur og deretter planlagt skjermleser/hjelpemiddel. Kontroller leserekkefølge, fokus etter svar/hint/pause, navn på kontroller, forstørring, tekstskalering og touch. Automatisk tilgjengelighetstre er ikke manuell skjermlesergjennomgang.
-7. Åpne innholdsgjennomgangen. Finn samme runde i begge målformer og last ned pakken. Registrer om støttepersonen forstår forskjellen på utkast, teknisk test og faktisk innholdsgjennomgang.
+7. Åpne innholdsgjennomgangen. Finn samme runde i begge målformer, legg til et fiktivt funn og last ned pakken og notatfilen. Tøm notatene, åpne filen igjen og bekreft at funnet har riktig målform og runde. Registrer om støttepersonen forstår forskjellen på utkast, teknisk test og faktisk innholdsgjennomgang.
 
 Registrer også ikke-gjennomføring, forvirring, belastning og mulige uønskede virkninger. Ingen tidsgrense eller poengberegning trengs i øvelsen. Avbryt den aktuelle gjennomgangen ved tap av kontroll, gjenoppståtte svar etter stopp, vist sperret innhold eller ubehag. Logg et konkret funn og la ansvarlig avklare retting og ny kontroll før videre utprøving. Terskler og restartmyndighet for en faktisk deltakerpilot må vedtas i pilotprotokollen.
 
