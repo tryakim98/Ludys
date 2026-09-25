@@ -1,7 +1,11 @@
+import { captureSkynjaMotion, animateSkynjaChanges, observeSkynjaMotionPreference } from "./skynja-motion.js";
 import { createSyntheticAppNavigation } from "../../composition/create-synthetic-app-navigation.js";
 import { createAuthoringPipeline } from "../../composition/create-authoring-pipeline.js";
 import { createBetaOperations } from "../../composition/create-beta-operations.js";
 import { createProviderDecision } from "../../composition/create-provider-decision.js";
+import { createExerciseRoom } from "../../composition/create-exercise-room.js";
+import type { ExerciseKind } from "../../core/skynja/exercise-room.js";
+import { partitionExercisePolicy } from "../../core/skynja/exercise-room-policy.js";
 import type { AuthoringLocaleTextField } from "../../application/authoring-pipeline-controller.js";
 import type { FindingClassification, OperationsArtifactType, OperationsLocale } from "../../core/beta-operations.js";
 import type { DecisionLocale, ProviderOptionId } from "../../core/provider-decision.js";
@@ -13,6 +17,10 @@ import { renderSyntheticAppNavigation } from "./synthetic-app-navigation-templat
 import { renderAuthoringWorkspace } from "./authoring-workspace-templates.js";
 import { renderBetaOperations } from "./beta-operations-templates.js";
 import { renderProviderDecision } from "./provider-decision-templates.js";
+import { renderExerciseRoom } from "./exercise-room-templates.js";
+import { renderExerciseReview } from "./exercise-review-templates.js";
+import { createExerciseReviewForm, exerciseReviewJson, exerciseReviewMarkdown } from "../../application/skynja/exercise-review.js";
+import { ExerciseReviewNotesController, NOTE_FILE_LIMIT, type ReviewNoteDraft } from "../../application/skynja/exercise-review-notes.js";
 import { createLocalPwaCoordinator, type LocalPwaCoordinator } from "./pwa-status.js";
 import { installRuntimeSafetyBoundary } from "./runtime-safety.js";
 import { rollbackComponent, type LocalReleaseState, type ReleaseComponent } from "../../core/release-hardening.js";
@@ -21,12 +29,21 @@ import { wp13_12aLocalReleaseState } from "../../content/prototype/wp13-12a-rele
 const rootElement = document.querySelector<HTMLDivElement>("#app");
 if (rootElement === null) throw new Error("WP13.7B app shell is missing #app");
 const root: HTMLDivElement = rootElement;
+observeSkynjaMotionPreference(root);
 
 const pageInstance = crypto.randomUUID();
 const { controller } = createSyntheticAppNavigation("nb-NO", pageInstance);
 const authoringController = createAuthoringPipeline();
 const operationsController = createBetaOperations();
 const providerDecisionController = createProviderDecision();
+const exerciseController = createExerciseRoom();
+let exerciseOpen = false;
+let exerciseReviewOpen = false;
+let exerciseReviewSelectedId = "";
+let exerciseReviewUrls: string[] = [];
+let exerciseReviewNotes: ExerciseReviewNotesController | undefined;
+const exerciseReviewDrafts = new Map<string, ReviewNoteDraft>();
+let exercisePoliciesReady = false;
 let authoringOpen = false;
 let operationsOpen = false;
 let providerDecisionOpen = false;
@@ -37,26 +54,59 @@ let providerDossierObjectUrl: string | undefined;
 let providerOwnerTemplateObjectUrl: string | undefined;
 
 function render(focus = false): void {
+  const previousMotion = captureSkynjaMotion(root);
+  captureReviewNoteDraft();
+  exerciseController.restrict(authoringController.view.packages.filter((item) => item.lifecycle !== "CURRENT").map((item) => item.activityId));
+  exerciseReviewNotes?.restrict(exerciseController.view.blockedIds);
+  for (const id of exerciseController.view.blockedIds) exerciseReviewDrafts.delete(id);
+  // Review is reachable only outside an exercise session. Restriction updates also rebuild exports.
+  if (!exerciseOpen || exerciseController.view.stage !== "CATALOG") { exerciseReviewNotes?.cancelPendingImports(); exerciseReviewOpen = false; }
+  exerciseReviewUrls.forEach((url) => URL.revokeObjectURL(url));
+  exerciseReviewUrls = [];
+  if (exerciseReviewOpen && exerciseReviewNotes === undefined) exerciseReviewNotes = new ExerciseReviewNotesController(exerciseController.view.catalog, exerciseController.view.blockedIds);
+  const reviewPacket = exerciseReviewOpen ? exerciseReviewNotes?.packet : undefined;
+  const focusedElement = document.activeElement as HTMLElement | null;
+  const restoreExerciseFocus = exerciseOpen && !focus && focusedElement !== null && root.contains(focusedElement)
+    ? focusedElement.id : "";
   if (exportObjectUrl !== undefined) URL.revokeObjectURL(exportObjectUrl);
   if (providerDossierObjectUrl !== undefined) URL.revokeObjectURL(providerDossierObjectUrl);
   if (providerOwnerTemplateObjectUrl !== undefined) URL.revokeObjectURL(providerOwnerTemplateObjectUrl);
   exportObjectUrl = undefined;
   providerDossierObjectUrl = undefined;
   providerOwnerTemplateObjectUrl = undefined;
-  root.innerHTML = providerDecisionOpen
+  root.innerHTML = reviewPacket !== undefined ? renderExerciseReview(reviewPacket, exerciseController.view.locale, exerciseReviewSelectedId, exerciseReviewNotes?.notes, exerciseReviewDrafts)
+    : exerciseOpen ? renderExerciseRoom(exerciseController.view) : providerDecisionOpen
     ? renderProviderDecision(providerDecisionController.view)
     : operationsOpen
     ? renderBetaOperations(operationsController.view)
     : authoringOpen
       ? renderAuthoringWorkspace(authoringController.view)
       : renderSyntheticAppNavigation(controller.view);
-  const locale = providerDecisionOpen
+  animateSkynjaChanges(root, previousMotion);
+  const locale = exerciseOpen ? exerciseController.view.locale : providerDecisionOpen
     ? providerDecisionController.view.locale
     : operationsOpen ? operationsController.view.locale : authoringOpen ? authoringController.view.locale : controller.view.locale;
   document.documentElement.lang = locale === "nb-NO" || locale === "nb" ? "nb" : "nn";
   document.documentElement.dataset.wp13_7bReady = "true";
   document.documentElement.dataset.wp13_7cReady = "true";
+  const exerciseEntry = root.querySelector<HTMLButtonElement>("[data-exercise-action=open]");
+  if (exerciseEntry !== null) exerciseEntry.disabled = !exercisePoliciesReady;
   pwaCoordinator?.refresh();
+  if (reviewPacket !== undefined) {
+    const exports = [
+      ["#exercise-review-markdown", exerciseReviewMarkdown(reviewPacket), "text/markdown;charset=utf-8"],
+      ["#exercise-review-json", exerciseReviewJson(reviewPacket), "application/json"],
+      ["#exercise-review-form", exerciseReviewJson(createExerciseReviewForm(reviewPacket)), "application/json"],
+      ["#review-notes-download", exerciseReviewNotes!.exportJson(), "application/json"],
+    ];
+    for (const [selector, text, type] of exports) {
+      const link = root.querySelector<HTMLAnchorElement>(selector!);
+      if (link !== null) {
+        link.href = URL.createObjectURL(new Blob([text!], { type: type! }));
+        exerciseReviewUrls.push(link.href);
+      }
+    }
+  }
   const download = root.querySelector<HTMLAnchorElement>("#operations-export-download");
   if (download !== null && operationsController.view.exportPreview !== "") {
     exportObjectUrl = URL.createObjectURL(new Blob([operationsController.view.exportPreview], { type: "application/json" }));
@@ -74,15 +124,17 @@ function render(focus = false): void {
   }
   if (focus) {
     queueMicrotask(() => {
-      root.querySelector<HTMLElement>(providerDecisionOpen
+      root.querySelector<HTMLElement>(exerciseOpen ? "#exercise-title" : providerDecisionOpen
         ? "#provider-decision-title"
         : operationsOpen ? "#operations-integrity-title" : authoringOpen ? "#authoring-title" : "#screen-title")?.focus();
     });
+  } else if (restoreExerciseFocus) {
+    root.querySelector<HTMLElement>(`#${CSS.escape(restoreExerciseFocus)}`)?.focus({ preventScroll: true });
   }
 }
 
 function announce(message: string, urgent = false): void {
-  const target = root.querySelector<HTMLElement>(providerDecisionOpen
+  const target = root.querySelector<HTMLElement>(exerciseOpen ? urgent ? "#exercise-alert" : "#exercise-status" : providerDecisionOpen
     ? urgent ? "#provider-decision-alert" : "#provider-decision-status"
     : operationsOpen
     ? urgent ? "#operations-alert" : "#operations-status"
@@ -95,11 +147,139 @@ function announce(message: string, urgent = false): void {
 }
 
 function controlValue(selector: string): string {
-  return root.querySelector<HTMLInputElement | HTMLTextAreaElement>(selector)?.value ?? "";
+  return root.querySelector<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>(selector)?.value ?? "";
+}
+
+function captureReviewNoteDraft(): void {
+  const form = root.querySelector<HTMLFormElement>("#review-note-form");
+  if (!form?.dataset.reviewExerciseId) return;
+  exerciseReviewDrafts.set(form.dataset.reviewExerciseId, {
+    locale: controlValue("#review-note-locale") as Locale, roundId: controlValue("#review-note-round"),
+    category: controlValue("#review-note-category") as ReviewNoteDraft["category"],
+    severity: controlValue("#review-note-severity") as ReviewNoteDraft["severity"],
+    observation: controlValue("#review-note-observation"), suggestion: controlValue("#review-note-suggestion"),
+  });
+}
+
+function clearReviewNoteText(): void {
+  for (const selector of ["#review-note-observation", "#review-note-suggestion"]) {
+    const field = root.querySelector<HTMLTextAreaElement>(selector);
+    if (field !== null) field.value = "";
+  }
+}
+
+function hasReviewWork(): boolean {
+  return (exerciseReviewNotes?.count ?? 0) > 0 || [...exerciseReviewDrafts.values()].some((draft) => draft.observation.length > 0 || draft.suggestion.length > 0)
+    || controlValue("#review-note-observation").length > 0 || controlValue("#review-note-suggestion").length > 0;
+}
+
+function reviewMessage(nb: string, nn: string): void {
+  const target = root.querySelector<HTMLElement>("#review-notes-message");
+  if (target === null) return;
+  target.textContent = exerciseController.view.locale === "nb-NO" ? nb : nn;
+  target.focus();
+}
+
+root.addEventListener("submit", (event) => {
+  if (!(event.target instanceof HTMLFormElement) || event.target.id !== "review-note-form") return;
+  event.preventDefault();
+  captureReviewNoteDraft();
+  const id = event.target.dataset.reviewExerciseId ?? "";
+  const draft = exerciseReviewDrafts.get(id);
+  if (draft === undefined || !exerciseReviewNotes?.add(crypto.randomUUID(), id, draft)) {
+    reviewMessage("Notatet kunne ikke legges til. Kontroller tekst og runde. Maksimum er 200 notater og 1 MiB samlet.", "Notatet kunne ikkje leggjast til. Kontroller tekst og runde. Maksimum er 200 notat og 1 MiB samla.");
+    return;
+  }
+  clearReviewNoteText(); render();
+  reviewMessage("Notatet er lagt til på denne siden. Last ned filen for å beholde det.", "Notatet er lagt til på denne sida. Last ned fila for å halde på det.");
+});
+
+root.addEventListener("input", (event) => {
+  if ((event.target as Element).closest("#review-note-form") !== null) { captureReviewNoteDraft(); pwaCoordinator?.refresh(); }
+});
+
+window.addEventListener("beforeunload", (event) => {
+  if (hasReviewWork()) { event.preventDefault(); event.returnValue = ""; }
+});
+
+function applyAllCorpusPolicy(policy: CorpusLifecyclePolicy): void {
+  const partition = partitionExercisePolicy(policy, exerciseController.view.catalog);
+  controller.applyRestrictiveCorpusPolicy(partition.legacyPolicy);
+  exerciseController.restrict(partition.blockedIds);
 }
 
 root.addEventListener("click", async (event) => {
   const element = event.target as Element;
+  const noteButton = element.closest<HTMLButtonElement>("button[data-review-note-action]");
+  if (noteButton !== null) {
+    if (noteButton.dataset.reviewNoteAction === "clear") { exerciseReviewNotes?.clear(); exerciseReviewDrafts.clear(); clearReviewNoteText(); }
+    else if (noteButton.dataset.reviewNoteAction === "remove") exerciseReviewNotes?.remove(noteButton.dataset.reviewNoteId ?? "");
+    render();
+    reviewMessage("Notatene på siden er oppdatert. Tidligere nedlastede filer finnes fortsatt på enheten din.", "Notata på sida er oppdaterte. Tidlegare nedlasta filer finst framleis på eininga di.");
+    return;
+  }
+  const exerciseButton = element.closest<HTMLButtonElement>("button[data-exercise-action]");
+  if (exerciseButton !== null && !exerciseButton.disabled) {
+    const action = exerciseButton.dataset.exerciseAction;
+    let focusTarget = "#exercise-title";
+    let focusAnnouncement = "";
+    switch (action) {
+      case "open":
+        if (!exercisePoliciesReady) return;
+        if (["ACTIVE", "WAITING"].includes(controller.view.lifecycleState)) controller.pause();
+        authoringController.stopAudio();
+        exerciseController.backToCatalog();
+        exerciseReviewOpen = false;
+        exerciseController.setLocale(controller.view.locale);
+        authoringOpen = false; operationsOpen = false; providerDecisionOpen = false; exerciseOpen = true;
+        break;
+      case "close":
+        exerciseController.stop(); exerciseController.backToCatalog(); exerciseOpen = false;
+        render(true); return;
+      case "review-open":
+        if (exerciseController.view.stage !== "CATALOG") return;
+        exerciseReviewOpen = true;
+        break;
+      case "review-close": exerciseReviewNotes?.cancelPendingImports(); exerciseReviewOpen = false; break;
+      case "filter":
+        exerciseController.setFilter(exerciseButton.dataset.filter as ExerciseKind | "ALL");
+        focusTarget = `[data-exercise-action=filter][data-filter="${exerciseButton.dataset.filter}"]`;
+        focusAnnouncement = exerciseController.view.locale === "nb-NO" ? "Utvalget er oppdatert." : "Utvalet er oppdatert.";
+        break;
+      case "select": exerciseController.select(exerciseButton.dataset.exerciseId ?? ""); break;
+      case "catalog": exerciseController.backToCatalog(); break;
+      case "repeat": exerciseController.select(exerciseController.view.exercise?.id ?? ""); break;
+      case "start": exerciseController.start(); break;
+      case "tile": {
+        const id = exerciseButton.dataset.tileId ?? "";
+        exerciseController.tile(id);
+        focusTarget = `#exercise-${exerciseController.view.selectedTiles.includes(id) ? "picked" : "bank"}-${id}`;
+        const count = exerciseController.view.selectedTiles.length;
+        focusAnnouncement = exerciseController.view.locale === "nb-NO" ? `${count} brikker i forslaget.` : `${count} brikker i forslaget.`;
+        break;
+      }
+      case "clear": exerciseController.clearTiles(); focusTarget = ".exercise-tiles button:not(:disabled)"; break;
+      case "option":
+        exerciseController.option(exerciseButton.dataset.optionId ?? "");
+        focusTarget = `#exercise-option-${exerciseButton.dataset.optionId}`; break;
+      case "evidence":
+        exerciseController.evidence(exerciseButton.dataset.evidenceId ?? "");
+        focusTarget = `#exercise-evidence-${exerciseButton.dataset.evidenceId}`; break;
+      case "check": exerciseController.check(); focusTarget = "#exercise-feedback"; break;
+      case "hint": exerciseController.hint(); focusTarget = "#exercise-hint"; break;
+      case "model": exerciseController.model(); focusTarget = "#exercise-model"; break;
+      case "next": exerciseController.next(); break;
+      case "skip": exerciseController.next(true); break;
+      case "pause": exerciseController.pause(); break;
+      case "resume": exerciseController.resume(); break;
+      case "stop": exerciseController.stop(); break;
+      default: return;
+    }
+    render();
+    root.querySelector<HTMLElement>(focusTarget)?.focus({ preventScroll: action === "tile" || action === "option" || action === "evidence" || action === "filter" });
+    if (focusAnnouncement) announce(focusAnnouncement);
+    return;
+  }
   const providerDecisionButton = element.closest<HTMLButtonElement>("button[data-provider-decision-action]");
   if (providerDecisionButton !== null && !providerDecisionButton.disabled) {
     const action = providerDecisionButton.dataset.providerDecisionAction;
@@ -313,7 +493,36 @@ root.addEventListener("click", async (event) => {
   announce(`Tilstand: ${controller.view.lifecycleState}`, urgent);
 });
 
-root.addEventListener("change", (event) => {
+root.addEventListener("change", async (event) => {
+  const noteFile = (event.target as Element).closest<HTMLInputElement>("#review-notes-file");
+  if (noteFile !== null && exerciseReviewNotes !== undefined) {
+    const file = noteFile.files?.[0];
+    if (file === undefined) return;
+    const generation = exerciseReviewNotes.importGeneration;
+    if (file.size > NOTE_FILE_LIMIT) { reviewMessage("Filen er for stor. Maksimum er 1 MiB.", "Fila er for stor. Maksimum er 1 MiB."); return; }
+    let result: ReturnType<ExerciseReviewNotesController["importJson"]>;
+    try { result = exerciseReviewNotes.importJson(await file.text(), generation); }
+    catch { result = "INVALID_FILE"; }
+    if (result === "CANCELLED" || !exerciseReviewOpen) return;
+    render();
+    if (result === "IMPORTED") reviewMessage("Notatene er lagt til. Identiske notater er ikke duplisert.", "Notata er lagde til. Identiske notat er ikkje dupliserte.");
+    else if (result === "VERSION_MISMATCH") reviewMessage("Filen gjelder en annen innholdsversjon eller sperret innhold. Notatene dine er beholdt.", "Fila gjeld ein annan innhaldsversjon eller sperra innhald. Notata dine er haldne på.");
+    else if (result === "CONFLICT") reviewMessage("Et notat i filen har samme ID, men annet innhold. Ingen notater er erstattet.", "Eit notat i fila har same ID, men anna innhald. Ingen notat er erstatta.");
+    else reviewMessage("Ugyldig notatfil. Notatene dine er beholdt.", "Ugyldig notatfil. Notata dine er haldne på.");
+    return;
+  }
+  const reviewSelect = (event.target as Element).closest<HTMLSelectElement>("#exercise-review-select");
+  if (reviewSelect !== null) {
+    exerciseReviewSelectedId = reviewSelect.value;
+    render();
+    root.querySelector<HTMLElement>("#exercise-review-heading")?.focus();
+    return;
+  }
+  const exerciseLocale = (event.target as Element).closest<HTMLSelectElement>("#exercise-locale");
+  if (exerciseLocale !== null) {
+    exerciseController.setLocale(exerciseLocale.value as Locale);
+    render(); root.querySelector<HTMLElement>("#exercise-locale")?.focus(); return;
+  }
   const providerDecisionLocale = (event.target as Element).closest<HTMLSelectElement>("#provider-decision-locale");
   if (providerDecisionLocale !== null) {
     providerDecisionController.setLocale(providerDecisionLocale.value as DecisionLocale);
@@ -370,20 +579,23 @@ root.addEventListener("change", (event) => {
 
 render();
 pwaCoordinator = createLocalPwaCoordinator({
-  getLifecycleState: () => controller.view.lifecycleState,
-  getLocale: () => controller.view.locale,
+  getLifecycleState: () => exerciseController.view.sessionOpen ? "ACTIVE" : controller.view.lifecycleState,
+  getLocale: () => exerciseOpen ? exerciseController.view.locale : controller.view.locale,
+  getLocalWorkPending: hasReviewWork,
 });
 pwaCoordinator.refresh();
 
 const runtimeSafetyBoundary = installRuntimeSafetyBoundary({
-  getLocale: () => controller.view.locale,
+  getLocale: () => exerciseOpen ? exerciseController.view.locale : controller.view.locale,
   onStop: () => {
+    exerciseController.stop();
     authoringController.stopAudio();
     operationsController.stop();
     controller.stop();
     render(true);
   },
   onSafeStart: () => {
+    exerciseController.stop(); exerciseOpen = false;
     authoringController.stopAudio();
     if (!["STOPPED", "DELETED", "COMPLETED"].includes(controller.view.lifecycleState)) controller.stop();
     controller.startNewSession();
@@ -402,9 +614,11 @@ async function loadCorpusPolicy(): Promise<void> {
       credentials: "same-origin",
     });
     if (!response.ok) throw new Error(`corpus policy HTTP ${response.status}`);
-    controller.applyRestrictiveCorpusPolicy(await response.json() as CorpusLifecyclePolicy);
+    const policy = await response.json() as CorpusLifecyclePolicy;
+    applyAllCorpusPolicy(policy);
     document.documentElement.dataset.corpusPolicy = "READY";
   } catch {
+    exerciseController.restrict(exerciseController.view.catalog.map((item) => item.id));
     controller.applyRestrictiveCorpusPolicy({
       policyRevision: 1,
       restrictions: controller.view.corpus.patternClasses.map((patternClass) => ({
@@ -484,8 +698,16 @@ async function persistRestrictiveAuthoringPolicy(
 }
 
 const authoringPolicyReady = loadAuthoringPolicy();
+const exerciseReady = Promise.all([corpusPolicyReady, authoringPolicyReady]).then(() => {
+  exercisePoliciesReady = true;
+  render();
+});
 
 Object.assign(window, {
+  __SKYNJA_EXERCISES__: {
+    ready: exerciseReady,
+    getView: () => exerciseController.view,
+  },
   __WP13_7B__: {
     getViewModel: () => controller.view,
     getSessionId: () => controller.sessionId,
@@ -499,7 +721,7 @@ Object.assign(window, {
     getCorpusView: () => controller.view.corpus,
     applyRestrictivePolicy: async (policy: CorpusLifecyclePolicy) => {
       const persisted = await persistRestrictiveCorpusPolicy(policy);
-      controller.applyRestrictiveCorpusPolicy(persisted);
+      applyAllCorpusPolicy(persisted);
       render(true);
       return controller.view.corpus;
     },
@@ -507,7 +729,7 @@ Object.assign(window, {
   __WP13_9__: {
     ready: Promise.all([corpusPolicyReady, authoringPolicyReady]),
     getAuthoringView: () => authoringController.view,
-    openWorkspace: () => { authoringOpen = true; render(true); return authoringController.view; },
+    openWorkspace: () => { exerciseController.stop(); exerciseOpen = false; authoringOpen = true; render(true); return authoringController.view; },
     closeWorkspace: () => { authoringOpen = false; render(true); },
     exportSelected: () => authoringController.exportSelectedJson(),
     importPackage: (json: string) => { const view = authoringController.importJson(json); render(); return view; },
@@ -531,7 +753,7 @@ Object.assign(window, {
   __WP13_11__: {
     ready: Promise.resolve(true),
     getOperationsView: () => operationsController.view,
-    openOperations: () => { authoringOpen = false; operationsOpen = true; render(true); return operationsController.view; },
+    openOperations: () => { exerciseController.stop(); exerciseOpen = false; authoringOpen = false; operationsOpen = true; render(true); return operationsController.view; },
     closeOperations: () => { operationsOpen = false; render(true); },
     setLocale: (locale: OperationsLocale) => { operationsController.setLocale(locale); render(true); return operationsController.view; },
     selectArtifact: (artifactType: OperationsArtifactType) => { operationsController.selectArtifact(artifactType); render(true); return operationsController.view; },
@@ -549,6 +771,7 @@ Object.assign(window, {
     ready: Promise.resolve(true),
     getDecisionView: () => providerDecisionController.view,
     openDecision: () => {
+      exerciseController.stop(); exerciseOpen = false;
       authoringOpen = false;
       operationsOpen = false;
       providerDecisionOpen = true;

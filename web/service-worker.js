@@ -1,5 +1,5 @@
 const LUDYS_CACHE_PREFIX = "ludys-shell-";
-const LUDYS_CACHE_VERSION = "0.14.0-reconstructed.9";
+const LUDYS_CACHE_VERSION = "0.14.0-reconstructed.9-skynja-design-2026-09-24";
 const LUDYS_SHELL_CACHE = `${LUDYS_CACHE_PREFIX}${LUDYS_CACHE_VERSION}`;
 const LUDYS_CONTENT_POLICY_CACHE = "ludys-content-policy-1";
 const LUDYS_CONTENT_POLICY_PATH = "/web/corpus-lifecycle-policy.json";
@@ -16,10 +16,28 @@ const LUDYS_OFFLINE_FAILURE_COPY = Object.freeze({
 const LUDYS_APP_SHELL = Object.freeze([
   "/web/index.html",
   "/web/styles.css",
+  "/web/skynja.css",
   "/web/manifest.webmanifest",
   "/web/icons/ludys-192.svg",
   "/web/icons/ludys-maskable.svg",
   "/dist/src/ui/browser/app.js",
+  "/dist/src/ui/browser/skynja-home-templates.js",
+  "/dist/src/ui/browser/skynja-motion.js",
+  "/dist/src/ui/browser/exercise-room-templates.js",
+  "/dist/src/ui/browser/exercise-review-templates.js",
+  "/dist/src/application/skynja/exercise-review.js",
+  "/dist/src/application/skynja/exercise-review-notes.js",
+  "/dist/src/ui/browser/exercise-review-notes-templates.js",
+  "/dist/src/core/skynja/exercise-room.js",
+  "/dist/src/core/skynja/exercise-room-policy.js",
+  "/dist/src/application/skynja/exercise-room-controller.js",
+  "/dist/src/composition/create-exercise-room.js",
+  "/dist/src/content/skynja/exercise-authoring.js",
+  "/dist/src/content/skynja/building-exercises.js",
+  "/dist/src/content/skynja/reading-exercises.js",
+  "/dist/src/content/skynja/judgment-exercises.js",
+  "/dist/src/content/skynja/exercise-catalog.js",
+  "/dist/src/content/skynja/evidence-exercise.js",
   "/dist/src/ui/browser/pwa-status.js",
   "/dist/src/ui/browser/synthetic-app-navigation-templates.js",
   "/dist/src/ui/browser/authoring-workspace-templates.js",
@@ -46,6 +64,7 @@ const LUDYS_APP_SHELL = Object.freeze([
   "/dist/src/content/prototype/knowledge-audio-release.js",
   "/dist/src/content/corpus/wp13-8-draft-corpus.js",
   "/dist/src/content/authoring/wp13-9-authoring-packages.js",
+  "/dist/src/content/authoring/content-expansion-2026-09-22.js",
   "/dist/src/content/authoring/wp13-9-technical-audio-fixtures.js",
   "/dist/src/content/prototype/wp13-10-release-state.js",
   "/dist/src/content/prototype/wp13-11-release-state.js",

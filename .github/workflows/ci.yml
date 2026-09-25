@@ -3,13 +3,41 @@ name: human-first-ci
 on:
   pull_request:
   push:
-    branches: [main]
+    branches: [main, integration/installable-alpha]
 
 permissions:
   contents: read
 
 jobs:
-  verify:
+  skynja-browser:
+    name: skynja-app-browser-and-offline
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm ci
+        working-directory: provider/firebase/functions
+      - name: Verify built app, review packet and offline behavior
+        run: npm run check:pilot:technical
+      - name: Preserve technical evidence and review handoff
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: skynja-pilot-technical-${{ github.sha }}
+          retention-days: 14
+          path: |
+            artifacts/skynja-pilot-technical/
+            artifacts/skynja-*.png
+            release/skynja-pilot-review/
+            deploy/
+
+  portable:
+    name: portable-linux
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -22,4 +50,82 @@ jobs:
       - run: npm ci
       - run: npm ci
         working-directory: provider/firebase/functions
-      - run: npm run check:release
+      - name: Portable static, build and compiled test gate
+        run: npm run canon:check && npm run test:canon && npm run lint && npm run architecture && npm run secret:scan && npm run build:installable && npm run test:compiled
+
+  release:
+    name: release-windows-pinned-git
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - name: Install approved Git for Windows runtime
+        timeout-minutes: 15
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $url = 'https://github.com/git-for-windows/git/releases/download/v2.55.0.windows.2/Git-2.55.0.2-64-bit.exe'
+          $installer = Join-Path $env:RUNNER_TEMP 'Git-2.55.0.2-64-bit.exe'
+          $installerLog = Join-Path $env:RUNNER_TEMP 'pinned-git-install.log'
+          $expectedSha256 = '74300da8dfe0d844c5449ffb809662f8eeac47916f83730c879c4084890c6c0e'
+
+          Write-Host 'Downloading the approved Git installer'
+          Invoke-WebRequest -Uri $url -OutFile $installer -TimeoutSec 180
+          $actualSha256 = (Get-FileHash -LiteralPath $installer -Algorithm SHA256).Hash.ToLowerInvariant()
+          if ($actualSha256 -ne $expectedSha256) {
+            throw "PINNED_GIT_INSTALLER_SHA256_MISMATCH actual=$actualSha256"
+          }
+
+          $gitRoot = 'C:\Program Files\Git'
+          if (Test-Path -LiteralPath $gitRoot) {
+            Remove-Item -LiteralPath $gitRoot -Recurse -Force
+          }
+
+          $arguments = @(
+            '/VERYSILENT',
+            '/SUPPRESSMSGBOXES',
+            # Hosted runners may have a newer Git registered even after its files are removed.
+            # Match Git for Windows' own unattended installer CI; the pinned hash stays mandatory.
+            '/ALLOWDOWNGRADE=1',
+            '/NORESTART',
+            '/NOCANCEL',
+            '/SP-',
+            '/CLOSEAPPLICATIONS',
+            # Do not inherit the hosted image's gitlfs-only component selection.
+            # Scalar is part of the approved default runtime closure.
+            '/COMPONENTS="gitlfs,scalar"',
+            '/DIR="C:\Program Files\Git"',
+            ('/LOG="{0}"' -f $installerLog)
+          )
+          Write-Host 'Installing the approved Git runtime without interactive prompts'
+          try {
+            $process = Start-Process -FilePath $installer -ArgumentList $arguments -Wait -PassThru
+            if ($process.ExitCode -ne 0) {
+              throw "PINNED_GIT_INSTALL_FAILED exit=$($process.ExitCode)"
+            }
+          } finally {
+            if (Test-Path -LiteralPath $installerLog) {
+              Get-Content -LiteralPath $installerLog -Tail 60
+            }
+          }
+      - name: Verify approved Git runtime tree
+        shell: pwsh
+        run: |
+          node --input-type=module -e "import('./scripts/wp13-12b-pinned-git-toolchain.mjs').then(({ approvedGitRuntime, canonicalGitRuntimeTreeSnapshotForTesting, inspectPinnedGitRuntime }) => { console.log(JSON.stringify({ expected: approvedGitRuntime, actual: canonicalGitRuntimeTreeSnapshotForTesting(approvedGitRuntime.runtimeRoot) }, null, 2)); console.log(JSON.stringify(inspectPinnedGitRuntime(), null, 2)); })"
+      - run: npm ci
+      - run: npm ci
+        working-directory: provider/firebase/functions
+      - name: Full release verification
+        # Runner context is available at step scope. Avoid the user's 8.3 TEMP alias.
+        env:
+          TEMP: ${{ runner.temp }}
+          TMP: ${{ runner.temp }}
+        run: |
+          node --input-type=module -e "import { tmpdir } from 'node:os'; import { realpathSync } from 'node:fs'; import { resolve } from 'node:path'; const temporary = resolve(tmpdir()); const canonical = realpathSync(temporary); console.log(JSON.stringify({ temporary, canonical })); if (temporary.toLowerCase() !== canonical.toLowerCase()) throw new Error('CI_CANONICAL_TEMP_REQUIRED');"
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          npm run check:release

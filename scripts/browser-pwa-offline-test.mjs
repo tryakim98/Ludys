@@ -153,15 +153,17 @@ try {
 
   const cacheProof = await evaluate(`(async () => {
     const names = await caches.keys();
-    const name = names.find((candidate) => candidate === 'ludys-shell-0.14.0-reconstructed.9');
+    const name = names.find((candidate) => candidate === 'ludys-shell-0.14.0-reconstructed.9-skynja-design-2026-09-24');
     if (!name) return { names, urls: [] };
     const cache = await caches.open(name);
     return { names, urls: (await cache.keys()).map((request) => new URL(request.url).pathname) };
   })()`);
-  assert.ok(cacheProof.names.includes("ludys-shell-0.14.0-reconstructed.9"));
+  assert.ok(cacheProof.names.includes("ludys-shell-0.14.0-reconstructed.9-skynja-design-2026-09-24"));
   assert.ok(cacheProof.urls.length >= 20);
   assert.ok(cacheProof.urls.includes("/web/index.html"));
   assert.ok(cacheProof.urls.includes("/dist/src/ui/browser/app.js"));
+  assert.ok(cacheProof.urls.includes("/dist/src/ui/browser/exercise-review-notes-templates.js"));
+  assert.ok(cacheProof.urls.includes("/dist/src/application/skynja/exercise-review-notes.js"));
 
   for (const action of ["create", "role-child", "finish-loading", "start"]) await pressAction(action);
   const onlineActiveId = await evaluate("window.__WP13_7B__.getSessionId()");
@@ -190,7 +192,9 @@ try {
   })()`);
   assert.equal(offlineShell?.ok, true);
   assert.match(offlineShell.text, /dist\/src\/ui\/browser\/app\.js/);
+  const beforeOfflineReload = await evaluate("performance.timeOrigin");
   await client.send("Page.reload");
+  await waitForExpression(`performance.timeOrigin !== ${JSON.stringify(beforeOfflineReload)}`);
   await waitForExpression("document.documentElement?.dataset.wp13_7cReady === 'true'");
   await waitForExpression("document.documentElement?.dataset.wp13_8Ready === 'true'");
   await evaluate("window.dispatchEvent(new Event('offline'))");
@@ -244,6 +248,29 @@ try {
   await waitForExpression("document.querySelector('#pwa-status')?.dataset.update === 'READY'");
   assert.equal(await evaluate("document.querySelector('#pwa-apply-update').disabled"), false);
   const preUpdateTimeOrigin = await evaluate("performance.timeOrigin");
+  await waitForExpression("window.__SKYNJA_EXERCISES__ !== undefined");
+  await evaluate("window.__SKYNJA_EXERCISES__.ready");
+  await press('[data-exercise-action="open"]');
+  await press('[data-exercise-action="review-open"]');
+  await evaluate(`(() => {
+    const field = document.querySelector('#review-note-observation');
+    field.value = 'Syntetisk notat som må bevares før appoppdatering.';
+    field.dispatchEvent(new Event('input', { bubbles: true }));
+  })()`);
+  assert.equal(await evaluate("document.querySelector('#pwa-apply-update').disabled"), true);
+  assert.equal(await evaluate("document.querySelector('#pwa-status').dataset.canApplyUpdate"), "false");
+  assert.match(await evaluate("document.querySelector('#pwa-update-status').textContent"), /arbeidsnotat/);
+  await evaluate("document.querySelector('#pwa-apply-update').dispatchEvent(new MouseEvent('click', { bubbles: true }))");
+  assert.equal(await evaluate("document.querySelector('#pwa-status').dataset.update"), "READY");
+  assert.equal(await evaluate("performance.timeOrigin"), preUpdateTimeOrigin);
+  await evaluate("document.querySelector('#review-note-form').requestSubmit()");
+  assert.equal(await evaluate("document.querySelectorAll('li[data-review-note-id]').length"), 1);
+  assert.equal(await evaluate("document.querySelector('#review-note-observation').value"), "");
+  assert.equal(await evaluate("document.querySelector('#pwa-apply-update').disabled"), true);
+  await press('[data-review-note-action="clear"]');
+  assert.equal(await evaluate("document.querySelectorAll('li[data-review-note-id]').length"), 0);
+  assert.equal(await evaluate("document.querySelector('#pwa-apply-update').disabled"), false);
+  console.log("App update waits for unfinished review drafts and collected notes; clearing permits activation.");
   await press("#pwa-apply-update");
   await waitForExpression(`performance.timeOrigin !== ${JSON.stringify(preUpdateTimeOrigin)}`);
   await waitForExpression("document.documentElement?.dataset.wp13_7cReady === 'true'");

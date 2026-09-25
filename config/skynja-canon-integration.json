@@ -1,0 +1,540 @@
+{
+  "schemaVersion": 1,
+  "canonVersion": "1.0",
+  "canonPath": "docs/canon/skynja-v1.0",
+  "sourcePackageSha256": "0a24786a1b29190b6cbe88c33eb2dd874801f55fff578818ea3a5a5515af3e54",
+  "manifestSha256": "55184c7ac18d3e0c52127989812cb898640b287d41fc9dc9b56bb14c31055bf7",
+  "legacyProofScope": "config/legacy-proof-scope.json",
+  "integrationScope": "PRODUCT_DESIGN_AND_LOCAL_SYNTHETIC_CONTRACTS",
+  "runtimeActivation": "NOT_ACTIVATED",
+  "realDataAuthorization": "NOT_GRANTED_BY_CANON",
+  "principles": [
+    {
+      "principleId": "SKP-001",
+      "workstream": "calibrated-evidence",
+      "designStatus": "ACCEPTED",
+      "implementationStatus": "MIGRATION_REQUIRED",
+      "implementationPaths": []
+    },
+    {
+      "principleId": "SKP-002",
+      "workstream": "personal-continuity",
+      "designStatus": "ACCEPTED",
+      "implementationStatus": "MIGRATION_REQUIRED",
+      "implementationPaths": []
+    },
+    {
+      "principleId": "SKP-003",
+      "workstream": "support-and-competence",
+      "designStatus": "ACCEPTED",
+      "implementationStatus": "MIGRATION_REQUIRED",
+      "implementationPaths": []
+    },
+    {
+      "principleId": "SKP-004",
+      "workstream": "support-and-competence",
+      "designStatus": "ACCEPTED",
+      "implementationStatus": "MIGRATION_REQUIRED",
+      "implementationPaths": []
+    },
+    {
+      "principleId": "SKP-005",
+      "workstream": "support-and-competence",
+      "designStatus": "ACCEPTED",
+      "implementationStatus": "MIGRATION_REQUIRED",
+      "implementationPaths": []
+    },
+    {
+      "principleId": "SKP-006",
+      "workstream": "support-and-competence",
+      "designStatus": "ACCEPTED",
+      "implementationStatus": "MIGRATION_REQUIRED",
+      "implementationPaths": []
+    },
+    {
+      "principleId": "SKP-007",
+      "workstream": "support-and-competence",
+      "designStatus": "ACCEPTED",
+      "implementationStatus": "PARTIAL_CONTRACT",
+      "implementationPaths": [
+        "src/content/skynja/judgment-exercises.ts",
+        "src/core/skynja/exercise-room.ts"
+      ]
+    },
+    {
+      "principleId": "SKP-008",
+      "workstream": "purpose-and-control",
+      "designStatus": "ACCEPTED",
+      "implementationStatus": "PARTIAL_CONTRACT",
+      "implementationPaths": [
+        "src/application/skynja/exercise-room-controller.ts",
+        "src/ui/browser/exercise-room-templates.ts"
+      ]
+    },
+    {
+      "principleId": "SKP-009",
+      "workstream": "support-and-competence",
+      "designStatus": "ACCEPTED",
+      "implementationStatus": "MIGRATION_REQUIRED",
+      "implementationPaths": []
+    },
+    {
+      "principleId": "SKP-010",
+      "workstream": "calibrated-evidence",
+      "designStatus": "ACCEPTED",
+      "implementationStatus": "MIGRATION_REQUIRED",
+      "implementationPaths": []
+    },
+    {
+      "principleId": "SKP-011",
+      "workstream": "psychological-support",
+      "designStatus": "ACCEPTED",
+      "implementationStatus": "MIGRATION_REQUIRED",
+      "implementationPaths": []
+    },
+    {
+      "principleId": "SKP-012",
+      "workstream": "shared-architecture",
+      "designStatus": "ACCEPTED",
+      "implementationStatus": "MIGRATION_REQUIRED",
+      "implementationPaths": []
+    },
+    {
+      "principleId": "SKP-013",
+      "workstream": "support-and-competence",
+      "designStatus": "ACCEPTED",
+      "implementationStatus": "MIGRATION_REQUIRED",
+      "implementationPaths": []
+    },
+    {
+      "principleId": "SKP-014",
+      "workstream": "support-and-competence",
+      "designStatus": "ACCEPTED",
+      "implementationStatus": "MIGRATION_REQUIRED",
+      "implementationPaths": []
+    },
+    {
+      "principleId": "SKP-015",
+      "workstream": "support-and-competence",
+      "designStatus": "ACCEPTED",
+      "implementationStatus": "MIGRATION_REQUIRED",
+      "implementationPaths": []
+    },
+    {
+      "principleId": "SKP-016",
+      "workstream": "purpose-and-control",
+      "designStatus": "ACCEPTED",
+      "implementationStatus": "PARTIAL_CONTRACT",
+      "implementationPaths": [
+        "src/core/skynja/exercise-room.ts",
+        "src/content/skynja/exercise-authoring.ts"
+      ]
+    },
+    {
+      "principleId": "SKP-017",
+      "workstream": "support-and-competence",
+      "designStatus": "ACCEPTED",
+      "implementationStatus": "MIGRATION_REQUIRED",
+      "implementationPaths": []
+    },
+    {
+      "principleId": "SKP-018",
+      "workstream": "support-and-competence",
+      "designStatus": "ACCEPTED",
+      "implementationStatus": "MIGRATION_REQUIRED",
+      "implementationPaths": []
+    },
+    {
+      "principleId": "SKP-019",
+      "workstream": "support-and-competence",
+      "designStatus": "ACCEPTED",
+      "implementationStatus": "MIGRATION_REQUIRED",
+      "implementationPaths": []
+    },
+    {
+      "principleId": "SKP-020",
+      "workstream": "personal-continuity",
+      "designStatus": "ACCEPTED",
+      "implementationStatus": "MIGRATION_REQUIRED",
+      "implementationPaths": []
+    },
+    {
+      "principleId": "SKP-021",
+      "workstream": "shared-architecture",
+      "designStatus": "ACCEPTED",
+      "implementationStatus": "MIGRATION_REQUIRED",
+      "implementationPaths": []
+    },
+    {
+      "principleId": "SKP-022",
+      "workstream": "calibrated-evidence",
+      "designStatus": "ACCEPTED",
+      "implementationStatus": "MIGRATION_REQUIRED",
+      "implementationPaths": []
+    },
+    {
+      "principleId": "SKP-023",
+      "workstream": "shared-architecture",
+      "designStatus": "ACCEPTED",
+      "implementationStatus": "MIGRATION_REQUIRED",
+      "implementationPaths": []
+    },
+    {
+      "principleId": "SKP-024",
+      "workstream": "support-and-competence",
+      "designStatus": "ACCEPTED",
+      "implementationStatus": "MIGRATION_REQUIRED",
+      "implementationPaths": []
+    },
+    {
+      "principleId": "SKP-025",
+      "workstream": "adaptive-experience",
+      "designStatus": "ACCEPTED",
+      "implementationStatus": "MIGRATION_REQUIRED",
+      "implementationPaths": []
+    },
+    {
+      "principleId": "SKP-026",
+      "workstream": "personal-continuity",
+      "designStatus": "ACCEPTED",
+      "implementationStatus": "MIGRATION_REQUIRED",
+      "implementationPaths": []
+    },
+    {
+      "principleId": "SKP-027",
+      "workstream": "support-and-competence",
+      "designStatus": "ACCEPTED",
+      "implementationStatus": "MIGRATION_REQUIRED",
+      "implementationPaths": []
+    },
+    {
+      "principleId": "SKP-028",
+      "workstream": "multimodal-authorship",
+      "designStatus": "ACCEPTED",
+      "implementationStatus": "MIGRATION_REQUIRED",
+      "implementationPaths": []
+    },
+    {
+      "principleId": "SKP-029",
+      "workstream": "personal-continuity",
+      "designStatus": "ACCEPTED",
+      "implementationStatus": "MIGRATION_REQUIRED",
+      "implementationPaths": []
+    },
+    {
+      "principleId": "SKP-030",
+      "workstream": "calibrated-evidence",
+      "designStatus": "ACCEPTED",
+      "implementationStatus": "MIGRATION_REQUIRED",
+      "implementationPaths": []
+    },
+    {
+      "principleId": "SKP-031",
+      "workstream": "shared-architecture",
+      "designStatus": "ACCEPTED",
+      "implementationStatus": "PARTIAL_CONTRACT",
+      "implementationPaths": [
+        "src/core/skynja/knowledge-policy.ts",
+        "src/application/skynja/knowledge-assistance.ts",
+        "src/ports/skynja/knowledge-assistance.ts"
+      ]
+    },
+    {
+      "principleId": "SKP-032",
+      "workstream": "adaptive-experience",
+      "designStatus": "ACCEPTED",
+      "implementationStatus": "MIGRATION_REQUIRED",
+      "implementationPaths": []
+    },
+    {
+      "principleId": "SKP-033",
+      "workstream": "calibrated-evidence",
+      "designStatus": "ACCEPTED",
+      "implementationStatus": "MIGRATION_REQUIRED",
+      "implementationPaths": []
+    },
+    {
+      "principleId": "SKP-034",
+      "workstream": "adaptive-experience",
+      "designStatus": "ACCEPTED",
+      "implementationStatus": "MIGRATION_REQUIRED",
+      "implementationPaths": []
+    },
+    {
+      "principleId": "SKP-035",
+      "workstream": "adaptive-experience",
+      "designStatus": "ACCEPTED",
+      "implementationStatus": "MIGRATION_REQUIRED",
+      "implementationPaths": []
+    },
+    {
+      "principleId": "SKP-036",
+      "workstream": "purpose-and-control",
+      "designStatus": "ACCEPTED",
+      "implementationStatus": "MIGRATION_REQUIRED",
+      "implementationPaths": []
+    },
+    {
+      "principleId": "SKP-037",
+      "workstream": "adaptive-experience",
+      "designStatus": "ACCEPTED",
+      "implementationStatus": "MIGRATION_REQUIRED",
+      "implementationPaths": []
+    },
+    {
+      "principleId": "SKP-038",
+      "workstream": "adaptive-experience",
+      "designStatus": "ACCEPTED",
+      "implementationStatus": "MIGRATION_REQUIRED",
+      "implementationPaths": []
+    },
+    {
+      "principleId": "SKP-039",
+      "workstream": "support-and-competence",
+      "designStatus": "ACCEPTED",
+      "implementationStatus": "MIGRATION_REQUIRED",
+      "implementationPaths": []
+    },
+    {
+      "principleId": "SKP-040",
+      "workstream": "adaptive-experience",
+      "designStatus": "ACCEPTED",
+      "implementationStatus": "MIGRATION_REQUIRED",
+      "implementationPaths": []
+    },
+    {
+      "principleId": "SKP-041",
+      "workstream": "shared-architecture",
+      "designStatus": "ACCEPTED",
+      "implementationStatus": "PARTIAL_CONTRACT",
+      "implementationPaths": [
+        "src/core/skynja/knowledge-policy.ts",
+        "src/application/skynja/knowledge-assistance.ts",
+        "src/ports/skynja/knowledge-assistance.ts"
+      ]
+    },
+    {
+      "principleId": "SKP-042",
+      "workstream": "calibrated-evidence",
+      "designStatus": "ACCEPTED",
+      "implementationStatus": "PARTIAL_CONTRACT",
+      "implementationPaths": [
+        "src/core/skynja/knowledge-policy.ts",
+        "src/application/skynja/knowledge-assistance.ts",
+        "src/ports/skynja/knowledge-assistance.ts"
+      ]
+    },
+    {
+      "principleId": "SKP-043",
+      "workstream": "purpose-and-control",
+      "designStatus": "ACCEPTED",
+      "implementationStatus": "PARTIAL_CONTRACT",
+      "implementationPaths": [
+        "src/application/skynja/exercise-room-controller.ts",
+        "src/ui/browser/exercise-room-templates.ts",
+        "src/content/skynja/judgment-exercises.ts"
+      ]
+    },
+    {
+      "principleId": "SKP-044",
+      "workstream": "purpose-and-control",
+      "designStatus": "ACCEPTED",
+      "implementationStatus": "MIGRATION_REQUIRED",
+      "implementationPaths": []
+    },
+    {
+      "principleId": "SKP-045",
+      "workstream": "adaptive-experience",
+      "designStatus": "ACCEPTED",
+      "implementationStatus": "MIGRATION_REQUIRED",
+      "implementationPaths": []
+    },
+    {
+      "principleId": "SKP-046",
+      "workstream": "purpose-and-control",
+      "designStatus": "ACCEPTED",
+      "implementationStatus": "MIGRATION_REQUIRED",
+      "implementationPaths": []
+    },
+    {
+      "principleId": "SKP-047",
+      "workstream": "calibrated-evidence",
+      "designStatus": "ACCEPTED",
+      "implementationStatus": "MIGRATION_REQUIRED",
+      "implementationPaths": []
+    },
+    {
+      "principleId": "SKP-048",
+      "workstream": "multimodal-authorship",
+      "designStatus": "ACCEPTED",
+      "implementationStatus": "MIGRATION_REQUIRED",
+      "implementationPaths": []
+    },
+    {
+      "principleId": "SKP-049",
+      "workstream": "personal-continuity",
+      "designStatus": "ACCEPTED",
+      "implementationStatus": "MIGRATION_REQUIRED",
+      "implementationPaths": []
+    },
+    {
+      "principleId": "SKP-050",
+      "workstream": "language-realizations",
+      "designStatus": "ACCEPTED",
+      "implementationStatus": "PARTIAL_CONTRACT",
+      "implementationPaths": [
+        "src/core/skynja/knowledge-policy.ts",
+        "src/application/skynja/knowledge-assistance.ts",
+        "src/ports/skynja/knowledge-assistance.ts",
+        "src/core/skynja/exercise-room.ts",
+        "src/content/skynja/exercise-authoring.ts",
+        "src/content/skynja/reading-exercises.ts"
+      ]
+    }
+  ],
+  "workstreams": [
+    {
+      "id": "calibrated-evidence",
+      "principles": [
+        "SKP-001",
+        "SKP-010",
+        "SKP-022",
+        "SKP-030",
+        "SKP-033",
+        "SKP-042",
+        "SKP-047"
+      ],
+      "legacyPaths": [
+        "src/core/evidence.ts",
+        "src/core/beta-operations.ts"
+      ],
+      "remainingWork": "Knytt observasjoner til konstrukter, hypoteser, alternative forklaringer og konsekvens. Kunnskapspolicyen dekker bare bibliotekbruk, ikke individuell inferens."
+    },
+    {
+      "id": "personal-continuity",
+      "principles": [
+        "SKP-002",
+        "SKP-020",
+        "SKP-026",
+        "SKP-029",
+        "SKP-049"
+      ],
+      "legacyPaths": [
+        "src/core/session-lifecycle.ts",
+        "src/core/provider-decision.ts"
+      ],
+      "remainingWork": "Utform korrigerbart minne, identitet, formålsgrunnlag, tilgang, utløp og sletting før en reell datakilde kobles til."
+    },
+    {
+      "id": "support-and-competence",
+      "principles": [
+        "SKP-003",
+        "SKP-004",
+        "SKP-005",
+        "SKP-006",
+        "SKP-007",
+        "SKP-009",
+        "SKP-013",
+        "SKP-014",
+        "SKP-015",
+        "SKP-017",
+        "SKP-018",
+        "SKP-019",
+        "SKP-024",
+        "SKP-027",
+        "SKP-039"
+      ],
+      "legacyPaths": [
+        "src/core/actors.ts",
+        "src/core/knowledge-audio-prototype.ts",
+        "src/core/session-lifecycle.ts"
+      ],
+      "remainingWork": "Migrer støttepersonmodell og kunnskapsflater; rolle, kompetanse, mandat og relasjon er ulike begreper. Flere støttepersoner krever orkestrering og selektiv tilgang."
+    },
+    {
+      "id": "shared-architecture",
+      "principles": [
+        "SKP-012",
+        "SKP-021",
+        "SKP-023",
+        "SKP-031",
+        "SKP-041"
+      ],
+      "legacyPaths": [
+        "src/core/actions.ts",
+        "src/core/runtime-safety.ts",
+        "scripts/static-check.mjs"
+      ],
+      "remainingWork": "Koble en valgt provider bak porten først etter konkret leverandør-, data- og sikkerhetsgjennomgang. Fri generering trenger en egen semantisk evaluerings- og svarpolicy."
+    },
+    {
+      "id": "purpose-and-control",
+      "principles": [
+        "SKP-008",
+        "SKP-016",
+        "SKP-036",
+        "SKP-043",
+        "SKP-044",
+        "SKP-046"
+      ],
+      "legacyPaths": [
+        "src/core/authoring-pipeline.ts",
+        "src/core/word-proof.ts",
+        "src/core/runtime-safety.ts"
+      ],
+      "remainingWork": "Migrer støtteformål, mandat og relevant comparator per aktivitet; bevare STOP, tilgangshjelp og presis støtteproveniens."
+    },
+    {
+      "id": "adaptive-experience",
+      "principles": [
+        "SKP-025",
+        "SKP-032",
+        "SKP-034",
+        "SKP-035",
+        "SKP-037",
+        "SKP-038",
+        "SKP-040",
+        "SKP-045"
+      ],
+      "legacyPaths": [
+        "src/core/draft-learning-corpus.ts",
+        "src/ui/browser/authoring-workspace-templates.ts"
+      ],
+      "remainingWork": "Spesifiser progresjon, narrativ, feedback, voksnes bruk og informasjonsdybde i evaluerbare brukerreiser; spillscore må holdes atskilt fra læringsevidens."
+    },
+    {
+      "id": "psychological-support",
+      "principles": [
+        "SKP-011"
+      ],
+      "legacyPaths": [
+        "src/core/knowledge-audio-prototype.ts"
+      ],
+      "remainingWork": "Bygg reviewet faggrunnlag og eksplisitt skille mellom støtte, psykoedukasjon og klinisk behandling."
+    },
+    {
+      "id": "multimodal-authorship",
+      "principles": [
+        "SKP-028",
+        "SKP-048"
+      ],
+      "legacyPaths": [
+        "src/core/knowledge-audio-prototype.ts",
+        "src/core/authoring-pipeline.ts"
+      ],
+      "remainingWork": "Spesifiser modaliteter, rådata/derivater og separate bidrag til idé, struktur, språk og faginnhold før adaptere og nye dataflyter aktiveres."
+    },
+    {
+      "id": "language-realizations",
+      "principles": [
+        "SKP-050"
+      ],
+      "legacyPaths": [
+        "src/core/content-contracts.ts",
+        "src/core/authoring-pipeline.ts"
+      ],
+      "remainingWork": "Migrer forfatterverktøyet til felles semantisk kjerne med egne språkdimensjoner og avgrenset review. Bevar gamle eksportversjoner og manglende-review-status."
+    }
+  ],
+  "legacyProofScopeSha256": "89548618056ef3d4eb679c9c0d35b46d11407c8f3c6d30c2eeae0c2cd7d3b683"
+}

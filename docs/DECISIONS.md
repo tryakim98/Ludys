@@ -1,5 +1,7 @@
 # Beslutninger i fase 13
 
+**Historisk beslutningslogg.** Fra 23. september 2026 gjelder [Skynja-kanon 1.0](canon/skynja-v1.0/README_FIRST.md) foran motstridende produktregler her. D13-beslutningene beskriver proofen de ble vedtatt for; særlig forbud mot AI, profil, dynamisk tale og personalisering er ikke generelle produktforbud. [Integrasjonskartet](SKYNJA_CANON_INTEGRATION.md) skiller beholdte kontroller fra ny retning.
+
 ## D13-001 — Headless TypeScript først
 
 Første grunnproof bruker TypeScript uten UI-framework. Det reduserer irreversibilitet og lar state, porter og negative tester bevises før visuell implementasjon.

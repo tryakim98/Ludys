@@ -132,7 +132,7 @@ test("BM and NN are explicit complete bundles without fallback", () => {
   const { controller } = createSyntheticAppNavigation("nb-NO");
   controller.setLocale("nn-NO");
   assert.equal(controller.view.locale, "nn-NO");
-  assert.match(renderSyntheticAppNavigation(controller.view), /Velkomen/);
+  assert.match(renderSyntheticAppNavigation(controller.view), /Kva vil du jobbe med/);
   controller.createSession();
   assert.throws(() => controller.setLocale("nb-NO"), /only change before/);
   controller.selectRole("CHILD");

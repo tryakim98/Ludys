@@ -78,6 +78,7 @@ export function isSafePwaUpdateState(state: LifecycleState): boolean {
 interface LocalPwaCoordinatorOptions {
   readonly getLifecycleState: () => LifecycleState;
   readonly getLocale: () => Locale;
+  readonly getLocalWorkPending?: () => boolean;
 }
 
 export interface LocalPwaCoordinator {
@@ -106,6 +107,7 @@ export function createLocalPwaCoordinator(
   let updateState: PwaUpdateState = "NONE";
   let waitingWorker: ServiceWorker | undefined;
   let activationRequested = false;
+  let activatedWorkerWaitingForReload = false;
   let networkState: LocalPwaStatusSnapshot["network"] = navigator.onLine
     ? "ONLINE"
     : "OFFLINE";
@@ -117,7 +119,7 @@ export function createLocalPwaCoordinator(
       worker: workerState,
       update: updateState,
       canApplyUpdate: updateState === "READY"
-        && isSafePwaUpdateState(options.getLifecycleState()),
+        && isSafePwaUpdateState(options.getLifecycleState()) && !options.getLocalWorkPending?.(),
     };
   }
 
@@ -125,8 +127,14 @@ export function createLocalPwaCoordinator(
     const state = snapshot();
     const copy = pwaStatusCopy[state.locale];
     heading.textContent = copy.heading;
-    networkStatus.textContent = state.network === "ONLINE" ? copy.online : copy.offline;
-    localStatus.textContent = copy.localOnly;
+    // Product-facing wording is new draft copy; historical reviewed copy stays above.
+    networkStatus.textContent = state.network === "ONLINE"
+      ? state.locale === "nb-NO" ? "Tilkoblet · arbeidet ditt blir på denne enheten." : "Tilkopla · arbeidet ditt blir på denne eininga."
+      : state.locale === "nb-NO" ? "Uten nett · du kan fortsette å øve." : "Utan nett · du kan halde fram med å øve.";
+    if (state.worker === "FAILED") networkStatus.textContent = state.locale === "nb-NO" ? "Offlinefunksjonen er ikke klar. Behold nettilkoblingen." : "Offlinefunksjonen er ikkje klar. Hald på nettilkoplinga.";
+    localStatus.textContent = state.locale === "nb-NO"
+      ? "Økter og arbeidsnotater finnes bare i nettleserminnet mens siden er åpen. Last ned notatene før du lukker siden."
+      : "Økter og arbeidsnotat finst berre i nettlesarminnet medan sida er open. Last ned notata før du lukkar sida.";
     workerStatus.textContent = {
       UNSUPPORTED: copy.unsupported,
       REGISTERING: copy.registering,
@@ -141,10 +149,17 @@ export function createLocalPwaCoordinator(
     updateButton.textContent = copy.updateAction;
     updateButton.hidden = state.update === "NONE";
     updateButton.disabled = !state.canApplyUpdate || state.update === "ACTIVATING";
+    // New draft copy is separate from the historically reviewed session copy above.
+    if (state.update !== "NONE" && options.getLocalWorkPending?.()) {
+      updateStatus.textContent = state.locale === "nb-NO"
+        ? "En appoppdatering venter. Last ned arbeidsnotatene og tøm notater og skjema før oppdatering."
+        : "Ei appoppdatering ventar. Last ned arbeidsnotata og tøm notat og skjema før oppdatering.";
+    }
     host.dataset.network = state.network;
     host.dataset.worker = state.worker;
     host.dataset.update = state.update;
     host.dataset.canApplyUpdate = String(state.canApplyUpdate);
+    if (activatedWorkerWaitingForReload && !options.getLocalWorkPending?.() && isSafePwaUpdateState(options.getLifecycleState())) window.location.reload();
   }
 
   function exposeWaitingWorker(registration: ServiceWorkerRegistration): void {
@@ -202,10 +217,10 @@ export function createLocalPwaCoordinator(
     render();
   });
   navigator.serviceWorker?.addEventListener("controllerchange", () => {
-    if (activationRequested) window.location.reload();
+    if (activationRequested) { activatedWorkerWaitingForReload = true; render(); }
   });
   updateButton.addEventListener("click", () => {
-    if (waitingWorker === undefined || !isSafePwaUpdateState(options.getLifecycleState())) return;
+    if (waitingWorker === undefined || !snapshot().canApplyUpdate) return;
     activationRequested = true;
     updateState = "ACTIVATING";
     render();

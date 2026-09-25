@@ -1,0 +1,786 @@
+{
+  "package": {
+    "name": "SKYNJA_REVISED_CANON_PACKAGE",
+    "version": "1.0",
+    "date": "2026-09-23",
+    "status": "CONSOLIDATED_WORKING_CANON",
+    "principle_count": 50,
+    "retained_legacy_count": 20,
+    "runtime_knowledge_policy": "CLOSED_LIBRARY_PLUS_AUTHORIZED_USER_AND_CONTEXT_DATA"
+  },
+  "master_heuristic": "Risk or complexity is not itself a reason to avoid capability; value, evidence, safeguards and governance determine how far the product may go.",
+  "principles": [
+    {
+      "id": "SKP-001",
+      "title": "Kalibrert tolkning: observasjon → mønster → hypotese → test",
+      "legacy": "Gamle regler forsøkte i stor grad å hindre inferens, profilering og diagnostisk språk fra aktivitetshendelser.",
+      "canon": "Skynja skal kunne tolke det som skjer, men alltid skille mellom observasjon, mønster, funksjonell hypotese og klinisk etablert kunnskap. En hypotese skal være testbar, korrigerbar og uttrykkes med kalibrert sikkerhet. Feiltype, responstid eller enkeltatferd er aldri i seg selv årsaksforklaring eller diagnose.",
+      "rules": [
+        "Skill OBSERVATION, PATTERN, HYPOTHESIS og ESTABLISHED_FACT.",
+        "Bevar alternative forklaringer.",
+        "La ny evidens styrke, svekke eller forkaste hypoteser.",
+        "Høyere konsekvens krever sterkere evidens og riktigere menneskelig mandat."
+      ],
+      "short": "Observer konkret. Inferer kalibrert. Test hypoteser. Diagnose krever diagnostisk evidens."
+    },
+    {
+      "id": "SKP-002",
+      "title": "Transparent, korrigerbar personlig modell",
+      "legacy": "Langsgående profil og kryssøktpersonalisering var tidligere sperret.",
+      "canon": "Skynja skal kunne bygge en levende forståelse av personen over tid når dette gir brukerens støtte reell verdi. Modellen skal skille brukerutsagn, observerte mønstre, AI-hypoteser, støttepersonobservasjoner og profesjonelt etablerte fakta. Brukeren skal kunne se, forstå og korrigere det som påvirker støtten.",
+      "rules": [
+        "Profilen er en modell, ikke en fasit.",
+        "Kilden til hvert minne eller claim skal bevares.",
+        "Ubekreftede hypoteser skal ikke bli identitetsetiketter.",
+        "Brukeren skal kunne korrigere og kontekstualisere."
+      ],
+      "short": "Skynja skal lære personen å kjenne uten å late som modellen er personen."
+    },
+    {
+      "id": "SKP-003",
+      "title": "Støttepersonen som medobservatør og medutforsker",
+      "legacy": "Støttepersonrollen var tidligere snevert definert som øktleder eller mottaker av korte kort.",
+      "canon": "Støttepersoner kan bidra med konkrete observasjoner, erfaringer og kontekst. Slike data skal behandles som kildebestemte observasjoner, ikke automatisk sannhet om brukeren. Skynja skal støtte felles utforsking av hva som hjelper.",
+      "rules": [
+        "Konkret hendelse veier mer enn egenskapsdom.",
+        "Skill observasjon fra tolkning.",
+        "Bevar hvem som sa hva.",
+        "Uenighet mellom bruker, støtteperson og system kan være informativ."
+      ],
+      "short": "Støttepersonen kan bidra til modellen, men skal ikke definere personen."
+    },
+    {
+      "id": "SKP-004",
+      "title": "Relasjonen som eksplisitt produktmål",
+      "legacy": "Relasjonell motivasjon var tidligere viktig, men hovedsakelig som vern mot manipulerende gamification.",
+      "canon": "Skynja skal kunne forbedre kvaliteten på samspill rundt dysleksi: mindre overtakelse, skam, prematur korrigering og konflikt; mer presis hjelp, autonomi, felles språk og reparasjon. Relasjonseffekt kan være et produktmål og forskningsspørsmål, men skal ikke hevdes uten evidens.",
+      "rules": [
+        "Støtt autonomi og respekt.",
+        "Reduser korrigerings- og overhjelpingsmønstre.",
+        "Gjør støtteintensjon og brukerønske synlig.",
+        "Mål relasjonell verdi når dette er relevant."
+      ],
+      "short": "God støtte skal ikke bare løse oppgaven; den skal kunne gjøre samarbeidet bedre."
+    },
+    {
+      "id": "SKP-005",
+      "title": "Reell støttepersonkompetanse",
+      "legacy": "Voksenflaten var primært designet for én kort, situasjonell handling.",
+      "canon": "Skynja skal bygge kompetanse hos mennesker rundt brukeren, ikke bare fortelle dem hva de skal gjøre akkurat nå. Kompetansen omfatter dysleksi, lesing og skriving, tilgang versus trening, timing av hjelp, psykologi, kommunikasjon, autonomi, selvadvokering og relasjonelle virkninger.",
+      "rules": [
+        "Lær hvorfor, ikke bare hva.",
+        "Bygg transfer utenfor appen.",
+        "Gi praksis, refleksjon og fordypning.",
+        "Kompetanseinnhold må ha samme evidenskrav som øvrig faglig innhold."
+      ],
+      "short": "Målet er bedre støtte også når Skynja ikke er åpen."
+    },
+    {
+      "id": "SKP-006",
+      "title": "Eget kunnskapsområde for støttepersoner og brukere",
+      "legacy": "Fordypning var tidligere hovedsakelig et skjult lag bak korte situasjonskort.",
+      "canon": "Skynja skal ha et frivillig, seriøst kunnskapsunivers som kobler praktiske situasjoner til forklaringer, evidens, eksempler og videre fordypning. Kunnskap skal være tilgjengelig på flere dybdenivåer og kobles tilbake til faktisk praksis.",
+      "rules": [
+        "Kort svar → forklaring → fordypning → evidens.",
+        "Kunnskap skal kunne nås uten å vente på en hendelse.",
+        "Kunnskapsinnhold skal være versjonert og reviewet.",
+        "Bruker og støtteperson kan ha ulike visninger av samme kunnskapskjerne."
+      ],
+      "short": "Situasjonsstøtte og kunnskapsbygging er to sider av samme system."
+    },
+    {
+      "id": "SKP-007",
+      "title": "Prøverommet skal lære dømmekraft",
+      "legacy": "Tidlige aktiviteter kunne bli for mekaniske og fokusere på ett riktig neste steg.",
+      "canon": "Prøverommet skal kunne trene vurdering, ikke bare riktig svar. Det kan inneholde tydelig bedre valg, flere forsvarlige valg, dårlige valg og situasjoner med utilstrekkelig informasjon. Debrief skal gjøre begrunnelsen viktigere enn poengsummen.",
+      "rules": [
+        "Tren beslutninger under usikkerhet.",
+        "Tillat 'ikke nok informasjon' som legitimt svar.",
+        "Bruk konsekvenser til å synliggjøre mekanismer.",
+        "Skill spillutfall fra læringsevidens."
+      ],
+      "short": "Prøverommet skal utvikle dømmekraft, ikke bare svarmønstre."
+    },
+    {
+      "id": "SKP-008",
+      "title": "Riktig støtte fremfor minst mulig støtte",
+      "legacy": "Tidligere stillaslogikk favoriserte ofte minste tilstrekkelige støtte og fading.",
+      "canon": "Støtte skal velges ut fra mål, hinder, situasjon, energi, brukerønske og kontroll. Mer støtte er ikke automatisk dårligere. Varige hjelpemidler kan være riktig mål. Fading brukes når fading tjener aktiviteten, ikke som ideologi.",
+      "rules": [
+        "Mål → hinder → støttehensikt → tiltak → effekt.",
+        "ACCESS skal ikke fjernes for å skape kunstig selvstendighet.",
+        "Brukerens ønsker og energikostnad teller.",
+        "Støtte skal kunne økes eller reduseres dynamisk."
+      ],
+      "short": "Gi den støtten som faktisk gjør arbeidet bedre."
+    },
+    {
+      "id": "SKP-009",
+      "title": "Delt beslutningstaking og profesjonelt skjønn",
+      "legacy": "Gamle kontrakter la mye myndighet i lærerport eller systemforbud.",
+      "canon": "Gode beslutninger skal kombinere brukerens subjektive ekspertise, relevant profesjonelt skjønn, situasjonskunnskap og Skynjas evidensbaserte beslutningsstøtte. Ingen av disse er universelt overordnet i alle saker.",
+      "rules": [
+        "Brukeren kjenner egen opplevelse.",
+        "Profesjonelle kjenner faglige og institusjonelle rammer.",
+        "Skynja kan bidra med historikk, mønstre og kunnskapsgrunnlag.",
+        "Konsekvens og mandat avgjør hvem som må involveres."
+      ],
+      "short": "Brukerens erfaring + faglig skjønn + sporbar systemstøtte."
+    },
+    {
+      "id": "SKP-010",
+      "title": "Intelligent inferens med konkurrerende forklaringer",
+      "legacy": "Inferens fra brukerhendelser var tidligere i stor grad forbudt.",
+      "canon": "Skynja skal kunne inferere situasjonelle mønstre og funksjonelle hypoteser når dette kan forbedre støtten. Den skal vurdere konkurrerende forklaringer, uttrykke usikkerhet, søke bekreftelse og bruke nye situasjoner til å teste modellen.",
+      "rules": [
+        "Én observasjon gir sjelden en varig konklusjon.",
+        "Konkurrerende forklaringer skal bevares når de er reelle.",
+        "Styrker og fungerende strategier skal modelleres like seriøst som barrierer.",
+        "Systemet skal kunne si 'jeg vet ikke'."
+      ],
+      "short": "Inferer for å lære, ikke for å stemple."
+    },
+    {
+      "id": "SKP-011",
+      "title": "Psykologisk kompetent støtte uten falsk klinisk autoritet",
+      "legacy": "Tidligere retning ønsket å holde terapi og psykologiske mekanismer langt utenfor produktet.",
+      "canon": "Skynja kan bruke evidensinformerte psykologiske og terapeutiske prinsipper når de hjelper med skam, mestringstro, unngåelse, identitet, attribusjon, stress, emosjonsregulering, selvadvokering og relasjonell reparasjon. Produktet skal samtidig skille støtte og psykoedukasjon fra klinisk behandling, diagnose og helsehjelp.",
+      "rules": [
+        "Bruk bare autorisert kunnskap fra biblioteket.",
+        "Ikke diagnostiser indre tilstander fra svak evidens.",
+        "Høyere psykososial konsekvens gir strengere sikkerhetskrav.",
+        "Ikke gjør emosjonell varme avhengig av å late som Skynja er terapeut."
+      ],
+      "short": "Bruk psykologi når det hjelper; ikke lat som støtte er behandling."
+    },
+    {
+      "id": "SKP-012",
+      "title": "Ambisiøs produktdybde uten unødvendig brukerkompleksitet",
+      "legacy": "Mange tidlige regler var optimalisert mot minste mulige første produkt og svært smale funksjoner.",
+      "canon": "Skynja skal kunne ha stor systemdybde når det gir brukerens liv reell verdi. Stor visjon skal realiseres gjennom modulær arkitektur og små validerbare leveranser, ikke ved å gjøre produktambisjonen permanent liten.",
+      "rules": [
+        "Skill systemkompleksitet fra brukeropplevd kompleksitet.",
+        "Bygg modulært og evaluerbart.",
+        "Unngå feature-sprawl uten verdi.",
+        "Ikke gjør minimalisme til mål i seg selv."
+      ],
+      "short": "Stor dybde internt, riktig enkelhet i øyeblikket."
+    },
+    {
+      "id": "SKP-013",
+      "title": "Kontekstuell forståelse av støttepersonen",
+      "legacy": "Roller som lærer, foresatt og spesialpedagog var tidligere relativt faste produktsegmenter.",
+      "canon": "Skynja skal forstå støttepersonens rolle, kompetanse, mandat, relasjon til brukeren, aktuell situasjon og formål separat. Samme person kan ha ulike roller i ulike situasjoner.",
+      "rules": [
+        "Rolle ≠ kompetanse ≠ mandat ≠ relasjon.",
+        "Tilgang skal følge konkret formål.",
+        "Støtte skal tilpasses bruker × støtteperson × situasjon.",
+        "Unngå stereotyper basert på tittel."
+      ],
+      "short": "Forstå hvem personen er i denne situasjonen, ikke bare hvilken rollelabel de har."
+    },
+    {
+      "id": "SKP-014",
+      "title": "To koordinerte flater når to mennesker samarbeider",
+      "legacy": "Én-enhet/Sammen-modus var tidligere kanonisk hovedretning i deler av styringen.",
+      "canon": "Ved samtidig bruker–støtteperson-samarbeid bør standarden være to koordinerte flater/enheter når det er praktisk, med tydelig rolleforskjell. Sammen-modus på én enhet er en viktig fallback. Flatene skal ikke speile hverandre; de skal støtte ulike jobber.",
+      "rules": [
+        "Brukerflaten eier brukerens oppgave og kontroll.",
+        "Støtteflaten gir beslutningsstøtte, observasjon og læring.",
+        "Én-enhet-modus skal bevare rollegrenser i tid.",
+        "Ikke krev fysisk overtakelse av brukerens skjerm som standard."
+      ],
+      "short": "To mennesker bør få to roller – og gjerne to flater."
+    },
+    {
+      "id": "SKP-015",
+      "title": "Dynamisk samspillsmodell",
+      "legacy": "Tidligere dyaderegler favoriserte en fast sekvens med handling, forklaring og tilbakeføring av kontroll.",
+      "canon": "Samspill skal tilpasses oppgaven. Standardrammen er: Forstå → støtte → forklar → fordel → vurder på nytt. Rekkefølge og dybde kan variere etter behov.",
+      "rules": [
+        "Forstå mål og hinder før støtte når mulig.",
+        "Forklaring kan komme før, under eller etter handling.",
+        "Fordel arbeid eksplisitt mellom bruker, system og støtteperson.",
+        "Vurder effekten og juster."
+      ],
+      "short": "Forstå → støtte → forklar → fordel → vurder på nytt."
+    },
+    {
+      "id": "SKP-016",
+      "title": "Støtte etter formål, ikke bare trening versus kompensasjon",
+      "legacy": "Trening og ACCESS var tidligere svært hardt separerte hovedbaner.",
+      "canon": "Skynja skal fortsatt skille læringsmål fra tilgang når konstruktet krever det, men støtteformålet kan være ferdighetstrening, strategilæring, innholdstilgang, uttrykk, avlastning, samarbeid, gjennomføring, hypotesetesting, vurdering, psykologisk støtte eller selvadvokering.",
+      "rules": [
+        "Formål er eksplisitt kontekst.",
+        "Samme verktøy kan ha ulik legitimitet i ulike formål.",
+        "Ikke arv læringsevidens fra tilgangsstøtte uten grunnlag.",
+        "Ikke gjør alle virkelige oppgaver til trening."
+      ],
+      "short": "Mål → hinder → støttehensikt → tiltak → effekt → ny vurdering."
+    },
+    {
+      "id": "SKP-017",
+      "title": "Dobbel læringsarkitektur for støttepersoner",
+      "legacy": "Støttepersonopplæring var tidligere hovedsakelig situasjonskort.",
+      "canon": "Kompetanse skal bygges både akkurat når behovet oppstår og gjennom frivillig strukturert læring. En god løkke er Opplev → forstå → fordyp → øv → anvend → reflekter → overfør.",
+      "rules": [
+        "JIT-støtte og kurs/fordypning skal dele kunnskapskjerne.",
+        "Praksis skal kobles til forklaring.",
+        "Refleksjon skal kobles til fremtidig handling.",
+        "Kompetanseutvikling må kunne fortsette uten aktiv brukerøkt."
+      ],
+      "short": "Lær i situasjonen – og bygg varig kompetanse utenfor den."
+    },
+    {
+      "id": "SKP-018",
+      "title": "Metakognitiv støttekompetanse og selvadvokering",
+      "legacy": "Eldre produktlogikk var mer opptatt av korrekt støtteutførelse enn av at brukeren selv skulle bli strategisk ekspert.",
+      "canon": "Skynja skal hjelpe brukeren å oppdage barrierer, skille mål fra hinder, kjenne strategier, sammenligne dem, velge, kommunisere behov og lære av utfallet. Det samme kan trenes hos støttepersoner.",
+      "rules": [
+        "Oppdag → skill → velg → kommuniser → vurder.",
+        "Strategibruk er egen kompetanse.",
+        "Selvadvokering kan trenes i scenarioer og ekte situasjoner.",
+        "Brukeren skal kunne formulere hva som hjelper og hvorfor."
+      ],
+      "short": "Skynja skal hjelpe personen bli ekspert på egen støtte."
+    },
+    {
+      "id": "SKP-019",
+      "title": "Ingen kunstig kompetansegrense for støttepersoner",
+      "legacy": "Tidligere design kunne begrense dybde ut fra formell rolle.",
+      "canon": "Tilgang til faglig dybde skal ikke begrenses mekanisk av tittel. Skynja skal skille rolle, kompetanse, mandat og formell kvalifikasjon. En forelder kan være svært kunnskapsrik; en lærer kan være ny; en spesialist kan trenge andre data.",
+      "rules": [
+        "Dybde kan tilpasses faktisk kompetanse og formål.",
+        "Mandat begrenser handling, ikke nødvendigvis læring.",
+        "Profesjonelle områder kan kreve særskilt tilgang når data er sensitive.",
+        "Ikke lås brukergrensesnitt til yrkestittel alene."
+      ],
+      "short": "Tittel bestemmer ikke automatisk hvor mye du får lov til å forstå."
+    },
+    {
+      "id": "SKP-020",
+      "title": "Bruker- og situasjonsførst, ikke familie-først",
+      "legacy": "Tidligere arbeid hadde sterke foreldre-/lærergrener og familieorienterte modeller.",
+      "canon": "Brukeren er det stabile sentrum gjennom skole, studier, arbeid og hjem. Støttepersoner er relasjoner rundt brukeren, ikke produktets primære eiere. Flere støttepersoner kan eksistere over tid.",
+      "rules": [
+        "Brukeren er sentrum.",
+        "Situasjonen gir målet.",
+        "Rollen gir kontekst.",
+        "Relasjonen påvirker samspillet."
+      ],
+      "short": "Brukeren er sentrum. Situasjonen gir målet. Rollen gir kontekst."
+    },
+    {
+      "id": "SKP-021",
+      "title": "Felles kjerne og kontekstuelle kapabiliteter",
+      "legacy": "Segmenter og 80/20-tenkning kunne gi separate produktvarianter for ulike roller og aldersgrupper.",
+      "canon": "Skynja bør ha én felles domenemodell og aktivere kapabiliteter etter samtykke, alder, kontekst, formål, sensitivitet og behov. Rolle- og aldersspesifikke flater kan eksistere uten å fragmentere produktet.",
+      "rules": [
+        "Én sannhetskjerne.",
+        "Kapabiliteter aktiveres kontekstuelt.",
+        "Tilgang følger mandat.",
+        "Ikke dupliser domene og logikk unødvendig."
+      ],
+      "short": "Én kjerne. Ulike kapabiliteter når konteksten krever det."
+    },
+    {
+      "id": "SKP-022",
+      "title": "Formålsdrevet observasjon fremfor generelt overvåkingsforbud",
+      "legacy": "Observasjon og profilering var tidligere sterkt sperret for å hindre overvåking.",
+      "canon": "Skynja kan observere rikt når det er nødvendig for brukerens mål, men må skille systemobservasjon, brukerrefleksjon og menneskelig innsyn. Det systemet observerer trenger ikke vises til andre.",
+      "rules": [
+        "Observer rikt når formålet krever det.",
+        "Tolk kalibrert.",
+        "Del selektivt.",
+        "Handle bare når observasjonen har legitim verdi."
+      ],
+      "short": "Observer rikt. Tolk kalibrert. Del selektivt."
+    },
+    {
+      "id": "SKP-023",
+      "title": "Produktets nordstjerne",
+      "legacy": "Tidlige planer kunne snevre produktet til spesifikke skole- og Guided-Dyad-scenarier.",
+      "canon": "Skynja skal hjelpe mennesker med dysleksi til å lære, arbeide, delta og mestre på bedre premisser – og hjelpe dem og menneskene rundt dem til å forstå hva som faktisk hjelper.",
+      "rules": [
+        "Direkte verdi for personen kommer først.",
+        "Kontinuitet på tvers av livskontekster er ønsket.",
+        "Produktet skal bygge både funksjon og selvforståelse.",
+        "Støttepersoner skal bli bedre støttespillere."
+      ],
+      "short": "Skynja lærer hva som hjelper deg – og hjelper deg og menneskene rundt deg å lære det samme."
+    },
+    {
+      "id": "SKP-024",
+      "title": "Fra veilederavhengighet til avansert beslutningsstøtte",
+      "legacy": "Tidligere fadinglogikk kunne gjøre 'mindre behov for appen' til implisitt sluttmål.",
+      "canon": "Målet er ikke at Skynja skal bli overflødig. Menneskelig kompetanse kan øke samtidig som systemet gir stadig mer avansert verdi gjennom historikk, mønstergjenkjenning, evidens og koordinering.",
+      "rules": [
+        "Ikke optimaliser mot lavest mulig bruk.",
+        "Systemets rolle kan utvikles fra instruktør til sparringspartner.",
+        "Maskinen kan tilføre verdi mennesker ikke lett kan holde i hodet.",
+        "Brukeren bestemmer når systemet skal være mer eller mindre aktivt."
+      ],
+      "short": "Bedre brukerkompetanse skal gjøre Skynja mer avansert, ikke nødvendigvis mindre relevant."
+    },
+    {
+      "id": "SKP-025",
+      "title": "Meningsfull progresjon for støttepersoner",
+      "legacy": "Gamification ble tidligere i stor grad forbudt av frykt for manipulasjon.",
+      "canon": "Støttepersoner kan få progresjon, øving og eventuelt spillmekanismer når disse representerer reell læring, anvendelse, refleksjon, dømmekraft og transfer – ikke bare aktivitet eller brukstid.",
+      "rules": [
+        "Belønn læring og anvendelse.",
+        "Unngå sosial rangering og tapsfrykt.",
+        "Progression skal tåle pauser.",
+        "Narrativ og scenario kan brukes når de gjør læringen bedre."
+      ],
+      "short": "Progresjon skal representere kompetanse, ikke appbruk."
+    },
+    {
+      "id": "SKP-026",
+      "title": "Vedvarende kontinuitet og intelligent minne",
+      "legacy": "Historikk og kryssøktminne var tidligere eksplisitt sperret.",
+      "canon": "Skynja skal kunne bevare det som skaper læring og bedre støtte over tid. Minne skal ha proveniens, sikkerhet, korrigerbarhet, delingsnivåer og regler for å svekke eller glemme utdaterte opplysninger.",
+      "rules": [
+        "Bevar verdifulle mønstre, ikke all råhistorikk.",
+        "Versjonér og kildebevar minner.",
+        "La brukeren korrigere og kontekstualisere.",
+        "Utdaterte eller svake hypoteser skal revurderes eller glemmes."
+      ],
+      "short": "Husk det som skaper læring. Glem det som bare skaper historikk."
+    },
+    {
+      "id": "SKP-027",
+      "title": "Kontrollert samarbeid og selektiv deling",
+      "legacy": "Gamle regler favoriserte svært lite deling mellom hjem, skole og roller.",
+      "canon": "Skynja skal kunne koordinere støtte, men bare dele riktig informasjon med riktig person for et eksplisitt formål. Se-tilgang, bidra-tilgang, varighet og mandat skal skilles.",
+      "rules": [
+        "Del innsikt, ikke automatisk hele historikken.",
+        "Bevar kilden til observasjoner.",
+        "Tilgang kan være midlertidig og oppgavespesifikk.",
+        "Uenighet skal ikke overskrives lydløst."
+      ],
+      "short": "Koordiner støtte, ikke overvåk personen."
+    },
+    {
+      "id": "SKP-028",
+      "title": "Multimodal støtte som kjernekapabilitet",
+      "legacy": "Mikrofon, kamera, fri tekst og dynamisk lyd var tidligere generelt sperret eller sterkt begrenset.",
+      "canon": "Skynja skal kunne bruke tale, diktering, opplesing, kamera/OCR, visuelle representasjoner og multimodal AI når dette fjerner en reell barriere. Rådata og avledet læring skal ha separate livsløp.",
+      "rules": [
+        "Velg modalitet etter hinder og mål.",
+        "Ikke behold rå lyd/bilde automatisk.",
+        "Dynamisk output krever kontroll etter konsekvens.",
+        "Multimodalitet skal være tilgjengelighet, ikke overvåking."
+      ],
+      "short": "Bruk modaliteten som fjerner barrieren. Bevar signalet som skaper verdi, ikke nødvendigvis rådata."
+    },
+    {
+      "id": "SKP-029",
+      "title": "Fleksibelt identitetslag uten kontotvang",
+      "legacy": "Tidligere baseliner unngikk stabil elev-ID helt.",
+      "canon": "Skynja kan ha vedvarende identitet når kontinuitet krever det, men identitet skal være separat fra relasjon, tilgang og formål. Produktet bør støtte flere identitetsmekanismer uten å tvinge alle inn i én institusjonell konto.",
+      "rules": [
+        "USER_ID, SUPPORT_PERSON_ID og RELATIONSHIP er separate konsepter.",
+        "Tilgang må eksplisitt autoriseres.",
+        "Institusjonstilhørighet skal ikke eie hele brukeridentiteten.",
+        "Identitetsmekanisme kan variere etter kontekst."
+      ],
+      "short": "Identitet muliggjør kontinuitet; den skal ikke automatisk gi noen tilgang."
+    },
+    {
+      "id": "SKP-030",
+      "title": "Kartlegging, screening, vurdering og diagnose som tydelig kontinuum",
+      "legacy": "Screening, diagnostikk og varige inferenser var tidligere nesten helt utenfor produktet.",
+      "canon": "Skynja kan støtte observasjon, funksjonell kartlegging, hypoteser, eksplisitt screening og profesjonell vurdering når formål, evidens og mandat er riktig. Diagnose krever diagnostisk evidens og riktig faglig prosess.",
+      "rules": [
+        "Skille hverdagsobservasjon fra formell screening.",
+        "Høyere konsekvens krever sterkere standardisering og profesjonell kontroll.",
+        "Ikke skjul screening inne i ordinært gameplay.",
+        "Bruk funksjonell kartlegging når det faktisk hjelper."
+      ],
+      "short": "Mål funksjon når det hjelper. Screen eksplisitt. Diagnose krever diagnostisk evidens."
+    },
+    {
+      "id": "SKP-031",
+      "title": "AI-native runtime med deterministiske grenser",
+      "legacy": "Runtime-AI og generativ elevrettet funksjon var tidligere ikke godkjent.",
+      "canon": "Skynja skal kunne bruke generativ AI direkte i runtime for språk, resonnering, dialog, transformasjon og personalisering. Deterministiske regler beholdes der grensene må være bindende, og AI-autonomi skaleres etter konsekvens, usikkerhet og reversibilitet.",
+      "rules": [
+        "Deterministiske grenser rundt sikkerhet, autorisasjon og kritisk state.",
+        "Generativ fleksibilitet for språk og resonnering.",
+        "Langtidsprofil + lokal kontekst kan brukes når autorisert.",
+        "AI må kunne begrunne, korrigeres og avstå."
+      ],
+      "short": "Deterministiske grenser. Generativ fleksibilitet. Kalibrert autonomi."
+    },
+    {
+      "id": "SKP-032",
+      "title": "Multidimensjonal adaptiv progresjon",
+      "legacy": "Gamle modeller var redde for automatisk nivåplassering og global progresjon.",
+      "canon": "Skynja skal kunne tilpasse progresjon flerdimensjonalt etter mål, støttebetingelser, ferdighet, kontekst og brukerens ambisjon. Avkodingsvansker skal aldri bli en generell intellektuell nivåplassering.",
+      "rules": [
+        "Tilpass barrieren uten automatisk å senke målet.",
+        "Brukeren kan velge ambisjon.",
+        "Lokale tilpasninger kan automatiseres innen rammer.",
+        "Standardisert vurdering kan låse relevante dimensjoner."
+      ],
+      "short": "Tilpass progresjonen uten å redusere personen til et nivå."
+    },
+    {
+      "id": "SKP-033",
+      "title": "Tid som signal – ikke som dom",
+      "legacy": "Responstid og mikroatferd var tidligere ofte forbudt som pedagogiske signaler.",
+      "canon": "Tid kan være relevant for automatisering, flyt, arbeidskostnad, støtteffekt og funksjon når konstruktet tilsier det. Å måle tid er ikke det samme som å legge tidspress. Tid skal tolkes sammen med korrekthet, støtte, kontekst og brukeropplevelse.",
+      "rules": [
+        "Mål uten å presse.",
+        "Ikke bruk tid som generell evne- eller motivasjonsscore.",
+        "Pause betyr ikke lav motivasjon.",
+        "Normdata kan brukes når formell vurdering faktisk krever det."
+      ],
+      "short": "Mål uten å presse. Tolk uten å rangere."
+    },
+    {
+      "id": "SKP-034",
+      "title": "Meningsfull motivasjon og gamification",
+      "legacy": "Gamification, streaks og poeng var tidligere i stor grad sperret.",
+      "canon": "Skynja kan bruke spillmekanismer, progresjon, narrativ, belønning og mål når de støtter mening, mestring, utforsking eller kompetanse. Det skal ikke optimaliseres for brukstid, tapsfrykt, sosial rangering eller press.",
+      "rules": [
+        "Game score ≠ learning model.",
+        "Streaks må være fleksible og tilgivende.",
+        "Belønn mestring og utforsking, ikke bare aktivitet.",
+        "Opt-out og tilpasning skal være mulig."
+      ],
+      "short": "Belønn mening, mestring og utforsking – ikke bare aktivitet."
+    },
+    {
+      "id": "SKP-035",
+      "title": "Narrativ kan være selve læringsmekanismen",
+      "legacy": "Narrativ skulle tidligere kunne fjernes uten å påvirke ferdighetsmotor eller progresjon.",
+      "canon": "Narrativ kan være dekorativt, kontekstualiserende eller selve mekanismen. Når perspektiver, sosiale konsekvenser, dilemmaer eller simulert praksis er læringsmålet, trenger fortellingen ikke kunne fjernes uten semantisk endring.",
+      "rules": [
+        "Dekorativt narrativ skal ikke skjule svak mekanikk.",
+        "Funksjonelt narrativ må kunne begrunnes.",
+        "Scenarioer kan være adaptive og asymmetriske.",
+        "Konsekvenser skal modellere mekanismer, ikke bare poeng."
+      ],
+      "short": "Dekorasjon kan fjernes. Kontekst skal begrunnes. Simulering kan være selve læringen."
+    },
+    {
+      "id": "SKP-036",
+      "title": "Konsekvens- og mandatstyrte menneskeporter",
+      "legacy": "Tidligere B6 la lærerport på et stort antall pedagogiske handlinger.",
+      "canon": "Menneskelig kontroll skal plasseres etter formål, konsekvens, usikkerhet, reversibilitet og legitimt mandat. Lærer eller annen fagperson styrer relevante rammer; lavkonsekvente mikrovalg kan delegeres til bruker eller system.",
+      "rules": [
+        "Ingen universell lærerport.",
+        "Riktig menneske er ikke alltid lærer.",
+        "Brukerbekreftelse kan være riktig port.",
+        "Lavrisiko reversible handlinger kan automatiseres."
+      ],
+      "short": "Rammer styres. Mikrovalg delegeres. Unntak eskaleres."
+    },
+    {
+      "id": "SKP-037",
+      "title": "Utviklings-, kompetanse- og kontekstsensitiv personalisering",
+      "legacy": "Produktet var tidligere organisert i faste aldersbånd som 6–9, 10–12 og 13–16.",
+      "canon": "Alder skal brukes der den betyr noe for evidens, utvikling, sikkerhet, juridiske rammer og defaults, men ikke være hele brukeropplevelsen. Ferdighet, selvadvokering, digital kompetanse, situasjon, formål og preferanse skal modelleres separat. Voksne er en førsteklasses brukergruppe.",
+      "rules": [
+        "Alder ≠ ferdighetsnivå.",
+        "Ferdighet ≠ modenhet.",
+        "Ikke erstatt én stereotype med tre aldersstereotyper.",
+        "Presentasjon skal kunne tilpasses mer presist enn aldersbånd."
+      ],
+      "short": "Alder setter noen rammer. Personen er ikke en aldersmodus."
+    },
+    {
+      "id": "SKP-038",
+      "title": "Personlig, mekanismeorientert og metakognitiv feedback",
+      "legacy": "Feedback skulle tidligere være kort, oppgaveorientert og uttrykkelig ikke-personlig.",
+      "canon": "Feedback kan være personlig når den beskriver brukerens handlinger, strategier, utvikling og historikk på et evidensnivå systemet faktisk tåler. Den skal unngå identitetsdommer, falsk ros og spekulativ psykologi.",
+      "rules": [
+        "Resultat-, prosess-, strategi-, metakognitiv og utviklingsfeedback er forskjellige nivåer.",
+        "'Riktig' kan noen ganger være nok.",
+        "Presis ros slår tom ros.",
+        "Feedback kan tilpasses timing, modalitet, dybde og støttehensikt."
+      ],
+      "short": "Beskriv det som skjedde. Forklar det vi har grunnlag for. Knytt det til personen uten å låse identitet."
+    },
+    {
+      "id": "SKP-039",
+      "title": "Koordinert støtte fremfor én handling / én voksen som dogme",
+      "legacy": "Guided Dyad brukte ONE-CARD-ONE-ACTION, ONE-ACTION-ONE-RESPONSE og ONE-ACTIVE-ADULT som sterke baselinekrav.",
+      "canon": "Ett UI-element bør normalt ha én tydelig primær intensjon, men støtte kan bestå av koordinerte sekvenser, parallelle modaliteter og flere relevante aktører med ulike roller. Aktiviteter kan fortsatt kreve én aktiv veileder når standardisering eller sikkerhet tilsier det.",
+      "rules": [
+        "Én tydelig intensjon kan bestå av flere støttekomponenter.",
+        "Flere personer kan bidra med ulike jobber.",
+        "Unngå flere samtidige stemmer uten orkestrering.",
+        "Registrer kombinasjoner uten å late som én komponent alene skapte effekten."
+      ],
+      "short": "Én tydelig intensjon. Så mange komponenter og aktører som faktisk trengs – men aldri flere enn det."
+    },
+    {
+      "id": "SKP-040",
+      "title": "Adaptiv informasjonsdybde fremfor universell minimalisme",
+      "legacy": "Gamle voksenkort og UX-regler favoriserte svært korte første lag og 'minst mulig informasjon'.",
+      "canon": "Skynja skal vise riktig mengde informasjon for personen, rollen, oppgaven og den kognitive situasjonen. Informasjon kan komprimeres for øyeblikket uten at faglig dybde fjernes. Kritisk usikkerhet og konsekvenser må ikke skjules bak progressiv avdekking.",
+      "rules": [
+        "Skill momentary cognitive load fra ønsket intellektuell dybde.",
+        "Kort svar → forklaring → detaljer → evidens/proveniens.",
+        "Dashboards er legitime når de støtter en faktisk beslutningsjobb.",
+        "Tilgjengelighet handler om struktur, modalitet og navigerbar dybde – ikke lavt ordtall."
+      ],
+      "short": "Komprimer for øyeblikket. Bevar dybden. La brukeren åpne den."
+    },
+    {
+      "id": "SKP-041",
+      "title": "Lukket kunnskapsgrunnlag med åpen resonnering",
+      "legacy": "Tidligere runtime-AI var sperret; senere AI-native retning skaper behov for en eksplisitt epistemisk grense.",
+      "canon": "Skynjas faglige runtime-AI skal bare bygge faglige påstander på vårt eget godkjente, versjonerte kunnskapsbibliotek. Modellen kan bruke generell språk- og resonneringsevne til å kombinere, forklare og anvende biblioteket, men latent modellkunnskap er ikke autorisert faglig kilde. Personalisering kan i tillegg bruke tillatte bruker- og situasjonsdata.",
+      "rules": [
+        "Ingen faglig påstand uten bibliotekgrunnlag.",
+        "Modellkunnskap er aldri kilde.",
+        "Skill fagkunnskap, brukerdata, situasjonsdata og AI-inferens.",
+        "Manglende dekning gir abstention eller kunnskapshull, ikke web-fallback i runtime."
+      ],
+      "short": "Lukket kunnskap. Åpen resonnering. Sporbare påstander. Ingen skjult modellautoritet."
+    },
+    {
+      "id": "SKP-042",
+      "title": "Evidens som levende styringssystem",
+      "legacy": "Gamle pakker brukte sterke AUTHORIZED / NOT_AUTHORIZED-skiller.",
+      "canon": "Kunnskapsbiblioteket skal representere evidens gradert, versjonert og scope-bevisst. Evidensstyrke skal skilles fra runtime-autoritet og produktvalidering. Manglende direkte evidens skal begrense claimstyrke og evalueringskrav, ikke automatisk blokkere lavrisiko innovasjon.",
+      "rules": [
+        "SOURCE → EVIDENCE → CLAIM → PRODUCT_RULE → RUNTIME_USE.",
+        "Bevar støttende, begrensende og motstridende evidens.",
+        "Sterkere evidens betyr ikke bredere scope.",
+        "Produktclaim og domenekunnskap er forskjellige evidenslag."
+      ],
+      "short": "Gradér evidensen. Avgrens claimet. Spor motfunnene. Skaler handling etter sikkerhet og konsekvens."
+    },
+    {
+      "id": "SKP-043",
+      "title": "Støttet mestring er også mestring – men av en annen type",
+      "legacy": "Tidligere modeller krevde ny ustøttet respons etter modellering og behandlet full modell som ikke-evidens for selvstendig status.",
+      "canon": "Skynja skal bevare presis støtteproveniens, men ikke gjøre ustøttet ytelse til moralsk eller pedagogisk toppnivå. Støttet ytelse kan gi evidens om funksjon, respons på undervisning, strategibruk og selvadvokering. Om støtte skal fades avgjøres av formålet.",
+      "rules": [
+        "SUPPORTED ≠ INDEPENDENT, men SUPPORTED kan være svært informativt.",
+        "Skill funksjon, læring og måling.",
+        "Selvinitiert verktøybruk kan være høy selvstendighet.",
+        "Varige ACCESS-verktøy trenger ikke fades."
+      ],
+      "short": "Spor støtten presist. Verdsett funksjonen ærlig."
+    },
+    {
+      "id": "SKP-044",
+      "title": "Relevante comparatorer fremfor L0-tvang",
+      "legacy": "L0 var obligatorisk baseline, og en aktivitet som ikke kunne kjøres i L0 var tidligere problematisk.",
+      "canon": "Skynja skal bruke sterke, relevante, versjonerte sammenligningsbetingelser når vi hevder merverdi. En fast ikke-adaptiv variant er riktig for noen aktiviteter, men ikke et universelt produktkrav. Comparatoren skal velges etter claimet som testes.",
+      "rules": [
+        "Skill evalueringsbaseline, standardisert modus, fallback og produktvariant.",
+        "Bruk ablasjoner når det er mer informativt.",
+        "Sammenlign mot en sterk og rettferdig alternativløsning.",
+        "AI-kompleksitet må vise faktisk merverdi."
+      ],
+      "short": "Ingen L0-tvang. Alltid relevant comparator når vi hevder merverdi."
+    },
+    {
+      "id": "SKP-045",
+      "title": "Tydelig handlingshierarki fremfor én-handlingsgrensesnitt",
+      "legacy": "COGA-regler og voksenkort la sterk vekt på én primær handling per aktivitetstrinn.",
+      "canon": "Hvert grensesnitt skal gjøre hovedformål og relevante neste steg forståelige, men kan vise flere legitime valg når agentivitet, utforsking eller profesjonelt arbeid krever det. Antall og synlighet av handlinger skal følge beslutningsformen og systemets sikkerhet.",
+      "rules": [
+        "Ett tydelig fokus betyr ikke én knapp.",
+        "Flere likeverdige valg kan være riktig når beslutningen faktisk er å velge.",
+        "AI-anbefaling skal kunne avvises.",
+        "Fritekst/dialog skal supplere, ikke erstatte synlige affordances."
+      ],
+      "short": "Ett tydelig fokus. Ikke nødvendigvis én knapp."
+    },
+    {
+      "id": "SKP-046",
+      "title": "Gradert støtte, trygging og menneskelig eskalering",
+      "legacy": "STOPP-BELASTNING og sikkerhetslogikk gikk raskt til stopp, trygg avslutning eller menneskeport.",
+      "canon": "Brukerens eksplisitte pause og stopp skal alltid respekteres, men vanlig frustrasjon, skam og fastlåsing skal ikke automatisk bli sikkerhetshendelse. Skynja skal kunne redusere krav, endre støtte, hjelpe med selvforståelse og legge til rette for menneskelig hjelp. Ved høy risiko reduseres generativ frihet og autoriserte sikkerhetsprotokoller overtar.",
+      "rules": [
+        "Stopp betyr stopp.",
+        "Vanlig motstand ≠ akutt fare.",
+        "Høyere risiko gir mer deterministisk sikkerhetsmodus.",
+        "Relevant støtteaktør kan være lærer, foresatt, fagperson eller brukerens valgte person."
+      ],
+      "short": "Støtt når det er vanskelig. Reduser når det blir for mye. Stopp når brukeren sier stopp. Eskaler når konsekvensen krever det."
+    },
+    {
+      "id": "SKP-047",
+      "title": "Meningsfull aktivitetsatferd som kalibrert evidens",
+      "legacy": "Gamle regler avviste inferens om readiness, ability, motivation, emotion og support need fra task events.",
+      "canon": "Aktivitetshendelser, gameplay og arbeidsatferd kan gi individuell evidens når konstruktkoblingen er eksplisitt og faglig begrunnet. Rå mikroatferd skal ikke automatisk bli pedagogisk profil, og brede egenskapsinferenser fra svake signaler forblir forbudt.",
+      "rules": [
+        "Rå hendelse → semantisk observasjon → avgrenset evidens → eventuell hypotese.",
+        "Spillscore ≠ læringsscore.",
+        "Handling + refleksjon kan være sterkere evidens enn handling alene.",
+        "Formell screening må fortsatt være eksplisitt."
+      ],
+      "short": "Logg ikke for å profilere. Observer for å forstå. Inferer bare det aktiviteten faktisk kan bære."
+    },
+    {
+      "id": "SKP-048",
+      "title": "AI-støttet forfatterskap med bevart brukerintensjon",
+      "legacy": "Elevrettet generativ AI og generativ fagtekst var tidligere ikke autorisert fordi AI kunne overta faginnhold og forfatterskap.",
+      "canon": "Generativ AI kan være kraftig tilgangs-, uttrykks-, lærings- og produktivitetsstøtte. Skynja skal skille brukerens idé-, fag-, struktur-, språk- og revisjonseierskap fra AI-ens bidrag og vurdere støtte opp mot aktivitetens formål og eventuelle vurderingsrammer.",
+      "rules": [
+        "Beskytt konstruktet, ikke tastaturet.",
+        "Representer TRANSCRIPTION, LANGUAGE_FORM, STRUCTURE, IDEATION, DOMAIN_CONTENT, EVIDENCE og REVISION separat ved behov.",
+        "Vurderingsmodus følger eksplisitte regler fra ansvarlig institusjon/person.",
+        "AI-proveniens er brukerdata og deles ikke automatisk."
+      ],
+      "short": "Bevar brukerens intensjon. Spor AI-ens bidrag. Beskytt konstruktet – ikke tastaturet."
+    },
+    {
+      "id": "SKP-049",
+      "title": "Formålsdrevet datatilstrekkelighet",
+      "legacy": "Dataminimering ble ofte operationalisert som svært lite persistens og øktbundet data.",
+      "canon": "Skynja skal ikke samle data bare fordi de er tilgjengelige, men skal heller ikke gjøres hukommelsesløs når legitim bruker verdi krever kontinuitet. Hver dataklasse skal begrunnes med formål, verdi, sensitivitet, granularitet, tilgang, levetid og sletteregel. Rådata skal kondenseres eller slettes når semantisk informasjon er tilstrekkelig.",
+      "rules": [
+        "Minimer eksponering, ikke intelligens.",
+        "Skill USER_CONTENT fra SUPPORT_INSIGHT.",
+        "Personalisering ≠ generell modelltrening.",
+        "Avledede hypoteser kan være mer sensitive enn rådata og må styres deretter."
+      ],
+      "short": "Bevar verdi, ikke datastøy."
+    },
+    {
+      "id": "SKP-050",
+      "title": "Felles semantisk kjerne med språkbevisste realiseringer",
+      "legacy": "Bokmål og nynorsk var tidligere separate redaksjonelle, forfatter-, review-, lyd- og releaseprodukter.",
+      "canon": "Skynja skal ha én felles semantisk, pedagogisk og produktmessig kjerne, mens bokmål, nynorsk, talemål, uttale og andre språkvarianter modelleres eksplisitt. Bokmål skal ikke være autoritativ master for nynorsk, men språkvariantene trenger heller ikke være separate produkter.",
+      "rules": [
+        "Én semantisk autoritet, flere språkrealiteter.",
+        "Språkvariant valideres proporsjonalt med funksjonen.",
+        "Målform, UI-språk, output-språk og talemål er separate dimensjoner.",
+        "Tale → mening → målform er bedre modell enn tale → 'riktig tale' → tekst."
+      ],
+      "short": "Én mening. Flere språkrealiteter. Uavhengig kvalitet der språket faktisk betyr noe."
+    }
+  ],
+  "retained_legacy_rules": [
+    {
+      "id": "LEG-001",
+      "title": "Standalone-first og tydelige systemgrenser",
+      "status": "Beholdt. Separat produkt/repository og eksplisitte systemgrenser reduserer utilsiktet kobling og gjør Skynja mulig å utvikle uavhengig.",
+      "rule": "Separate build/release-grenser; ingen skjult runtimeavhengighet til LUDUS; eksplisitte adaptere ved eventuell deling."
+    },
+    {
+      "id": "LEG-002",
+      "title": "Ren domenekjerne og ports/adapters",
+      "status": "Beholdt som arkitekturprinsipp, men 'fri for AI-SDK' er ikke lenger et absolutt produktkrav i alle lag.",
+      "rule": "Domeneinvarianter og autoritetsregler skal være testbare uten UI/provider. Providerintegrasjon legges bak eksplisitte grenser."
+    },
+    {
+      "id": "LEG-003",
+      "title": "Prove-then-share",
+      "status": "Beholdt.",
+      "rule": "Ikke del kode/pakker mellom produkter før reell semantisk overlapp er bevist av minst to faktiske konsumenter."
+    },
+    {
+      "id": "LEG-004",
+      "title": "Versjonering og immutable manifests",
+      "status": "Beholdt og styrket.",
+      "rule": "Bind app-, innholds-, kunnskaps-, språk-/audio-, modell-/policy- og skjema-versjoner til release/evidens når reproduksjon er viktig."
+    },
+    {
+      "id": "LEG-005",
+      "title": "Kildeproveniens og re-verifisering",
+      "status": "Beholdt og integrert i det nye kunnskapsbiblioteket.",
+      "rule": "Kilder og claims har stabile ID-er, scope, kontrollert dato, status, begrensninger og re-verifiseringstriggere."
+    },
+    {
+      "id": "LEG-006",
+      "title": "Syntetisk test er ikke menneskelig eller reell validering",
+      "status": "Beholdt.",
+      "rule": "Tester, mocks og syntetiske scenarioer kan bevise kontrakter og feilmodi, men kan ikke late som de lukker fag-, bruker-, juridiske eller real-use-porter."
+    },
+    {
+      "id": "LEG-007",
+      "title": "Tilgjengelighet som releasekriterium",
+      "status": "Beholdt.",
+      "rule": "Semantikk, tastatur, fokus, zoom/reflow, tekstskalering, touch, skjermleser, kontrast, reduced motion og multimodal tilgang bygges inn fra starten."
+    },
+    {
+      "id": "LEG-008",
+      "title": "Stop, pause og brukerens kontroll",
+      "status": "Beholdt, men utvidet av SKP-046.",
+      "rule": "Eksplisitt stopp dominerer ventende handlinger. Pause/stopp skal ikke gi tap, skam eller motivasjonsinferens."
+    },
+    {
+      "id": "LEG-009",
+      "title": "Støtteproveniens og konstruktintegritet",
+      "status": "Beholdt, men revidert av SKP-043 og SKP-048.",
+      "rule": "Systemet skal kunne vite hvilken støtte som var tilgjengelig og hva som faktisk ble produsert. Støtte må ikke kontaminere en måling som eksplisitt skal måle uten den støtten."
+    },
+    {
+      "id": "LEG-010",
+      "title": "No-resurrection og kontrollert sletting",
+      "status": "Beholdt.",
+      "rule": "Slettede/utløpte objekter skal ikke gjenoppstå gjennom restore, reconnect, migrasjon eller support. Nye derivater krever nytt legitimt grunnlag."
+    },
+    {
+      "id": "LEG-011",
+      "title": "Least privilege og rollebasert tilgang",
+      "status": "Beholdt, men generalisert av SKP-013, SKP-027 og SKP-036.",
+      "rule": "Relasjon gir ikke automatisk tilgang. Se, bidra, styre og dele er separate rettigheter knyttet til konkret formål og mandat."
+    },
+    {
+      "id": "LEG-012",
+      "title": "Ikke én skjult totalscore",
+      "status": "Beholdt.",
+      "rule": "Unngå globale dysleksi-, readiness-, motivation-, engagement-, risk- og kompetansescore som skjuler multidimensjonal evidens."
+    },
+    {
+      "id": "LEG-013",
+      "title": "Adverse effects, burden og nonresponse må måles",
+      "status": "Beholdt.",
+      "rule": "Pilot/evaluering må inkludere belastning, ikke-respons, feil, uønskede virkninger og hvem løsningen ikke hjelper – ikke bare positive utfall."
+    },
+    {
+      "id": "LEG-014",
+      "title": "Rollback, reversibilitet og synlige konsekvenser",
+      "status": "Beholdt.",
+      "rule": "Konsekvensrike endringer skal være forklarlige og reversible der det er mulig. Feil skal bevare brukerens arbeid."
+    },
+    {
+      "id": "LEG-015",
+      "title": "Secrets, provider- og sikkerhetsgrenser",
+      "status": "Beholdt.",
+      "rule": "Ingen credentials i repo, eksplisitt providerautoritet, datalokalitet/sekundærbruk må vurderes, og kritiske integrasjoner skal ha fail-safe."
+    },
+    {
+      "id": "LEG-016",
+      "title": "BM/NN-kvalitet og dialektverdighetsvern",
+      "status": "Beholdt, men arkitekturen er revidert av SKP-050.",
+      "rule": "Nynorsk kan ikke være ukontrollert bokmålsoversettelse. Dialekt er ikke feil eller modenhetssignal. Språkspesifikke stimuli må valideres for sitt konstrukt."
+    },
+    {
+      "id": "LEG-017",
+      "title": "Arbeidsro og stillhet er legitime systemtilstander",
+      "status": "Beholdt.",
+      "rule": "Skynja skal ikke produsere råd, varsler eller feedback bare fordi systemet kan. Ingen handling kan være riktig handling."
+    },
+    {
+      "id": "LEG-018",
+      "title": "Klar avsender og ingen falsk menneskeidentitet",
+      "status": "Beholdt i ny form.",
+      "rule": "Skynja kan være varm, dialogisk og psykologisk kompetent, men skal ikke utgi seg for å være en faktisk lærer, terapeut, venn eller menneskelig støtteperson."
+    },
+    {
+      "id": "LEG-019",
+      "title": "Separasjon mellom forskning, produktclaim og releaseclaim",
+      "status": "Beholdt og styrket av SKP-042.",
+      "rule": "At en mekanisme har forskning betyr ikke at Skynjas implementasjon er validert; implementasjon og produktutfall krever egne evidenslag."
+    },
+    {
+      "id": "LEG-020",
+      "title": "Staged release og menneskelige beslutningsporter",
+      "status": "Beholdt som styringsmønster, men ikke som gammelt universelt lærer-gate-prinsipp.",
+      "rule": "Teknisk readiness, innholdsreview, ekstern evidens, juridisk/sikkerhetsmessig beslutning og real-use-autorisasjon skal ikke blandes."
+    }
+  ]
+}

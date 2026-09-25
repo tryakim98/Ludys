@@ -1,3 +1,4 @@
+import { renderSkynjaHome, skynjaBrand } from "./skynja-home-templates.js";
 import type {
   AdultAppJourneyView,
   ChildAppJourneyView,
@@ -471,10 +472,11 @@ function renderCurrentScreen(view: SyntheticAppJourneyView, copy: AppCopy): stri
 
 export function renderSyntheticAppNavigation(view: SyntheticAppJourneyView): string {
   const copy = appCopy[view.locale];
+  if (view.screen === "WELCOME") return renderSkynjaHome(view.locale, copy.disclosure, copy.privacy, view.dataClassification);
   return `<a class="skip-link" href="#main-content">${escapeHtml(copy.skip)}</a>
     <header class="site-header app-header">
-      <div><p class="eyebrow">${escapeHtml(copy.eyebrow)}</p><h1>${escapeHtml(copy.product)}</h1></div>
-      <div class="header-actions"><button type="button" data-authoring-action="open">Åpne innholdsverksted</button><button type="button" data-operations-action="open">Betaoperasjon</button><button type="button" data-provider-decision-action="open">${view.locale === "nb-NO" ? "Providerbeslutning" : "Provideravgjerd"}</button><label class="locale-control"><span>${escapeHtml(copy.language)}</span><select id="app-locale" ${view.lifecycleState === "NOT_CREATED" && view.selectedRole === undefined ? "" : "disabled"}><option value="nb-NO" ${view.locale === "nb-NO" ? "selected" : ""}>Bokmål</option><option value="nn-NO" ${view.locale === "nn-NO" ? "selected" : ""}>Nynorsk</option></select></label></div>
+      <div>${skynjaBrand()}<p class="eyebrow">${view.locale === "nb-NO" ? "Prøverom for grunnøvelser" : "Prøverom for grunnøvingar"}</p></div>
+      <div class="header-actions"><button type="button" data-exercise-action="open">${view.locale === "nb-NO" ? "Åpne øvelsesrom" : "Opne øvingsrom"}</button><button type="button" data-authoring-action="open">Åpne innholdsverksted</button><button type="button" data-operations-action="open">Betaoperasjon</button><button type="button" data-provider-decision-action="open">${view.locale === "nb-NO" ? "Providerbeslutning" : "Provideravgjerd"}</button><label class="locale-control"><span>${escapeHtml(copy.language)}</span><select id="app-locale" ${view.lifecycleState === "NOT_CREATED" && view.selectedRole === undefined ? "" : "disabled"}><option value="nb-NO" ${view.locale === "nb-NO" ? "selected" : ""}>Bokmål</option><option value="nn-NO" ${view.locale === "nn-NO" ? "selected" : ""}>Nynorsk</option></select></label></div>
     </header>
     <div class="classification-banner" data-synthetic-marker="${view.dataClassification}">${escapeHtml(copy.disclosure)}</div>
     ${roleNavigation(view, copy)}

@@ -1,0 +1,666 @@
+{
+  "contentSetSha256": "05abc9fb68c9b2c0eb16751cec463b9b7a793464a86bdb49392218553b6f3923",
+  "instructions": "Fylles ut av faktisk fag-/språkansvarlig. Oppgi konkrete runde-ID-er og funn. En utfylt mal er ikke en verifisert kvittering eller pilotautorisasjon. Ikke legg inn elevopplysninger. Leveres gjennom avtalt reviewkanal, ikke i det offentlige repositoryet.",
+  "reviews": [
+    {
+      "checks": {
+        "dignityAndBurden": "NOT_REVIEWED",
+        "language": "NOT_REVIEWED",
+        "supportAndConstruct": "NOT_REVIEWED",
+        "taskAndAnswers": "NOT_REVIEWED"
+      },
+      "competenceAndMandate": "",
+      "conclusion": "NOT_REVIEWED",
+      "contentSha256": "88eab4a434b2f04d0bd9813aaae478cdcce7b9ce52b0815d29c035ec115c423d",
+      "evidenceReference": "",
+      "exerciseId": "skynja-maane-saape",
+      "findings": [],
+      "locale": "nb-NO",
+      "localeSha256": "706e5bde61d1eba1ffea1703cc56b3138893a0eebf513a73e95be1a81e83ce2d",
+      "reviewedAt": "",
+      "reviewerReference": "",
+      "revision": 1,
+      "roundIds": [
+        "maane",
+        "saape",
+        "laave",
+        "kaape",
+        "taake"
+      ]
+    },
+    {
+      "checks": {
+        "dignityAndBurden": "NOT_REVIEWED",
+        "language": "NOT_REVIEWED",
+        "supportAndConstruct": "NOT_REVIEWED",
+        "taskAndAnswers": "NOT_REVIEWED"
+      },
+      "competenceAndMandate": "",
+      "conclusion": "NOT_REVIEWED",
+      "contentSha256": "88eab4a434b2f04d0bd9813aaae478cdcce7b9ce52b0815d29c035ec115c423d",
+      "evidenceReference": "",
+      "exerciseId": "skynja-maane-saape",
+      "findings": [],
+      "locale": "nn-NO",
+      "localeSha256": "4a119cbc86dfaba10d7fa3227531392b77b3b57efdd15902061532de6c5c2a74",
+      "reviewedAt": "",
+      "reviewerReference": "",
+      "revision": 1,
+      "roundIds": [
+        "maane",
+        "saape",
+        "laave",
+        "kaape",
+        "taake"
+      ]
+    },
+    {
+      "checks": {
+        "dignityAndBurden": "NOT_REVIEWED",
+        "language": "NOT_REVIEWED",
+        "supportAndConstruct": "NOT_REVIEWED",
+        "taskAndAnswers": "NOT_REVIEWED"
+      },
+      "competenceAndMandate": "",
+      "conclusion": "NOT_REVIEWED",
+      "contentSha256": "75091d427d8ffe53b0bb59e5d62bcbf0ca10fa81c36ab50ea7bfcfd9f410b49d",
+      "evidenceReference": "",
+      "exerciseId": "skynja-kake-bake",
+      "findings": [],
+      "locale": "nb-NO",
+      "localeSha256": "e907e81177c8027b326ee1aced4a9f7ae95726fda22e7a8cd26f28e91734b64e",
+      "reviewedAt": "",
+      "reviewerReference": "",
+      "revision": 1,
+      "roundIds": [
+        "kake",
+        "bake",
+        "male",
+        "tale",
+        "rake"
+      ]
+    },
+    {
+      "checks": {
+        "dignityAndBurden": "NOT_REVIEWED",
+        "language": "NOT_REVIEWED",
+        "supportAndConstruct": "NOT_REVIEWED",
+        "taskAndAnswers": "NOT_REVIEWED"
+      },
+      "competenceAndMandate": "",
+      "conclusion": "NOT_REVIEWED",
+      "contentSha256": "75091d427d8ffe53b0bb59e5d62bcbf0ca10fa81c36ab50ea7bfcfd9f410b49d",
+      "evidenceReference": "",
+      "exerciseId": "skynja-kake-bake",
+      "findings": [],
+      "locale": "nn-NO",
+      "localeSha256": "2f8888ba3f116ed9bbdd446dd77f17c24a53099821a1fd5316bed7cc01b3a497",
+      "reviewedAt": "",
+      "reviewerReference": "",
+      "revision": 1,
+      "roundIds": [
+        "kake",
+        "bake",
+        "male",
+        "tale",
+        "rake"
+      ]
+    },
+    {
+      "checks": {
+        "dignityAndBurden": "NOT_REVIEWED",
+        "language": "NOT_REVIEWED",
+        "supportAndConstruct": "NOT_REVIEWED",
+        "taskAndAnswers": "NOT_REVIEWED"
+      },
+      "competenceAndMandate": "",
+      "conclusion": "NOT_REVIEWED",
+      "contentSha256": "694d1812cbcb9752ce99ff7ee002b7e7c08ebc8a55a21a7b00f7b69cb5aff57a",
+      "evidenceReference": "",
+      "exerciseId": "skynja-compound-home",
+      "findings": [],
+      "locale": "nb-NO",
+      "localeSha256": "f93ed279b921eebed3555b3318d7a00b5a111d3eba299e6d38aa8a47d246c98b",
+      "reviewedAt": "",
+      "reviewerReference": "",
+      "revision": 1,
+      "roundIds": [
+        "matboks",
+        "bokhylle",
+        "solbriller",
+        "regnjakke"
+      ]
+    },
+    {
+      "checks": {
+        "dignityAndBurden": "NOT_REVIEWED",
+        "language": "NOT_REVIEWED",
+        "supportAndConstruct": "NOT_REVIEWED",
+        "taskAndAnswers": "NOT_REVIEWED"
+      },
+      "competenceAndMandate": "",
+      "conclusion": "NOT_REVIEWED",
+      "contentSha256": "694d1812cbcb9752ce99ff7ee002b7e7c08ebc8a55a21a7b00f7b69cb5aff57a",
+      "evidenceReference": "",
+      "exerciseId": "skynja-compound-home",
+      "findings": [],
+      "locale": "nn-NO",
+      "localeSha256": "a52f193e595d3f23eecdab66bc0372156e98772985ecd9206f9039749f3f2caa",
+      "reviewedAt": "",
+      "reviewerReference": "",
+      "revision": 1,
+      "roundIds": [
+        "matboks",
+        "bokhylle",
+        "solbriller",
+        "regnjakke"
+      ]
+    },
+    {
+      "checks": {
+        "dignityAndBurden": "NOT_REVIEWED",
+        "language": "NOT_REVIEWED",
+        "supportAndConstruct": "NOT_REVIEWED",
+        "taskAndAnswers": "NOT_REVIEWED"
+      },
+      "competenceAndMandate": "",
+      "conclusion": "NOT_REVIEWED",
+      "contentSha256": "49857b07a819b1bc3a6535a0c12107a6a94dd412525d197f94a0a6a96d748224",
+      "evidenceReference": "",
+      "exerciseId": "skynja-compound-outside",
+      "findings": [],
+      "locale": "nb-NO",
+      "localeSha256": "ed22083eb7f24f24ca2e015efd3c17ee185acfa90cf13b42fe0aed0b3a9184ef",
+      "reviewedAt": "",
+      "reviewerReference": "",
+      "revision": 1,
+      "roundIds": [
+        "sykkelhjelm",
+        "busskort",
+        "skolesekk",
+        "tursti"
+      ]
+    },
+    {
+      "checks": {
+        "dignityAndBurden": "NOT_REVIEWED",
+        "language": "NOT_REVIEWED",
+        "supportAndConstruct": "NOT_REVIEWED",
+        "taskAndAnswers": "NOT_REVIEWED"
+      },
+      "competenceAndMandate": "",
+      "conclusion": "NOT_REVIEWED",
+      "contentSha256": "49857b07a819b1bc3a6535a0c12107a6a94dd412525d197f94a0a6a96d748224",
+      "evidenceReference": "",
+      "exerciseId": "skynja-compound-outside",
+      "findings": [],
+      "locale": "nn-NO",
+      "localeSha256": "90d7406e4a364a68c7f0b5e62d2db3157779191090f007569a21ea5241e8bf9d",
+      "reviewedAt": "",
+      "reviewerReference": "",
+      "revision": 1,
+      "roundIds": [
+        "sykkelhjelm",
+        "busskort",
+        "skolesekk",
+        "tursti"
+      ]
+    },
+    {
+      "checks": {
+        "dignityAndBurden": "NOT_REVIEWED",
+        "language": "NOT_REVIEWED",
+        "supportAndConstruct": "NOT_REVIEWED",
+        "taskAndAnswers": "NOT_REVIEWED"
+      },
+      "competenceAndMandate": "",
+      "conclusion": "NOT_REVIEWED",
+      "contentSha256": "2a4993994db7931c431285a0debcb04cafd5b7d7df3fc865dbee93f4887242cb",
+      "evidenceReference": "",
+      "exerciseId": "skynja-cloze-context",
+      "findings": [],
+      "locale": "nb-NO",
+      "localeSha256": "5309cb3c07c88b0635c3a69149832e2be75c6fb522bc18cd41846d226fb0e61d",
+      "reviewedAt": "",
+      "reviewerReference": "",
+      "revision": 1,
+      "roundIds": [
+        "wet-coat",
+        "under-bench",
+        "full-cup",
+        "empty-box"
+      ]
+    },
+    {
+      "checks": {
+        "dignityAndBurden": "NOT_REVIEWED",
+        "language": "NOT_REVIEWED",
+        "supportAndConstruct": "NOT_REVIEWED",
+        "taskAndAnswers": "NOT_REVIEWED"
+      },
+      "competenceAndMandate": "",
+      "conclusion": "NOT_REVIEWED",
+      "contentSha256": "2a4993994db7931c431285a0debcb04cafd5b7d7df3fc865dbee93f4887242cb",
+      "evidenceReference": "",
+      "exerciseId": "skynja-cloze-context",
+      "findings": [],
+      "locale": "nn-NO",
+      "localeSha256": "a4cceb19d26028c9dd1b872a9462a3a19108757567404fb0b058799eb76455bf",
+      "reviewedAt": "",
+      "reviewerReference": "",
+      "revision": 1,
+      "roundIds": [
+        "wet-coat",
+        "under-bench",
+        "full-cup",
+        "empty-box"
+      ]
+    },
+    {
+      "checks": {
+        "dignityAndBurden": "NOT_REVIEWED",
+        "language": "NOT_REVIEWED",
+        "supportAndConstruct": "NOT_REVIEWED",
+        "taskAndAnswers": "NOT_REVIEWED"
+      },
+      "competenceAndMandate": "",
+      "conclusion": "NOT_REVIEWED",
+      "contentSha256": "40c6e4d35336a6389d63ff6d3bdb74140a4177088ecc7635468f7874297ba060",
+      "evidenceReference": "",
+      "exerciseId": "skynja-cloze-connections",
+      "findings": [],
+      "locale": "nb-NO",
+      "localeSha256": "068eb79ec13f3125953a687521769695666e47b6197e9663311037330747f05e",
+      "reviewedAt": "",
+      "reviewerReference": "",
+      "revision": 1,
+      "roundIds": [
+        "before-leaving",
+        "because-rain",
+        "but-closed",
+        "while-same-time"
+      ]
+    },
+    {
+      "checks": {
+        "dignityAndBurden": "NOT_REVIEWED",
+        "language": "NOT_REVIEWED",
+        "supportAndConstruct": "NOT_REVIEWED",
+        "taskAndAnswers": "NOT_REVIEWED"
+      },
+      "competenceAndMandate": "",
+      "conclusion": "NOT_REVIEWED",
+      "contentSha256": "40c6e4d35336a6389d63ff6d3bdb74140a4177088ecc7635468f7874297ba060",
+      "evidenceReference": "",
+      "exerciseId": "skynja-cloze-connections",
+      "findings": [],
+      "locale": "nn-NO",
+      "localeSha256": "e077962f08bf16b7d29997d6f19f8234f058968828ecdb2cde2bbf2076c1fc3b",
+      "reviewedAt": "",
+      "reviewerReference": "",
+      "revision": 1,
+      "roundIds": [
+        "before-leaving",
+        "because-rain",
+        "but-closed",
+        "while-same-time"
+      ]
+    },
+    {
+      "checks": {
+        "dignityAndBurden": "NOT_REVIEWED",
+        "language": "NOT_REVIEWED",
+        "supportAndConstruct": "NOT_REVIEWED",
+        "taskAndAnswers": "NOT_REVIEWED"
+      },
+      "competenceAndMandate": "",
+      "conclusion": "NOT_REVIEWED",
+      "contentSha256": "026254c3b645c8a1ce93c7aa53bc3a4674750e0561874fce180d845095485a44",
+      "evidenceReference": "",
+      "exerciseId": "skynja-sentences-everyday",
+      "findings": [],
+      "locale": "nb-NO",
+      "localeSha256": "8d613ea6b461f801d520d4bfab2c282538893b42c2202e1f357f78e891ce1ad6",
+      "reviewedAt": "",
+      "reviewerReference": "",
+      "revision": 1,
+      "roundIds": [
+        "ida-reads",
+        "we-find",
+        "amir-packs",
+        "cat-sleeps"
+      ]
+    },
+    {
+      "checks": {
+        "dignityAndBurden": "NOT_REVIEWED",
+        "language": "NOT_REVIEWED",
+        "supportAndConstruct": "NOT_REVIEWED",
+        "taskAndAnswers": "NOT_REVIEWED"
+      },
+      "competenceAndMandate": "",
+      "conclusion": "NOT_REVIEWED",
+      "contentSha256": "026254c3b645c8a1ce93c7aa53bc3a4674750e0561874fce180d845095485a44",
+      "evidenceReference": "",
+      "exerciseId": "skynja-sentences-everyday",
+      "findings": [],
+      "locale": "nn-NO",
+      "localeSha256": "c0624cc72495461daf7e7ff6d0330aca433390148cae8c84325bfb0c6fe926f4",
+      "reviewedAt": "",
+      "reviewerReference": "",
+      "revision": 1,
+      "roundIds": [
+        "ida-reads",
+        "we-find",
+        "amir-packs",
+        "cat-sleeps"
+      ]
+    },
+    {
+      "checks": {
+        "dignityAndBurden": "NOT_REVIEWED",
+        "language": "NOT_REVIEWED",
+        "supportAndConstruct": "NOT_REVIEWED",
+        "taskAndAnswers": "NOT_REVIEWED"
+      },
+      "competenceAndMandate": "",
+      "conclusion": "NOT_REVIEWED",
+      "contentSha256": "d8929776828db57684f2418c7a3689f41d87a8873a6c8fa5c486aa84dd6015ab",
+      "evidenceReference": "",
+      "exerciseId": "skynja-sentences-messages",
+      "findings": [],
+      "locale": "nb-NO",
+      "localeSha256": "95259728144b4c9ea97f1eba8fcb06f75269cb6533866b21b1e0be09221cda85",
+      "reviewedAt": "",
+      "reviewerReference": "",
+      "revision": 1,
+      "roundIds": [
+        "need-time",
+        "read-together",
+        "show-start",
+        "pause-now"
+      ]
+    },
+    {
+      "checks": {
+        "dignityAndBurden": "NOT_REVIEWED",
+        "language": "NOT_REVIEWED",
+        "supportAndConstruct": "NOT_REVIEWED",
+        "taskAndAnswers": "NOT_REVIEWED"
+      },
+      "competenceAndMandate": "",
+      "conclusion": "NOT_REVIEWED",
+      "contentSha256": "d8929776828db57684f2418c7a3689f41d87a8873a6c8fa5c486aa84dd6015ab",
+      "evidenceReference": "",
+      "exerciseId": "skynja-sentences-messages",
+      "findings": [],
+      "locale": "nn-NO",
+      "localeSha256": "d4e964aeca72faa2f02091f3f0ea386eac376bd332dcb12063299d5dd38b6052",
+      "reviewedAt": "",
+      "reviewerReference": "",
+      "revision": 1,
+      "roundIds": [
+        "need-time",
+        "read-together",
+        "show-start",
+        "pause-now"
+      ]
+    },
+    {
+      "checks": {
+        "dignityAndBurden": "NOT_REVIEWED",
+        "language": "NOT_REVIEWED",
+        "supportAndConstruct": "NOT_REVIEWED",
+        "taskAndAnswers": "NOT_REVIEWED"
+      },
+      "competenceAndMandate": "",
+      "conclusion": "NOT_REVIEWED",
+      "contentSha256": "20158b007ebd98c9b333f056e96ed852b7f4c8cdc2c188dd2798e1389e647949",
+      "evidenceReference": "",
+      "exerciseId": "skynja-reading-garden",
+      "findings": [],
+      "locale": "nb-NO",
+      "localeSha256": "c9770f147ecd81f89afd5001ee4ea645b588279e30efbbdca00dd711b057770f",
+      "reviewedAt": "",
+      "reviewerReference": "",
+      "revision": 1,
+      "roundIds": [
+        "garden-location",
+        "garden-order",
+        "garden-inference",
+        "garden-unknown"
+      ]
+    },
+    {
+      "checks": {
+        "dignityAndBurden": "NOT_REVIEWED",
+        "language": "NOT_REVIEWED",
+        "supportAndConstruct": "NOT_REVIEWED",
+        "taskAndAnswers": "NOT_REVIEWED"
+      },
+      "competenceAndMandate": "",
+      "conclusion": "NOT_REVIEWED",
+      "contentSha256": "20158b007ebd98c9b333f056e96ed852b7f4c8cdc2c188dd2798e1389e647949",
+      "evidenceReference": "",
+      "exerciseId": "skynja-reading-garden",
+      "findings": [],
+      "locale": "nn-NO",
+      "localeSha256": "c9c1ae863e16fd25585a8aa379d03e8b7c23e343ecc4f9bfd32cf5cc43c8b167",
+      "reviewedAt": "",
+      "reviewerReference": "",
+      "revision": 1,
+      "roundIds": [
+        "garden-location",
+        "garden-order",
+        "garden-inference",
+        "garden-unknown"
+      ]
+    },
+    {
+      "checks": {
+        "dignityAndBurden": "NOT_REVIEWED",
+        "language": "NOT_REVIEWED",
+        "supportAndConstruct": "NOT_REVIEWED",
+        "taskAndAnswers": "NOT_REVIEWED"
+      },
+      "competenceAndMandate": "",
+      "conclusion": "NOT_REVIEWED",
+      "contentSha256": "466cbeb317441cf6fd03fb464c005022e00c3a582c87bd7c30703a1a14b5acf0",
+      "evidenceReference": "",
+      "exerciseId": "skynja-reading-notice",
+      "findings": [],
+      "locale": "nb-NO",
+      "localeSha256": "f9704dcaa16faa69229c6f02fe9d6228cbcc0c0f8ab84f56f10e7c042c4062b1",
+      "reviewedAt": "",
+      "reviewerReference": "",
+      "revision": 1,
+      "roundIds": [
+        "notice-bring",
+        "notice-entry",
+        "notice-full",
+        "notice-next-week"
+      ]
+    },
+    {
+      "checks": {
+        "dignityAndBurden": "NOT_REVIEWED",
+        "language": "NOT_REVIEWED",
+        "supportAndConstruct": "NOT_REVIEWED",
+        "taskAndAnswers": "NOT_REVIEWED"
+      },
+      "competenceAndMandate": "",
+      "conclusion": "NOT_REVIEWED",
+      "contentSha256": "466cbeb317441cf6fd03fb464c005022e00c3a582c87bd7c30703a1a14b5acf0",
+      "evidenceReference": "",
+      "exerciseId": "skynja-reading-notice",
+      "findings": [],
+      "locale": "nn-NO",
+      "localeSha256": "b6a4c3a3775fc7410d96a5ae504d2f3b38a35008a62f67c5e5ed8c79bacaa368",
+      "reviewedAt": "",
+      "reviewerReference": "",
+      "revision": 1,
+      "roundIds": [
+        "notice-bring",
+        "notice-entry",
+        "notice-full",
+        "notice-next-week"
+      ]
+    },
+    {
+      "checks": {
+        "dignityAndBurden": "NOT_REVIEWED",
+        "language": "NOT_REVIEWED",
+        "supportAndConstruct": "NOT_REVIEWED",
+        "taskAndAnswers": "NOT_REVIEWED"
+      },
+      "competenceAndMandate": "",
+      "conclusion": "NOT_REVIEWED",
+      "contentSha256": "b938f4d406e66c496692a9cb459097e2172f0544161336706415b11ffadef499",
+      "evidenceReference": "",
+      "exerciseId": "skynja-judgment-support",
+      "findings": [],
+      "locale": "nb-NO",
+      "localeSha256": "9d718f875cd6380deb1df7209be323c87b35d1447889f4e0b27666c520aafa66",
+      "reviewedAt": "",
+      "reviewerReference": "",
+      "revision": 1,
+      "roundIds": [
+        "support-story",
+        "support-model",
+        "support-silence",
+        "support-stop"
+      ]
+    },
+    {
+      "checks": {
+        "dignityAndBurden": "NOT_REVIEWED",
+        "language": "NOT_REVIEWED",
+        "supportAndConstruct": "NOT_REVIEWED",
+        "taskAndAnswers": "NOT_REVIEWED"
+      },
+      "competenceAndMandate": "",
+      "conclusion": "NOT_REVIEWED",
+      "contentSha256": "b938f4d406e66c496692a9cb459097e2172f0544161336706415b11ffadef499",
+      "evidenceReference": "",
+      "exerciseId": "skynja-judgment-support",
+      "findings": [],
+      "locale": "nn-NO",
+      "localeSha256": "8faf8525ecd8f703961d3de8ca062a9e405c321c327f17f9bf29ff3cea339879",
+      "reviewedAt": "",
+      "reviewerReference": "",
+      "revision": 1,
+      "roundIds": [
+        "support-story",
+        "support-model",
+        "support-silence",
+        "support-stop"
+      ]
+    },
+    {
+      "checks": {
+        "dignityAndBurden": "NOT_REVIEWED",
+        "language": "NOT_REVIEWED",
+        "supportAndConstruct": "NOT_REVIEWED",
+        "taskAndAnswers": "NOT_REVIEWED"
+      },
+      "competenceAndMandate": "",
+      "conclusion": "NOT_REVIEWED",
+      "contentSha256": "5e9e120913c4bd0faff2fe2ceda65afafad833a8b03c33fc3eafb92d32c81f80",
+      "evidenceReference": "",
+      "exerciseId": "skynja-judgment-everyday",
+      "findings": [],
+      "locale": "nb-NO",
+      "localeSha256": "06bffe062cfda6725dfa8c77cb042074929ac2e526d15b6e7375cca25f705270",
+      "reviewedAt": "",
+      "reviewerReference": "",
+      "revision": 1,
+      "roundIds": [
+        "everyday-long-message",
+        "everyday-group",
+        "everyday-new-task",
+        "everyday-supported-answer"
+      ]
+    },
+    {
+      "checks": {
+        "dignityAndBurden": "NOT_REVIEWED",
+        "language": "NOT_REVIEWED",
+        "supportAndConstruct": "NOT_REVIEWED",
+        "taskAndAnswers": "NOT_REVIEWED"
+      },
+      "competenceAndMandate": "",
+      "conclusion": "NOT_REVIEWED",
+      "contentSha256": "5e9e120913c4bd0faff2fe2ceda65afafad833a8b03c33fc3eafb92d32c81f80",
+      "evidenceReference": "",
+      "exerciseId": "skynja-judgment-everyday",
+      "findings": [],
+      "locale": "nn-NO",
+      "localeSha256": "ff26b2fafa4fadba8aa28db03b966727f336bc487cec84de7e7bc92f5db2d2eb",
+      "reviewedAt": "",
+      "reviewerReference": "",
+      "revision": 1,
+      "roundIds": [
+        "everyday-long-message",
+        "everyday-group",
+        "everyday-new-task",
+        "everyday-supported-answer"
+      ]
+    },
+    {
+      "checks": {
+        "dignityAndBurden": "NOT_REVIEWED",
+        "language": "NOT_REVIEWED",
+        "supportAndConstruct": "NOT_REVIEWED",
+        "taskAndAnswers": "NOT_REVIEWED"
+      },
+      "competenceAndMandate": "",
+      "conclusion": "NOT_REVIEWED",
+      "contentSha256": "db57e3f622b6ebde3c68df9805c5bdfada2cfaec6d83b8f01f293c4542d2315e",
+      "evidenceReference": "",
+      "exerciseId": "skynja-find-evidence",
+      "findings": [],
+      "locale": "nb-NO",
+      "localeSha256": "d722fcc577ae7219ec87eb7970c5892fae799072c5a7fddad9c48420b5e3473d",
+      "reviewedAt": "",
+      "reviewerReference": "",
+      "revision": 1,
+      "roundIds": [
+        "evidence-meeting",
+        "evidence-condition",
+        "evidence-inference",
+        "evidence-price",
+        "evidence-update",
+        "evidence-scope"
+      ]
+    },
+    {
+      "checks": {
+        "dignityAndBurden": "NOT_REVIEWED",
+        "language": "NOT_REVIEWED",
+        "supportAndConstruct": "NOT_REVIEWED",
+        "taskAndAnswers": "NOT_REVIEWED"
+      },
+      "competenceAndMandate": "",
+      "conclusion": "NOT_REVIEWED",
+      "contentSha256": "db57e3f622b6ebde3c68df9805c5bdfada2cfaec6d83b8f01f293c4542d2315e",
+      "evidenceReference": "",
+      "exerciseId": "skynja-find-evidence",
+      "findings": [],
+      "locale": "nn-NO",
+      "localeSha256": "79f665672a14608b1e2be426250e4c032b20abd8bc1527b507afb2de842cd04b",
+      "reviewedAt": "",
+      "reviewerReference": "",
+      "revision": 1,
+      "roundIds": [
+        "evidence-meeting",
+        "evidence-condition",
+        "evidence-inference",
+        "evidence-price",
+        "evidence-update",
+        "evidence-scope"
+      ]
+    }
+  ],
+  "schemaVersion": "skynja-exercise-review-form.v1",
+  "templateOnly": true
+}

@@ -1,0 +1,6 @@
+
+> ludys-app-reconstructed@0.14.0-reconstructed.9 test:visual-browser
+> node scripts/browser-skynja-visual-test.mjs
+
+Skynja design: desktop/320px reflow, bilingual home, visible product copy, actual transitions, tile/focus/pause controls, light/dark primary contrast, reduced motion, 200% zoom, review and workshop passed. Eight visual captures saved.
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.

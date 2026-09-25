@@ -79,7 +79,8 @@ try {
       }
       await wait(50);
     }
-    throw new Error(`Timed out waiting for browser expression: ${expression}`);
+    const diagnostic = await evaluate("JSON.stringify({ url: location.href, title: document.title, state: document.readyState, flags: document.documentElement?.dataset, body: document.body?.innerText?.slice(0, 400) })").catch(() => "unavailable");
+    throw new Error(`Timed out waiting for browser expression: ${expression}; diagnostic=${diagnostic}`);
   }
   async function press(selector) {
     assert.equal(await evaluate(`Boolean(document.querySelector(${JSON.stringify(selector)}))`), true, selector);
@@ -96,7 +97,7 @@ try {
   await waitForExpression("document.documentElement?.dataset.wp13_9Ready === 'true'");
   await waitForExpression("navigator.serviceWorker.controller !== null");
   assert.equal(await evaluate("document.documentElement.dataset.authoringPolicy"), "READY");
-  assert.equal(await evaluate("window.__WP13_9__.getAuthoringView().packages.length"), 8);
+  assert.equal(await evaluate("window.__WP13_9__.getAuthoringView().packages.length"), 10);
   assert.equal(await evaluate("window.__WP13_7B__.getViewModel().lifecycleState"), "NOT_CREATED");
   await press("[data-authoring-action=open]");
   assert.match(await evaluate("document.querySelector('.authoring-boundary').textContent"), /DRAFT.*EXTERNAL_REVIEW_REQUIRED.*0 EXTERNAL RECEIPTS.*PUBLISHING BLOCKED.*NOT STUDENT BETA/s);
@@ -107,6 +108,31 @@ try {
   assert.equal(await evaluate("document.querySelector('[data-authoring-action=withdraw]') !== null"), true);
   assert.equal(await evaluate("[...document.querySelectorAll('button')].find((node) => node.textContent.trim() === 'Publiser').disabled"), true);
 
+  const originalPackageId = await evaluate("window.__WP13_9__.getAuthoringView().selectedPackage.packageId");
+  const contentProposals = [
+    ["authoring-package-activity-nor-two-syllable-maane-saape-001", "måne", "såpe"],
+    ["authoring-package-activity-nor-two-syllable-kake-bake-002", "kake", "bake"],
+  ];
+  for (const [packageId, target, transfer] of contentProposals) {
+    await change("#authoring-package-select", packageId);
+    for (const locale of ["nb-NO", "nn-NO"]) {
+      await press(`[data-authoring-locale='${locale}']`);
+      assert.equal(await evaluate("document.querySelector('[data-authoring-field=targetWord]').value"), target);
+      assert.equal(await evaluate("document.querySelector('[data-authoring-field=transferWord]').value"), transfer);
+      assert.match(await evaluate("document.querySelector('[data-content-proposal]').textContent"), locale === "nb-NO" ? /venter på fagreview/ : /ventar på fagreview/);
+      assert.match(await evaluate("document.querySelector('[data-child-preview]').textContent"), locale === "nb-NO" ? /Se på/ : /Sjå på/);
+      assert.equal(await evaluate("window.__WP13_9__.getAuthoringView().selectedPackage.audioSpecifications.every((spec) => spec.specificationHumanReviewed === false && spec.specificationReviewSource === null)"), true);
+    }
+    await press("[data-authoring-action=export]");
+    const proposal = JSON.parse(await evaluate("document.querySelector('#authoring-json').value"));
+    assert.equal(proposal.pendingPatternReview.humanReviewed, false);
+    assert.equal(proposal.localReviewNotes.length, 0);
+    await press("[data-authoring-action=import]");
+    assert.equal(await evaluate("window.__WP13_9__.getAuthoringView().lastAction"), "VALIDATED_DRAFT_IMPORTED");
+  }
+  await change("#authoring-package-select", originalPackageId);
+  await press("[data-authoring-locale='nb-NO']");
+
   await change("[data-authoring-field=title]", "Redigert BM-tittel i verksted");
   assert.equal(await evaluate("window.__WP13_9__.getAuthoringView().selectedPackage.locales['nb-NO'].title"), "Redigert BM-tittel i verksted");
   await press("[data-authoring-locale='nn-NO']");
@@ -116,7 +142,7 @@ try {
 
   await change("#authoring-clone-id", "activity-nor-browser-draft-009");
   await press("[data-authoring-action=clone]");
-  assert.equal(await evaluate("window.__WP13_9__.getAuthoringView().packages.length"), 9);
+  assert.equal(await evaluate("window.__WP13_9__.getAuthoringView().packages.length"), 11);
   assert.equal(await evaluate("window.__WP13_9__.getAuthoringView().selectedPackage.activityId"), "activity-nor-browser-draft-009");
 
   await press("[data-authoring-action=add-review]");
@@ -145,19 +171,40 @@ try {
   const initialPackageId = await evaluate("window.__WP13_9__.getAuthoringView().packages[0].packageId");
   await change("#authoring-package-select", initialPackageId);
   await press("[data-authoring-action=withdraw]");
+  // Withdrawal awaits a service-worker cache write; a fixed keypress delay is
+  // not its completion signal, particularly on shared CI runners.
+  await waitForExpression("window.__WP13_9__.getAuthoringView().lastAction === 'PACKAGE_AND_AUDIO_WITHDRAWN'");
   assert.equal(await evaluate("window.__WP13_9__.getAuthoringView().selectedPackage.lifecycle"), "WITHDRAWN");
   assert.equal(await evaluate("window.__WP13_9__.getAuthoringView().selectedPackage.audioSpecifications.every((item) => item.lifecycle === 'WITHDRAWN' && item.activeTakeId === null)"), true);
   assert.equal(await evaluate("window.__WP13_7B__.getViewModel().lifecycleState"), "NOT_CREATED");
 
+  await change("#authoring-package-select", contentProposals[0][0]);
+  await press("[data-authoring-locale='nn-NO']");
+  await client.send("Emulation.setDeviceMetricsOverride", { width: 320, height: 900, deviceScaleFactor: 1, mobile: false });
+  assert.equal(await evaluate("document.documentElement.scrollWidth <= window.innerWidth"), true);
+  await client.send("Emulation.setDeviceMetricsOverride", { width: 1280, height: 900, deviceScaleFactor: 1, mobile: false });
+  await mkdir(join(repo, "artifacts"), { recursive: true });
+  const contentScreenshot = await client.send("Page.captureScreenshot", { format: "png", fromSurface: true });
+  await writeFile(join(repo, "artifacts", "content-expansion-workshop-nn.png"), Buffer.from(contentScreenshot.data, "base64"));
+  console.log("Content expansion online browser checks passed: both proposals, BM/NN, preview, unreviewed provenance, JSON export/import and 320px reflow.");
+
   await client.send("Network.emulateNetworkConditions", { offline: true, latency: 0, downloadThroughput: 0, uploadThroughput: 0, connectionType: "none" });
   await client.send("Network.overrideNetworkState", { offline: true, latency: 0, downloadThroughput: 0, uploadThroughput: 0, connectionType: "none" });
-  await client.send("Page.reload", { ignoreCache: true });
+  // Verify ordinary offline navigation. In Chromium 153, ignoreCache also
+  // bypasses the controlling worker, so a hard refresh requires the network.
+  const beforeReload = await evaluate("performance.timeOrigin");
+  await client.send("Page.reload");
+  await waitForExpression(`performance.timeOrigin !== ${JSON.stringify(beforeReload)}`);
   await waitForExpression("document.documentElement?.dataset.wp13_9Ready === 'true'");
   assert.equal(await evaluate("document.documentElement.dataset.authoringPolicy"), "READY");
   assert.equal(await evaluate(`window.__WP13_9__.getAuthoringView().packages.find((item) => item.packageId === ${JSON.stringify(initialPackageId)}).lifecycle`), "WITHDRAWN");
   assert.equal(await evaluate(`window.__WP13_9__.getAuthoringView().packages.find((item) => item.packageId === ${JSON.stringify(initialPackageId)}).selected`), true);
   await press("[data-authoring-action=open]");
   assert.match(await evaluate("document.body.textContent"), /WITHDRAWN/);
+  // The new module and complete proposals must be available after offline reload.
+  await change("#authoring-package-select", contentProposals[0][0]);
+  await press("[data-authoring-locale='nn-NO']");
+  assert.match(await evaluate("document.querySelector('[data-content-proposal]').textContent"), /ventar på fagreview/);
 
   await client.send("Emulation.setDeviceMetricsOverride", { width: 320, height: 900, deviceScaleFactor: 1, mobile: false });
   assert.equal(await evaluate("document.documentElement.scrollWidth <= window.innerWidth"), true);

@@ -25,3 +25,5 @@ provider/firebase/functions/*.json text eol=lf
 provider/firebase/functions/*.mjs text eol=lf
 provider/firebase/functions/*.yaml text eol=lf
 provider/firebase/functions/lib/**/*.js text eol=lf
+# Byte-exact upstream canon; preserve its Markdown hard breaks and CSV line endings.
+docs/canon/skynja-v1.0/** -text -whitespace
