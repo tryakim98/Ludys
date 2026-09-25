@@ -35,7 +35,7 @@ function save() { writeFileSync(join(output, "result.json"), JSON.stringify(repo
 save();
 
 // Additive gate: the pinned Windows release/proof chain is retained without exceptions.
-const steps = ["canon:check", "test:canon", "lint", "architecture", "secret:scan", "build:installable", "pilot:review:check", "test:compiled", "test:pwa-contract", "test:app-browser", "test:exercises-browser", "test:authoring-browser", "test:pwa-browser"];
+const steps = ["canon:check", "test:canon", "lint", "architecture", "secret:scan", "build:installable", "pilot:review:check", "test:compiled", "test:pwa-contract", "test:app-browser", "test:exercises-browser", "test:authoring-browser", "test:pwa-browser", "test:visual-browser"];
 for (const step of steps) {
   const started = Date.now();
   console.log(`Skynja technical check: ${step}`);

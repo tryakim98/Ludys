@@ -234,7 +234,7 @@ try {
   assert.notEqual(thirdId, secondId);
   await evaluate(`(() => { const select = document.querySelector('#app-locale'); select.value = 'nn-NO'; select.dispatchEvent(new Event('change', { bubbles: true })); })()`);
   assert.equal(await evaluate("document.documentElement.lang"), "nn");
-  assert.match(await evaluate("document.querySelector('#screen-title').textContent"), /Velkomen/);
+  assert.match(await evaluate("document.querySelector('#screen-title').textContent"), /Kva vil du jobbe med/);
 
   await client.send("Emulation.setPageScaleFactor", { pageScaleFactor: 1 });
   await client.send("Emulation.setDeviceMetricsOverride", { width: 1280, height: 900, deviceScaleFactor: 1, mobile: false });

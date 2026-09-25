@@ -4,10 +4,11 @@
 
 Produktet heter **Skynja**. [Kanon 1.0](canon/skynja-v1.0/README_FIRST.md) er gjeldende arbeidsretning. Alle 50 prinsipper er registrert i `config/skynja-canon-integration.json`; designadopsjon og implementasjon er separate statuser. Se [integrasjonsrapporten](SKYNJA_CANON_INTEGRATION.md).
 
-Repositoryet er fortsatt `tryakim98/Ludys`, med teknisk pakkeidentitet `ludys-app-reconstructed` og versjon `0.14.0-reconstructed.9`. Øvelsesrommet og gjennomgangspakken er integrert i `integration/installable-alpha` via [PR #13](https://github.com/tryakim98/Ludys/pull/13) og [PR #14](https://github.com/tryakim98/Ludys/pull/14), siste merge `86b18a7`. [PR #15](https://github.com/tryakim98/Ludys/pull/15) på `feature/review-notes` gir praktisk registrering og gjenåpning av gjennomgangsnotater. Endelig GitHub-status står i pull requesten. Ingen pilot-/produksjonsbeslutning inngår.
+Repositoryet er fortsatt `tryakim98/Ludys`, med teknisk pakkeidentitet `ludys-app-reconstructed` og versjon `0.14.0-reconstructed.9`. Øvelsesrommet, gjennomgangspakken og arbeidsnotatene er integrert i `integration/installable-alpha` via [PR #13](https://github.com/tryakim98/Ludys/pull/13), [PR #14](https://github.com/tryakim98/Ludys/pull/14) og [PR #15](https://github.com/tryakim98/Ludys/pull/15), siste merge `01d0333`. Denne leveransen på `feature/visual-polish` gir en samlet visuell oppdatering. Endelig GitHub-status står i pull requesten. Ingen pilot-/produksjonsbeslutning inngår.
 
 ## Hva som finnes nå
 
+- **En samlet visuell utforming** prioriterer øvelser og innholdsarbeid, med kortere tekster, Skynja-identitet, tydeligere typografi og rolige overganger. Brikker beveger seg mellom banken og svarfeltet. Mørk modus og redusert bevegelse følger systeminnstillingene. Teknisk bakgrunn er samlet i utfellbare felt. Se [visuell gjennomgang](SKYNJA_VISUAL_REVIEW_2026-09-24.md).
 - Den rekonstruerte syntetiske appen, WP13.8-elevkatalogens åtte aktiviteter og WP13.9-forfatterverktøyet er bevart.
 - Forfatterverktøyet har ti startpakker. De to nyere pakkene «Måne og såpe» og «Kake og bake» har BM/NN og tolv lydmanus. Revisjon 2 følger formålsstyrt støtte og verdsetter støttet gjennomføring uten å kalle den uavhengig lesing. Fagreview gjenstår.
 - **Øvelsesrommet har 13 interaktive øvelser og 56 runder i sju typer**, med komplette bokmåls- og nynorskvarianter. «Måne og såpe» og «Kake og bake» har fem runder hver. Alle runder har hint, løsningsforslag, forklaring og valgfri refleksjon. Den nye **Finn tekstbeviset** krever både et svar og tilhørende tekstgrunnlag, med egne valg for rimelig slutning og manglende informasjon. Se [nyeste leveranserapport](SKYNJA_TEXT_EVIDENCE_2026-09-23.md).
@@ -34,12 +35,13 @@ WP13.12B-kode og historiske eksterne aktiveringsartefakter finnes i repositoryet
 |---|---|
 | Kanonintegritet og migrasjonsdekning | Bestått: ni filhasher, 50 prinsipper og 20 beholdte regler |
 | `test:canon` | 5 bestått, 0 feil |
-| Kompilerte tester | 351 bestått, 0 feil; åtte nye tester for notatbinding, importkonflikter, ugyldige filer, sperring, forsinkede svar, tekstvisning og gjenåpningsbar eksport |
-| `check:pilot:technical` | Bestått: 13 kontrollsteg; det installérbare bygget i `deploy/` ble brukt i nettlesertestene. [Resultat](../artifacts/skynja-pilot-technical/result.json) og tilhørende logger viser lokal commit og urent arbeidsområde eksplisitt. |
+| Kompilerte tester | 351 bestått, 0 feil; eksisterende kontrakter og notatflyt består etter endret presentasjon |
+| `check:pilot:technical` | Bestått: 14 kontrollsteg; det installérbare bygget i `deploy/` ble brukt i nettlesertestene. [Resultat](../artifacts/skynja-pilot-technical/result.json) og tilhørende logger viser lokal commit og urent arbeidsområde eksplisitt. |
 | `test:pwa-contract` | 11 bestått, 0 feil |
 | `test:exercises-browser` | Bestått: alle 112 målformsrealiserte runder, gjennomgangsside, faktisk Markdown-/JSON-/malnedlasting, notatfil tur-retur også offline, bevaring av uferdige skjemaer, tastatur/fokus, støtte, pause/stopp, 320 px, zoom, restriksjoner og offline-eksport |
 | `test:authoring-browser` | Bestått: BM/NN, import/eksport, lydlivssyklus, tilbaketrekking etter vanlig offline-omlasting og tilgjengelighetskontroller |
 | `test:pwa-browser` | Bestått: offline-skall, kontrollert oppdatering som venter på notater og uferdige skjemaer, og ingen gjenoppretting av stoppet/slettet økt |
+| `test:visual-browser` | Bestått: 1440/320 px, BM/NN-startside, faktiske animasjoner, brikkefokus, hint, pause/stopp, lys/mørk primærknappkontrast, redusert bevegelse, 200 % visningszoom, gjennomgang og verksted. Åtte skjermbilder er visuelt kontrollert. |
 | Bygg og installérbar pakke | Bestått lokalt |
 | Lint, arkitektur, secretskann og rekonstruksjonskontroll | Bestått |
 | Providerpakke, lokal runtimekompatibilitet og genererte kontrollsummer | Bestått; ingen ekstern aktivering |

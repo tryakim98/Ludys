@@ -1,3 +1,4 @@
+import { captureSkynjaMotion, animateSkynjaChanges, observeSkynjaMotionPreference } from "./skynja-motion.js";
 import { createSyntheticAppNavigation } from "../../composition/create-synthetic-app-navigation.js";
 import { createAuthoringPipeline } from "../../composition/create-authoring-pipeline.js";
 import { createBetaOperations } from "../../composition/create-beta-operations.js";
@@ -28,6 +29,7 @@ import { wp13_12aLocalReleaseState } from "../../content/prototype/wp13-12a-rele
 const rootElement = document.querySelector<HTMLDivElement>("#app");
 if (rootElement === null) throw new Error("WP13.7B app shell is missing #app");
 const root: HTMLDivElement = rootElement;
+observeSkynjaMotionPreference(root);
 
 const pageInstance = crypto.randomUUID();
 const { controller } = createSyntheticAppNavigation("nb-NO", pageInstance);
@@ -52,6 +54,7 @@ let providerDossierObjectUrl: string | undefined;
 let providerOwnerTemplateObjectUrl: string | undefined;
 
 function render(focus = false): void {
+  const previousMotion = captureSkynjaMotion(root);
   captureReviewNoteDraft();
   exerciseController.restrict(authoringController.view.packages.filter((item) => item.lifecycle !== "CURRENT").map((item) => item.activityId));
   exerciseReviewNotes?.restrict(exerciseController.view.blockedIds);
@@ -79,6 +82,7 @@ function render(focus = false): void {
     : authoringOpen
       ? renderAuthoringWorkspace(authoringController.view)
       : renderSyntheticAppNavigation(controller.view);
+  animateSkynjaChanges(root, previousMotion);
   const locale = exerciseOpen ? exerciseController.view.locale : providerDecisionOpen
     ? providerDecisionController.view.locale
     : operationsOpen ? operationsController.view.locale : authoringOpen ? authoringController.view.locale : controller.view.locale;

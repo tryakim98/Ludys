@@ -100,6 +100,7 @@ try {
   await mkdir(downloads, { recursive: true });
   await client.send("Browser.setDownloadBehavior", { behavior: "allow", downloadPath: downloads });
   async function download(selector, name) {
+    if (await evaluate(`document.querySelector(${JSON.stringify(selector)}).closest('details.review-materials')?.open === false`)) await press('details.review-materials summary');
     await rm(join(downloads, name), { force: true });
     await evaluate(`document.querySelector(${JSON.stringify(selector)}).click()`);
     for (let attempt = 0; attempt < 100; attempt += 1) {

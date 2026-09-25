@@ -153,12 +153,12 @@ try {
 
   const cacheProof = await evaluate(`(async () => {
     const names = await caches.keys();
-    const name = names.find((candidate) => candidate === 'ludys-shell-0.14.0-reconstructed.9-skynja-review-notes-2026-09-24');
+    const name = names.find((candidate) => candidate === 'ludys-shell-0.14.0-reconstructed.9-skynja-design-2026-09-24');
     if (!name) return { names, urls: [] };
     const cache = await caches.open(name);
     return { names, urls: (await cache.keys()).map((request) => new URL(request.url).pathname) };
   })()`);
-  assert.ok(cacheProof.names.includes("ludys-shell-0.14.0-reconstructed.9-skynja-review-notes-2026-09-24"));
+  assert.ok(cacheProof.names.includes("ludys-shell-0.14.0-reconstructed.9-skynja-design-2026-09-24"));
   assert.ok(cacheProof.urls.length >= 20);
   assert.ok(cacheProof.urls.includes("/web/index.html"));
   assert.ok(cacheProof.urls.includes("/dist/src/ui/browser/app.js"));

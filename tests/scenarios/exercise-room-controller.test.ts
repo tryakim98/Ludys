@@ -156,8 +156,9 @@ test("catalog filters, keyboard controls, draft status and explicit nynorsk copy
   const room = createExerciseRoom(); room.setLocale("nn-NO"); room.setFilter("READING");
   const catalog = renderExerciseRoom(room.view);
   assert.equal((catalog.match(/data-exercise-card=/g) ?? []).length, 2);
-  assert.match(catalog, /Kva vil du utforske/);
-  assert.match(catalog, /Innhaldsutkast/);
+  assert.match(catalog, /Kva vil du øve på/);
+  assert.match(catalog, /Prøveversjon/);
+  assert.match(catalog, /Ventar på fagleg og språkleg gjennomgang/);
   assert.doesNotMatch(catalog, /data-exercise-card="skynja-maane-saape"/);
   room.select("skynja-compound-outside"); room.start();
   const round = renderExerciseRoom(room.view);

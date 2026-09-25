@@ -4,20 +4,23 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="color-scheme" content="light dark" />
-    <meta name="theme-color" content="#174a5b" />
+    <meta name="theme-color" content="#2448c8" />
     <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self'; media-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'; frame-ancestors 'none'" />
-    <title>LUDYS — syntetisk appreise</title>
+    <title>Skynja — lesing og språk</title>
+    <meta name="description" content="Øvelser med ord, setninger og tekst, med valgfri støtte og plass til pauser. Prøveversjon av Skynja." />
     <link rel="manifest" href="./manifest.webmanifest" />
     <link rel="icon" href="./icons/ludys-192.svg" type="image/svg+xml" />
     <link rel="stylesheet" href="./styles.css" />
+    <link rel="stylesheet" href="./skynja.css" />
   </head>
   <body>
     <div id="app"></div>
     <section id="pwa-status" class="pwa-status-panel" aria-labelledby="pwa-status-title">
-      <h2 id="pwa-status-title"></h2>
       <p id="pwa-network-status" role="status" aria-live="polite"></p>
-      <p id="pwa-local-status"></p>
-      <p id="pwa-worker-status"></p>
+      <details class="pwa-details"><summary><h2 id="pwa-status-title"></h2></summary>
+        <p id="pwa-local-status"></p>
+        <p id="pwa-worker-status"></p>
+      </details>
       <p id="pwa-update-status" role="status" aria-live="polite"></p>
       <button id="pwa-apply-update" type="button" hidden></button>
     </section>

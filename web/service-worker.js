@@ -1,5 +1,5 @@
 const LUDYS_CACHE_PREFIX = "ludys-shell-";
-const LUDYS_CACHE_VERSION = "0.14.0-reconstructed.9-skynja-review-notes-2026-09-24";
+const LUDYS_CACHE_VERSION = "0.14.0-reconstructed.9-skynja-design-2026-09-24";
 const LUDYS_SHELL_CACHE = `${LUDYS_CACHE_PREFIX}${LUDYS_CACHE_VERSION}`;
 const LUDYS_CONTENT_POLICY_CACHE = "ludys-content-policy-1";
 const LUDYS_CONTENT_POLICY_PATH = "/web/corpus-lifecycle-policy.json";
@@ -16,10 +16,13 @@ const LUDYS_OFFLINE_FAILURE_COPY = Object.freeze({
 const LUDYS_APP_SHELL = Object.freeze([
   "/web/index.html",
   "/web/styles.css",
+  "/web/skynja.css",
   "/web/manifest.webmanifest",
   "/web/icons/ludys-192.svg",
   "/web/icons/ludys-maskable.svg",
   "/dist/src/ui/browser/app.js",
+  "/dist/src/ui/browser/skynja-home-templates.js",
+  "/dist/src/ui/browser/skynja-motion.js",
   "/dist/src/ui/browser/exercise-room-templates.js",
   "/dist/src/ui/browser/exercise-review-templates.js",
   "/dist/src/application/skynja/exercise-review.js",
